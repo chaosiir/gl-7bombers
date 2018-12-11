@@ -1,4 +1,4 @@
-package com.bomber.game;
+/*package grille;
 import java.util.Random;
 import java.math.*;
 
@@ -15,7 +15,7 @@ public class InitBaseMulti {
         int i;
         int j;
         int cpt=1;
-        Case a = new Case();
+        Case a = new Case(null,null,null,null,null,null,null,false);
         a.setY(1);
         for (i=4;i<11;i++){
             a.setX(i);
@@ -103,3 +103,4 @@ public class InitBaseMulti {
     }
 
 }
+*/
