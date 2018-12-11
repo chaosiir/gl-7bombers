@@ -3,8 +3,9 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Personnage {
+public class Personnage extends Actor {
 
     private boolean vivant;
     private Case c;
@@ -90,52 +91,52 @@ public class Personnage {
     }
 
     public void deplacerHaut(){
-        if (c.getMap().getGrille()[c.getX()][c.getY()+1].getMur()==null &&
-                c.getMap().getGrille()[c.getX()][c.getY()+1].getPersonnage()==null &&
-                c.getMap().getGrille()[c.getX()][c.getY()+1].getBombe()==null){
-            Case tmp = (c.getMap().getGrille()[c.getX()][c.getY()+1]);
+        if (c.getMap().getGrille()[c.posX()][c.posY()+1].getMur()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()+1].getBombe()==null){
+            Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
-            c.getMap().getGrille()[c.getX()][c.getY()].setPersonnage(null);
-            c.getMap().getGrille()[c.getX()][c.getY()+1].setPersonnage(this);
+            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+            c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage(this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
 
     public void deplacerBas(){
-        if (c.getMap().getGrille()[c.getX()][c.getY()-1].getMur()==null &&
-                c.getMap().getGrille()[c.getX()][c.getY()-1].getPersonnage()==null &&
-                c.getMap().getGrille()[c.getX()][c.getY()-1].getBombe()==null){
-            Case tmp = (c.getMap().getGrille()[c.getX()][c.getY()-1]);
+        if (c.getMap().getGrille()[c.posX()][c.posY()-1].getMur()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()==null){
+            Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
             c.setPersonnage(null);
-            c.getMap().getGrille()[c.getX()][c.getY()].setPersonnage(null);
-            c.getMap().getGrille()[c.getX()][c.getY()-1].setPersonnage(this);
+            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+            c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage(this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
 
     public void deplacerDroite(){
-        if (c.getMap().getGrille()[c.getX()+1][c.getY()].getMur()==null &&
-                c.getMap().getGrille()[c.getX()+1][c.getY()].getPersonnage()==null &&
-                c.getMap().getGrille()[c.getX()+1][c.getY()].getBombe()==null){
-            Case tmp = (c.getMap().getGrille()[c.getX()+1][c.getY()]);
+        if (c.getMap().getGrille()[c.posX()+1][c.posY()].getMur()==null &&
+                c.getMap().getGrille()[c.posX()+1][c.posY()].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()+1][c.posY()].getBombe()==null){
+            Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
             c.setPersonnage(null);
-            c.getMap().getGrille()[c.getX()][c.getY()].setPersonnage(null);
-            c.getMap().getGrille()[c.getX()+1][c.getY()].setPersonnage(this);
+            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+            c.getMap().getGrille()[c.posX()+1][c.posY()].setPersonnage(this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
 
     public void deplacerGauche(){
-        if (c.getMap().getGrille()[c.getX()-1][c.getY()].getMur()==null &&
-                c.getMap().getGrille()[c.getX()-1][c.getY()].getPersonnage()==null &&
-                c.getMap().getGrille()[c.getX()-1][c.getY()].getBombe()==null){
-            Case tmp = (c.getMap().getGrille()[c.getX()-1][c.getY()]);
+        if (c.getMap().getGrille()[c.posX()-1][c.posY()].getMur()==null &&
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()==null){
+            Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
             c.setPersonnage(null);
-            c.getMap().getGrille()[c.getX()][c.getY()].setPersonnage(null);
-            c.getMap().getGrille()[c.getX()-1][c.getY()].setPersonnage(this);
+            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+            c.getMap().getGrille()[c.posX()-1][c.posY()].setPersonnage(this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }

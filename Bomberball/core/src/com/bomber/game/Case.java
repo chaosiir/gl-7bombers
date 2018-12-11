@@ -4,8 +4,9 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Case {
+public class Case extends Group {
     Map map;
     private int x;
     private int y;
@@ -13,7 +14,6 @@ public class Case {
     private Bonus bonus;
     private Mur mur;
     private Personnage personnage;
-    private Ennemis ennemi;
     private boolean explo;
     private Porte porte;
 
@@ -76,25 +76,22 @@ public class Case {
 
     public void setPersonnage(Personnage personnage) {
         this.personnage = personnage;
+        this.addActor(personnage);
     }
 
-    public int getY() {
+    public int posY() {
         return y;
     }
 
-    public void setY(int y) { this.y = y; }
+    public void setposY(int y) { this.y = y; }
 
-    public int getX() {
+    public int posX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setposX(int x) {
         this.x = x;
     }
-
-    public void setEnnemi(Ennemis e){ this.ennemi=e;}
-
-    public Ennemis getEnnemi(){ return ennemi; }
 
 
     public void afficher(Batch b, Texture[] multt) {

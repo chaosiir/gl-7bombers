@@ -3,8 +3,9 @@ package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Map {
+public class Map extends Group {
 	private int mat[][];
 
 	public Map(){
@@ -72,10 +73,10 @@ public class Map {
 
 	    public Case[][] getGrille() {return grille; }
 	    public void setGrille(Case[][] grille) {this.grille = grille;}
-	    public int getX() {return x; }
-	    public void setX(int x) {this.x = x;}
-	    public int getY() {return y;}
-	    public void setY(int y) { this.y = y;}
+	    public int tailleX() {return x; }
+	    public void settailleX(int x) {this.x = x;}
+	    public int tailleY() {return y;}
+	    public void settailleY(int y) { this.y = y;}
 	    public boolean isSolomulti() {return solomulti;}
 	    public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
 
@@ -97,8 +98,8 @@ public class Map {
 	        for (i = 0;i < 13;i++){                                 //on parcourt toutes les cases de la map
 	            for (j = 0;j < 15;j++){
 	                g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
-	                g[i][j].setX(i);
-	                g[i][j].setY(j);
+	                g[i][j].setposX(i);
+	                g[i][j].setposY(j);
 	                if (j==0 || j==14 || i==0 || i==12 || (j%2==0 && i%2==0)) { //si la case fait partie des case indestructibles
 	                    Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
 	                    g[i][j].setMur(m);
@@ -117,8 +118,8 @@ public class Map {
 	        System.out.println(cpt);
 	        for(i=0;i<nbDestru;i++){
 	            random = (int)(Math.random() * cpt);
-	            a=caseDes[random].getX();
-	            b=caseDes[random].getY();
+	            a=caseDes[random].posX();
+	            b=caseDes[random].posY();
 	            Mur m = new MurD();
 	            g[a][b].setMur(m);
 	            caseDes[random]=caseDes[cpt-1];
@@ -126,8 +127,8 @@ public class Map {
 	        }
 
 	        Map m=new Map();
-			m.setX(13);
-			m.setY(15);
+			m.settailleX(13);
+			m.settailleY(15);
 	        m.grille=g;
 	        return m;
 	    }
@@ -242,8 +243,8 @@ public class Map {
 		for(int i=0;i<13;i++) {
 			for(int j=0;j<15;j++) {
 				grille[i][j]=new Case();
-				grille[i][j].setX(i);
-				grille[i][j].setY(j);
+				grille[i][j].setposX(i);
+				grille[i][j].setposY(j);
 				if (i==0 || j==0 || i==12 || j==14) {
 					grille[i][j].setMur(new MurI());
 				}
@@ -284,8 +285,8 @@ public class Map {
 			}
 		}
 		Map m=new Map();
-		m.setX(13);
-		m.setY(15);
+		m.settailleX(13);
+		m.settailleY(15);
 		m.setGrille(grille);
 		return m;
 	}
@@ -326,8 +327,8 @@ public class Map {
 				int j;
 				int x=1;
 				int y=1;
-				for(i=0;i<m.getX();i++){
-					for (j=0;j<m.getY();j++){
+				for(i=0;i<m.tailleX();i++){
+					for (j=0;j<m.tailleY();j++){
 						if(m.getGrille()[i][j].getPersonnage()!=null){
 							x=i;
 							y=j;
