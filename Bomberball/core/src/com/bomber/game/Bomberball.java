@@ -66,6 +66,10 @@ public class Bomberball extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		if (keycode==131){
+			Gdx.graphics.setWindowedMode(800,450);
+		}
+		//System.out.println(keycode);
 		return false;
 	}
 
@@ -81,6 +85,7 @@ public class Bomberball extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		System.out.println(screenX+" "+screenY);
 		if(button== Buttons.LEFT){// on test sur quel bouton  on a cliqué en fonction des coordonées
 			if((screenX>=200 && screenX<=500) && (( Gdx.graphics.getHeight()-screenY)>=300 && ( Gdx.graphics.getHeight()-screenY)<= 400)){
 				System.out.println("mult");
