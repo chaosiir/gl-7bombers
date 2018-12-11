@@ -13,6 +13,7 @@ public class Case {
     private Bonus bonus;
     private Mur mur;
     private Personnage personnage;
+    private Ennemis ennemi;
     private boolean explo;
     private Porte porte;
 
@@ -90,6 +91,10 @@ public class Case {
     public void setX(int x) {
         this.x = x;
     }
+
+    public void setEnnemi(Ennemis e){ this.ennemi=e;}
+
+    public Ennemis getEnnemi(){ return ennemi; }
 
 
     public void afficher(Batch b, Texture[] multt) {
