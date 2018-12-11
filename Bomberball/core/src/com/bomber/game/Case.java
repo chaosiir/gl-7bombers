@@ -1,5 +1,10 @@
 
 package com.bomber.game;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 public class Case {
     Map map;
     private int x;
@@ -9,16 +14,9 @@ public class Case {
     private Mur mur;
     private Personnage personnage;
     private boolean explo;
+    private Porte porte;
 
-    public Case(Map map, int x, int y, Bombe bombe, Bonus bonus, Mur mur, Personnage personnage, boolean explo) {
-        this.map = map;
-        this.x = x;
-        this.y = y;
-        this.bombe = bombe;
-        this.bonus = bonus;
-        this.mur = mur;
-        this.personnage = personnage;
-        this.explo = explo;
+    public Case() {
     }
 
 
@@ -58,6 +56,15 @@ public class Case {
         return mur;
     }
 
+
+    public Porte getPorte() {
+        return porte;
+    }
+
+    public void setPorte(Porte porte) {
+        this.porte = porte;
+    }
+
     public void setMur(Mur mur) {
         this.mur = mur;
     }
@@ -82,6 +89,32 @@ public class Case {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+
+    public void afficher(Batch b, Texture[] multt) {
+        Sprite s;
+
+        if (mur == null) {
+            s = new Sprite(multt[0]);
+
+
+        } else {
+            if (mur.destructible()) {
+                s = new Sprite(multt[1]);
+            } else {
+                s = new Sprite( multt[2]);
+            }
+        }
+        s.setPosition(x * 50 + 600, y * 50 + 100);
+        s.setSize(50, 50);
+        b.draw(s,s.getX(),s.getY(),0,0,s.getWidth(),s.getHeight(),s.getScaleX(),s.getScaleY(),0);
+        if (porte != null) {
+            porte.afficher(b, x, y,multt);
+        }
+        if (personnage != null) {
+            personnage.afficher(b, x, y,multt);
+        }
     }
 
     public void explosionHaute(int longueur){

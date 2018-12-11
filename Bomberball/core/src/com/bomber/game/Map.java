@@ -109,7 +109,7 @@ public class Map {
 	                    caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
 	                    cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
 	                }
-					if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage());}
+					if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2));}
 	            }
 	        }
 	        int a;
@@ -279,7 +279,7 @@ public class Map {
 				cpt--;
 			}
 			if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-				grille[x][y].setPersonnage(new Personnage());
+				grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2));
 				cpt--;
 			}
 		}

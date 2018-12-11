@@ -1,10 +1,14 @@
 package com.bomber.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 public class Personnage {
 
     private boolean vivant;
     private Case c;
-    private int taille;//taille de l'explosion de la bombe, 2 par defaut
+    private int taille;//taille de l'explosion de la bombe, 3 par defaut
     private int nbBombe;//bombe posable par tour, 1 par défaut
     private int pm;//points de mouvement, 5 par defaut
     private boolean poussee;
@@ -75,6 +79,14 @@ public class Personnage {
     public void poserBombe(){
         Bombe b=new Bombe(taille,this,c);
         c.setBombe(b);
+    }
+
+    public void afficher(Batch b, int x, int y, Texture[] multt){
+        Sprite s;
+        s=new Sprite(multt[4]);
+        s.setPosition(x*50+600,y*50+100);
+        s.setSize(50,50);
+        s.draw(b);
     }
 
     public void deplacerHaut(){
