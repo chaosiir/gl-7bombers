@@ -10,24 +10,25 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 
 public class Bomberball extends ApplicationAdapter {
-	Stage stg;
+	public  Stage stg;
 	Jeu jeu;
-	Texture[] multiTexture = new Texture[5];
+	public static Texture[] multiTexture = new Texture[5];
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
-		stg = new Stage(new ScreenViewport());
-		Gdx.input.setInputProcessor(stg);
-		jeu=new Jeu(multiTexture);
-		jeu.setName("jeu");
-		stg.addActor(jeu);
-		stg.setKeyboardFocus(stg.getActors().first());
-
 		multiTexture[0] = new Texture("thefloorislava.png");
 		multiTexture[1] = new Texture("murD.png");
 		multiTexture[2] = new Texture("murI.png");
 		multiTexture[3] = new Texture("door.png");
 		multiTexture[4] = new Texture("player.png");
+		stg = new Stage(new ScreenViewport());
+		Gdx.input.setInputProcessor(stg);
+		jeu=new Jeu();
+		jeu.setName("jeu");
+		stg.addActor(jeu);
+		stg.setKeyboardFocus(stg.getActors().first());
+
+
 
 
 	}
@@ -38,7 +39,7 @@ public class Bomberball extends ApplicationAdapter {
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);//creation de la couleur noir (pas de RGB)
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-		stg.act();
+		stg.act(Gdx.graphics.getDeltaTime());
 		stg.draw();
 
 	}

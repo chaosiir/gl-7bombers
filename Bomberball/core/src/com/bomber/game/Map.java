@@ -10,6 +10,7 @@ public class Map extends Group {
 
 	public Map(){
 		super();
+		this.setColor(0,0,0,1);
 		grille=new Case[13][11];
 	}
 	
@@ -17,7 +18,7 @@ public class Map extends Group {
 		super();
 		grille=g;
 	}
-	
+
 	public int[][] mat(int lignes,int colonnes){
 		int t[][]=new int[lignes][colonnes];
 		int x,y;
@@ -348,16 +349,6 @@ public class Map extends Group {
 		return m;
 	}
 
-	public void afficher(Batch b, Texture[] multt){
-	    	int i;
-	    	int j;
-	    	for(i=0;i<x;i++){
-	    		for (j=0;j<y;j++){
-	    			grille[i][j].afficher(b,multt);
-				}
-			}
-
-	}
 
 
 }

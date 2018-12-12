@@ -7,7 +7,7 @@ import com.bomber.game.Bomberball;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		//config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
+		config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
 		new LwjglApplication(new Bomberball(), config);
 	}
 }

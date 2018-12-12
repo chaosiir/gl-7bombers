@@ -1,4 +1,5 @@
 package com.bomber.game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -8,14 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class Jeu extends Group {
     Map map;
-    Texture[] multiTexture;
     Etat etat;
 
-    public Jeu (Texture[] multiTexture){
+    public Jeu (){
         this.etat=new Multijoueur(this);
         this.addListener(new InputListener(){
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode==131){
+                    Gdx.graphics.setWindowedMode(1200,600);
+                }
                 return etat.keyDown( event, keycode);
             }
 
@@ -24,8 +27,9 @@ public class Jeu extends Group {
                 return etat.touchDown( event,  x,  y,  pointer,  button);
             }
         });
-        this.multiTexture=multiTexture;
+
         map=Map.generatePvp(60);
+        this.addActor(map);
         int i;
         int j;
         for (i=0;i<map.tailleX();i++){

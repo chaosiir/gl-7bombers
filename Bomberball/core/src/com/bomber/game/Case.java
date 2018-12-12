@@ -4,7 +4,11 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Case extends Group {
     Map map;
@@ -18,6 +22,19 @@ public class Case extends Group {
     private Porte porte;
 
     public Case() {
+        this.setPosition(100+x*50,100+y*50);
+        this.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setColor(1,0,0,1);
+                return true;
+            }
+        });
+        Image background=new Image(Bomberball.multiTexture[0]);
+        background.setBounds(this.getX(),this.getY(),50,50);
+        this.addActor(background);
+
+
     }
 
 
@@ -68,6 +85,7 @@ public class Case extends Group {
 
     public void setMur(Mur mur) {
         this.mur = mur;
+        this.addActor(mur);
     }
 
     public Personnage getPersonnage() {
@@ -83,7 +101,8 @@ public class Case extends Group {
         return y;
     }
 
-    public void setposY(int y) { this.y = y; }
+    public void setposY(int y) { this.y = y;
+        this.setY(100+y*50);}
 
     public int posX() {
         return x;
@@ -91,33 +110,10 @@ public class Case extends Group {
 
     public void setposX(int x) {
         this.x = x;
+        this.setX(100+x*50);
     }
 
 
-    public void afficher(Batch b, Texture[] multt) {
-        Sprite s;
-
-        if (mur == null) {
-            s = new Sprite(multt[0]);
-
-
-        } else {
-            if (mur.destructible()) {
-                s = new Sprite(multt[1]);
-            } else {
-                s = new Sprite( multt[2]);
-            }
-        }
-        s.setPosition(x * 50 + 600, y * 50 + 100);
-        s.setSize(50, 50);
-        b.draw(s,s.getX(),s.getY(),0,0,s.getWidth(),s.getHeight(),s.getScaleX(),s.getScaleY(),0);
-        if (porte != null) {
-            porte.afficher(b, x, y,multt);
-        }
-        if (personnage != null) {
-            personnage.afficher(b, x, y,multt);
-        }
-    }
 
     public void explosionHaute(int longueur){
         if(this.personnage!=null){
@@ -189,6 +185,8 @@ public class Case extends Group {
             }
         }
     }
+
+
 
     public void suppBombe(){
         this.bombe=null;
