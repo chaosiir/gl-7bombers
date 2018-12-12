@@ -3,12 +3,14 @@ package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Map {
+public class Map extends Group {
 	private int mat[][];
 
 	public Map(){
 		super();
+		this.setColor(0,0,0,1);
 		grille=new Case[13][11];
 	}
 	
@@ -16,7 +18,7 @@ public class Map {
 		super();
 		grille=g;
 	}
-	
+
 	public int[][] mat(int lignes,int colonnes){
 		int t[][]=new int[lignes][colonnes];
 		int x,y;
@@ -72,10 +74,10 @@ public class Map {
 
 	    public Case[][] getGrille() {return grille; }
 	    public void setGrille(Case[][] grille) {this.grille = grille;}
-	    public int getX() {return x; }
-	    public void setX(int x) {this.x = x;}
-	    public int getY() {return y;}
-	    public void setY(int y) { this.y = y;}
+	    public int tailleX() {return x; }
+	    public void settailleX(int x) {this.x = x;}
+	    public int tailleY() {return y;}
+	    public void settailleY(int y) { this.y = y;}
 	    public boolean isSolomulti() {return solomulti;}
 	    public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
 
@@ -97,8 +99,8 @@ public class Map {
 	        for (i = 0;i < 13;i++){                                 //on parcourt toutes les cases de la map
 	            for (j = 0;j < 15;j++){
 	                g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
-	                g[i][j].setX(i);
-	                g[i][j].setY(j);
+	                g[i][j].setposX(i);
+	                g[i][j].setposY(j);
 	                if (j==0 || j==14 || i==0 || i==12 || (j%2==0 && i%2==0)) { //si la case fait partie des case indestructibles
 	                    Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
 	                    g[i][j].setMur(m);
@@ -109,7 +111,7 @@ public class Map {
 	                    caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
 	                    cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
 	                }
-					if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage());}
+					if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2));}
 	            }
 	        }
 	        int a;
@@ -117,8 +119,8 @@ public class Map {
 	        System.out.println(cpt);
 	        for(i=0;i<nbDestru;i++){
 	            random = (int)(Math.random() * cpt);
-	            a=caseDes[random].getX();
-	            b=caseDes[random].getY();
+	            a=caseDes[random].posX();
+	            b=caseDes[random].posY();
 	            Mur m = new MurD();
 	            g[a][b].setMur(m);
 	            caseDes[random]=caseDes[cpt-1];
@@ -126,8 +128,8 @@ public class Map {
 	        }
 
 	        Map m=new Map();
-			m.setX(13);
-			m.setY(15);
+			m.settailleX(13);
+			m.settailleY(15);
 	        m.grille=g;
 	        return m;
 	    }
@@ -242,8 +244,8 @@ public class Map {
 		for(int i=0;i<13;i++) {
 			for(int j=0;j<15;j++) {
 				grille[i][j]=new Case();
-				grille[i][j].setX(i);
-				grille[i][j].setY(j);
+				grille[i][j].setposX(i);
+				grille[i][j].setposY(j);
 				if (i==0 || j==0 || i==12 || j==14) {
 					grille[i][j].setMur(new MurI());
 				}
@@ -279,13 +281,13 @@ public class Map {
 				cpt--;
 			}
 			if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-				grille[x][y].setPersonnage(new Personnage());
+				grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2));
 				cpt--;
 			}
 		}
 		Map m=new Map();
-		m.setX(13);
-		m.setY(15);
+		m.settailleX(13);
+		m.settailleY(15);
 		m.setGrille(grille);
 		return m;
 	}
@@ -326,8 +328,8 @@ public class Map {
 				int j;
 				int x=1;
 				int y=1;
-				for(i=0;i<m.getX();i++){
-					for (j=0;j<m.getY();j++){
+				for(i=0;i<m.tailleX();i++){
+					for (j=0;j<m.tailleY();j++){
 						if(m.getGrille()[i][j].getPersonnage()!=null){
 							x=i;
 							y=j;
@@ -347,16 +349,6 @@ public class Map {
 		return m;
 	}
 
-	public void afficher(Batch b, Texture[] multt){
-	    	int i;
-	    	int j;
-	    	for(i=0;i<x;i++){
-	    		for (j=0;j<y;j++){
-	    			grille[i][j].afficher(b,multt);
-				}
-			}
-
-	}
 
 
 }

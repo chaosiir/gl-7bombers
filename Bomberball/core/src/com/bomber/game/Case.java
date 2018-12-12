@@ -1,20 +1,58 @@
+
 package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Case {
+public class Case extends Group {
+    Map map;
     private int x;
     private int y;
     private Bombe bombe;
     private Bonus bonus;
     private Mur mur;
-
-
-
-    private Porte porte;
     private Personnage personnage;
+    private boolean explo;
+    private Porte porte;
+
+    public Case() {
+        this.setPosition(100+x*50,100+y*50);
+        this.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setColor(1,0,0,1);
+                return true;
+            }
+        });
+        Image background=new Image(Bomberball.multiTexture[0]);
+        background.setBounds(this.getX(),this.getY(),50,50);
+        this.addActor(background);
+
+
+    }
+
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public boolean isExplo() {
+        return explo;
+    }
+
+    public void setExplo(boolean explo) {
+        this.explo = explo;
+    }
 
     public Bombe getBombe() {
         return bombe;
@@ -36,31 +74,6 @@ public class Case {
         return mur;
     }
 
-    public void setMur(Mur mur) {
-        this.mur = mur;
-    }
-
-    public Personnage getPersonnage() {
-        return personnage;
-    }
-
-    public void setPersonnage(Personnage personnage) {
-        this.personnage = personnage;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) { this.y = y; }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
 
     public Porte getPorte() {
         return porte;
@@ -70,28 +83,117 @@ public class Case {
         this.porte = porte;
     }
 
-    public void afficher(Batch b,Texture [] multt) {
-        Sprite s;
+    public void setMur(Mur mur) {
+        this.mur = mur;
+        this.addActor(mur);
+    }
 
-        if (mur == null) {
-            s = new Sprite(multt[0]);
+    public Personnage getPersonnage() {
+        return personnage;
+    }
+
+    public void setPersonnage(Personnage personnage) {
+        this.personnage = personnage;
+        this.addActor(personnage);
+    }
+
+    public int posY() {
+        return y;
+    }
+
+    public void setposY(int y) { this.y = y;
+        this.setY(100+y*50);}
+
+    public int posX() {
+        return x;
+    }
+
+    public void setposX(int x) {
+        this.x = x;
+        this.setX(100+x*50);
+    }
 
 
-        } else {
-            if (mur.destructible()) {
-                s = new Sprite(multt[1]);
-            } else {
-                s = new Sprite( multt[2]);
+
+    public void explosionHaute(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+            this.explo=true;
+        } else if (this.mur instanceof MurD){
+           this.setMur(null);
+           this.explo=true;
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            this.explo=true;
+            if (longueur>0){
+                this.getMap().getGrille()[x][y+1].explosionHaute(longueur-1);
             }
         }
-        s.setPosition(x * 50 + 600, y * 50 + 100);
-        s.setSize(50, 50);
-        b.draw(s,s.getX(),s.getY(),0,0,s.getWidth(),s.getHeight(),s.getScaleX(),s.getScaleY(),0);
-        if (porte != null) {
-            porte.afficher(b, x, y,multt);
+
+    }
+
+    public void explosionBasse(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+            this.explo=true;
+        } else if (this.mur instanceof MurD){
+            this.setMur(null);
+            this.explo=true;
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            this.explo=true;
+            if (longueur>0){
+                this.getMap().getGrille()[x][y-1].explosionBasse(longueur-1);
+            }
         }
-        if (personnage != null) {
-            personnage.afficher(b, x, y,multt);
+
+    }
+
+    public void explosionDroite(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+            this.explo=true;
+        } else if (this.mur instanceof MurD){
+            this.setMur(null);
+            this.explo=true;
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            this.explo=true;
+            if (longueur>0){
+                this.getMap().getGrille()[x+1][y].explosionDroite(longueur-1);
+            }
+        }
+
+    }
+
+    public void explosionGauche(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+            this.explo=true;
+        } else if (this.mur instanceof MurD){
+            this.setMur(null);
+            this.explo=true;
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            this.explo=true;
+            if (longueur>0){
+                this.getMap().getGrille()[x-1][y].explosionGauche(longueur-1);
+            }
         }
     }
+
+
+
+    public void suppBombe(){
+        this.bombe=null;
+    }
+    public void suppBonus(){
+        this.bonus=null;
+    }
+
+
 }
