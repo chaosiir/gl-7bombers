@@ -230,7 +230,37 @@ public class Map extends Group {
 		}
 
 
-
+public int[][] matriceExistence(int[][] map){
+			int lignes=map.length;
+			int colonnes=map[0].length;
+			int tmp[][]=new int[lignes*colonnes][lignes*colonnes];
+			int exist[][]=new int[lignes*colonnes][lignes*colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+			for (i=0;i<lignes;i++) {
+				for(j=0;j<colonnes;j++) {
+					if (j>0 && j<colonnes-1) {
+						if (t[i][j]!=1 && t[i][j-1]!=1) {
+							exist[j+colonnes*i][j-1+colonnes*i]=1;
+							exist[j-1+colonnes*i][j+colonnes*i]=1;
+						}
+						if (t[i][j]!=1 && t[i][j+1]!=-1) {
+							exist[j+colonnes*i][j+1+colonnes*i]=1;
+							exist[j+1+colonnes*i][j+colonnes*i]=1;
+						}
+					}
+					if (i>0 && i<lignes-1) {
+						if (t[i][j]!=1 && t[i-1][j]!=1) {
+							exist[j+colonnes*i][j+colonnes*(i-1)]=1;
+							exist[j+colonnes*(i-1)][j+colonnes*i]=1;
+						}
+						if (t[i][j]!=1 && t[i+1][j]!=1) {
+							exist[j+colonnes*i][j+colonnes*(i+1)]=1;
+							exist[j+colonnes*(i+1)][j+colonnes*i]=1;
+						}
+					}
+				}
+			}
+			return exist;
+		}
 
 
 	}
