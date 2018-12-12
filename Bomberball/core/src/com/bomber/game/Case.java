@@ -16,6 +16,7 @@ public class Case extends Group {
     private Personnage personnage;
     private boolean explo;
     private Porte porte;
+    private Ennemis ennemi;
 
     public Case() {
     }
@@ -77,6 +78,13 @@ public class Case extends Group {
     public void setPersonnage(Personnage personnage) {
         this.personnage = personnage;
         this.addActor(personnage);
+    }
+
+    public Ennemis getEnnemi(){ return ennemi;}
+
+    public void setEnnemi(Ennemis ennemi){
+        this.ennemi=ennemi;
+        this.addActor(ennemi);
     }
 
     public int posY() {

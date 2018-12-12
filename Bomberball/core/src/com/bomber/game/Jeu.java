@@ -35,6 +35,12 @@ public class Jeu extends Group {
         }
     }
 
+    public void bougeEnnemis(){
+
+
+
+    }
+
 
 
 }

@@ -44,7 +44,7 @@ public class Map extends Group {
 	
 	public static void main(String args[]) {
 		Map m=new Map();
-		int t[][]=m.mat(13,15);
+		/*int t[][]=m.mat(13,15);
 		for (int i=0;i<13;i++) {
 			for(int j=0;j<15;j++) {
 				System.out.print(" "+t[i][j]);
@@ -57,6 +57,14 @@ public class Map extends Group {
 		}
 		else {
 			System.out.println("La carte n'est pas valide");
+		}*/
+		m=Map.genererMapSolo(10,10);
+		int tab[][]=m.chemin_libre();
+		for (int i=0;i<tab.length;i++){
+			for(int j=0;j<tab[0].length;j++){
+				System.out.print(tab[i][j]+" ");
+			}
+			System.out.println();
 		}
         /*for (i=1;i<=10;i++){
             int randomNum = 1 + (int)(Math.random() * 3);
@@ -226,7 +234,7 @@ public class Map extends Group {
 
 
 	}
-	public  Map generatePve(int nbDestru,int nbInDestru) {
+	public  Map generatePve(int nbDestru,int nbInDestru) { //C'est la fonction à appeller pour avoir une map
 		Case [][] grille=new Case[13][15];
 		int x,y,tmp,tmp1;
 		x=(int)(Math.random()*13);
@@ -357,6 +365,23 @@ public class Map extends Group {
 				}
 			}
 
+	}
+
+	/*En fonction de la map, cette procédure retourne la matrice des points accessibles par des ennemis (là où il n'y a pas de murs)*/
+
+	public int[][] chemin_libre(){
+		int tab[][]=new int[grille.length][grille[0].length];
+	    	for (int i=0;i<grille.length;i++){
+	    		for(int j=0;j<grille[0].length;j++){
+					if(grille[i][j].getMur()==null){
+						tab[i][j]=1; //1 si la case est accessible par un ennemi
+					}
+					else{
+						tab[i][j]=0; //0 sinon
+					}
+				}
+			}
+	    	return tab;
 	}
 
 
