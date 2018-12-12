@@ -17,7 +17,7 @@ public class Jeu extends Group {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if(keycode==131){
-                    Gdx.graphics.setWindowedMode(1200,600);
+                    Gdx.graphics.setWindowedMode(1280,720);
                 }
                 return etat.keyDown( event, keycode);
             }

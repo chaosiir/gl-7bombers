@@ -22,7 +22,7 @@ public class Case extends Group {
     private Porte porte;
 
     public Case() {
-        this.setPosition(100+x*50,100+y*50);
+        this.setPosition((2+x)*Bomberball.taillecase,(y+2)*Bomberball.taillecase);
         this.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -31,7 +31,7 @@ public class Case extends Group {
             }
         });
         Image background=new Image(Bomberball.multiTexture[0]);
-        background.setBounds(this.getX(),this.getY(),50,50);
+        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         this.addActor(background);
 
 
@@ -85,6 +85,7 @@ public class Case extends Group {
 
     public void setMur(Mur mur) {
         this.mur = mur;
+        mur.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         this.addActor(mur);
     }
 
@@ -102,7 +103,7 @@ public class Case extends Group {
     }
 
     public void setposY(int y) { this.y = y;
-        this.setY(100+y*50);}
+        this.setY(y*Bomberball.taillecase);}
 
     public int posX() {
         return x;
@@ -110,7 +111,7 @@ public class Case extends Group {
 
     public void setposX(int x) {
         this.x = x;
-        this.setX(100+x*50);
+        this.setX(5*Bomberball.taillecase+x*Bomberball.taillecase);
     }
 
 

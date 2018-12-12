@@ -5,14 +5,21 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import java.awt.*;
 
 
 public class Bomberball extends ApplicationAdapter {
 	public  Stage stg;
 	Jeu jeu;
 	public static Texture[] multiTexture = new Texture[5];
+	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/32;
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
@@ -52,4 +59,8 @@ public class Bomberball extends ApplicationAdapter {
 		}
 	}
 
+	@Override
+	public void resize(int width, int height) {
+		stg.getViewport().update(width,height);
+	}
 }

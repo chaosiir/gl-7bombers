@@ -17,6 +17,9 @@ public class Personnage extends Image {
 
 
     public Personnage(boolean vivant, Case c, int taille) {
+        super(Bomberball.multiTexture[4]);
+        this.setName("Personnage");
+        this.setSize(Bomberball.taillecase,Bomberball.taillecase);
         this.vivant = vivant;
         this.c = c;
         this.taille = taille;

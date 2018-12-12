@@ -10,7 +10,8 @@ public class Map extends Group {
 
 	public Map(){
 		super();
-		this.setColor(0,0,0,1);
+
+		this.setPosition(200,100);
 		grille=new Case[13][11];
 	}
 	

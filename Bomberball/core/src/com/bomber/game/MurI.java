@@ -8,10 +8,6 @@ public class MurI extends Mur{
     public MurI(){
         super(Bomberball.multiTexture[2]);
     }
-    @Override
-    public void draw(Batch batch, float parentAlpha){
-        batch.draw(Bomberball.multiTexture[2],getParent().getX(),getParent().getY(),50,50);
-    }
 
     public boolean destructible() {
         return false;

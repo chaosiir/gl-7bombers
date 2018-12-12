@@ -9,9 +9,6 @@ public class MurD extends Mur {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha){
-        batch.draw(Bomberball.multiTexture[1],getParent().getX(),getParent().getY(),50,50);
-    }
     public boolean destructible() {
         return true;
     }
