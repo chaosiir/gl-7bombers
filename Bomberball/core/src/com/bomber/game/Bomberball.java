@@ -19,7 +19,7 @@ public class Bomberball extends ApplicationAdapter {
 	public  Stage stg;
 	Jeu jeu;
 	public static Texture[] multiTexture = new Texture[5];
-	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/32;
+	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires

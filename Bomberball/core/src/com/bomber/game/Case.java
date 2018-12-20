@@ -22,7 +22,7 @@ public class Case extends Group {
     private Porte porte;
 
     public Case() {
-        this.setPosition((2+x)*Bomberball.taillecase,(y+2)*Bomberball.taillecase);
+        this.setPosition((x)*Bomberball.taillecase,(y)*Bomberball.taillecase);
         this.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -111,7 +111,7 @@ public class Case extends Group {
 
     public void setposX(int x) {
         this.x = x;
-        this.setX(5*Bomberball.taillecase+x*Bomberball.taillecase);
+        this.setX(2*Bomberball.taillecase+x*Bomberball.taillecase);
     }
 
 

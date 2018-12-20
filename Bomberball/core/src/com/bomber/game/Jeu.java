@@ -1,5 +1,6 @@
 package com.bomber.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -16,8 +17,8 @@ public class Jeu extends Group {
         this.addListener(new InputListener(){
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if(keycode==131){
-                    Gdx.graphics.setWindowedMode(1280,720);
+                if(keycode==Input.Keys.ESCAPE){
+                        Gdx.app.exit();
                 }
                 return etat.keyDown( event, keycode);
             }
@@ -28,7 +29,7 @@ public class Jeu extends Group {
             }
         });
 
-        map=Map.generatePvp(60);
+        map=Map.genererMapSolo(60,10);
         this.addActor(map);
         int i;
         int j;
