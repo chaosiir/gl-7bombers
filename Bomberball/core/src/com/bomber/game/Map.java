@@ -1,17 +1,18 @@
 
 package com.bomber.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+
 import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Map extends Group {
+public class Map extends Group {//meme chose map est un group d'acteur (les cases)
 	private int mat[][];
 
 	public Map(){
 		super();
 
-		this.setPosition(Bomberball.taillecase*2.5f, Bomberball.taillecase/2);
+		this.setPosition(Bomberball.taillecase*2.5f, Bomberball.taillecase/2);//on definit sa position dans la fenetre tout les acteurs
+		// appartenant à ce groupe auront une position relative à celle-ci => voir tuto Acteur/group
+		//la taillecase est defini dans bomberball par rapport à la taille de l'ecran
 		grille=new Case[13][11];
 	}
 	
@@ -75,7 +76,7 @@ public class Map extends Group {
 
 	    public Case[][] getGrille() {return grille; }
 	    public void setGrille(Case[][] grille) {this.grille = grille;}
-	    public int tailleX() {return x; }
+	    public int tailleX() {return x; }//!!!!!!!!!!!!!!!!!!!!!!!  le get/set X ou Y sont interdit car sont des fonctions pour l'affichage !!!!!!!!!!!
 	    public void settailleX(int x) {this.x = x;}
 	    public int tailleY() {return y;}
 	    public void settailleY(int y) { this.y = y;}
