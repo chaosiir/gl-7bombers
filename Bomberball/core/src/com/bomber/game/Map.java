@@ -148,23 +148,22 @@ public class Map extends Group {
 
 
 	public boolean verifSolo(int t[][]) { //Vérifie qu'une map solo est valide (convention 1=mur indestructible 2=départ/arrivée 0=libre);
-		int lignes=t.length;
-		int colonnes=t[0].length;
-		int xd=-1,yd=-1,xa=-1,ya=-1;
-		int i=0;
-		int j=0;
-		int compteur=0;
+		int lignes = t.length;
+		int colonnes = t[0].length;
+		int xd = -1, yd = -1, xa = -1, ya = -1;
+		int i = 0;
+		int j = 0;
+		int compteur = 0;
 		//On cherche le départ et l'arrivée
-		for(i=0;i<lignes;i++) {
-			for(j=0;j<colonnes;j++) {
-				if (t[i][j]==2) {
-					if (xd==-1) {
-						xd=i;
-						yd=j;
-					}
-					else {
-						xa=i;
-						ya=j;
+		for (i = 0; i < lignes; i++) {
+			for (j = 0; j < colonnes; j++) {
+				if (t[i][j] == 2) {
+					if (xd == -1) {
+						xd = i;
+						yd = j;
+					} else {
+						xa = i;
+						ya = j;
 					}
 				}
 
@@ -173,28 +172,28 @@ public class Map extends Group {
 
 		}
 
-		int tmp[][]=new int[lignes*colonnes][lignes*colonnes];
-		int exist[][]=new int[lignes*colonnes][lignes*colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
-		for (i=0;i<lignes;i++) {
-			for(j=0;j<colonnes;j++) {
-				if (j>0 && j<colonnes-1) {
-					if (t[i][j]!=1 && t[i][j-1]!=1) {
-						exist[j+colonnes*i][j-1+colonnes*i]=1;
-						exist[j-1+colonnes*i][j+colonnes*i]=1;
+		int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
+		int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+		for (i = 0; i < lignes; i++) {
+			for (j = 0; j < colonnes; j++) {
+				if (j > 0 && j < colonnes - 1) {
+					if (t[i][j] != 1 && t[i][j - 1] != 1) {
+						exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
+						exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
 					}
-					if (t[i][j]!=1 && t[i][j+1]!=-1) {
-						exist[j+colonnes*i][j+1+colonnes*i]=1;
-						exist[j+1+colonnes*i][j+colonnes*i]=1;
+					if (t[i][j] != 1 && t[i][j + 1] != -1) {
+						exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
+						exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
 					}
 				}
-				if (i>0 && i<lignes-1) {
-					if (t[i][j]!=1 && t[i-1][j]!=1) {
-						exist[j+colonnes*i][j+colonnes*(i-1)]=1;
-						exist[j+colonnes*(i-1)][j+colonnes*i]=1;
+				if (i > 0 && i < lignes - 1) {
+					if (t[i][j] != 1 && t[i - 1][j] != 1) {
+						exist[j + colonnes * i][j + colonnes * (i - 1)] = 1;
+						exist[j + colonnes * (i - 1)][j + colonnes * i] = 1;
 					}
-					if (t[i][j]!=1 && t[i+1][j]!=1) {
-						exist[j+colonnes*i][j+colonnes*(i+1)]=1;
-						exist[j+colonnes*(i+1)][j+colonnes*i]=1;
+					if (t[i][j] != 1 && t[i + 1][j] != 1) {
+						exist[j + colonnes * i][j + colonnes * (i + 1)] = 1;
+						exist[j + colonnes * (i + 1)][j + colonnes * i] = 1;
 					}
 				}
 			}
@@ -202,42 +201,41 @@ public class Map extends Group {
 		//Cas particulier pour la matrice d'existence
 
 		//Ici la matrice d'existence est faite.
-		int a=yd+colonnes*xd; //Valeur des sommets dans la matrice d'existence
-		int b=ya+colonnes*xa;
-		System.out.println("a="+a+" b="+b+" xa="+xa+" ya="+ya+" xd="+xd+" yd="+yd);
+		int a = yd + colonnes * xd; //Valeur des sommets dans la matrice d'existence
+		int b = ya + colonnes * xa;
+		System.out.println("a=" + a + " b=" + b + " xa=" + xa + " ya=" + ya + " xd=" + xd + " yd=" + yd);
 
 
 		int k;
-		for(i=0;i<colonnes*lignes;i++) {
-			for(j=0;j<colonnes*lignes;j++) {
-				tmp[i][j]=exist[i][j];
+		for (i = 0; i < colonnes * lignes; i++) {
+			for (j = 0; j < colonnes * lignes; j++) {
+				tmp[i][j] = exist[i][j];
 			}
 		}
-		for(k=0;k<colonnes*lignes;k++) {
-			for(i=0;i<colonnes*lignes;i++) {
-				for(j=0;j<colonnes*lignes;j++) {
-					if(tmp[i][k]==1 && tmp[k][j]==1) {
-						tmp[i][j]=1;
+		for (k = 0; k < colonnes * lignes; k++) {
+			for (i = 0; i < colonnes * lignes; i++) {
+				for (j = 0; j < colonnes * lignes; j++) {
+					if (tmp[i][k] == 1 && tmp[k][j] == 1) {
+						tmp[i][j] = 1;
 					}
 				}
 			}
 		}
 
-		if (tmp[a][b]==1 || tmp [b][a]==1) {
+		if (tmp[a][b] == 1 || tmp[b][a] == 1) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
+	}
 
-
-public int[][] matriceExistence(int[][] map){
-			int lignes=map.length;
-			int colonnes=map[0].length;
+public int[][] matriceExistence(int[][] t){
+			int lignes=t.length;
+			int colonnes=t[0].length;
 			int tmp[][]=new int[lignes*colonnes][lignes*colonnes];
 			int exist[][]=new int[lignes*colonnes][lignes*colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
-			for (i=0;i<lignes;i++) {
-				for(j=0;j<colonnes;j++) {
+			for (int i=0;i<lignes;i++) {
+				for(int j=0;j<colonnes;j++) {
 					if (j>0 && j<colonnes-1) {
 						if (t[i][j]!=1 && t[i][j-1]!=1) {
 							exist[j+colonnes*i][j-1+colonnes*i]=1;
@@ -264,7 +262,7 @@ public int[][] matriceExistence(int[][] map){
 		}
 
 
-	}
+
 
 	//INVERSEMENT DE LA MAP REALISE
 	public  Map generatePve(int nbDestru,int nbInDestru) { //C'est la fonction à appeller pour avoir une map
