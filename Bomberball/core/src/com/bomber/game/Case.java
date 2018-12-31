@@ -56,6 +56,9 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
 
     public void setBombe(Bombe bombe) {
         this.bombe = bombe;
+        if (bombe != null) {
+            this.addActor(bombe);
+        }
     }
 
     public Bonus getBonus() {
@@ -64,6 +67,9 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
 
     public void setBonus(Bonus bonus) {
         this.bonus = bonus;
+        if (bonus != null) {
+            this.addActor(bonus);
+        }
     }
 
     public Mur getMur() {
@@ -91,9 +97,10 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
 
     public void setPersonnage(Personnage personnage) {// meme chose que pour mur
         this.personnage = personnage;
-        this.addActor(personnage);
+        if (personnage != null) {
+            this.addActor(personnage);
+        }
     }
-
     public int posY() {
         return y;
     }
@@ -187,9 +194,12 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
 
     public void suppBombe(){
         this.bombe=null;
+        this.removeActor(this.findActor("bombe"));
     }
     public void suppBonus(){
         this.bonus=null;
+        this.removeActor(this.findActor("bonus"));
+
     }
 
 

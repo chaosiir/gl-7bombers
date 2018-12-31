@@ -38,6 +38,7 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
         int j;
         for (i=0;i<map.tailleX();i++){
             for(j=0;j<map.tailleY();j++){
+                map.getGrille()[i][j].setMap(map);
                 map.addActor(map.getGrille()[i][j]);//ajout des case en acteur meme chose => dans creer map
             }
         }

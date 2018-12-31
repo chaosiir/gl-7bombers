@@ -2,7 +2,7 @@ package com.bomber.game;
 
 public class BonusBombe extends Bonus {
     public BonusBombe(Case C) {
-        super(C);
+        super(C,Bomberball.multiTexture[6]);
     }
 
     public void actionB(){

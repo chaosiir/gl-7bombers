@@ -100,9 +100,11 @@ public class Personnage extends Image {
                 c.getMap().getGrille()[c.posX()][c.posY()+1].getBombe()==null){
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
+            c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage(this);
             c=tmp;
+            c.addActor(this);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -113,9 +115,11 @@ public class Personnage extends Image {
                 c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()==null){
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
             c.setPersonnage(null);
+            c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage(this);
             c=tmp;
+            c.addActor(this);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -126,9 +130,11 @@ public class Personnage extends Image {
                 c.getMap().getGrille()[c.posX()+1][c.posY()].getBombe()==null){
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
             c.setPersonnage(null);
+            c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()+1][c.posY()].setPersonnage(this);
             c=tmp;
+            c.addActor(this);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -139,9 +145,11 @@ public class Personnage extends Image {
                 c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()==null){
             Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
             c.setPersonnage(null);
+            c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()-1][c.posY()].setPersonnage(this);
             c=tmp;
+            c.addActor(this);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }

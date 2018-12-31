@@ -1,12 +1,17 @@
 package com.bomber.game;
-public class Bombe {
+
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+public class Bombe extends Image {
     int taille; //taille de l'explosion
     Personnage personnage;
     Case c;
 
     public Bombe(int taille, Personnage personnage, Case c) {
+        super(Bomberball.multiTexture[5]);
         this.taille = taille;
         this.personnage = personnage;
+        this.setName("bombe");
         this.c = c;
     }
 

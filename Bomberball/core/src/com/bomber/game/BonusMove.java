@@ -3,7 +3,7 @@ package com.bomber.game;
 public class BonusMove extends Bonus {
 
     public BonusMove(Case C) {
-        super(C);
+        super(C,Bomberball.multiTexture[7]);
     }
 
     public void actionM(){
