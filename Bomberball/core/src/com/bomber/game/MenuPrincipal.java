@@ -1,6 +1,7 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,7 +16,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MenuPrincipal extends Etat {
-    private Stage menuprincipal;
     private Sprite back;
     private Skin skin;
     private Table table;
@@ -24,13 +24,19 @@ public class MenuPrincipal extends Etat {
     private TextButton editeurButton;
     private TextButton quitButton;
 
+
     public MenuPrincipal(Jeu jeu) {
         super(jeu);
+        this.createMenu();
     }
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
-        return false;
+
+        if(keycode== Input.Keys.ESCAPE){
+            Gdx.app.exit();//si c'est escape on quitte le jeu
+        }
+        return true;
     }
 
     @Override
@@ -40,10 +46,10 @@ public class MenuPrincipal extends Etat {
 
     public void createMenu(){
         skin=new Skin(Gdx.files.internal("uiskin.json"));
-        menuprincipal = new Stage(new ScreenViewport());
+
 
         table=new Table(); //Tableau
-        table.setWidth(menuprincipal.getWidth());
+        table.setWidth(Bomberball.stg.getWidth());
         table.align(Align.center | Align.top); // Middle of the screen start at the top
         table.setPosition(0, Gdx.graphics.getHeight());
 
@@ -65,9 +71,9 @@ public class MenuPrincipal extends Etat {
         table.row(); //Permet de les mettre sous forme de colonne
         table.add(quitButton);
 
-        menuprincipal.addActor(table);
+        Bomberball.stg.addActor(table);
 
-        back= new Sprite(new Texture(Gdx.files.internal("badlogic.jpg")));
+        back= new Sprite(new Texture(Gdx.files.internal("thefloorislava.png")));
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
     }

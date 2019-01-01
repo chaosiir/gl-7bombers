@@ -16,7 +16,7 @@ import java.awt.*;
 
 //classe de l'application
 public class Bomberball extends ApplicationAdapter {
-	public  Stage stg;//creer le stage(la fentre ) sur lequel tout va s'afficher => voir tuto scene2D
+	public static Stage stg;//creer le stage(la fenetre ) sur lequel tout va s'afficher => voir tuto scene2D
 	Jeu jeu;//creation de notre classe jeu
 	public static Texture[] multiTexture = new Texture[5];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 	// la taille defini / augmenté au besoin
@@ -67,4 +67,6 @@ public class Bomberball extends ApplicationAdapter {
 	public void resize(int width, int height) {//se lance quand la fenetre change de taille donc jamais car le jeu est bloqué en plein ecran
 		stg.getViewport().update(width,height);//on change le point de vu (surtout la taille de ce qu'on voit ) !! ne marche pas
 	}
+
+
 }
