@@ -26,6 +26,7 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {//meme chose en cas de clic
+
                 return etat.touchDown( event,  x,  y,  pointer,  button);
             }
 

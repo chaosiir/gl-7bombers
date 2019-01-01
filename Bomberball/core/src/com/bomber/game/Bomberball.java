@@ -37,7 +37,8 @@ public class Bomberball extends ApplicationAdapter {
 		jeu=new Jeu();
 		jeu.setName("jeu");
 		stg.addActor(jeu);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
-		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
+		stg.setKeyboardFocus(stg.getActors().get(1));//le stage defini que le premier acteur (le jeu) recupere les inputs
+		//=> maintenant c'est le 2e (il y a le menu principal)
 
 
 

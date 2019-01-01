@@ -33,9 +33,6 @@ public class MenuPrincipal extends Etat {
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
 
-        if(keycode== Input.Keys.ESCAPE){
-            Gdx.app.exit();//si c'est escape on quitte le jeu
-        }
         return true;
     }
 
@@ -64,7 +61,12 @@ public class MenuPrincipal extends Etat {
                 Gdx.app.log("Clicked","Yes, You did");
             }
         });
-
+        quitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
         table.padTop(30); //Espace de 30 entre le premier texte et le haut
 
         table.add(soloButton).padBottom(30); //Espace de 30 entre les 2 boutons
