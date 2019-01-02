@@ -2,6 +2,7 @@ package com.bomber.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi les menus comme acteur/layer
     Map map;//la map du jeu
     Etat etat;//etat du jeu c'est lui qui prend les inputs et fait l'affichage
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        Actor perso= findActor("Personnage");
+    }
 
     public Jeu (){//creation du jeu
         this.etat=new Solo(this);//de base le jeu a l'etat multijoueur car c'est le seul que l'on a
@@ -29,7 +36,6 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
             }
 
         });
-
 
         map=Map.genererMapSolo(60,10);//on creer la map et on l'ajoute en tant qu'acteur !!!! à terme faire une fonction creer map dans
         //etat car on ne sera pas toujours en multi ou avec une map prete
