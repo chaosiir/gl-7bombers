@@ -22,7 +22,6 @@ public class MenuPrincipalBis extends Etat implements Screen {
     private Table table;
     private TextButton soloButton;
     private  TextButton multiButton;
-    private SpriteBatch batch;
 
 
     private TextButton editeurButton;
@@ -59,7 +58,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
         @Override
         public void show() {
-            batch=new SpriteBatch();
+
             // called when this screen is set as the screen with game.setScreen();
             skin=new Skin(Gdx.files.internal("uiskin.json"));
             back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -80,7 +79,22 @@ public class MenuPrincipalBis extends Etat implements Screen {
             soloButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.log("Clicked","Yes, You did");
+                    jeu.setEtat(game.menuSolo);
+                    game.setScreen(game.menuSolo);
+                }
+            });
+            multiButton.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    jeu.setEtat(game.choixMenuMultijoueur);
+                    game.setScreen(game.choixMenuMultijoueur);
+                }
+            });
+            editeurButton.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    jeu.setEtat(game.choixEditeurN);
+                    game.setScreen(game.choixEditeurN);
                 }
             });
             quitButton.addListener(new ClickListener(){

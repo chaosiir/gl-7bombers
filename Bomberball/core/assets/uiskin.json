@@ -11,4 +11,11 @@
       titleFont: default-font
      }
    }
+   com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+        default: { font: default-font}
+     }
+     com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+         default-horizontal: { background: default-slider, knob: default-slider-knob }
+     }
+
 }

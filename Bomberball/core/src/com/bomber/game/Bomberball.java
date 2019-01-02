@@ -26,8 +26,11 @@ public class Bomberball extends Game {
 	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
 	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
 
-	MenuPrincipalBis mainMenuScreen;
-
+	MenuPrincipalBis menuPrincipalBis;
+	MenuSolo menuSolo;
+	ParametreSolo parametreSolo;
+	ChoixEditeurN choixEditeurN;
+    ChoixMenuMultijoueur choixMenuMultijoueur;
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
@@ -42,17 +45,19 @@ public class Bomberball extends Game {
 		jeu=new Jeu();
 		jeu.setName("jeu");
 		stg.addActor(jeu);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
-<<<<<<< HEAD
+
 		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
 		//stg.setKeyboardFocus(stg.getActors().get(1));//le stage defini que le premier acteur (le jeu) recupere les inputs
 		//=> maintenant c'est le 2e (il y a le menu principal)
 
-		mainMenuScreen= new MenuPrincipalBis(this,jeu);
-		setScreen(mainMenuScreen);
-=======
-		stg.setKeyboardFocus(stg.getActors().get(1));//le stage defini que le premier acteur (le jeu) recupere les inputs
-		//=> maintenant c'est le 2e (il y a le menu principal)
->>>>>>> paul-louis
+		menuPrincipalBis= new MenuPrincipalBis(this,jeu);
+		menuSolo= new MenuSolo(this,jeu);
+		parametreSolo= new ParametreSolo(this,jeu);
+		choixEditeurN = new ChoixEditeurN(this, jeu);
+		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
+		setScreen(menuPrincipalBis);
+
+		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
 
 
 

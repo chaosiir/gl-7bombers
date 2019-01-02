@@ -38,10 +38,7 @@ public class MenuPrincipal extends Etat {
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
 
-<<<<<<< HEAD
 
-=======
->>>>>>> paul-louis
         return true;
     }
 
@@ -72,6 +69,7 @@ public class MenuPrincipal extends Etat {
                 Gdx.app.log("Clicked","Yes, You did");
             }
         });
+
         quitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
