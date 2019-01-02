@@ -38,7 +38,10 @@ public class MenuPrincipal extends Etat {
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> paul-louis
         return true;
     }
 
