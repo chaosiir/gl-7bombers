@@ -1,11 +1,13 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -15,7 +17,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import java.awt.*;
 
 //classe de l'application
-public class Bomberball extends ApplicationAdapter {
+public class Bomberball extends Game {
 	public static Stage stg;//creer le stage(la fenetre ) sur lequel tout va s'afficher => voir tuto scene2D
 	Jeu jeu;//creation de notre classe jeu
 	public static Texture[] multiTexture = new Texture[5];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -23,6 +25,9 @@ public class Bomberball extends ApplicationAdapter {
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
 	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
 	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
+
+	MenuPrincipalBis mainMenuScreen;
+
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
@@ -38,6 +43,11 @@ public class Bomberball extends ApplicationAdapter {
 		jeu.setName("jeu");
 		stg.addActor(jeu);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
 		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
+		//stg.setKeyboardFocus(stg.getActors().get(1));//le stage defini que le premier acteur (le jeu) recupere les inputs
+		//=> maintenant c'est le 2e (il y a le menu principal)
+
+		mainMenuScreen= new MenuPrincipalBis(this,jeu);
+		setScreen(mainMenuScreen);
 
 
 
@@ -52,7 +62,6 @@ public class Bomberball extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 		stg.act(Gdx.graphics.getDeltaTime());//tout les acteurs continuent leur actions  => voir tuto Actor
 		stg.draw();// on dessine le stage, donc chaque acteur, sur l'écran ce qui revient à dessiner le groupe jeu
-
 	}
 
 	@Override

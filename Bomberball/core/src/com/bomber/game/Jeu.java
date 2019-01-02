@@ -2,6 +2,7 @@ package com.bomber.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -32,6 +33,9 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
         });
 
 
+
+
+
        /* map=Map.genererMapSolo(60,10);//on creer la map et on l'ajoute en tant qu'acteur !!!! à terme faire une fonction creer map dans
         //etat car on ne sera pas toujours en multi ou avec une map prete
         this.addActor(map);
@@ -43,7 +47,6 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
             }
         }*/
     }
-
 
 
 }
