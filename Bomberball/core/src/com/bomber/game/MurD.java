@@ -6,4 +6,7 @@ public class MurD extends Mur {
     public boolean destructible() {
         return true;
     }
+
+
+
 }

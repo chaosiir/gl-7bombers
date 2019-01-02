@@ -6,10 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Map {
 	private int mat[][];
+	private Case[][] grille;
+	private int x;      //dimensions de la map, typiquement 15x13
+	private int y;
+	private boolean solomulti;
 
 	public Map(){
 		super();
-		grille=new Case[13][11];
+		grille=new Case[13][15];
 	}
 	
 	public Map(Case g[][]) {
@@ -65,10 +69,7 @@ public class Map {
 		
 	}
 	
-	    private Case[][] grille;
-	    private int x;      //dimensions de la map, typiquement 15x13
-	    private int y;
-	    private boolean solomulti;
+
 
 	    public Case[][] getGrille() {return grille; }
 	    public void setGrille(Case[][] grille) {this.grille = grille;}
@@ -82,7 +83,7 @@ public class Map {
 
 	    //génération de la map PvP de base
 	    //Renvoie un tableau de case de taille 13x15 avec le pourtour
-	    public static Map generatePvp(int nbDestru){
+	    public Case[][] generatePvp(int nbDestru){
 	        int i;			// indice de ligne
 	        int j;			// indice de colonne
 	        int cpt = 0;		//compteur de cases potentiellment destructibles, spoiler il y en a 93
@@ -91,7 +92,7 @@ public class Map {
 	            nbDestru=93;
 	        }
 
-	        Case[][] g = new Case[13][15];                          //ce qu'on va renvoyer, le tableau de case
+	        Case[][] g = new Case[14][16];                          //ce qu'on va renvoyer, le tableau de case
 	        Case[] caseDes = new Case[1000];                        //repertorie les cases potentiellment destructibles dans un  tableau
 
 	        for (i = 0;i < 13;i++){                                 //on parcourt toutes les cases de la map
@@ -99,6 +100,7 @@ public class Map {
 	                g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
 	                g[i][j].setX(i);
 	                g[i][j].setY(j);
+	                g[i][j].setMap(this);
 	                if (j==0 || j==14 || i==0 || i==12 || (j%2==0 && i%2==0)) { //si la case fait partie des case indestructibles
 	                    Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
 	                    g[i][j].setMur(m);
@@ -109,7 +111,7 @@ public class Map {
 	                    caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
 	                    cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
 	                }
-					if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage());}
+					//if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],3,2,5));}
 	            }
 	        }
 	        int a;
@@ -124,18 +126,43 @@ public class Map {
 	            caseDes[random]=caseDes[cpt-1];
 	            cpt --;
 	        }
-
-	        Map m=new Map();
-			m.setX(13);
-			m.setY(15);
-	        m.grille=g;
-	        return m;
+			return g;
+	        /*Map m=new Map();
+			this.setX(13);
+			this.setY(15);
+	        this.grille=g;*/
+	        //return m;
 	    }
 
 	    // 1 : indestructible
 	    // 2 : entree/sortie
 	    // 0 : libre
 
+	public void explosion(){ //explose toutes les bombes de la map
+		int i;
+		int j;
+		for (i=0;i<13;i++) {
+			for (j = 0; j < 15; j++) {
+				if (this.getGrille()[i][j].getBombe()!=null) {
+					this.getGrille()[i][j].getBombe().explosion();
+				}
+			}
+		}
+	}
+
+	public void clean() {//enlève les personnage morts
+		int i;
+		int j;
+		for (i = 0; i < 13; i++) {
+			for (j = 0; j < 15; j++) {
+				if (this.getGrille()[i][j].getPersonnage() != null) {
+					if (!this.getGrille()[i][j].getPersonnage().isVivant()) {
+						this.getGrille()[i][j].setPersonnage(null);
+					}
+				}
+			}
+		}
+	}
 
 	public boolean verifSolo(int t[][]) { //Vérifie qu'une map solo est valide (convention 1=mur indestructible 2=départ/arrivée 0=libre);
 		int lignes=t.length;
@@ -311,6 +338,87 @@ public class Map {
 			}
 		}
 		return tableau;
+	}
+
+	int [][] traducteur2(){//map.traducteur
+		int [][] tableau=new int [13][15];
+		int i;
+		int j;
+		for (i=0;i<13;i++){
+			for (j=0;j<15;j++){
+				if (this.grille[i][j].getMur() instanceof MurI){
+					//(MurI)this.grille[i][j].getMur().fdh();
+					tableau[i][j]=2;
+				}else if (this.grille[i][j].getMur() instanceof MurD) {
+					tableau[i][j] = 1;
+					if (this.grille[i][j].getBonus()!=null){
+						tableau[i][j]=6;
+					}
+				} else if (this.grille[i][j].getPersonnage()!=null ) {
+					if (this.grille[i][j].getPersonnage().isVivant()) {
+						tableau[i][j] = 3;
+					}
+				} else if (this.grille[i][j].getBombe()!=null) {
+					tableau[i][j] = 4;
+				} else {
+					tableau[i][j]=0;
+					if (this.grille[i][j].getBonus()!=null){
+						tableau[i][j]=7;
+					}
+				}
+				/*if (this.grille[i][j].getBonus() instanceof BonusExplo){
+					//tableau[i][j]=tableau[i][j]+10;
+					tableau[i][j]=9;
+				} else if (this.grille[i][j].getBonus() instanceof BonusBombe){
+					//tableau[i][j]=tableau[i][j]+20;
+					tableau[i][j]=9;
+				} else if (this.grille[i][j].getBonus() instanceof BonusMove){
+					//tableau[i][j]=tableau[i][j]+30;
+					tableau[i][j]=9;
+				}*/
+
+
+			}
+
+		}
+		return tableau;
+
+	}
+
+	public void genBonus(int nbBonus){ //pose les bonus sur la map une fois celle ci créée avec les cases destructibles
+		int i;                          //cette procédure peut s'adapter au mode pve sans problème
+		int j;
+		int cpt=0;
+		int random;
+		Case[] caseDes = new Case[1000];
+		for (i=0;i<13;i++) {                                      //on parcourt toutes les cases de la map
+			for (j = 0; j < 15; j++) {
+				if (this.getGrille()[i][j].getMur() instanceof MurD){
+					caseDes[cpt]=this.getGrille()[i][j];
+					cpt ++;
+				}
+			}
+		}
+		int a;
+		int b;
+		int choix;
+		Bonus bonus = new Bonus(null);
+		for(i=0;i<nbBonus;i++){
+			random = (int)(Math.random() * cpt);
+			a=caseDes[random].getX();
+			b=caseDes[random].getY();
+			choix= (int)(Math.random() * 3);
+			if (choix==0){
+				bonus= new BonusExplo(caseDes[random]);
+			} else if (choix==1){
+				bonus= new BonusBombe(caseDes[random]);
+			} else if (choix==2){
+				bonus= new BonusMove(caseDes[random]);
+			}
+			this.getGrille()[a][b].setBonus(bonus);
+			caseDes[random]=caseDes[cpt-1];
+			cpt --;
+		}
 
 	}
 

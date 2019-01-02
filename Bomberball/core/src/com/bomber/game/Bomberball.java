@@ -19,7 +19,10 @@ public class Bomberball extends ApplicationAdapter implements InputProcessor {
 	Sprite fbs;
 	BitmapFont f;
 	Texture [] multiTexture=new Texture[5];
-	
+
+	public Bomberball() {
+	}
+
 	@Override
 	public void create () {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
 		batch = new SpriteBatch();//fenetre d'affichage
@@ -34,8 +37,6 @@ public class Bomberball extends ApplicationAdapter implements InputProcessor {
 		multiTexture[2]=new Texture("murI.png");
 		multiTexture[3]=new Texture("door.png");
 		multiTexture[4]=new Texture("player.png");
-
-
 	}
 
 	@Override
@@ -46,10 +47,13 @@ public class Bomberball extends ApplicationAdapter implements InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 		batch.begin();//puis on redessine tout dans la fenetre  pour ça on lance le dessin avec un begin()
 		batch.draw(fbs,200,300,0,0,fbs.getWidth(),fbs.getHeight(),fbs.getScaleX(),fbs.getScaleY(),0);
-		f.draw(batch,"generer une map multi",210,370);
+		f.draw(batch,"map multi",210,370);
 		batch.draw(fbs,200,600,0,0,fbs.getWidth(),fbs.getHeight(),fbs.getScaleX(),fbs.getScaleY(),0);
-		f.draw(batch,"generer une map solo",220,670);
+		f.draw(batch,"map solo",220,670);
+		batch.draw(fbs,200,0,0,0,fbs.getWidth(),fbs.getHeight(),fbs.getScaleX(),fbs.getScaleY(),0);
+		f.draw(batch,"test",220,50);
 		map.afficher(batch,multiTexture);
+
 		batch.end();// fin du dessin on envoit l'image à l'écran
 
 	}
@@ -84,7 +88,7 @@ public class Bomberball extends ApplicationAdapter implements InputProcessor {
 		if(button== Buttons.LEFT){// on test sur quel bouton  on a cliqué en fonction des coordonées
 			if((screenX>=200 && screenX<=500) && (( Gdx.graphics.getHeight()-screenY)>=300 && ( Gdx.graphics.getHeight()-screenY)<= 400)){
 				System.out.println("mult");
-				map=Map.generatePvp(70);
+				map.generatePvp(70);
 			}
 			if((screenX>=200 && screenX<=500) && (( Gdx.graphics.getHeight()-screenY)>=600 && ( Gdx.graphics.getHeight()-screenY)<= 700)){
 				map=Map.genererMapSolo(80,20);
