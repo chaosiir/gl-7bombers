@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Personnage extends Image {
@@ -105,6 +106,11 @@ public class Personnage extends Image {
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage(this);
             c=tmp;
             c.addActor(this);
+            this.setY(getY()-Bomberball.taillecase);
+            MoveByAction action=new MoveByAction();
+            action.setAmount(0,Bomberball.taillecase);
+            action.setDuration(1);
+            this.addAction(action);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -120,6 +126,11 @@ public class Personnage extends Image {
             c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage(this);
             c=tmp;
             c.addActor(this);
+            this.setY(getY()+Bomberball.taillecase);
+            MoveByAction action=new MoveByAction();
+            action.setAmount(0,-Bomberball.taillecase);
+            action.setDuration(1);
+            this.addAction(action);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -135,6 +146,11 @@ public class Personnage extends Image {
             c.getMap().getGrille()[c.posX()+1][c.posY()].setPersonnage(this);
             c=tmp;
             c.addActor(this);
+            this.setX(getX()-Bomberball.taillecase);
+            MoveByAction action=new MoveByAction();
+            action.setAmount(Bomberball.taillecase,0);
+            action.setDuration(1);
+            this.addAction(action);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -150,6 +166,11 @@ public class Personnage extends Image {
             c.getMap().getGrille()[c.posX()-1][c.posY()].setPersonnage(this);
             c=tmp;
             c.addActor(this);
+            this.setX(getX()+Bomberball.taillecase);
+            MoveByAction action=new MoveByAction();
+            action.setAmount(-Bomberball.taillecase,0);
+            action.setDuration(1);
+            this.addAction(action);
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }

@@ -8,39 +8,32 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 import java.awt.*;
 
-public class Multijoueur extends Etat{//etat multijoueur
+public class Solo extends Etat{//etat multijoueur
     private Jeu jeu;
-    public Multijoueur(Jeu jeu) {
+    public Solo(Jeu jeu) {
         super(jeu);
         this.jeu=jeu;
     }
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
-        if (keycode==Input.Keys.RIGHT){
-            Personnage joueur=jeu.findActor("Personnage");
-            if (joueur!=null){
-            joueur.deplacerDroite();}
-        }
-        if (keycode==Input.Keys.LEFT){
-            Personnage joueur=jeu.findActor("Personnage");
-            if (joueur!=null){
-                joueur.deplacerGauche();}
-        }
-        if (keycode==Input.Keys.DOWN){
-            Personnage joueur=jeu.findActor("Personnage");
-            if (joueur!=null){
-                joueur.deplacerBas();}
-        }
-        if (keycode==Input.Keys.UP){
-            Personnage joueur=jeu.findActor("Personnage");
-            if (joueur!=null){
-                joueur.deplacerHaut();}
-        }
-        if (keycode==Input.Keys.SPACE){
-            Personnage joueur=jeu.findActor("Personnage");
-            if (joueur!=null){
-                joueur.poserBombe();}
+        Personnage joueur = jeu.findActor("Personnage");
+        if ((joueur != null)&&(!joueur.hasActions())) {
+            if (keycode == Input.Keys.RIGHT) {
+                joueur.deplacerDroite();
+            }
+            if (keycode == Input.Keys.LEFT) {
+                joueur.deplacerGauche();
+            }
+            if (keycode == Input.Keys.DOWN) {
+                joueur.deplacerBas();
+            }
+            if (keycode == Input.Keys.UP) {
+                joueur.deplacerHaut();
+            }
+            if (keycode == Input.Keys.SPACE) {
+                joueur.poserBombe();
+            }
         }
 
 

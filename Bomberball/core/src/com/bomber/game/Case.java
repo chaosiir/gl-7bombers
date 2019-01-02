@@ -83,6 +83,9 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
 
     public void setPorte(Porte porte) {
         this.porte = porte;
+        porte.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        this.addActor(porte);
+
     }
 
     public void setMur(Mur mur) {
