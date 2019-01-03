@@ -10,29 +10,61 @@ import java.awt.*;
 
 public class Solo extends Etat{//etat multijoueur
     private Jeu jeu;
+    int pm=5;
+    int nb=1;
     public Solo(Jeu jeu) {
         super(jeu);
         this.jeu=jeu;
+
     }
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = jeu.findActor("Personnage");
-        if ((joueur != null)&&(!joueur.hasActions())) {
-            if (keycode == Input.Keys.RIGHT) {
-                joueur.deplacerDroite();
-            }
-            if (keycode == Input.Keys.LEFT) {
-                joueur.deplacerGauche();
-            }
-            if (keycode == Input.Keys.DOWN) {
-                joueur.deplacerBas();
-            }
-            if (keycode == Input.Keys.UP) {
-                joueur.deplacerHaut();
-            }
-            if (keycode == Input.Keys.SPACE) {
-                joueur.poserBombe();
+        if(jeu.findActor("explo")==null) {
+            if ((joueur != null) && (!joueur.hasActions())) {
+                boolean b = false;
+                if (keycode == Input.Keys.RIGHT) {
+                    if (pm > 0) {
+                        b = joueur.deplacerDroite();
+                        pm = ((b) ? pm - 1 : pm);
+                    }
+                }
+
+                if (keycode == Input.Keys.LEFT) {
+                    if (pm > 0) {
+                        b = joueur.deplacerGauche();
+                        pm = ((b) ? pm - 1 : pm);
+                    }
+                }
+                if (keycode == Input.Keys.DOWN) {
+                    if (pm > 0) {
+                        b = joueur.deplacerBas();
+                        pm = ((b) ? pm - 1 : pm);
+                    }
+                }
+                if (keycode == Input.Keys.UP) {
+                    if (pm > 0) {
+                        b = joueur.deplacerHaut();
+                        pm = ((b) ? pm - 1 : pm);
+                    }
+                }
+                if (keycode == Input.Keys.SPACE) {
+                    if (nb > 0) {
+                        b = joueur.poserBombe();
+                        nb = ((b) ? nb - 1 : nb);
+                    }
+                }
+                if (keycode == Input.Keys.ENTER) {
+                    jeu.map.explosion();
+                    if (joueur.isVivant()) {
+                        pm = joueur.getPm();
+                        nb = joueur.getNbBombe();
+                    } else {
+                        joueur.getC().removeActor(joueur);
+                    }
+
+                }
             }
         }
 

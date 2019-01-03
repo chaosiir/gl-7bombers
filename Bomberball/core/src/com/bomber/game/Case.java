@@ -17,7 +17,6 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     private Bonus bonus;
     private Mur mur;
     private Personnage personnage;
-    private boolean explo;
     private Porte porte;
 
     public Case() {
@@ -39,13 +38,7 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
         this.map = map;
     }
 
-    public boolean isExplo() {
-        return explo;
-    }
 
-    public void setExplo(boolean explo) {
-        this.explo = explo;
-    }
 
     public Bombe getBombe() {
         return bombe;
@@ -97,6 +90,9 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
             mur.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
             this.addActor(mur);// rajout d'un mur à la bonne taille est possition
         }
+        else{
+            this.mur=mur;
+        }
     }
     public Personnage getPersonnage() {
         return personnage;
@@ -129,14 +125,41 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     public void explosionHaute(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
-            this.explo=true;
-        } else if (this.mur instanceof MurD){
-           this.setMur(null);
-           this.explo=true;
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
         } else if (this.mur instanceof MurI){
             //rien
         }else {
-            this.explo=true;
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?11:12]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
             if (longueur>0){
                 this.getMap().getGrille()[x][y+1].explosionHaute(longueur-1);
             }
@@ -147,14 +170,41 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     public void explosionBasse(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
-            this.explo=true;
-        } else if (this.mur instanceof MurD){
-            this.setMur(null);
-            this.explo=true;
+
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
         } else if (this.mur instanceof MurI){
             //rien
         }else {
-            this.explo=true;
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?11:13]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
             if (longueur>0){
                 this.getMap().getGrille()[x][y-1].explosionBasse(longueur-1);
             }
@@ -165,14 +215,40 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     public void explosionDroite(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
-            this.explo=true;
-        } else if (this.mur instanceof MurD){
-            this.setMur(null);
-            this.explo=true;
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
         } else if (this.mur instanceof MurI){
             //rien
         }else {
-            this.explo=true;
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?10:14]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
             if (longueur>0){
                 this.getMap().getGrille()[x+1][y].explosionDroite(longueur-1);
             }
@@ -183,14 +259,40 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     public void explosionGauche(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
-            this.explo=true;
-        } else if (this.mur instanceof MurD){
-            this.setMur(null);
-            this.explo=true;
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
         } else if (this.mur instanceof MurI){
             //rien
         }else {
-            this.explo=true;
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?10:15]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
             if (longueur>0){
                 this.getMap().getGrille()[x-1][y].explosionGauche(longueur-1);
             }

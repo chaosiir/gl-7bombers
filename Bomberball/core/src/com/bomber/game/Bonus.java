@@ -12,17 +12,11 @@ public class Bonus extends Image {
     protected Bonus(Case C,Texture t){
         super(t);
         this.setName("bonus");
+        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         c=C;
     }
 
-    public void action(Personnage p){//  !!!!!!!!! à enlever et on nomme toute les actions avec le meme nom pour les utilisés directement
-        if (this instanceof BonusMove){//=> passage de la classe en mode abstait
-            ((BonusMove) this).actionM();
-        } else if (this instanceof BonusExplo) {
-            ((BonusExplo) this).actionE();
-        }else if (this instanceof BonusBombe) {
-            ((BonusBombe) this).actionB();
-        }
+    public void action(){
     }
 
     public String identifier(){

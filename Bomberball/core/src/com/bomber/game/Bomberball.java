@@ -19,7 +19,7 @@ import java.awt.*;
 public class Bomberball extends ApplicationAdapter {
 	public  Stage stg;//creer le stage(la fentre ) sur lequel tout va s'afficher => voir tuto scene2D
 	Jeu jeu;//creation de notre classe jeu
-	public static Texture[] multiTexture = new Texture[9];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 	// la taille defini / augmenté au besoin
     public static TextureAtlas perso ;
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
@@ -38,6 +38,13 @@ public class Bomberball extends ApplicationAdapter {
 		multiTexture[6]=new Texture("item_bomb.png");
 		multiTexture[7]=new Texture("item_speedup.png");
 		multiTexture[8]=new Texture("item_superflame.png");
+		multiTexture[9]=new Texture("flame1.png");
+		multiTexture[10]=new Texture("flame1_horizontal.png");
+		multiTexture[11]=new Texture("flame1_vertical.png");
+		multiTexture[12]=new Texture("flame1_up.png");
+		multiTexture[13]=new Texture("flame1_down.png");
+		multiTexture[14]=new Texture("flame1_right.png");
+		multiTexture[15]=new Texture("flame1_left.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
 		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu=new Jeu();

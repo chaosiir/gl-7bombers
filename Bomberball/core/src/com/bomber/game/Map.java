@@ -113,7 +113,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
                         cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
                     }
-                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2));}
+                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5));}
                 }
             }
             int a;
@@ -284,7 +284,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 cpt--;
             }
             if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2));
+                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5));
                 cpt--;
             }
         }
@@ -323,8 +323,8 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 	public void explosion(){ //explose toutes les bombes de la map
 		int i;
 		int j;
-		for (i=0;i<13;i++) {
-			for (j = 0; j < 15; j++) {
+		for (i=0;i<15;i++) {
+			for (j = 0; j < 13; j++) {
 				if (this.getGrille()[i][j].getBombe()!=null) {
 					this.getGrille()[i][j].getBombe().explosion();
 				}
