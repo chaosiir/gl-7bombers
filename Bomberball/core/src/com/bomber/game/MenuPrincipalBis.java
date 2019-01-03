@@ -42,7 +42,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
         @Override
         public void render(float delta) {
             // update and draw stuff
-
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
         }
 
