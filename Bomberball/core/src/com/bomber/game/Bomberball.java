@@ -57,6 +57,7 @@ public class Bomberball extends Game {
 		choixEditeurN = new ChoixEditeurN(this, jeu);
 		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
 		editeurNSolo = new EditeurNSolo(this,jeu);
+		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 
 		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs

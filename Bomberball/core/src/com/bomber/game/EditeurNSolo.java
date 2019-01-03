@@ -46,7 +46,7 @@ public class EditeurNSolo extends Etat implements Screen {
         floor=new Image(Bomberball.multiTexture[0]);
         floor.setName("floor");
         floor.setBounds(0,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
-        
+
         murd = new Image(Bomberball.multiTexture[1]);
         murd.setName("murd");
         murd.setBounds(0,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
@@ -123,7 +123,7 @@ public class EditeurNSolo extends Etat implements Screen {
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        Actor hitActor= jeu.getStage().hit(x,Gdx.graphics.getHeight()-y,false); //Retourne référence de l'acteur touché
+        Actor hitActor= jeu.getStage().hit(x,y,false); //Retourne référence de l'acteur touché
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if(hitActor!=null){
             Gdx.app.log("HIT",hitActor.getName()); //print dans le log de l'application
