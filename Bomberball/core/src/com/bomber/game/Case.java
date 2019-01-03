@@ -4,10 +4,7 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 // !!! a faire très important lorqu'on enleve les mur / perso/ acteur  => enlever l'acteur
 //ce serait mieux de supprimer les parametre et de prendre les acteurs par nom à chaque fois (à voir si plus pratique => on peut le recuperer
@@ -82,18 +79,25 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     }
 
     public void setPorte(Porte porte) {
+
         this.porte = porte;
         porte.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         this.addActor(porte);
+        setMur(new MurD());
 
     }
 
     public void setMur(Mur mur) {
-        this.mur = mur;
-        mur.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-        this.addActor(mur);// rajout d'un mur à la bonne taille est possition
+        if (mur != null) {
+            if (this.mur != null) {
+                removeActor(findActor("MurD"));
+                removeActor(findActor("MurI"));
+            }
+            this.mur = mur;
+            mur.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
+            this.addActor(mur);// rajout d'un mur à la bonne taille est possition
+        }
     }
-
     public Personnage getPersonnage() {
         return personnage;
     }

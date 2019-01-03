@@ -9,6 +9,7 @@ public class Porte extends Image {
 
     public Porte(){
         super(Bomberball.multiTexture[3]);
+        setName("Porte");
     }
     public void afficher(Batch b,int x,int y,Texture [] multt){
         Sprite s;

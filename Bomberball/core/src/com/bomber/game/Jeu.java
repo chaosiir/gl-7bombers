@@ -37,7 +37,7 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
 
         });
 
-        map=Map.genererMapSolo(60,10);//on creer la map et on l'ajoute en tant qu'acteur !!!! à terme faire une fonction creer map dans
+        map=Map.genererMapSolo(100,20);//on creer la map et on l'ajoute en tant qu'acteur !!!! à terme faire une fonction creer map dans
         //etat car on ne sera pas toujours en multi ou avec une map prete
         this.addActor(map);
         int i;

@@ -116,7 +116,7 @@ public class Personnage extends Image {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    System.out.println(time);
+
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pup%d",(int)(time*8)%4)))));
 
                     return time>1;
@@ -137,29 +137,33 @@ public class Personnage extends Image {
         if (c.getMap().getGrille()[c.posX()][c.posY()-1].getMur()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()==null){
-            Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
-            c.setPersonnage(null);
-            c.removeActor(this);
-            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
-            c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage(this);
-            c=tmp;
-            c.addActor(this);
+
+
             this.addAction(new Action() {
                 float time=0;
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    System.out.println(time);
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pdown%d",(int)(time*8)%4)))));
-
+                    if(time>1) {
+                        Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
+                        c.setPersonnage(null);
+                        c.removeActor(target);
+                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+                        c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage((Personnage) target);
+                        c=tmp;
+                        c.addActor(target);
+                        setY(0);
+                    }
                     return time>1;
                 }
             });
-            this.setY(getY()+Bomberball.taillecase);
+
             MoveByAction action=new MoveByAction();
             action.setAmount(0,-Bomberball.taillecase);
             action.setDuration(1);
             this.addAction(action);
+
             if(c.getBonus()!=null){c.getBonus().action(this);}
         }
     }
@@ -182,7 +186,6 @@ public class Personnage extends Image {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    System.out.println(time);
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pr%d",(int)(time*8)%4)))));
 
                     return time>1;
@@ -203,25 +206,27 @@ public class Personnage extends Image {
         if (c.getMap().getGrille()[c.posX()-1][c.posY()].getMur()==null &&
                 c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()==null &&
                 c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()==null){
-            Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
-            c.setPersonnage(null);
-            c.removeActor(this);
-            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
-            c.getMap().getGrille()[c.posX()-1][c.posY()].setPersonnage(this);
-            c=tmp;
+
             this.addAction(new Action() {
                 float time=0;
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    System.out.println(time);
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pl%d",(int)(time*8)%4)))));
-
+                    if(time>1) {
+                        Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
+                        c.setPersonnage(null);
+                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+                        c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
+                        c.removeActor(target);
+                        c=tmp;
+                        c.addActor(target);
+                        setX(0);
+                    }
                     return time>1;
                 }
             });
-            c.addActor(this);
-            this.setX(getX()+Bomberball.taillecase);
+
             MoveByAction action=new MoveByAction();
             action.setAmount(-Bomberball.taillecase,0);
             action.setDuration(1);

@@ -320,6 +320,18 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 	}
 
+	public void explosion(){ //explose toutes les bombes de la map
+		int i;
+		int j;
+		for (i=0;i<13;i++) {
+			for (j = 0; j < 15; j++) {
+				if (this.getGrille()[i][j].getBombe()!=null) {
+					this.getGrille()[i][j].getBombe().explosion();
+				}
+			}
+		}
+	}
+
 	public static Map genererMapSolo(int nbDestru,int nbInDestru) {
 		Map m = new Map();
 		m = m.generatePve(nbDestru, nbInDestru);
