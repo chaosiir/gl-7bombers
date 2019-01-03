@@ -31,6 +31,7 @@ public class Bomberball extends Game {
 	ParametreSolo parametreSolo;
 	ChoixEditeurN choixEditeurN;
     ChoixMenuMultijoueur choixMenuMultijoueur;
+    EditeurNSolo editeurNSolo;
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
@@ -55,6 +56,7 @@ public class Bomberball extends Game {
 		parametreSolo= new ParametreSolo(this,jeu);
 		choixEditeurN = new ChoixEditeurN(this, jeu);
 		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
+		editeurNSolo = new EditeurNSolo(this,jeu);
 		setScreen(menuPrincipalBis);
 
 		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs

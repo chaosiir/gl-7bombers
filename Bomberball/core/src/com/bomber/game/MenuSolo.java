@@ -76,12 +76,16 @@ public class MenuSolo extends Etat implements Screen {
                 game.setScreen(game.menuPrincipalBis);
             }
         });
+
         table.padTop(30);
 
         table.add(demarrerpartie);
         table.add(choixmap);
         table.add(parametre);
         table.add(retour);
+
+        back.setName("Arrière plan: menu solo principal");
+
         jeu.addActor(back);
         jeu.addActor(table);
     }

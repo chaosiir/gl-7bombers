@@ -49,7 +49,8 @@ public class ChoixEditeurN extends Etat implements Screen {
         soloButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                jeu.setEtat(game.editeurNSolo);
+                game.setScreen(game.editeurNSolo);
             }
         });
         multiButton.addListener(new ClickListener(){
@@ -62,6 +63,8 @@ public class ChoixEditeurN extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.setEtat(game.menuPrincipalBis);
+                jeu.removeActor(table);
+                jeu.removeActor(back);
                 game.setScreen(game.menuPrincipalBis);
             }
         });
@@ -75,6 +78,8 @@ public class ChoixEditeurN extends Etat implements Screen {
         table.add(multiButton).padBottom(30);
         table.row();
         table.add(retour);
+        back.setName("Arrière plan: choix EditeurN");
+
         jeu.addActor(back);
         jeu.addActor(table);
 

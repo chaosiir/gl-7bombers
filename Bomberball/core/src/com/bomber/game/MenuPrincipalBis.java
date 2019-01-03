@@ -42,7 +42,6 @@ public class MenuPrincipalBis extends Etat implements Screen {
         @Override
         public void render(float delta) {
             // update and draw stuff
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
 
         }
@@ -80,6 +79,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     jeu.setEtat(game.menuSolo);
+
                     game.setScreen(game.menuSolo);
                 }
             });
@@ -87,6 +87,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     jeu.setEtat(game.choixMenuMultijoueur);
+
                     game.setScreen(game.choixMenuMultijoueur);
                 }
             });
@@ -94,6 +95,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     jeu.setEtat(game.choixEditeurN);
+
                     game.setScreen(game.choixEditeurN);
                 }
             });
@@ -103,6 +105,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
                     Gdx.app.exit();
                 }
             });
+
             table.padTop(30); //Espace de 30 entre le premier texte et le haut
 
             table.add(soloButton).padBottom(30); //Espace de 30 entre les 2 boutons
@@ -117,8 +120,12 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
             table.add(quitButton); //Espace de 30 entre les 2 boutons
             table.row();
+
+            back.setName("Arrière plan: menu principal");
+
             jeu.addActor(back);
             jeu.addActor(table);
+
 
 
 

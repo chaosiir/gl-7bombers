@@ -87,6 +87,9 @@ public class ParametreSolo extends Etat implements Screen {
         table.add(nbDeplaEnnemisS);
         table.row();
         table.add(retour).padBottom(30);
+
+        back.setName("Arrière plan: parametre solo");
+
         jeu.addActor(back);
         jeu.addActor(table);
 

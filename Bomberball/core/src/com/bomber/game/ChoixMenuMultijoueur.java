@@ -57,7 +57,13 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         porteeBombeS=  new Slider(0f,20f,1f,false,skin);
 
 
-
+        retour.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.setEtat(game.menuPrincipalBis);
+                game.setScreen(game.menuPrincipalBis);
+            }
+        });
 
         table=new Table(); //Tableau
         table.setWidth(Bomberball.stg.getWidth());
@@ -81,16 +87,13 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         table.add(lancerP).padBottom(30);
         table.row();
         table.add(retour).padBottom(30);
+
+        back.setName("Arrière plan: menu multijoueur principal");
+
         jeu.addActor(back);
         jeu.addActor(table);
 
-        retour.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                jeu.setEtat(game.menuPrincipalBis);
-                game.setScreen(game.menuPrincipalBis);
-            }
-        });
+
     }
 
     @Override
