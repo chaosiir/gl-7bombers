@@ -87,6 +87,11 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
+        return false;
+    }
+
+    @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
     }

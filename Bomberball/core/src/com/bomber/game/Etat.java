@@ -13,6 +13,7 @@ public abstract class Etat {//classe etat
 
     public abstract boolean keyDown(InputEvent event, int keycode);//traitement des inputs
     public abstract boolean touchDown(InputEvent event, float x, float y, int pointer, int button);
+    public abstract boolean mouseMoved(InputEvent event, float x, float y);
 
 
 

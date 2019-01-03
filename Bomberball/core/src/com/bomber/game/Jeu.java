@@ -32,6 +32,10 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
                 return etat.touchDown( event,  x,  y,  pointer,  button);
             }
 
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                return etat.mouseMoved(event,x,y);
+            }
         });
 
 

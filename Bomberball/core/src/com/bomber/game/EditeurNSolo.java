@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import java.awt.*;
@@ -59,6 +60,7 @@ public class EditeurNSolo extends Etat implements Screen {
         porte= new Image(Bomberball.multiTexture[3]);
         porte.setName("porte");
         porte.setBounds(0,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
 
 
 
@@ -131,6 +133,11 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
         return true;
+
+    }
+
+    @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
 
     }
 }
