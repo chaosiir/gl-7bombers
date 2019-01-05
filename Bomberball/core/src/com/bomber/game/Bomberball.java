@@ -32,6 +32,7 @@ public class Bomberball extends Game {
 	ChoixEditeurN choixEditeurN;
     ChoixMenuMultijoueur choixMenuMultijoueur;
     EditeurNSolo editeurNSolo;
+    Solo jeuSolo;
 
     public static TextureAtlas perso ;
 	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -68,6 +69,7 @@ public class Bomberball extends Game {
 		choixEditeurN = new ChoixEditeurN(this, jeu);
 		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
 		editeurNSolo = new EditeurNSolo(this, jeu);
+		jeuSolo=new Solo(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 

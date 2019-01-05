@@ -50,6 +50,9 @@ public class EditeurNSolo extends Etat implements Screen {
     public void show() {
 
         map=Map.genererMapSolo(20,10);
+        map.setPosition(7*Bomberball.taillecase,0);
+        Personnage p=(Personnage)map.findActor("Personnage");
+        p.getC().setPersonnage(null);
 
 
 
@@ -109,18 +112,8 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(map);
 
         map.setName("Mappy");
-        int i;
-        int j;
 
-        for (i = 0; i < map.tailleX(); i++) {
-            for (j = 0; j < map.tailleY(); j++) {
-                map.getGrille()[i][j].setName("Case"+i+j);
-                map.getGrille()[i][j].setBounds(map.getGrille()[i][j].getX()+3*Bomberball.taillecase,map.getGrille()[i][j].getY(),Bomberball.taillecase,Bomberball.taillecase);
-                map.addActor(map.getGrille()[i][j]);
 
-            }
-
-        }
 
 
 
@@ -140,18 +133,6 @@ public class EditeurNSolo extends Etat implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
-        int i;
-        int j;
-        for (i = 0; i < map.tailleX(); i++) {
-            for (j = 0; j < map.tailleY(); j++) {
-                map.getGrille()[i][j].setName("Case"+i+j);
-                map.getGrille()[i][j].setPosition( map.getGrille()[i][j].getX()+3*Bomberball.taillecase, map.getGrille()[i][j].getY());
-                jeu.addActor( map.getGrille()[i][j]);
-
-
-            }
-
-        }
     }
 
     @Override

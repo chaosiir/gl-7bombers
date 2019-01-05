@@ -99,6 +99,7 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     }
 
     public void setPersonnage(Personnage personnage) {// meme chose que pour mur
+        this.removeActor(this.findActor("Personnage"));
         this.personnage = personnage;
         if (personnage != null) {
             this.addActor(personnage);

@@ -52,7 +52,8 @@ public class MenuSolo extends Etat implements Screen {
         demarrerpartie.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Clicked","Yes, You did");
+                jeu.setEtat(game.jeuSolo);
+                game.setScreen(game.jeuSolo);
             }
         });
         choixmap.addListener(new ClickListener(){
