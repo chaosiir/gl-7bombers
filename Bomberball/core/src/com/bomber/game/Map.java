@@ -39,6 +39,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		grille=g;
 	}
 
+
 	/**
 	 * Accesseur du tableau de case
 	 * @return la grille
@@ -53,12 +54,12 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 	public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
 
 
-	/**
 	 *
 	 * @param lignes
 	 * @param colonnes
 	 * @return
 	 */
+	/**
 	public int[][] mat(int lignes,int colonnes){
 		int t[][]=new int[lignes][colonnes];
 		int x,y;
@@ -107,6 +108,14 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		
 	}
 
+	    public Case[][] getGrille() {return grille; }
+	    public void setGrille(Case[][] grille) {this.grille = grille;}
+	    public int getX() {return x; }
+	    public void setX(int x) {this.x = x;}
+	    public int getY() {return y;}
+	    public void setY(int y) { this.y = y;}
+	    public boolean isSolomulti() {return solomulti;}
+	    public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
 
 
 	    //génération de la map PvP de base
@@ -361,6 +370,18 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 	}
 
+	public void explosion(){ //explose toutes les bombes de la map
+		int i;
+		int j;
+		for (i=0;i<15;i++) {
+			for (j = 0; j < 13; j++) {
+				if (this.getGrille()[i][j].getBombe()!=null) {
+					this.getGrille()[i][j].getBombe().explosion();
+				}
+			}
+		}
+	}
+
 	/**
 	 * Méthode générant une map solo aléatoire
 	 * @param nbDestru 		nombre de blocs destructibles
@@ -399,8 +420,6 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		}
 		return m;
 	}
-
-
 
 
 
