@@ -1,6 +1,6 @@
 package com.bomber.game;
 public class Bombe {
-    int taille; //taille de l'explosion
+    int taille; //taille de l'explosion p
     Personnage personnage;
     Case c;
 
