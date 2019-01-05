@@ -3,9 +3,14 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Porte {
+public class Porte extends Image {
 
+    public Porte(){
+        super(Bomberball.multiTexture[3]);
+        setName("Porte");
+    }
     public void afficher(Batch b,int x,int y,Texture [] multt){
         Sprite s;
         s=new Sprite(multt[3]);
