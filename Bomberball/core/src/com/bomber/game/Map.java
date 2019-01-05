@@ -54,12 +54,12 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 	public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
 
 
-	 *
+	/**
 	 * @param lignes
 	 * @param colonnes
 	 * @return
 	 */
-	/**
+
 	public int[][] mat(int lignes,int colonnes){
 		int t[][]=new int[lignes][colonnes];
 		int x,y;
@@ -108,15 +108,6 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		
 	}
 
-	    public Case[][] getGrille() {return grille; }
-	    public void setGrille(Case[][] grille) {this.grille = grille;}
-	    public int getX() {return x; }
-	    public void setX(int x) {this.x = x;}
-	    public int getY() {return y;}
-	    public void setY(int y) { this.y = y;}
-	    public boolean isSolomulti() {return solomulti;}
-	    public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
-
 
 	    //génération de la map PvP de base
 	    //Renvoie un tableau de case de taille 15x13 avec le pourtour
@@ -147,7 +138,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
                         cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
                     }
-                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2));}
+                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5));}
                 }
             }
             int a;
@@ -332,7 +323,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 cpt--;
             }
             if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2));
+                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5));
                 cpt--;
             }
         }
