@@ -81,4 +81,9 @@ public class Solo extends Etat{//etat multijoueur
             }*/
         return true;
     }
+
+    @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
+        return false;
+    }
 }
