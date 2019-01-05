@@ -10,6 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 public class ChoixMenuMultijoueur extends Etat implements Screen {
+    @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
+        return false;
+    }
+
     Bomberball game;
     private Skin skin;
     private Image back;

@@ -47,6 +47,11 @@ public class MenuPrincipal extends Etat {
         return false;
     }
 
+    @Override
+    public boolean mouseMoved(InputEvent event, float x, float y) {
+        return false;
+    }
+
     public void createMenu(){
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Sprite(Bomberball.multiTexture[0]);
