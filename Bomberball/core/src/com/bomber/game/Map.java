@@ -3,24 +3,63 @@ package com.bomber.game;
 
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 
 public class Map extends Group {//meme chose map est un group d'acteur (les cases)
 	private int mat[][];
+	private Case[][] grille;
+	private int x;      //dimensions de la map, typiquement 15x13
+	private int y;
+	private boolean solomulti;
 
+
+	/**
+	 * Constructeur de la classe Map
+	 * @return une map 15*13
+	 */
 	public Map(){
 		super();
-
 		this.setPosition(Bomberball.taillecase*2.5f, Bomberball.taillecase/2);//on definit sa position dans la fenetre tout les acteurs
 		// appartenant à ce groupe auront une position relative à celle-ci => voir tuto Acteur/group
 		//la taillecase est defini dans bomberball par rapport à la taille de l'ecran
-		grille=new Case[13][11];
+		grille=new Case[15][13];
+		x=15;
+		y=13;
 	}
-	
+
+
+	/**
+	 * Constructeur de la classe Map
+	 * @param g un tableau de case
+	 * @return une map dont la grille est intialisée
+	 */
 	public Map(Case g[][]) {
 		super();
 		grille=g;
 	}
 
+
+	/**
+	 * Accesseur du tableau de case
+	 * @return la grille
+	 */
+	public Case[][] getGrille() {return grille; }
+	public void setGrille(Case[][] grille) {this.grille = grille;}
+	public int tailleX() {return x; }//!!!!!!!!!!!!!!!!!!!!!!!  le get/set X ou Y sont interdit car sont des fonctions pour l'affichage !!!!!!!!!!!
+	public void settailleX(int x) {this.x = x;}
+	public int tailleY() {return y;}
+	public void settailleY(int y) { this.y = y;}
+	public boolean isSolomulti() {return solomulti;}
+	public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
+
+
+	 *
+	 * @param lignes
+	 * @param colonnes
+	 * @return
+	 */
+	/**
 	public int[][] mat(int lignes,int colonnes){
 		int t[][]=new int[lignes][colonnes];
 		int x,y;
@@ -68,24 +107,19 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         }*/
 		
 	}
-	
-	    private Case[][] grille;
-	    private int x;      //dimensions de la map, typiquement 15x13
-	    private int y;
-	    private boolean solomulti;
 
 	    public Case[][] getGrille() {return grille; }
 	    public void setGrille(Case[][] grille) {this.grille = grille;}
-	    public int tailleX() {return x; }//!!!!!!!!!!!!!!!!!!!!!!!  le get/set X ou Y sont interdit car sont des fonctions pour l'affichage !!!!!!!!!!!
-	    public void settailleX(int x) {this.x = x;}
-	    public int tailleY() {return y;}
-	    public void settailleY(int y) { this.y = y;}
+	    public int getX() {return x; }
+	    public void setX(int x) {this.x = x;}
+	    public int getY() {return y;}
+	    public void setY(int y) { this.y = y;}
 	    public boolean isSolomulti() {return solomulti;}
 	    public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
 
 
 	    //génération de la map PvP de base
-	    //Renvoie un tableau de case de taille 13x15 avec le pourtour
+	    //Renvoie un tableau de case de taille 15x13 avec le pourtour
         public static Map generatePvp(int nbDestru){
             int i;			// indice de ligne
             int j;			// indice de colonne
@@ -113,7 +147,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
                         cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
                     }
-                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5));}
+                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2));}
                 }
             }
             int a;
@@ -142,6 +176,12 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 	    // 0 : libre
 
 
+	/**
+	 * Vérifie qu'un tableau passé en paramètre avec la convention ci-dessus est valide pour représenter une map
+	 * C'est-à-dire qu'il existe un chemin entre l'entrée et la sortie
+	 * @param t
+	 * @return true si la map a un chemin entre l'entrée et la sortie, false sinon
+	 */
 	public boolean verifSolo(int t[][]) { //Vérifie qu'une map solo est valide (convention 1=mur indestructible 2=départ/arrivée 0=libre);
 		int lignes=t.length;
 		int colonnes=t[0].length;
@@ -199,7 +239,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		//Ici la matrice d'existence est faite.
 		int a=yd+colonnes*xd; //Valeur des sommets dans la matrice d'existence
 		int b=ya+colonnes*xa;
-		System.out.println("a="+a+" b="+b+" xa="+xa+" ya="+ya+" xd="+xd+" yd="+yd);
+		//System.out.println("a="+a+" b="+b+" xa="+xa+" ya="+ya+" xd="+xd+" yd="+yd);
 
 
 		int k;
@@ -230,7 +270,15 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 
 	}
-    public  Map generatePve(int nbDestru,int nbInDestru) { //C'est la fonction à appeller pour avoir une map
+
+
+	/**
+	 * Génére une map aléatoire sans s'occuper de sa validité
+	 * @param nbDestru 		nombre de blocs destructibles
+	 * @param nbInDestru	nombre de blocs indestructibles
+	 * @return une map
+	 */
+    public  Map generatePve(int nbDestru,int nbInDestru) {
         Case [][] grille=new Case[15][13];
         int x,y,tmp,tmp1;
         x=(int)(Math.random()*15);
@@ -284,18 +332,20 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 cpt--;
             }
             if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5));
+                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2));
                 cpt--;
             }
         }
         Map m=new Map();
-        m.settailleX(15);
-        m.settailleY(13);
         m.setGrille(grille);
         return m;
     }
 
 
+	/**
+	 * Méthode réalisant une conversion entre une map et un tableau compréhensible par verifSolo
+	 * @return un tableau d'entier
+	 */
 	int [][] traducteur(){//map.traducteur
 		int [][] tableau=new int [15][13];
 		int i;
@@ -332,7 +382,13 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		}
 	}
 
-	public static Map genererMapSolo(int nbDestru,int nbInDestru) {
+	/**
+	 * Méthode générant une map solo aléatoire
+	 * @param nbDestru 		nombre de blocs destructibles
+	 * @param nbInDestru	nombre de blocs indestructibles
+	 * @return une map
+	 */
+	public static Map genererMapSolo(int nbDestru,int nbInDestru) { //C'est la fonction à appeller pour avoir une map
 		Map m = new Map();
 		m = m.generatePve(nbDestru, nbInDestru);
 		int t[][] = m.traducteur();
@@ -368,3 +424,4 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 
 }
+

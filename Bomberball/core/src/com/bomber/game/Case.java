@@ -104,6 +104,7 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
             this.addActor(personnage);
         }
     }
+
     public int posY() {
         return y;
     }

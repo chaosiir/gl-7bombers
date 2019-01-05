@@ -1,4 +1,8 @@
 package com.bomber.game;
+public class Bombe {
+    int taille; //taille de l'explosion
+    Personnage personnage;
+    Case c;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
