@@ -2,7 +2,10 @@ package com.bomber.game;
 
 public class MurI extends Mur{
 
-    @Override
+    public MurI(){
+        super(Bomberball.multiTexture[2]);
+    }
+
     public boolean destructible() {
         return false;
     }

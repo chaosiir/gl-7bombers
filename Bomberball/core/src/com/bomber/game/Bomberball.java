@@ -1,116 +1,94 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Input.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.awt.*;
 
-public class Bomberball extends ApplicationAdapter implements InputProcessor {
-	SpriteBatch batch;
-	Map map;
-	Texture fb;
-	Sprite fbs;
-	BitmapFont f;
-	Texture [] multiTexture=new Texture[5];
-	
+//classe de l'application
+public class Bomberball extends Game {
+	public static Stage stg;//creer le stage(la fenetre ) sur lequel tout va s'afficher => voir tuto scene2D
+	Jeu jeu;//creation de notre classe jeu
+	public static Texture[] multiTexture = new Texture[5];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	// la taille defini / augmenté au besoin
+	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
+	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
+	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
+
+	MenuPrincipalBis menuPrincipalBis;
+	MenuSolo menuSolo;
+	ParametreSolo parametreSolo;
+	ChoixEditeurN choixEditeurN;
+    ChoixMenuMultijoueur choixMenuMultijoueur;
+    EditeurNSolo editeurNSolo;
+
 	@Override
-	public void create () {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
-		batch = new SpriteBatch();//fenetre d'affichage
-		fbs=new Sprite(fb=new Texture("fondbouton.png"));
-		fbs.setScale(1.5f,1);
-		f=new BitmapFont(Gdx.files.internal("alph_bl.fnt"));
-		Gdx.input.setInputProcessor(this);//comme on impplemente InputProcessor on peut definir l'interface comme son propre InputProcessor
-		//pour recuperer les inputs
-		map=Map.genererMapSolo(60,30);
-		multiTexture[0]=new Texture("thefloorislava.png");
-		multiTexture[1]= new Texture("murD.png");
-		multiTexture[2]=new Texture("murI.png");
-		multiTexture[3]=new Texture("door.png");
-		multiTexture[4]=new Texture("player.png");
+	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
+
+		multiTexture[0] = new Texture("thefloorislava.png");//creation des différentes texture que l'on va chercher dans le fichier assets
+		multiTexture[1] = new Texture("murD.png");//=>voir Tuto Texture et Sprite
+		multiTexture[2] = new Texture("murI.png");
+		multiTexture[3] = new Texture("door.png");
+		multiTexture[4] = new Texture("player.png");
+		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
+		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
+		jeu=new Jeu();
+		jeu.setName("jeu");
+		stg.addActor(jeu);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
+
+		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
+		//stg.setKeyboardFocus(stg.getActors().get(1));//le stage defini que le premier acteur (le jeu) recupere les inputs
+		//=> maintenant c'est le 2e (il y a le menu principal)
+
+		menuPrincipalBis= new MenuPrincipalBis(this,jeu);
+		menuSolo= new MenuSolo(this,jeu);
+		parametreSolo= new ParametreSolo(this,jeu);
+		choixEditeurN = new ChoixEditeurN(this, jeu);
+		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
+		editeurNSolo = new EditeurNSolo(this,jeu);
+		jeu.setEtat(menuPrincipalBis);
+		setScreen(menuPrincipalBis);
+
+		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
+
+
 
 
 	}
 
 	@Override
-	public void render () {//une fois l'application lancée la fonction render tourne en boucle et va afficher une image sur l'écran à
+	public void render() {//une fois l'application lancée la fonction render tourne en boucle et va afficher une image sur l'écran à
 		// chaque fin d'appel (appellé autant de fois qu'il ya d'image par seconde )
 
-		Gdx.gl.glClearColor(0, 0, 0, 1);//creation de la couleur noir (pas de RGB)
+		Gdx.gl.glClearColor(0, 0, 0, 1);//creation de la couleur noir pour le netoyage(pas de RGB)
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-		batch.begin();//puis on redessine tout dans la fenetre  pour ça on lance le dessin avec un begin()
-		batch.draw(fbs,200,300,0,0,fbs.getWidth(),fbs.getHeight(),fbs.getScaleX(),fbs.getScaleY(),0);
-		f.draw(batch,"generer une map multi",210,370);
-		batch.draw(fbs,200,600,0,0,fbs.getWidth(),fbs.getHeight(),fbs.getScaleX(),fbs.getScaleY(),0);
-		f.draw(batch,"generer une map solo",220,670);
-		map.afficher(batch,multiTexture);
-		batch.end();// fin du dessin on envoit l'image à l'écran
-
+		stg.act(Gdx.graphics.getDeltaTime());//tout les acteurs continuent leur actions  => voir tuto Actor
+		stg.draw();// on dessine le stage, donc chaque acteur, sur l'écran ce qui revient à dessiner le groupe jeu
 	}
 
 	@Override
-	public void dispose () {//quand la fenetre est fermé on lance cette fonction
-		batch.dispose();//bien detruire les objet sinon fuite mémoire
+	public void dispose() {//quand la fenetre est fermé on lance cette fonction
 		int i;
-		for(i=0;i<5;i++){
-			multiTexture[i].dispose();
+		for (i = 0; i < multiTexture.length; i++) {
+			multiTexture[i].dispose();//pour chaque texture on la detruit pour eviter les fuites memoire =>voir tuto Texture
 		}
 	}
 
-
 	@Override
-	public boolean keyDown(int keycode) {
-		return false;
+	public void resize(int width, int height) {//se lance quand la fenetre change de taille donc jamais car le jeu est bloqué en plein ecran
+		stg.getViewport().update(width,height);//on change le point de vu (surtout la taille de ce qu'on voit ) !! ne marche pas
 	}
 
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
 
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(button== Buttons.LEFT){// on test sur quel bouton  on a cliqué en fonction des coordonées
-			if((screenX>=200 && screenX<=500) && (( Gdx.graphics.getHeight()-screenY)>=300 && ( Gdx.graphics.getHeight()-screenY)<= 400)){
-				System.out.println("mult");
-				map=Map.generatePvp(70);
-			}
-			if((screenX>=200 && screenX<=500) && (( Gdx.graphics.getHeight()-screenY)>=600 && ( Gdx.graphics.getHeight()-screenY)<= 700)){
-				map=Map.genererMapSolo(80,20);
-				System.out.println("solo");
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
 }
