@@ -3,14 +3,9 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class Personnage extends Image {
+public class Personnage extends Actor {
 
     private boolean vivant;
     private Case c;
@@ -20,10 +15,13 @@ public class Personnage extends Image {
     private boolean poussee;
 
 
+    public Personnage(boolean vivant, Case c, int taille) {
+        this.vivant = vivant;
+        this.c = c;
+        this.taille = taille;
+    }
+
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm) {
-        super(Bomberball.perso.findRegion("pdown2"));
-        this.setName("Personnage");
-        this.setSize(Bomberball.taillecase,Bomberball.taillecase);
         this.vivant = vivant;
         this.c = c;
         this.taille = taille;
@@ -79,13 +77,9 @@ public class Personnage extends Image {
         this.vivant = vivant;
     }
 
-    public boolean poserBombe() {
-        if (c.getBombe() == null) {
-            Bombe b = new Bombe(taille, this, c);
-            c.setBombe(b);
-            return true;
-        }
-        return false;
+    public void poserBombe(){
+        Bombe b=new Bombe(taille,this,c);
+        c.setBombe(b);
     }
 
     public void afficher(Batch b, int x, int y, Texture[] multt){
@@ -96,154 +90,61 @@ public class Personnage extends Image {
         s.draw(b);
     }
 
-    public boolean deplacerHaut(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup0"))));
-        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    public void deplacerHaut(){
         if (c.getMap().getGrille()[c.posX()][c.posY()+1].getMur()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()+1].getBombe()==null){
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
-            c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage(this);
             c=tmp;
-            c.addActor(this);
-            this.addAction(new Action() {
-                float time=0;
-                @Override
-                public boolean act(float delta) {
-                    time+=delta;
-
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pup%d",(int)(time*8)%4)))));
-
-                    return time>0.5;
-                }
-            });
-            this.setY(getY()-Bomberball.taillecase);
-            MoveByAction action=new MoveByAction();
-            action.setAmount(0,Bomberball.taillecase);
-            action.setDuration(0.5f);
-            this.addAction(action);
-            if(c.getBonus()!=null){c.getBonus().action();}
-            return true;
+            if(c.getBonus()!=null){c.getBonus().action(this);}
         }
-        return false;
     }
 
-    public boolean deplacerBas(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown0"))));
-        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    public void deplacerBas(){
         if (c.getMap().getGrille()[c.posX()][c.posY()-1].getMur()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()==null){
-
-
-            this.addAction(new Action() {
-                float time=0;
-                @Override
-                public boolean act(float delta) {
-                    time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pdown%d",(int)(time*8)%4)))));
-                    if(time>0.5) {
-                        Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
-                        c.setPersonnage(null);
-                        c.removeActor(target);
-                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
-                        c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage((Personnage) target);
-                        c=tmp;
-                        c.addActor(target);
-                        setY(0);
-                    }
-                    return time>0.5;
-                }
-            });
-
-            MoveByAction action=new MoveByAction();
-            action.setAmount(0,-Bomberball.taillecase);
-            action.setDuration(0.5f);
-            this.addAction(action);
-
-            if(c.getBonus()!=null){c.getBonus().action();}
-            return true;
+            Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
+            c.setPersonnage(null);
+            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+            c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage(this);
+            c=tmp;
+            if(c.getBonus()!=null){c.getBonus().action(this);}
         }
-        return false;
     }
 
-    public boolean deplacerDroite(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr0"))));
-        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    public void deplacerDroite(){
         if (c.getMap().getGrille()[c.posX()+1][c.posY()].getMur()==null &&
                 c.getMap().getGrille()[c.posX()+1][c.posY()].getPersonnage()==null &&
                 c.getMap().getGrille()[c.posX()+1][c.posY()].getBombe()==null){
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
             c.setPersonnage(null);
-            c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()+1][c.posY()].setPersonnage(this);
             c=tmp;
-            c.addActor(this);
-            this.addAction(new Action() {
-                float time=0;
-                @Override
-                public boolean act(float delta) {
-                    time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pr%d",(int)(time*8)%4)))));
-
-                    return time>0.5;
-                }
-            });
-            this.setX(getX()-Bomberball.taillecase);
-            MoveByAction action=new MoveByAction();
-            action.setAmount(Bomberball.taillecase,0);
-            action.setDuration(0.5f);
-            this.addAction(action);
-            if(c.getBonus()!=null){c.getBonus().action();}
-            return true;
+            if(c.getBonus()!=null){c.getBonus().action(this);}
         }
-        return true;
     }
 
-    public boolean deplacerGauche(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl0"))));
-        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    public void deplacerGauche(){
         if (c.getMap().getGrille()[c.posX()-1][c.posY()].getMur()==null &&
                 c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()==null &&
                 c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()==null){
-
-            this.addAction(new Action() {
-                float time=0;
-                @Override
-                public boolean act(float delta) {
-                    time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pl%d",(int)(time*8)%4)))));
-                    if(time>0.5) {
-                        Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
-                        c.setPersonnage(null);
-                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
-                        c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
-                        c.removeActor(target);
-                        c=tmp;
-                        c.addActor(target);
-                        setX(0);
-                    }
-                    return time>0.5;
-                }
-            });
-
-            MoveByAction action=new MoveByAction();
-            action.setAmount(-Bomberball.taillecase,0);
-            action.setDuration(0.5f);
-            this.addAction(action);
-            if(c.getBonus()!=null){c.getBonus().action();}
-            return true;
+            Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
+            c.setPersonnage(null);
+            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
+            c.getMap().getGrille()[c.posX()-1][c.posY()].setPersonnage(this);
+            c=tmp;
+            if(c.getBonus()!=null){c.getBonus().action(this);}
         }
-        return false;
     }
 
     public void ramasserBonus(){
         if (c.getBonus()!=null){
-            c.getBonus().action();
+            c.getBonus().action(this);
         }
     }
 

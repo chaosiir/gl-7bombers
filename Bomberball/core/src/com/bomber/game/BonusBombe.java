@@ -2,10 +2,10 @@ package com.bomber.game;
 
 public class BonusBombe extends Bonus {
     public BonusBombe(Case C) {
-        super(C,Bomberball.multiTexture[6]);
+        super(C);
     }
-    @Override
-    public void action(){
+
+    public void actionB(){
         c.getPersonnage().setNbBombe(c.getPersonnage().getNbBombe()+1);
         c.suppBonus();
     }

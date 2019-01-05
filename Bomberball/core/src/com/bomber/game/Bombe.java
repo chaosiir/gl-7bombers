@@ -1,18 +1,12 @@
 package com.bomber.game;
-
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-
-public class Bombe extends Image {
+public class Bombe {
     int taille; //taille de l'explosion
     Personnage personnage;
     Case c;
 
     public Bombe(int taille, Personnage personnage, Case c) {
-        super(Bomberball.multiTexture[5]);
         this.taille = taille;
         this.personnage = personnage;
-        this.setName("bombe");
         this.c = c;
     }
 
@@ -46,22 +40,7 @@ public class Bombe extends Image {
         this.c.explosionBasse(taille);
         this.c.explosionDroite(taille);
         this.c.explosionGauche(taille);
-        Image explo=new Image(Bomberball.multiTexture[9]);
-        explo.setName("explo");
-        explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-        c.addActor(explo);
-        c.addAction(new Action() {
-            float time=0;
-            @Override
-            public boolean act(float delta) {
-                time+=delta;
-                if(time>1){
-                    c.removeActor(c.findActor("explo"));
-                    return true;
-                }
-                return false;
-            }
-        });
+        //this.c.setBombe(null);//supprime la bombe de la map, mais la bombe existe encore par elle meme
         this.c.suppBombe();
     }
 }
