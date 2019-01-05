@@ -2,19 +2,21 @@ package com.bomber.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 import java.awt.*;
 
-public class Solo extends Etat{//etat multijoueur
-    private Jeu jeu;
+public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
     int nb=1;
-    public Solo(Jeu jeu) {
+    private Bomberball bombaaaagh;
+    public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
-        this.jeu=jeu;
+        this.bombaaaagh=bombaaaagh;
 
     }
 
@@ -85,5 +87,44 @@ public class Solo extends Etat{//etat multijoueur
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {
         return false;
+    }
+
+    @Override
+    public void show() {
+
+        jeu.map=Map.genererMapSolo(65,10);
+        jeu.addActor(jeu.map);
+
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
     }
 }
