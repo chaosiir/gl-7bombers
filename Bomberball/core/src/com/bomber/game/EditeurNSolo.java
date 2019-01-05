@@ -95,7 +95,7 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
 
-
+        //Il faut faire un test pour voir si on n'a pas cliqué sur autre chose que la map. Si on a cliqué sur la map, on prend le parent et on le modifie
 
 
 
@@ -4487,6 +4487,9 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
             }
             Gdx.app.log("HIT",hitActor.getName()); //print dans le log de l'application
+        }
+        else {
+            System.out.println("hit " +" "+hitActor.getClass().toString());
         }
 
 
