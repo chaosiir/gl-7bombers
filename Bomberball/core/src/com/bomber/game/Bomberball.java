@@ -36,6 +36,7 @@ public class Bomberball extends Game {
     Solo jeuSolo;
     EditeurNMulti editeurNMulti;
     ErreurEditeurS erreurEditeurS;
+    ValiderEditeurSolo validerEditeurSolo;
 
     public static TextureAtlas perso ;
 	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -75,6 +76,7 @@ public class Bomberball extends Game {
 		jeuSolo=new Solo(this,jeu);
 		editeurNMulti = new EditeurNMulti(this,jeu);
 		erreurEditeurS = new ErreurEditeurS(this,jeu);
+		validerEditeurSolo=new ValiderEditeurSolo(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 

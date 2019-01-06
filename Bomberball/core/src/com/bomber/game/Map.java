@@ -497,7 +497,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			int x=scan.nextInt();
 			int y=scan.nextInt();
 			int choix=scan.nextInt();
-			System.out.println("x="+x+" y="+y+" choix="+choix);
 			switch (choix){
 				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
 				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;

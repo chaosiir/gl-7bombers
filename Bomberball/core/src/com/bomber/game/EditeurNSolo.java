@@ -151,6 +151,9 @@ public class EditeurNSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(f.exists()){
+                    f.delete();
+                }
                 jeu.setEtat(game.choixEditeurN);
                 game.setScreen(game.choixEditeurN);
             }
