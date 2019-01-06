@@ -35,6 +35,7 @@ public class EditeurNMulti extends Etat implements Screen {
 
     TextButton retour;
     TextButton valider;
+    TextButton charger;
 
     Map map;
 
@@ -121,6 +122,10 @@ public class EditeurNMulti extends Etat implements Screen {
         valider.setBounds(0,ymax-10*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
         valider.setName("Valider");
 
+        charger = new TextButton("Charger une carte",skin);
+        charger.setBounds(0,ymax-11*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
+        charger.setName("Charger");
+
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -161,6 +166,14 @@ public class EditeurNMulti extends Etat implements Screen {
             }
         });
 
+        charger.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.setEtat(game.choixMapMultiE);
+                game.setScreen(game.choixMapMultiE);
+            }
+        });
+
 
 
 
@@ -176,6 +189,7 @@ public class EditeurNMulti extends Etat implements Screen {
         jeu.addActor(instruction2);
         jeu.addActor(retour);
         jeu.addActor(valider);
+        jeu.addActor(charger);
         jeu.addActor(map);
 
 

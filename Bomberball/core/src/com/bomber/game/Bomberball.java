@@ -41,6 +41,7 @@ public class Bomberball extends Game {
     ErreurEditeurM erreurEditeurM;
     ValiderEditeurMulti validerEditeurMulti;
     ChoixMapSoloE choixMapSoloE;
+    ChoixMapMultiE choixMapMultiE;
 
     public static TextureAtlas perso ;
 	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -84,6 +85,7 @@ public class Bomberball extends Game {
 		erreurEditeurM= new ErreurEditeurM(this, jeu);
 		validerEditeurMulti = new ValiderEditeurMulti(this,jeu);
 		choixMapSoloE = new ChoixMapSoloE(this,jeu);
+		choixMapMultiE = new ChoixMapMultiE(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 
