@@ -10,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class Personnage extends Image {
+import java.io.Serializable;
+
+public class Personnage extends Image  {
 
     private boolean vivant;
     private Case c;

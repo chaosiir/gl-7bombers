@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Porte extends Image {
+import java.io.Serializable;
+
+public class Porte extends Image  {
 
     public Porte(){
         super(Bomberball.multiTexture[3]);

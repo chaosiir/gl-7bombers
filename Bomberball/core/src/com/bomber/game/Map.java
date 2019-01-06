@@ -4,9 +4,14 @@ package com.bomber.game;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Json;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
-public class Map extends Group {//meme chose map est un group d'acteur (les cases)
+public class Map extends Group  {//meme chose map est un group d'acteur (les cases)
 	private int mat[][];
 	private Case[][] grille;
 	private int x;      //dimensions de la map, typiquement 15x13
@@ -83,7 +88,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 		}
 		return t;
 	}
-	
+
 	public static void main(String args[]) {
 		Map m=new Map();
 		int t[][]=m.mat(13,15);
@@ -105,7 +110,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             j=randomNum;
 
         }*/
-		
+
 	}
 
 
@@ -143,7 +148,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             }
             int a;
             int b;
-            System.out.println(cpt);
+           // System.out.println(cpt);
             for(i=0;i<nbDestru;i++){
                 random = (int)(Math.random() * cpt);
                 a=caseDes[random].posX();
@@ -157,7 +162,15 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             Map m=new Map();
             m.settailleX(15);
             m.settailleY(13);
-            m.grille=g;
+            m.setGrille(g);
+			for (i = 0; i < m.tailleX(); i++) {
+				for (j = 0; j < m.tailleY(); j++) {
+					m.getGrille()[i][j].setName("Case"+i+j);
+					m.addActor(m.getGrille()[i][j]);
+
+				}
+
+			}
             return m;
         }
 
@@ -431,6 +444,82 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 		}
 		return m;
+	}
+
+	/**Transformation d'une map sous forme de texte avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 3 	personnage
+	 * 4	porte
+	 *
+	 */
+	public String mapToText(){
+		String s=new String();
+		for(int i=0;i<15;i++){
+			for(int j=0;j<13;j++){
+				if(this.getGrille()[i][j].getPorte()!=null){
+					s=s+i+" "+j+" "+"4\n";
+				}
+				else if (this.getGrille()[i][j].getPersonnage()!=null){
+					s=s+i+" "+j+" "+"3\n";
+				}
+				else if(this.getGrille()[i][j].getMur()!=null){
+					if(this.getGrille()[i][j].getMur() instanceof MurI){
+						s=s+i+" "+j+" "+"2\n";
+					}
+					else{
+						s=s+i+" "+j+" "+"1\n";
+					}
+				}
+				else{
+					s=s+i+" "+j+" "+"0\n";
+				}
+
+
+			}
+		}
+		return s;
+	}
+	/**Transformation d'un texte vers une map avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 3 	personnage
+	 * 4	porte
+	 *
+	 */
+	public static Map mapFromString(String string){
+		Map m= new Map();
+		Case[][] g=new Case[15][13];
+		Scanner scan=new Scanner(string);
+		while(scan.hasNext()){
+			int x=scan.nextInt();
+			int y=scan.nextInt();
+			int choix=scan.nextInt();
+			System.out.println("x="+x+" y="+y+" choix="+choix);
+			switch (choix){
+				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
+				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
+				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
+				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5)); break;
+				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); g[x][y].setPorte(new Porte());
+			}
+		}
+		m.setGrille(g);
+		int i,j;
+		for (i = 0; i < m.tailleX(); i++) {
+			for (j = 0; j < m.tailleY(); j++) {
+				m.getGrille()[i][j].setName("Case"+i+j);
+				m.getGrille()[i][j].setMap(m);
+				m.addActor(m.getGrille()[i][j]);
+
+			}
+
+		}
+		return m;
+
+
 	}
 
 

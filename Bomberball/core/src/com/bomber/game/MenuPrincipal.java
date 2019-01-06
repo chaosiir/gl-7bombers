@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuPrincipal extends Etat {
+public class MenuPrincipal extends Etat { //Vestige du passé
     private Sprite back;
     private Skin skin;
     private Table table;

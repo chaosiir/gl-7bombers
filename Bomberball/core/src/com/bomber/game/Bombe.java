@@ -3,7 +3,9 @@ package com.bomber.game;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Bombe extends Image {
+import java.io.Serializable;
+
+public class Bombe extends Image  {
     int taille; //taille de l'explosion
     Personnage personnage;
     Case c;

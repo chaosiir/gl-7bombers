@@ -93,6 +93,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     public void show() {
 
         jeu.map=Map.genererMapSolo(65,10);
+        System.out.println(jeu.map.mapToText());
         jeu.addActor(jeu.map);
 
     }

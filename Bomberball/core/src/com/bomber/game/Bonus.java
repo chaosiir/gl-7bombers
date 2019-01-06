@@ -3,7 +3,9 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Bonus extends Image {
+import java.io.Serializable;
+
+public class Bonus extends Image  {
     Case c;
 
     public Bonus(Case C){
