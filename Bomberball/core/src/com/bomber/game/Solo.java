@@ -13,10 +13,10 @@ import java.awt.*;
 public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
     int nb=1;
-    private Bomberball bombaaaagh;
-    public Solo(Bomberball bombaaaagh,Jeu jeu) {
+    private Bomberball bomber;
+    public Solo(Bomberball bomber,Jeu jeu) {
         super(jeu);
-        this.bombaaaagh=bombaaaagh;
+        this.bomber=bomber;
 
     }
 

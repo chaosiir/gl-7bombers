@@ -201,7 +201,7 @@ public class Personnage extends Image {
             if(c.getBonus()!=null){c.getBonus().action();}
             return true;
         }
-        return true;
+        return false;
     }
 
     public boolean deplacerGauche(){
