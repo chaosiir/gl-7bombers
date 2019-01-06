@@ -57,7 +57,8 @@ public class ChoixEditeurN extends Etat implements Screen {
         multiButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+                jeu.setEtat(game.editeurNMulti);
+                game.setScreen(game.editeurNMulti);
             }
         });
         retour.addListener(new ClickListener(){
