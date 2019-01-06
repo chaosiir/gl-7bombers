@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.*;
+import java.io.*;
 
 //classe de l'application
 public class Bomberball extends Game {
@@ -33,7 +34,11 @@ public class Bomberball extends Game {
     ChoixMenuMultijoueur choixMenuMultijoueur;
     EditeurNSolo editeurNSolo;
     Solo jeuSolo;
-    Multijoueur multijoueur;
+    EditeurNMulti editeurNMulti;
+    ErreurEditeurS erreurEditeurS;
+    ValiderEditeurSolo validerEditeurSolo;
+    ErreurEditeurM erreurEditeurM;
+    ValiderEditeurMulti validerEditeurMulti;
 
     public static TextureAtlas perso ;
 	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -71,7 +76,11 @@ public class Bomberball extends Game {
 		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
 		editeurNSolo = new EditeurNSolo(this, jeu);
 		jeuSolo=new Solo(this,jeu);
-		multijoueur=new Multijoueur(this,jeu);
+		editeurNMulti = new EditeurNMulti(this,jeu);
+		erreurEditeurS = new ErreurEditeurS(this,jeu);
+		validerEditeurSolo=new ValiderEditeurSolo(this,jeu);
+		erreurEditeurM= new ErreurEditeurM(this, jeu);
+		validerEditeurMulti = new ValiderEditeurMulti(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 
@@ -101,6 +110,32 @@ public class Bomberball extends Game {
 	@Override
 	public void resize(int width, int height) {//se lance quand la fenetre change de taille donc jamais car le jeu est bloqué en plein ecran
 		stg.getViewport().update(width,height);//on change le point de vu (surtout la taille de ce qu'on voit ) !! ne marche pas
+	}
+
+/*Permet de charger le contenu d'un fichier*/
+
+	/**
+	 * Loads the specified file into a String representation
+	 * @author Stephane Nicoll - Infonet FUNDP
+	 * @version 0.1
+	 */
+	public static String loadFile(File f) {
+		try {
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+			StringWriter out = new StringWriter();
+			int b;
+			while ((b=in.read()) != -1)
+				out.write(b);
+			out.flush();
+			out.close();
+			in.close();
+			return out.toString();
+		}
+		catch (IOException ie)
+		{
+			ie.printStackTrace();
+		}
+		return null;
 	}
 
 

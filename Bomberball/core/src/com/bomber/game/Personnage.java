@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Personnage extends Image {
 
+public class Personnage extends Image  {
+
     private boolean vivant;
     private Case c;
     private int taille;//taille de l'explosion de la bombe, 3 par defaut

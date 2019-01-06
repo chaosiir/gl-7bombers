@@ -6,10 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+import java.io.Serializable;
+
 // !!! a faire très important lorqu'on enleve les mur / perso/ acteur  => enlever l'acteur
 //ce serait mieux de supprimer les parametre et de prendre les acteurs par nom à chaque fois (à voir si plus pratique => on peut le recuperer
 // en damandant à un groupe de nous donner un acteur  avec un nom via group.getActor(nom) => voir tuto Acteur
-public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonus /personnage)
+public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bonus /personnage)
     Map map;
     private int x;
     private int y;
@@ -72,11 +75,15 @@ public class Case extends Group {// case est un group d'acteur  (bombe/mur /bonu
     }
 
     public void setPorte(Porte porte) {
-
-        this.porte = porte;
-        porte.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-        this.addActor(porte);
-        setMur(new MurD());
+        this.removeActor(this.findActor("Porte"));
+        if (porte!=null){
+            this.porte=porte;
+            porte.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            this.addActor(porte);
+        }
+        else{
+            this.porte=null;
+        }
 
     }
 
