@@ -88,17 +88,12 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setMur(Mur mur) {
+        removeActor(findActor("MurD"));
+        removeActor(findActor("MurI"));
+        this.mur = mur;
         if (mur != null) {
-            if (this.mur != null) {
-                removeActor(findActor("MurD"));
-                removeActor(findActor("MurI"));
-            }
-            this.mur = mur;
             mur.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
             this.addActor(mur);// rajout d'un mur à la bonne taille est possition
-        }
-        else{
-            this.mur=mur;
         }
     }
     public Personnage getPersonnage() {

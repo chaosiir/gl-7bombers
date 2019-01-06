@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.channels.FileChannel;
 
 //classe de l'application
 public class Bomberball extends Game {
@@ -39,6 +40,7 @@ public class Bomberball extends Game {
     ValiderEditeurSolo validerEditeurSolo;
     ErreurEditeurM erreurEditeurM;
     ValiderEditeurMulti validerEditeurMulti;
+    ChoixMapSoloE choixMapSoloE;
 
     public static TextureAtlas perso ;
 	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -81,6 +83,7 @@ public class Bomberball extends Game {
 		validerEditeurSolo=new ValiderEditeurSolo(this,jeu);
 		erreurEditeurM= new ErreurEditeurM(this, jeu);
 		validerEditeurMulti = new ValiderEditeurMulti(this,jeu);
+		choixMapSoloE = new ChoixMapSoloE(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 
@@ -138,5 +141,20 @@ public class Bomberball extends Game {
 		return null;
 	}
 
+	public static boolean copier(File source, File dest) {
+		try {InputStream sourceFile = new java.io.FileInputStream(source);
+			 OutputStream destinationFile = new FileOutputStream(dest);
+			// Lecture par segment de 0.5Mo
+			byte buffer[] = new byte[512 * 1024];
+			int nbLecture;
+			while ((nbLecture = sourceFile.read(buffer)) != -1){
+				destinationFile.write(buffer, 0, nbLecture);
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+			return false; // Erreur
+		}
+		return true; // Résultat OK
+	}
 
 }
