@@ -10,18 +10,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 public class Multijoueur extends Etat implements Screen {//etat multijoueur
-    private Jeu jeu;
-    int pm=5;
-    int nb=1;
-    private Bomberball bomber;
-    public Multijoueur(Bomberball bomber,Jeu jeu) {
+    int pm;
+    int nb;
+    private Bomberball game;
+    private Personnage joueurs[]=new Personnage[4];
+    private int tour=0;
+
+    public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
-        this.bomber=bomber;
+        this.game=game;
+
     }
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
-        Personnage joueur = jeu.findActor("Personnage");
+        Personnage joueur = joueurs[tour];
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b = false;
@@ -58,12 +61,39 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 }
                 if (keycode == Input.Keys.ENTER) {
                     jeu.map.explosion();
-                    if (joueur.isVivant()) {
-                        pm = joueur.getPm();
-                        nb = joueur.getNbBombe();
-                    } else {
-                        joueur.getC().removeActor(joueur);
+                    tour=(tour+1)%4;
+                    int nbviv=0;
+                    int viv=0;
+                    for(int i=0;i<4;i++){
+                        if(joueurs[i].isVivant()){
+                            nbviv++;
+                            viv=i;
+                        }
                     }
+                    if(nbviv==0){
+                        jeu.map=null;
+                        jeu.removeActor(jeu.findActor("Map"));
+
+                        game.victoire=new Victoire(game,jeu,"Match nul");
+                        jeu.setEtat(game.victoire);
+                        game.setScreen(game.victoire);
+                    }
+                    else if(nbviv==1){
+                        jeu.map=null;
+                        jeu.removeActor(jeu.findActor("Map"));
+                        game.victoire=new Victoire(game,jeu,"Victoire joueur "+(viv+1));
+                        jeu.setEtat(game.victoire);
+                        game.setScreen(game.victoire);
+                    }
+                    else {
+                        while (!joueurs[tour].isVivant()) {
+                            tour = (tour + 1) % 4;
+                        }
+                        pm = joueurs[tour].getPm();
+                        nb = joueurs[tour].getNbBombe();
+                    }
+
+
 
                 }
             }
@@ -87,6 +117,18 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     @Override
     public void show() {
         jeu.map=Map.generatePvp(65);
+        int a=0;
+        for(int i=0;i<jeu.map.getGrille().length;i++){
+            for (int j=0;j<jeu.map.getGrille()[1].length;j++){
+                Personnage p=jeu.map.getGrille()[i][j].getPersonnage();
+                if(p!=null){
+                    joueurs[a]=p;
+                    a++;
+                }
+            }
+        }
+        pm=5;
+        nb=1;
         jeu.addActor(jeu.map);
     }
 

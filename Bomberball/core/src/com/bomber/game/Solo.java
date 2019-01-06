@@ -62,8 +62,6 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                     if (joueur.isVivant()) {
                         pm = joueur.getPm();
                         nb = joueur.getNbBombe();
-                    } else {
-                        joueur.getC().removeActor(joueur);
                     }
 
                 }
