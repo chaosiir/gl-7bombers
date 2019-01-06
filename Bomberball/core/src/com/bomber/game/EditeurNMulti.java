@@ -247,7 +247,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     Map m=c.getMap();
-                    
+
                     int xp=c.posX();
                     int yp=c.posY();
 
