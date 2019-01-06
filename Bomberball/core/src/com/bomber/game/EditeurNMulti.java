@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static com.bomber.game.Bomberball.stg;
 
@@ -21,7 +24,7 @@ public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
     Image floor;
-
+    Image perso;
     Image murd;
     Image muri;
     Image selectionne;
@@ -37,15 +40,31 @@ public class EditeurNMulti extends Etat implements Screen {
 
     Skin skin;
 
+    File f;
+    FileWriter fw;
+
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
+        File directory = new File (".");
+        try {
+            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
+
+        } catch (IOException e) {
+
+        }
     }
 
     @Override
     public void show() {
+        if(f.exists()){
+            String text=Bomberball.loadFile(f);
+            map=Map.mapFromString(text);
+        }
+        else{
+            map=Map.generatePvp(20);
 
-        map=Map.generatePvp(20);
+        }
         map.setPosition(7*Bomberball.taillecase,0);
 
 
@@ -69,6 +88,10 @@ public class EditeurNMulti extends Etat implements Screen {
         muri= new Image(Bomberball.multiTexture[2]);
         muri.setName("muri");
         muri.setBounds(0,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        perso= new Image(Bomberball.multiTexture[4]);
+        perso.setName("perso");
+        perso.setBounds(Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
 
 
@@ -101,6 +124,9 @@ public class EditeurNMulti extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(f.exists()){
+                    f.delete();
+                }
                 jeu.setEtat(game.choixEditeurN);
                 game.setScreen(game.choixEditeurN);
             }
@@ -109,7 +135,29 @@ public class EditeurNMulti extends Etat implements Screen {
         valider.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+                try {
+                    fw = new FileWriter(f);
+                    fw.write(map.mapToText());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                int cptPerso=0;
+                for(int i=0;i<15;i++){
+                    for(int j=0;j<13;j++){
+                        if(map.getGrille()[i][j].getPersonnage()!=null){
+                            cptPerso++;
+                        }
+                    }
+                }
+                if (cptPerso!=4){
+                    jeu.setEtat(game.erreurEditeurM);
+                    game.setScreen(game.erreurEditeurM);
+                }
+                else{
+                    jeu.setEtat(game.validerEditeurMulti);
+                    game.setScreen(game.validerEditeurMulti);
+                }
             }
         });
 
@@ -119,6 +167,7 @@ public class EditeurNMulti extends Etat implements Screen {
 
         jeu.addActor(back);
         jeu.addActor(floor);
+        jeu.addActor(perso);
         jeu.addActor(murd);
         jeu.addActor(muri);
         jeu.addActor(select);
@@ -187,17 +236,50 @@ public class EditeurNMulti extends Etat implements Screen {
                 selectionne.setDrawable(muri.getDrawable());
                 selectionne.setName("murin");
             }
+            else if(hitActor.getName().equals("perso")){
+                selectionne.setDrawable(perso.getDrawable());
+                selectionne.setName("player");
+            }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
+
+
                 System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
+                    Map m=c.getMap();
+                    
+                    int xp=c.posX();
+                    int yp=c.posY();
+
                     c.setMur(null);
+                    m.getGrille()[14-xp][yp].setMur(null);
+                    m.getGrille()[14-xp][12-yp].setMur(null);
+                    m.getGrille()[xp][12-yp].setMur(null);
+
                     c.setPorte(null);
+                    m.getGrille()[14-xp][yp].setPorte(null);
+                    m.getGrille()[14-xp][12-yp].setPorte(null);
+                    m.getGrille()[xp][12-yp].setPorte(null);
+
                     c.setPersonnage(null);
+                    m.getGrille()[14-xp][yp].setPersonnage(null);
+                    m.getGrille()[14-xp][12-yp].setPersonnage(null);
+                    m.getGrille()[xp][12-yp].setPersonnage(null);
+
                     c.setBonus(null);
+                    m.getGrille()[14-xp][yp].setBonus(null);
+                    m.getGrille()[14-xp][12-yp].setBonus(null);
+                    m.getGrille()[xp][12-yp].setBonus(null);
+
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
+
+                    m.getGrille()[14-xp][yp].addActor(background);
+                    m.getGrille()[14-xp][12-yp].addActor(background);
+                    m.getGrille()[xp][12-yp].addActor(background);
+
+
                 } else if (button == Input.Buttons.LEFT) {
                     if (selectionne.getDrawable() != null) {
                         if (selectionne.getName().equals("murdes")) {
@@ -213,6 +295,14 @@ public class EditeurNMulti extends Etat implements Screen {
                         } else if (selectionne.getName().equals("murin")) {
                             Map m=c.getMap();
                             c.setMur(new MurI());
+                            int xp=c.posX();
+                            int yp=c.posY();
+                            m.getGrille()[14-xp][yp].setMur(new MurI());
+                            m.getGrille()[14-xp][12-yp].setMur(new MurI());
+                            m.getGrille()[xp][12-yp].setMur(new MurI());
+
+
+
 
 
 
@@ -220,6 +310,12 @@ public class EditeurNMulti extends Etat implements Screen {
 
                         } else if (selectionne.getName().equals("p")) {
                             c.setPorte(new Porte());
+                        }
+                        else if(selectionne.getName().equals("player")){
+                            if(c.getMur()==null){
+                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                            }
+
                         }
                     }
                 }
@@ -251,8 +347,18 @@ public class EditeurNMulti extends Etat implements Screen {
                         } else if (selectionne.getName().equals("murin")) {
                             Map m=c.getMap();
                             c.setMur(new MurI());
+                            int xp=c.posX();
+                            int yp=c.posY();
+                            m.getGrille()[14-xp][yp].setMur(new MurI());
+                            m.getGrille()[14-xp][12-yp].setMur(new MurI());
+                            m.getGrille()[xp][12-yp].setMur(new MurI());
                         } else if (selectionne.getName().equals("p")) {
                             c.setPorte(new Porte());
+                        }
+                        else if(selectionne.getName().equals("player")){
+                            if(c.getMur()==null){
+                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                            }
                         }
                     }
                 }
@@ -284,8 +390,18 @@ public class EditeurNMulti extends Etat implements Screen {
                         } else if (selectionne.getName().equals("murin")) {
                             Map m=c.getMap();
                             c.setMur(new MurI());
+                            int xp=c.posX();
+                            int yp=c.posY();
+                            m.getGrille()[14-xp][yp].setMur(new MurI());
+                            m.getGrille()[14-xp][12-yp].setMur(new MurI());
+                            m.getGrille()[xp][12-yp].setMur(new MurI());
                         } else if (selectionne.getName().equals("p")) {
                             c.setPorte(new Porte());
+                        }
+                        else if(selectionne.getName().equals("player")){
+                            if(c.getMur()==null){
+                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                            }
                         }
                     }
                 }
@@ -317,9 +433,19 @@ public class EditeurNMulti extends Etat implements Screen {
                     } else if (selectionne.getName().equals("murin")) {
                         Map m=c.getMap();
                         c.setMur(new MurI());
+                        int xp=c.posX();
+                        int yp=c.posY();
+                        m.getGrille()[14-xp][yp].setMur(new MurI());
+                        m.getGrille()[14-xp][12-yp].setMur(new MurI());
+                        m.getGrille()[xp][12-yp].setMur(new MurI());
 
                     } else if (selectionne.getName().equals("p")) {
                         c.setPorte(new Porte());
+                    }
+                    else if(selectionne.getName().equals("player")){
+                        if(c.getMur()==null){
+                            c.setPersonnage(new Personnage(true,c,2,1,5));
+                        }
                     }
                 }
             }

@@ -167,6 +167,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				for (j = 0; j < m.tailleY(); j++) {
 					m.getGrille()[i][j].setName("Case"+i+j);
 					m.addActor(m.getGrille()[i][j]);
+					m.getGrille()[i][j].setMap(m);
 
 				}
 
@@ -348,6 +349,8 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			for (j = 0; j < m.tailleY(); j++) {
 				m.getGrille()[i][j].setName("Case"+i+j);
 				m.addActor(m.getGrille()[i][j]);
+				m.getGrille()[i][j].setMap(m);
+				m.getGrille()[i][j].setMap(m);
 
 			}
 

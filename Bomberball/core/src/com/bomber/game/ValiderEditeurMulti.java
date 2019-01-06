@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ValiderEditeurSolo extends Etat implements Screen {
+public class ValiderEditeurMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
     Label explication;
@@ -27,13 +27,14 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     TextField inputui;
     Table table;
     File f;
+    FileWriter fw;
 
-    public ValiderEditeurSolo(Bomberball game,Jeu jeu){
+    public ValiderEditeurMulti(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
         File directory = new File (".");
         try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
+            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
 
         } catch (IOException e) {
 
@@ -55,7 +56,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         back.setName("Je suis ton arrière plan");
 
 
-        explication=new Label("Donner un nom a votre map solo:",skin);
+        explication=new Label("Donner un nom a votre map multijoueur:",skin);
 
 
         valider= new TextButton("ok",skin);
@@ -89,7 +90,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                     File directory = new File (".");
                     File fi= null;
                     try {
-                        fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/"+nom+".txt");
+                        fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/"+nom+".txt");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -104,8 +105,8 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.setEtat(game.editeurNSolo);
-                game.setScreen(game.editeurNSolo);
+                jeu.setEtat(game.editeurNMulti);
+                game.setScreen(game.editeurNMulti);
             }
         });
 
