@@ -91,6 +91,8 @@ public class Solo extends Etat implements Screen {//etat multijoueur
 
     @Override
     public void show() {
+        pm=5;
+        nb=1;
         if(jeu.map==null){
             jeu.map=Map.genererMapSolo(65,10);
         }
