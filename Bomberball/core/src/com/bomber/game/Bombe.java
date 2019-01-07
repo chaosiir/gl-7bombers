@@ -10,12 +10,8 @@ public class Bombe extends Image  {
     Personnage personnage;
     Case c;
 
-<<<<<<< Updated upstream
     public Bombe(int taille, Personnage personnage, Case c) {
         super(Bomberball.multiTexture[5]);
-=======
-    public Bombe(int taille, Personnage personnage, game.Case c) {
->>>>>>> Stashed changes
         this.taille = taille;
         this.personnage = personnage;
         this.setName("bombe");

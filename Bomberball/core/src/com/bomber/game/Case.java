@@ -21,7 +21,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     private Mur mur;
     private Personnage personnage;
     private Porte porte;
-    private Ennemi ennemi;
+    private Ennemis ennemi;
 
     public Case() {
         this.setPosition((x)*Bomberball.taillecase,(y)*Bomberball.taillecase);//definition de la position  = coordonnées * taille d'une case
@@ -33,11 +33,11 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
 
     }
 
-    public Ennemi getEnnemi(){
+    public Ennemis getEnnemi(){
         return ennemi;
     }
 
-    public void setEnnemi(Ennemi E){
+    public void setEnnemi(Ennemis E){
         ennemi=E;
     }
 
