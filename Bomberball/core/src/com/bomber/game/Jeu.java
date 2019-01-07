@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi les menus comme acteur/layer
     Map map;//la map du jeu
     Etat etat;//etat du jeu c'est lui qui prend les inputs et fait l'affichage
-    Multijoueur multijoueur=new Multijoueur(this);
 
 
     public Jeu (){//creation du jeu
