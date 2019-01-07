@@ -101,15 +101,14 @@ public class Personnage extends Image  {
     public boolean deplacerHaut(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-        if (c.getMap().getGrille()[c.posX()][c.posY()+1].getMur()==null &&
-                c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()==null &&
-                c.getMap().getGrille()[c.posX()][c.posY()+1].getBombe()==null){
+        if(this.caseVideHaut()){
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
             c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage(this);
             c=tmp;
+            /*Animation de mouvement du personnage*/
             c.addActor(this);
             this.addAction(new Action() {
                 float time=0;
@@ -127,8 +126,23 @@ public class Personnage extends Image  {
             action.setAmount(0,Bomberball.taillecase);
             action.setDuration(0.5f);
             this.addAction(action);
+            /*Fin de l'animation*/
+            /*Poussage de la bombe*/
+            if (c.getBombe()!=null){
+                c.setBombe(null);
+                int i = 0;
+                do {
+                    i++;
+                } while (c.getMap().getGrille()[c.posX()][c.posY()+i].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()][c.posY()+i].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()][c.posY()+i].getMur()==null);
+                c.getMap().getGrille()[c.posX()][c.posY()+i].setBombe(this.taille,this,c.getMap().getGrille()[c.posX()][c.posY()+i])
+            }
             if(c.getBonus()!=null){c.getBonus().action();}
             return true;
+        }
+        if (c.ennemi!=null){
+            this.setVivant(false);
         }
         return false;
     }
@@ -165,9 +179,24 @@ public class Personnage extends Image  {
             action.setAmount(0,-Bomberball.taillecase);
             action.setDuration(0.5f);
             this.addAction(action);
+            /*Fin de l'animation*/
+            /*Poussage de la bombe*/
+            if (c.getBombe()!=null){
+                c.setBombe(null);
+                int i = 0;
+                do {
+                    i++;
+                } while (c.getMap().getGrille()[c.posX()][c.posY()-i].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()][c.posY()-i].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()][c.posY()-i].getMur()==null);
+                c.getMap().getGrille()[c.posX()][c.posY()-i].setBombe(this.taille,this,c.getMap().getGrille()[c.posX()][c.posY()-i])
+            }
 
             if(c.getBonus()!=null){c.getBonus().action();}
             return true;
+        }
+        if (c.ennemi!=null){
+            this.setVivant(false);
         }
         return false;
     }
@@ -200,8 +229,23 @@ public class Personnage extends Image  {
             action.setAmount(Bomberball.taillecase,0);
             action.setDuration(0.5f);
             this.addAction(action);
+            /*Fin de l'animation*/
+            /*Poussage de la bombe*/
+            if (c.getBombe()!=null){
+                c.setBombe(null);
+                int i = 0;
+                do {
+                    i++;
+                } while (c.getMap().getGrille()[c.posX()+i][c.posY()].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()+i][c.posY()].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()+i][c.posY()].getMur()==null);
+                c.getMap().getGrille()[c.posX()+i][c.posY()].setBombe(this.taille,this,c.getMap().getGrille()[c.posX()+i][c.posY()])
+            }
             if(c.getBonus()!=null){c.getBonus().action();}
             return true;
+        }
+        if (c.ennemi!=null){
+            this.setVivant(false);
         }
         return false;
     }
@@ -237,8 +281,23 @@ public class Personnage extends Image  {
             action.setAmount(-Bomberball.taillecase,0);
             action.setDuration(0.5f);
             this.addAction(action);
+            /*Fin de l'animation*/
+            /*Poussage de la bombe*/
+            if (c.getBombe()!=null){
+                c.setBombe(null);
+                int i = 0;
+                do {
+                    i++;
+                } while (c.getMap().getGrille()[c.posX()-i][c.posY()].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()-i][c.posY()].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()-i][c.posY()].getMur()==null);
+                c.getMap().getGrille()[c.posX()-i][c.posY()].setBombe(this.taille,this,c.getMap().getGrille()[c.posX()-i][c.posY()])
+            }
             if(c.getBonus()!=null){c.getBonus().action();}
             return true;
+        }
+        if (c.ennemi!=null){
+            this.setVivant(false);
         }
         return false;
     }
@@ -247,6 +306,70 @@ public class Personnage extends Image  {
         if (c.getBonus()!=null){
             c.getBonus().action();
         }
+    }
+
+    public boolean caseVideHaut(){
+        if (c.getMap().getGrille()[c.posX()][c.posY()+1].getMur()!=null ||
+                c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+            return false; //si oui on ne peut pas passer
+        }else if (c.getMap().getGrille()[c.posX()][c.posY()+1].getBombe()==null){//N'y a t-il pas de bombe ?
+            return true; //Si non on peut passer, car il n'y a ni mur ni personnage
+        } else if (!this.isPoussee()){ //A-t-on  le bonus poussée
+            return false; //Si non on ne passe pas
+        } else if (c.getMap().getGrille()[c.posX()][c.posY()+2].getBombe()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()+2].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()+2].getMur()==null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean caseVideBas(){
+        if (c.getMap().getGrille()[c.posX()][c.posY()-1].getMur()!=null ||
+                c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+            return false; //si oui on ne peut pas passer
+        }else if (c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()==null){//N'y a t-il pas de bombe ?
+            return true; //Si non on peut passer, car il n'y a ni mur ni personnage
+        } else if (!this.isPoussee()){ //A-t-on  le bonus poussée
+            return false; //Si non on ne passe pas
+        } else if (c.getMap().getGrille()[c.posX()][c.posY()-2].getBombe()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()-2].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()-2].getMur()==null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean caseVideDroite(){
+        if (c.getMap().getGrille()[c.posX()+1][c.posY()].getMur()!=null ||
+                c.getMap().getGrille()[c.posX()+1][c.posY()].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+            return false; //si oui on ne peut pas passer
+        }else if (c.getMap().getGrille()[c.posX()+1][c.posY()].getBombe()==null){//N'y a t-il pas de bombe ?
+            return true; //Si non on peut passer, car il n'y a ni mur ni personnage
+        } else if (!this.isPoussee()){ //A-t-on  le bonus poussée
+            return false; //Si non on ne passe pas
+        } else if (c.getMap().getGrille()[c.posX()+2][c.posY()].getBombe()==null &&
+                c.getMap().getGrille()[c.posX()+2][c.posY()].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()+2][c.posY()].getMur()==null){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean caseVideGauche(){
+        if (c.getMap().getGrille()[c.posX()-1][c.posY()].getMur()!=null ||
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+            return false; //si oui on ne peut pas passer
+        }else if (c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()==null){//N'y a t-il pas de bombe ?
+            return true; //Si non on peut passer, car il n'y a ni mur ni personnage
+        } else if (!this.isPoussee()){ //A-t-on  le bonus poussée
+            return false; //Si non on ne passe pas
+        } else if (c.getMap().getGrille()[c.posX()-2][c.posY()].getBombe()==null &&
+                c.getMap().getGrille()[c.posX()-2][c.posY()].getPersonnage()==null &&
+                c.getMap().getGrille()[c.posX()-2][c.posY()].getMur()==null){
+            return true;
+        }
+        return false;
     }
 
 

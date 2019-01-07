@@ -51,7 +51,7 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
             }
         }*/
     }
-public void setEtat(Etat e){
+    public void setEtat(Etat e){
         this.etat=e;
 }
 
