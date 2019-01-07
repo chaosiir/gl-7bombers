@@ -43,7 +43,6 @@ public class Victoire extends Etat implements Screen {
 
         explication=new Label(txt,skin);
         explication.setBounds(xmax/2-300,ymax/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
-        explication.setWrap(true);
 
 
         ok= new TextButton("ok",skin);
@@ -52,6 +51,8 @@ public class Victoire extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map=null;
+                jeu.removeActor(jeu.findActor("Map"));
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }

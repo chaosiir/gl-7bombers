@@ -59,6 +59,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setBonus(Bonus bonus) {
+        this.removeActor(this.bonus);
         this.bonus = bonus;
         if (bonus != null) {
             this.addActor(bonus);
@@ -129,6 +130,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     public void explosionHaute(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
+            this.removeActor(personnage);
         }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {
@@ -174,7 +176,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     public void explosionBasse(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
-
+            this.removeActor(personnage);
         }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {
@@ -219,6 +221,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     public void explosionDroite(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
+            this.removeActor(personnage);
         }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {
@@ -263,6 +266,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     public void explosionGauche(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
+            this.removeActor(personnage);
         }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {

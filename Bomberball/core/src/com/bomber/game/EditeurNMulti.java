@@ -28,6 +28,9 @@ public class EditeurNMulti extends Etat implements Screen {
     Image murd;
     Image muri;
     Image selectionne;
+    Image bonusB;
+    Image bonusM;
+    Image bonusE;
 
     Label select;
     Label instruction1;
@@ -99,6 +102,18 @@ public class EditeurNMulti extends Etat implements Screen {
         selectionne= new Image();
         selectionne.setName("selection");
         selectionne.setBounds(0,ymax-6*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        bonusB=new Image(Bomberball.multiTexture[6]);
+        bonusB.setName("bonusB");
+        bonusB.setBounds(Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        bonusE=new Image(Bomberball.multiTexture[8]);
+        bonusE.setName("bonusE");
+        bonusE.setBounds(Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        bonusM = new Image(Bomberball.multiTexture[7]);
+        bonusM.setName("bonusM");
+        bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         select= new com.badlogic.gdx.scenes.scene2d.ui.Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -183,6 +198,9 @@ public class EditeurNMulti extends Etat implements Screen {
         jeu.addActor(perso);
         jeu.addActor(murd);
         jeu.addActor(muri);
+        jeu.addActor(bonusB);
+        jeu.addActor(bonusE);
+        jeu.addActor(bonusM);
         jeu.addActor(select);
         jeu.addActor(selectionne);
         jeu.addActor(instruction1);
@@ -253,6 +271,18 @@ public class EditeurNMulti extends Etat implements Screen {
             else if(hitActor.getName().equals("perso")){
                 selectionne.setDrawable(perso.getDrawable());
                 selectionne.setName("player");
+            }
+            else if(hitActor.getName().equals("bonusB")){
+                selectionne.setDrawable(bonusB.getDrawable());
+                selectionne.setName("bB");
+            }
+            else if(hitActor.getName().equals("bonusE")){
+                selectionne.setDrawable(bonusE.getDrawable());
+                selectionne.setName("bE");
+            }
+            else if(hitActor.getName().equals("bonusM")){
+                selectionne.setDrawable(bonusM.getDrawable());
+                selectionne.setName("bM");
             }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
@@ -432,6 +462,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 } else if (button == Input.Buttons.LEFT) {
                     if (selectionne.getDrawable() != null) {
                         if (selectionne.getName().equals("murdes")) {
+                            c.setBonus(null);
                             c.setMur(new MurD());
                         } else if (selectionne.getName().equals("sol")) {
                             c.setMur(null);
@@ -443,19 +474,37 @@ public class EditeurNMulti extends Etat implements Screen {
                             c.addActor(background);
                         } else if (selectionne.getName().equals("murin")) {
                             Map m=c.getMap();
+                            c.setBonus(null);
                             c.setMur(new MurI());
                             int xp=c.posX();
                             int yp=c.posY();
                             m.getGrille()[14-xp][yp].setMur(new MurI());
+                            m.getGrille()[14-xp][yp].setBonus(null);
                             m.getGrille()[14-xp][12-yp].setMur(new MurI());
+                            m.getGrille()[14-xp][12-yp].setBonus(null);
                             m.getGrille()[xp][12-yp].setMur(new MurI());
+                            m.getGrille()[xp][12-yp].setBonus(null);
                         } else if (selectionne.getName().equals("p")) {
+                            c.setBonus(null);
                             c.setPorte(new Porte());
                         }
                         else if(selectionne.getName().equals("player")){
+                            c.setBonus(null);
                             if(c.getMur()==null){
                                 c.setPersonnage(new Personnage(true,c,2,1,5));
                             }
+                        }
+                        else if(selectionne.getName().equals("bB")){
+                            c.setBonus(new BonusBombe(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bM")){
+                            c.setBonus(new BonusMove(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bE")){
+                            c.setBonus(new BonusExplo(c));
+                            c.getBonus().setScale(0.5f);
                         }
                     }
                 }
@@ -523,6 +572,60 @@ public class EditeurNMulti extends Etat implements Screen {
                                 c.setPersonnage(new Personnage(true,c,2,1,5));
                             }
                         }
+                    }
+                }
+
+            }
+            else if(hitActor.getName().equals("bonus")){
+                Case c = (Case) hitActor.getParent();
+                if (button == Input.Buttons.RIGHT) {
+                    c.setMur(null);
+                    c.setPorte(null);
+                    c.setPersonnage(null);
+                    c.setBonus(null);
+                    Image background=new Image(Bomberball.multiTexture[0]);
+                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                    c.addActor(background);
+                } else if (button == Input.Buttons.LEFT) {
+                    if (selectionne.getDrawable() != null) {
+                        if (selectionne.getName().equals("murdes")) {
+                            c.setBonus(null);
+                            c.setMur(new MurD());
+                        } else if (selectionne.getName().equals("sol")) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
+                            c.setBonus(null);
+                            Image background=new Image(Bomberball.multiTexture[0]);
+                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                            c.addActor(background);
+                        } else if (selectionne.getName().equals("murin")) {
+                            c.setBonus(null);
+                            c.setMur(new MurI());
+                        } else if (selectionne.getName().equals("p")) {
+                            c.setBonus(null);
+                            c.setPorte(new Porte());
+                        }
+                        else if(selectionne.getName().equals("player")){
+                            c.setBonus(null);
+                            if(c.getMur()==null){
+                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                            }
+
+                        }
+                        else if(selectionne.getName().equals("bB")){
+                            c.setBonus(new BonusBombe(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bM")){
+                            c.setBonus(new BonusMove(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bE")){
+                            c.setBonus(new BonusExplo(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+
                     }
                 }
 

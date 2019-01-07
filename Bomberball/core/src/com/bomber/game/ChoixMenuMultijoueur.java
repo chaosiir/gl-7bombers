@@ -74,8 +74,18 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map=null;
+                jeu.removeActor(jeu.findActor("Map"));
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
+            }
+        });
+
+        choixmap.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.setEtat(game.choixMapMultiJ);
+                game.setScreen(game.choixMapMultiJ);
             }
         });
 

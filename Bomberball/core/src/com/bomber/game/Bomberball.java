@@ -45,6 +45,7 @@ public class Bomberball extends Game {
     ChoixMapSoloJ choixMapSoloJ;
 	Multijoueur multijoueur;
 	Victoire victoire;
+	ChoixMapMultiJ choixMapMultiJ;
 
     public static TextureAtlas perso ;
 	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
@@ -91,6 +92,7 @@ public class Bomberball extends Game {
 		choixMapMultiE = new ChoixMapMultiE(this,jeu);
 		choixMapSoloJ= new ChoixMapSoloJ(this,jeu);
 		multijoueur = new Multijoueur(this,jeu);
+		choixMapMultiJ = new ChoixMapMultiJ(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 

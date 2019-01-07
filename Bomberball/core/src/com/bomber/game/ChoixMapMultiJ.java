@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import java.io.File;
 import java.io.IOException;
 
-public class ChoixMapSoloJ extends Etat implements Screen {
+public class ChoixMapMultiJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
     Image back;
@@ -28,21 +28,18 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     File f;
 
-    public ChoixMapSoloJ(Bomberball game, Jeu jeu){
+    public ChoixMapMultiJ(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
         File directory = new File (".");
         try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/");
+            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/");
 
         } catch (IOException e) {
 
         }
     }
 
-    public ChoixMapSoloJ(Jeu jeu) {
-        super(jeu);
-    }
 
     @Override
     public void show() {
@@ -99,11 +96,11 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                     File f2;
                     File directory = new File (".");
                     try {
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
+                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
                         jeu.removeActor(jeu.findActor("YOLO"));
-                        jeu.setEtat(game.menuSolo);
-                        game.setScreen(game.menuSolo);
+                        jeu.setEtat(game.choixMenuMultijoueur);
+                        game.setScreen(game.choixMenuMultijoueur);
 
                     } catch (IOException e) {
 
@@ -116,8 +113,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.removeActor(jeu.findActor("YOLO"));
-                jeu.setEtat(game.menuSolo);
-                game.setScreen(game.menuSolo);
+                jeu.setEtat(game.choixMenuMultijoueur);
+                game.setScreen(game.choixMenuMultijoueur);
 
             }
         });
@@ -129,7 +126,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 File f1;
                 File directory = new File (".");
                 try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
+                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromString(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -151,14 +148,11 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         jeu.addActor(back);
         jeu.addActor(scrollPane);
         jeu.addActor(table);
-
-
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-
     }
 
     @Override

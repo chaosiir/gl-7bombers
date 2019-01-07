@@ -25,6 +25,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 */
 	public Map(){
 		super();
+		setName("Map");
 		this.setPosition(Bomberball.taillecase*2.5f, Bomberball.taillecase/2);//on definit sa position dans la fenetre tout les acteurs
 		// appartenant à ce groupe auront une position relative à celle-ci => voir tuto Acteur/group
 		//la taillecase est defini dans bomberball par rapport à la taille de l'ecran

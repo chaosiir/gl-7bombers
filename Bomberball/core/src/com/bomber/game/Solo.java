@@ -22,7 +22,8 @@ public class Solo extends Etat implements Screen {//etat multijoueur
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
-        Personnage joueur = jeu.findActor("Personnage");
+        Personnage joueur = jeu.map.findActor("Personnage");
+
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b = false;
@@ -58,12 +59,20 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                     }
                 }
                 if (keycode == Input.Keys.ENTER) {
+
                     jeu.map.explosion();
                     if (joueur.isVivant()) {
                         pm = joueur.getPm();
                         nb = joueur.getNbBombe();
                     } else {
-                        joueur.getC().removeActor(joueur);
+                       joueur.getC().removeActor(joueur);
+                    }
+                    if(joueur.getC().getPorte()!=null){
+                        jeu.removeActor(joueur);
+                        jeu.map=null;
+                        jeu.removeActor(jeu.map);
+                        jeu.setEtat(bombaaaagh.menuPrincipalBis);
+                        bombaaaagh.setScreen(bombaaaagh.menuPrincipalBis);
                     }
 
                 }
@@ -93,16 +102,19 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     public void show() {
         pm=5;
         nb=1;
+
         if(jeu.map==null){
             jeu.map=Map.genererMapSolo(65,10);
         }
+
         jeu.addActor(jeu.map);
 
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+
+
 
     }
 
