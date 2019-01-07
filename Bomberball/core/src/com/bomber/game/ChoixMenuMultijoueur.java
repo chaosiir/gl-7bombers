@@ -62,6 +62,14 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         nbBonusS= new Slider(0f,20f,1f,false,skin);
         porteeBombeS=  new Slider(0f,20f,1f,false,skin);
 
+        lancerP.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.setEtat(game.multijoueur);
+                game.setScreen(game.multijoueur);
+            }
+        });
+
 
         retour.addListener(new ClickListener(){
             @Override

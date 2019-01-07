@@ -66,7 +66,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         scrollPane.layout();
 
         Array<String> tmp=new Array<String>();
-        final File liste[]=f.listFiles();
+        File liste[]=f.listFiles();
         if(liste!=null && liste.length!=0){
             for(File fi: liste){
                 if (!fi.getName().equals("tmp.txt")){
@@ -100,6 +100,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                     try {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
+                        jeu.removeActor(jeu.findActor("YOLO"));
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
 
@@ -115,6 +116,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
+                jeu.removeActor(jeu.findActor("YOLO"));
             }
         });
 
@@ -129,6 +131,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromString(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+                    map.setName("YOLO");
                     map.setScale(0.8f);
                     jeu.addActor(map);
 
