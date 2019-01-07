@@ -59,13 +59,13 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 }
                 if (keycode == Input.Keys.ENTER) {
                     jeu.map.explosion();
+                    jeu.map.tourEnnemi();
                     if (joueur.isVivant()) {
                         pm = joueur.getPm();
                         nb = joueur.getNbBombe();
                     } else {
                         joueur.getC().removeActor(joueur);
                     }
-
                 }
             }
         }
