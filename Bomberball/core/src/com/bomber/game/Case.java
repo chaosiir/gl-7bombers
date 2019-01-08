@@ -38,7 +38,11 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setEnnemi(Ennemis E){
-        ennemi=E;
+        removeActor(findActor("Ennemis"));
+        this.ennemi=E;
+        if(E!=null){
+            this.addActor(E);
+        }
     }
 
     public Map getMap() {

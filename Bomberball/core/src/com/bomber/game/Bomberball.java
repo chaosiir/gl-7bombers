@@ -50,7 +50,7 @@ public class Bomberball extends Game {
 	ChoixMapMultiJ choixMapMultiJ;
 
     public static TextureAtlas perso ;
-	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	public static Texture[] multiTexture = new Texture[18];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
@@ -74,6 +74,8 @@ public class Bomberball extends Game {
 		multiTexture[13] = new Texture("flame1_down.png");
 		multiTexture[14] = new Texture("flame1_right.png");
 		multiTexture[15] = new Texture("flame1_left.png");
+		multiTexture[16] = new Texture("bat1.png");
+		multiTexture[17] = new Texture("ghost1.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
 		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu = new Jeu();

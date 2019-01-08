@@ -161,7 +161,9 @@ public class EditeurNSolo extends Etat implements Screen {
         bonusM.setName("bonusM");
         bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        ennemisPassif = new Image();
+        ennemisPassif = new Image(Bomberball.multiTexture[17]);
+        ennemisPassif.setName("ghost");
+        ennemisPassif.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         select= new Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -258,6 +260,7 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(bonusB);
         jeu.addActor(bonusE);
         jeu.addActor(bonusM);
+        jeu.addActor(ennemisPassif);
         jeu.addActor(select);
         jeu.addActor(selectionne);
         jeu.addActor(instruction1);
@@ -356,13 +359,21 @@ public class EditeurNSolo extends Etat implements Screen {
                 selectionne.setDrawable(bonusM.getDrawable());
                 selectionne.setName("bM");
             }
+            else if(hitActor.getName().equals("ghost")){
+                selectionne.setDrawable(ennemisPassif.getDrawable());
+                selectionne.setName("Ep");
+            }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
+                if(c.posX()){ //Faire pour empêcher suppression des bords
+
+                }
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
@@ -375,6 +386,7 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setPorte(null);
                             c.setPersonnage(null);
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             Image background=new Image(Bomberball.multiTexture[0]);
                             background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                             c.addActor(background);
@@ -400,6 +412,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
@@ -453,6 +466,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
@@ -465,6 +479,7 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setPorte(null);
                             c.setPersonnage(null);
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             Image background=new Image(Bomberball.multiTexture[0]);
                             background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                             c.addActor(background);
@@ -491,6 +506,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
@@ -503,6 +519,7 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setPorte(null);
                             c.setPersonnage(null);
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             Image background=new Image(Bomberball.multiTexture[0]);
                             background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                             c.addActor(background);
@@ -529,6 +546,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
@@ -536,24 +554,29 @@ public class EditeurNSolo extends Etat implements Screen {
                     if (selectionne.getDrawable() != null) {
                         if (selectionne.getName().equals("murdes")) {
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             c.setMur(new MurD());
                         } else if (selectionne.getName().equals("sol")) {
                             c.setMur(null);
                             c.setPorte(null);
                             c.setPersonnage(null);
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             Image background=new Image(Bomberball.multiTexture[0]);
                             background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                             c.addActor(background);
                         } else if (selectionne.getName().equals("murin")) {
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             c.setMur(new MurI());
                         } else if (selectionne.getName().equals("p")) {
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             c.setPorte(new Porte());
                         }
                         else if(selectionne.getName().equals("player")){
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             if(c.getMur()==null){
                                 c.setPersonnage(new Personnage(true,c,2,1,5));
                             }
@@ -608,6 +631,9 @@ public class EditeurNSolo extends Etat implements Screen {
                                 c.setPersonnage(new Personnage(true,c,2,1,5));
                             }
 
+                        }
+                        else if(selectionne.getName().equals("Ep")){
+                            c.setEnnemi(new Ennemi_passif(true,c,5));
                         }
                     }
                 }
