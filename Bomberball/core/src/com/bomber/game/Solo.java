@@ -23,7 +23,6 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = jeu.map.findActor("Personnage");
-
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b = false;
@@ -104,7 +103,10 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         nb=1;
 
         if(jeu.map==null){
-            jeu.map=Map.genererMapSolo(65,10);
+            if(jeu.nbBonus!=-1){
+                jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
+            }
+
         }
 
         jeu.addActor(jeu.map);

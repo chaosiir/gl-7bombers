@@ -56,6 +56,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setBombe(Bombe bombe) {
+        this.removeActor(this.bombe);
         this.bombe = bombe;
         if (bombe != null) {
             this.addActor(bombe);
@@ -67,6 +68,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setBonus(Bonus bonus) {
+        this.removeActor(findActor("bonus"));
         this.removeActor(this.bonus);
         this.bonus = bonus;
         if (bonus != null) {

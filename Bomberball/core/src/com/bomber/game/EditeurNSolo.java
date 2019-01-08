@@ -40,6 +40,7 @@ public class EditeurNSolo extends Etat implements Screen {
     Image bonusB;
     Image bonusM;
     Image bonusE;
+    Image ennemisPassif;
 
     Label select;
     Label instruction1;
@@ -82,10 +83,24 @@ public class EditeurNSolo extends Etat implements Screen {
             map=Map.mapFromString(text);
         }
         else{
-            map=Map.genererMapSolo(20,10);
+            map=Map.genererMapSolo(20,10,5);
 
         }
         map.setPosition(7*Bomberball.taillecase,0);
+
+
+        for (int i=0;i<15;i++){
+            for (int j=0;j<13;j++){
+                if(map.getGrille()[i][j].getBonus()!=null){
+
+
+                    Bonus b=map.getGrille()[i][j].getBonus();
+                    map.getGrille()[i][j].setBonus(null);
+                    map.getGrille()[i][j].setBonus(b);
+                    map.getGrille()[i][j].getBonus().setScale(0.5f);
+                }
+            }
+        }
 
 
 
@@ -145,6 +160,8 @@ public class EditeurNSolo extends Etat implements Screen {
         bonusM = new Image(Bomberball.multiTexture[7]);
         bonusM.setName("bonusM");
         bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisPassif = new Image();
 
         select= new Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -248,6 +265,7 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(retour);
         jeu.addActor(valider);
         jeu.addActor(charger);
+
         jeu.addActor(map);
 
 

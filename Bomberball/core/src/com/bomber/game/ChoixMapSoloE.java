@@ -130,6 +130,16 @@ public class ChoixMapSoloE extends Etat implements Screen {
                     map=Map.mapFromString(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
+                    for (int i=0;i<15;i++){
+                        for (int j=0;j<13;j++){
+                            if(map.getGrille()[i][j].getBonus()!=null){
+                                Bonus b=map.getGrille()[i][j].getBonus();
+                                map.getGrille()[i][j].setBonus(null);
+                                map.getGrille()[i][j].setBonus(b);
+                                map.getGrille()[i][j].getBonus().setScale(0.5f);
+                            }
+                        }
+                    }
                     jeu.addActor(map);
 
                 } catch (IOException e) {

@@ -7,13 +7,12 @@ import java.io.Serializable;
 
 public class Bombe extends Image  {
     int taille; //taille de l'explosion
-    Personnage personnage;
     Case c;
 
-    public Bombe(int taille, Personnage personnage, Case c) {
+    public Bombe(int taille, Case c) {
         super(Bomberball.multiTexture[5]);
         this.taille = taille;
-        this.personnage = personnage;
+
         this.setName("bombe");
         this.c = c;
     }
@@ -26,13 +25,7 @@ public class Bombe extends Image  {
         this.taille = taille;
     }
 
-    public Personnage getPersonnage() {
-        return personnage;
-    }
 
-    public void setPersonnage(Personnage personnage) {
-        this.personnage = personnage;
-    }
 
     public Case getC() {
         return c;

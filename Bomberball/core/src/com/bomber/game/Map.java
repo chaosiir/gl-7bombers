@@ -282,19 +282,27 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * Génére une map aléatoire sans s'occuper de sa validité
 	 * @param nbDestru 		nombre de blocs destructibles
 	 * @param nbInDestru	nombre de blocs indestructibles
+	 * @param bonus 		nombre de case bonus<=nombre de blocs destructibles
 	 * @return une map
 	 */
-    public  Map generatePve(int nbDestru,int nbInDestru) {
+    public  Map generatePve(int nbDestru,int nbInDestru,int bonus) {
         Case [][] grille=new Case[15][13];
         int x,y,tmp,tmp1;
         x=(int)(Math.random()*15);
         y=(int)(Math.random()*13);
+
+
         if(nbDestru>89) {
             nbDestru=89;
         }
         if(nbInDestru>40) {
             nbInDestru=40;
         }
+        if(bonus>nbDestru){
+        	bonus=nbDestru;
+		}
+		Case  dest[]=new Case[nbDestru];
+        int a=0;
         tmp=nbDestru;
         tmp1=nbInDestru;
 
@@ -315,6 +323,8 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
             }
             if(tmp>0) {
                 grille[x][y].setMur(new MurD());
+                dest[a]=grille[x][y];
+                a++;
                 tmp--;
             }
         }
@@ -342,6 +352,23 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
                 cpt--;
             }
         }
+
+        int compteurb=0;
+        while (compteurb!=bonus){
+			x=(int)(Math.random()*dest.length-1);
+			while(dest[x].getBonus()!=null) {
+				x=(int)(Math.random()*dest.length-1);
+			}
+			y=(int)(Math.random()*3);
+			switch (y){
+				case 0: dest[x].setBonus(new BonusBombe(dest[x])); break;
+				case 1: dest[x].setBonus(new BonusExplo(dest[x])); break;
+				case 2: dest[x].setBonus(new BonusMove(dest[x])); break;
+				case 3: dest[x].setBonus(new BonusPousser(dest[x]));break;
+
+			}
+			compteurb++;
+		}
         Map m=new Map();
         m.setGrille(grille);
 		int i;
@@ -416,15 +443,16 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * Méthode générant une map solo aléatoire
 	 * @param nbDestru 		nombre de blocs destructibles
 	 * @param nbInDestru	nombre de blocs indestructibles
+	 * @param bonus			nombre de bonus
 	 * @return une map
 	 */
-	public static Map genererMapSolo(int nbDestru,int nbInDestru) { //C'est la fonction à appeller pour avoir une map
+	public static Map genererMapSolo(int nbDestru,int nbInDestru,int bonus) { //C'est la fonction à appeller pour avoir une map
 		Map m = new Map();
-		m = m.generatePve(nbDestru, nbInDestru);
+		m = m.generatePve(nbDestru, nbInDestru,bonus);
 		int t[][] = m.traducteur();
 		boolean bool=true;
 			while (!m.verifSolo(t) || bool) {
-				m = m.generatePve(nbDestru, nbInDestru);
+				m = m.generatePve(nbDestru, nbInDestru,bonus);
 				t = m.traducteur();
 				int i;
 				int j;
@@ -468,6 +496,10 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 2 	mur indestructible
 	 * 3 	personnage
 	 * 4	porte
+	 * 5 	mur destructible + bonusBombe
+	 * 6 	mur destructible + bonusExplo
+	 * 7 	mur destructible + bonusMove
+	 * 8 	mur destructible + bonusPousser
 	 *
 	 */
 	public String mapToText(){
@@ -485,7 +517,23 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 						s=s+i+" "+j+" "+"2\n";
 					}
 					else{
-						s=s+i+" "+j+" "+"1\n";
+						if(this.getGrille()[i][j].getBonus()!=null){
+							if(this.getGrille()[i][j].getBonus() instanceof BonusBombe){
+								s=s+i+" "+j+" "+"5\n";
+							}
+							else if(this.getGrille()[i][j].getBonus() instanceof BonusExplo){
+								s=s+i+" "+j+" "+"6\n";
+							}
+							else if(this.getGrille()[i][j].getBonus() instanceof BonusMove){
+								s=s+i+" "+j+" "+"7\n";
+							}
+							else if(this.getGrille()[i][j].getBonus() instanceof BonusPousser){
+								s=s+i+" "+j+" "+"8\n";
+							}
+						}
+						else {
+							s = s + i + " " + j + " " + "1\n";
+						}
 					}
 				}
 				else{
@@ -503,6 +551,10 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 2 	mur indestructible
 	 * 3 	personnage
 	 * 4	porte
+	 * 5 	mur destructible + bonusBombe
+	 * 6 	mur destructible + bonusExplo
+	 * 7 	mur destructible + bonusMove
+	 * 8 	mur destructible + bonusPousser
 	 *
 	 */
 	public static Map mapFromString(String string){
@@ -518,7 +570,11 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
 				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
 				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5)); break;
-				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); g[x][y].setPorte(new Porte());
+				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
+				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 7: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
 			}
 		}
 		m.setGrille(g);
