@@ -286,166 +286,170 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
+                if(c.posX()==0 || c.posX()==14 || c.posY()==0 || c.posY()==12){
+                    //rien
+                }
+                else{
+                    if (button == Input.Buttons.RIGHT) {
+                        Map m=c.getMap();
+
+                        int xp=c.posX();
+                        int yp=c.posY();
+
+                        c.setMur(null);
+                        m.getGrille()[14-xp][yp].setMur(null);
+                        m.getGrille()[14-xp][12-yp].setMur(null);
+                        m.getGrille()[xp][12-yp].setMur(null);
+
+                        c.setPorte(null);
+                        m.getGrille()[14-xp][yp].setPorte(null);
+                        m.getGrille()[14-xp][12-yp].setPorte(null);
+                        m.getGrille()[xp][12-yp].setPorte(null);
+
+                        c.setPersonnage(null);
+                        m.getGrille()[14-xp][yp].setPersonnage(null);
+                        m.getGrille()[14-xp][12-yp].setPersonnage(null);
+                        m.getGrille()[xp][12-yp].setPersonnage(null);
+
+                        c.setBonus(null);
+                        m.getGrille()[14-xp][yp].setBonus(null);
+                        m.getGrille()[14-xp][12-yp].setBonus(null);
+                        m.getGrille()[xp][12-yp].setBonus(null);
+
+                        Image background=new Image(Bomberball.multiTexture[0]);
+                        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                        c.addActor(background);
+
+                        m.getGrille()[14-xp][yp].addActor(background);
+                        m.getGrille()[14-xp][12-yp].addActor(background);
+                        m.getGrille()[xp][12-yp].addActor(background);
 
 
-                System.out.println("x="+c.posX()+" y="+c.posY());
-                if (button == Input.Buttons.RIGHT) {
-                    Map m=c.getMap();
+                    } else if (button == Input.Buttons.LEFT) {
+                        if (selectionne.getDrawable() != null) {
+                            if (selectionne.getName().equals("murdes")) {
+                                Map m=c.getMap();
 
-                    int xp=c.posX();
-                    int yp=c.posY();
+                                int xp=c.posX();
+                                int yp=c.posY();
 
-                    c.setMur(null);
-                    m.getGrille()[14-xp][yp].setMur(null);
-                    m.getGrille()[14-xp][12-yp].setMur(null);
-                    m.getGrille()[xp][12-yp].setMur(null);
+                                c.setMur(null);
+                                m.getGrille()[14-xp][yp].setMur(null);
+                                m.getGrille()[14-xp][12-yp].setMur(null);
+                                m.getGrille()[xp][12-yp].setMur(null);
 
-                    c.setPorte(null);
-                    m.getGrille()[14-xp][yp].setPorte(null);
-                    m.getGrille()[14-xp][12-yp].setPorte(null);
-                    m.getGrille()[xp][12-yp].setPorte(null);
+                                c.setPorte(null);
+                                m.getGrille()[14-xp][yp].setPorte(null);
+                                m.getGrille()[14-xp][12-yp].setPorte(null);
+                                m.getGrille()[xp][12-yp].setPorte(null);
 
-                    c.setPersonnage(null);
-                    m.getGrille()[14-xp][yp].setPersonnage(null);
-                    m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                    m.getGrille()[xp][12-yp].setPersonnage(null);
+                                c.setPersonnage(null);
+                                m.getGrille()[14-xp][yp].setPersonnage(null);
+                                m.getGrille()[14-xp][12-yp].setPersonnage(null);
+                                m.getGrille()[xp][12-yp].setPersonnage(null);
 
-                    c.setBonus(null);
-                    m.getGrille()[14-xp][yp].setBonus(null);
-                    m.getGrille()[14-xp][12-yp].setBonus(null);
-                    m.getGrille()[xp][12-yp].setBonus(null);
+                                c.setBonus(null);
+                                m.getGrille()[14-xp][yp].setBonus(null);
+                                m.getGrille()[14-xp][12-yp].setBonus(null);
+                                m.getGrille()[xp][12-yp].setBonus(null);
 
-                    Image background=new Image(Bomberball.multiTexture[0]);
-                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                    c.addActor(background);
+                                Image background=new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                c.addActor(background);
 
-                    m.getGrille()[14-xp][yp].addActor(background);
-                    m.getGrille()[14-xp][12-yp].addActor(background);
-                    m.getGrille()[xp][12-yp].addActor(background);
+                                m.getGrille()[14-xp][yp].addActor(background);
+                                m.getGrille()[14-xp][12-yp].addActor(background);
+                                m.getGrille()[xp][12-yp].addActor(background);
+                                c.setMur(new MurD());
+                            } else if (selectionne.getName().equals("sol")) {
+                                Map m=c.getMap();
 
+                                int xp=c.posX();
+                                int yp=c.posY();
 
-                } else if (button == Input.Buttons.LEFT) {
-                    if (selectionne.getDrawable() != null) {
-                        if (selectionne.getName().equals("murdes")) {
-                            Map m=c.getMap();
+                                c.setMur(null);
+                                m.getGrille()[14-xp][yp].setMur(null);
+                                m.getGrille()[14-xp][12-yp].setMur(null);
+                                m.getGrille()[xp][12-yp].setMur(null);
 
-                            int xp=c.posX();
-                            int yp=c.posY();
+                                c.setPorte(null);
+                                m.getGrille()[14-xp][yp].setPorte(null);
+                                m.getGrille()[14-xp][12-yp].setPorte(null);
+                                m.getGrille()[xp][12-yp].setPorte(null);
 
-                            c.setMur(null);
-                            m.getGrille()[14-xp][yp].setMur(null);
-                            m.getGrille()[14-xp][12-yp].setMur(null);
-                            m.getGrille()[xp][12-yp].setMur(null);
+                                c.setPersonnage(null);
+                                m.getGrille()[14-xp][yp].setPersonnage(null);
+                                m.getGrille()[14-xp][12-yp].setPersonnage(null);
+                                m.getGrille()[xp][12-yp].setPersonnage(null);
 
-                            c.setPorte(null);
-                            m.getGrille()[14-xp][yp].setPorte(null);
-                            m.getGrille()[14-xp][12-yp].setPorte(null);
-                            m.getGrille()[xp][12-yp].setPorte(null);
+                                c.setBonus(null);
+                                m.getGrille()[14-xp][yp].setBonus(null);
+                                m.getGrille()[14-xp][12-yp].setBonus(null);
+                                m.getGrille()[xp][12-yp].setBonus(null);
 
-                            c.setPersonnage(null);
-                            m.getGrille()[14-xp][yp].setPersonnage(null);
-                            m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                            m.getGrille()[xp][12-yp].setPersonnage(null);
+                                Image background=new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                c.addActor(background);
 
-                            c.setBonus(null);
-                            m.getGrille()[14-xp][yp].setBonus(null);
-                            m.getGrille()[14-xp][12-yp].setBonus(null);
-                            m.getGrille()[xp][12-yp].setBonus(null);
-
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-
-                            m.getGrille()[14-xp][yp].addActor(background);
-                            m.getGrille()[14-xp][12-yp].addActor(background);
-                            m.getGrille()[xp][12-yp].addActor(background);
-                            c.setMur(new MurD());
-                        } else if (selectionne.getName().equals("sol")) {
-                            Map m=c.getMap();
-
-                            int xp=c.posX();
-                            int yp=c.posY();
-
-                            c.setMur(null);
-                            m.getGrille()[14-xp][yp].setMur(null);
-                            m.getGrille()[14-xp][12-yp].setMur(null);
-                            m.getGrille()[xp][12-yp].setMur(null);
-
-                            c.setPorte(null);
-                            m.getGrille()[14-xp][yp].setPorte(null);
-                            m.getGrille()[14-xp][12-yp].setPorte(null);
-                            m.getGrille()[xp][12-yp].setPorte(null);
-
-                            c.setPersonnage(null);
-                            m.getGrille()[14-xp][yp].setPersonnage(null);
-                            m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                            m.getGrille()[xp][12-yp].setPersonnage(null);
-
-                            c.setBonus(null);
-                            m.getGrille()[14-xp][yp].setBonus(null);
-                            m.getGrille()[14-xp][12-yp].setBonus(null);
-                            m.getGrille()[xp][12-yp].setBonus(null);
-
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-
-                            m.getGrille()[14-xp][yp].addActor(background);
-                            m.getGrille()[14-xp][12-yp].addActor(background);
-                            m.getGrille()[xp][12-yp].addActor(background);
-                        } else if (selectionne.getName().equals("murin")) {
-                            //rien
-
-
-
-
+                                m.getGrille()[14-xp][yp].addActor(background);
+                                m.getGrille()[14-xp][12-yp].addActor(background);
+                                m.getGrille()[xp][12-yp].addActor(background);
+                            } else if (selectionne.getName().equals("murin")) {
+                                //rien
 
 
 
 
-                        } else if (selectionne.getName().equals("p")) {
-                            Map m=c.getMap();
 
-                            int xp=c.posX();
-                            int yp=c.posY();
 
-                            c.setMur(null);
-                            m.getGrille()[14-xp][yp].setMur(null);
-                            m.getGrille()[14-xp][12-yp].setMur(null);
-                            m.getGrille()[xp][12-yp].setMur(null);
 
-                            c.setPorte(null);
-                            m.getGrille()[14-xp][yp].setPorte(null);
-                            m.getGrille()[14-xp][12-yp].setPorte(null);
-                            m.getGrille()[xp][12-yp].setPorte(null);
 
-                            c.setPersonnage(null);
-                            m.getGrille()[14-xp][yp].setPersonnage(null);
-                            m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                            m.getGrille()[xp][12-yp].setPersonnage(null);
+                            } else if (selectionne.getName().equals("p")) {
+                                Map m=c.getMap();
 
-                            c.setBonus(null);
-                            m.getGrille()[14-xp][yp].setBonus(null);
-                            m.getGrille()[14-xp][12-yp].setBonus(null);
-                            m.getGrille()[xp][12-yp].setBonus(null);
+                                int xp=c.posX();
+                                int yp=c.posY();
 
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
+                                c.setMur(null);
+                                m.getGrille()[14-xp][yp].setMur(null);
+                                m.getGrille()[14-xp][12-yp].setMur(null);
+                                m.getGrille()[xp][12-yp].setMur(null);
 
-                            m.getGrille()[14-xp][yp].addActor(background);
-                            m.getGrille()[14-xp][12-yp].addActor(background);
-                            m.getGrille()[xp][12-yp].addActor(background);
-                            c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPorte(null);
+                                m.getGrille()[14-xp][yp].setPorte(null);
+                                m.getGrille()[14-xp][12-yp].setPorte(null);
+                                m.getGrille()[xp][12-yp].setPorte(null);
+
+                                c.setPersonnage(null);
+                                m.getGrille()[14-xp][yp].setPersonnage(null);
+                                m.getGrille()[14-xp][12-yp].setPersonnage(null);
+                                m.getGrille()[xp][12-yp].setPersonnage(null);
+
+                                c.setBonus(null);
+                                m.getGrille()[14-xp][yp].setBonus(null);
+                                m.getGrille()[14-xp][12-yp].setBonus(null);
+                                m.getGrille()[xp][12-yp].setBonus(null);
+
+                                Image background=new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                c.addActor(background);
+
+                                m.getGrille()[14-xp][yp].addActor(background);
+                                m.getGrille()[14-xp][12-yp].addActor(background);
+                                m.getGrille()[xp][12-yp].addActor(background);
+                                c.setPorte(new Porte());
                             }
+                            else if(selectionne.getName().equals("player")){
+                                if(c.getMur()==null){
+                                    c.setPersonnage(new Personnage(true,c,2,1,5));
+                                }
 
+                            }
                         }
                     }
+
                 }
+
 
             }
             else if(hitActor.getName().equals("MurD")){
