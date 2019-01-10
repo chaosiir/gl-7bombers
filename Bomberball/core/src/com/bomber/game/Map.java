@@ -577,6 +577,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_passif){
 						s=s+i+" "+j+" "+"9 ";
 					}
+					//else if(this.getGrille()[i][j].getEnnemi() instanceof Ene)
 
 					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
 					for(Case ca: depla){
@@ -636,6 +637,81 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 							a=scan.nextInt();
 						}
 						break;
+			}
+		}
+		LinkedList<Ennemis> liste=new LinkedList<Ennemis>(); // Récupération ennemis
+		for(int i=0;i<15;i++){
+			for(int j=0;j<13;j++){
+				if(g[i][j].getEnnemi()!=null){
+					liste.add(g[i][j].getEnnemi());
+				}
+			}
+		}
+		for(Ennemis en: liste){ //Mise à jour des cases des ennemis
+			LinkedList<Case> caca=en.prochain_deplacement;
+			for(Case cas: caca){
+				cas.setPersonnage(g[cas.posX()][cas.posY()].getPersonnage());
+			}
+		}
+		m.setGrille(g);
+		int i,j;
+		for (i = 0; i < m.tailleX(); i++) {
+			for (j = 0; j < m.tailleY(); j++) {
+				m.getGrille()[i][j].setName("Case"+i+j);
+				m.getGrille()[i][j].setMap(m);
+				m.addActor(m.getGrille()[i][j]);
+
+			}
+
+		}
+		return m;
+
+
+	}
+
+	/**Transformation d'un texte vers une map avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 3 	personnage de base (Dans l'ordre,id, ces pm, vivant, tailleExplo, nbBombe, poussee)
+	 * 4	porte
+	 * 5 	mur destructible + bonusBombe
+	 * 6 	mur destructible + bonusExplo
+	 * 7 	mur destructible + bonusMove
+	 * 8 	mur destructible + bonusPousser
+	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
+	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
+	 */
+	public static Map mapFromStringPauseS(String string){
+		Map m= new Map();
+		Case[][] g=new Case[15][13];
+		Scanner scan=new Scanner(string);
+		while(scan.hasNext()){
+			int x=scan.nextInt();
+			int y=scan.nextInt();
+			int choix=scan.nextInt();
+			switch (choix){
+				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
+				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
+				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
+				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5,0)); break;
+				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
+				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 7: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
+					g[x][y].setEnnemi(ep);
+					int a,b;
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						ep.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
 			}
 		}
 		LinkedList<Ennemis> liste=new LinkedList<Ennemis>(); // Récupération ennemis

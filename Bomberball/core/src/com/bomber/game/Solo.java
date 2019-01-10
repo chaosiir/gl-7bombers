@@ -50,6 +50,13 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
         this.bombaaaagh=bombaaaagh;
+        File directory = new File (".");
+        try {
+            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+
+        } catch (IOException e) {
+
+        }
 
     }
 
@@ -75,6 +82,13 @@ public class Solo extends Etat implements Screen {//etat multijoueur
             }
 
         }
+
+        if(f.exists()){
+            jeu.map=null;
+            jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+            f.delete();
+        }
+
         for (int i=0;i<15;i++){
             for (int j=0;j<13;j++){
                 if(jeu.map.getGrille()[i][j].getBonus()!=null){
