@@ -192,32 +192,32 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         player2=new Image(Bomberball.multiTexture[4]);
         player2.setBounds(3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-7*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
-        joueur2=new Image(new Texture(Gdx.files.internal("Panneau_joueur.png")));
-        joueur2.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
-        joueur2.setHeight(Bomberball.taillecase);
-        joueur2.setPosition(0,Gdx.graphics.getHeight()-8*Bomberball.taillecase);
+        joueur3=new Image(new Texture(Gdx.files.internal("Panneau_joueur.png")));
+        joueur3.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        joueur3.setHeight(Bomberball.taillecase);
+        joueur3.setPosition(jeu.map.getX()+jeu.map.tailleX(),Gdx.graphics.getHeight()-8*Bomberball.taillecase);
 
 
-        mouvement2 = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
-        mouvement2.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
-        mouvement2.setHeight(Bomberball.taillecase);
-        mouvement2.setPosition(0,Gdx.graphics.getHeight()-9*Bomberball.taillecase);
+        mouvement3 = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
+        mouvement3.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        mouvement3.setHeight(Bomberball.taillecase);
+        mouvement3.setPosition(jeu.map.getX()+jeu.map.tailleX(),Gdx.graphics.getHeight()-9*Bomberball.taillecase);
 
-        nbmvt2= new Label(""+personnage2.getPm(),skin);
-        nbmvt2.setBounds(3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-8*Bomberball.taillecase-50,nbmvt2.getWidth(),nbmvt2.getHeight()); //Positionnement à la main
+        nbmvt3= new Label(""+personnage3.getPm(),skin);
+        nbmvt3.setBounds(3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-8*Bomberball.taillecase-50,nbmvt3.getWidth(),nbmvt3.getHeight()); //Positionnement à la main
 
-        bombe2=new Image(new Texture(Gdx.files.internal("Nombre_bombe.png")));
-        bombe2.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
-        bombe2.setHeight(Bomberball.taillecase);
-        bombe2.setPosition(0,Gdx.graphics.getHeight()- 10*Bomberball.taillecase);
+        bombe3=new Image(new Texture(Gdx.files.internal("Nombre_bombe.png")));
+        bombe3.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        bombe3.setHeight(Bomberball.taillecase);
+        bombe3.setPosition(jeu.map.getX()+jeu.map.tailleX(),Gdx.graphics.getHeight()- 10*Bomberball.taillecase);
 
-        nbBombe2= new Label(""+personnage2.getNbBombe(),skin);
-        nbBombe2.setBounds(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-9*Bomberball.taillecase-60,nbBombe1.getWidth(),nbBombe1.getHeight()); //Positionnement à la main
+        nbBombe3= new Label(""+personnage3.getNbBombe(),skin);
+        nbBombe3.setBounds(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-9*Bomberball.taillecase-60,nbBombe3.getWidth(),nbBombe3.getHeight()); //Positionnement à la main
 
         explosion2=new Image(new Texture(Gdx.files.internal("Portée_bombe.png")));
         explosion2.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         explosion2.setHeight(Bomberball.taillecase);
-        explosion2.setPosition(0,Gdx.graphics.getHeight()-11*Bomberball.taillecase);
+        explosion2.setPosition(jeu.map.getX()+jeu.map.tailleX(),Gdx.graphics.getHeight()-11*Bomberball.taillecase);
 
         porteExplo2 = new Label(""+personnage1.getTaille(),skin);
         porteExplo2.setBounds(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-10*Bomberball.taillecase-60,porteExplo1.getWidth(),porteExplo1.getHeight()); //Positionnement à la main
@@ -226,10 +226,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse2=new Image(new Texture(Gdx.files.internal("icone_Bonus_pousser.png")));
         pousse2.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         pousse2.setHeight(Bomberball.taillecase);
-        pousse2.setPosition(0,Gdx.graphics.getHeight()-12*Bomberball.taillecase);
+        pousse2.setPosition(jeu.map.getX()+jeu.map.tailleX(),Gdx.graphics.getHeight()-12*Bomberball.taillecase);
 
         player2=new Image(Bomberball.multiTexture[4]);
-        player2.setBounds(3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-7*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
+        player2.setBounds(jeu.map.getX()+jeu.map.tailleX()+3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-7*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
 
 
