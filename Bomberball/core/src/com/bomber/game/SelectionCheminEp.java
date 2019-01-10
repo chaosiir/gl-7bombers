@@ -125,6 +125,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                compteur=0;
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }

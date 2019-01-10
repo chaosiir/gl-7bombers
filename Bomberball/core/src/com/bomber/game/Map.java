@@ -543,15 +543,9 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 						s=s+i+" "+j+" "+"9 ";
 					}
 
-					int com=0;
 					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
 					for(Case ca: depla){
-						if(com==0){
-							com++;
-						}
-						else {
-							s = s + ca.posX() + " " + ca.posY() + " ";
-						}
+						s = s + ca.posX() + " " + ca.posY() + " ";
 					}
 					s=s+"1010\n";
 				}
@@ -596,7 +590,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
 						Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
-
 						g[x][y].setEnnemi(ep);
 						int a,b;
 						a=scan.nextInt();
@@ -607,6 +600,20 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 							a=scan.nextInt();
 						}
 						break;
+			}
+		}
+		LinkedList<Ennemis> liste=new LinkedList<Ennemis>(); // Récupération ennemis
+		for(int i=0;i<15;i++){
+			for(int j=0;j<13;j++){
+				if(g[i][j].getEnnemi()!=null){
+					liste.add(g[i][j].getEnnemi());
+				}
+			}
+		}
+		for(Ennemis en: liste){ //Mise à jour des cases des ennemis
+			LinkedList<Case> caca=en.prochain_deplacement;
+			for(Case cas: caca){
+				cas.setPersonnage(g[cas.posX()][cas.posY()].getPersonnage());
 			}
 		}
 		m.setGrille(g);

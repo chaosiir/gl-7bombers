@@ -4,15 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.awt.*;
 
 public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
     int nb=1;
+    Image back;
     private Bomberball bombaaaagh;
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
@@ -101,14 +104,23 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     public void show() {
         pm=5;
         nb=1;
+        back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
+        back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        int xmax=Toolkit.getDefaultToolkit().getScreenSize().width;
 
         if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
+                jeu.nbBonus=-1;
+            }
+            else{
+                jeu.map=Map.genererMapSolo(65,10,5);
             }
 
         }
-
+        jeu.map.setPosition(Gdx.graphics.getWidth()-(jeu.map.getGrille().length+2f)*Bomberball.taillecase ,0);
+        jeu.map.setScaleY(27f/26f);
+        jeu.addActor(back);
         jeu.addActor(jeu.map);
 
     }

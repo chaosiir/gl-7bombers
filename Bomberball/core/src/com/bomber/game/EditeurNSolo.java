@@ -182,7 +182,7 @@ public class EditeurNSolo extends Etat implements Screen {
         instruction2.setBounds(0,ymax-8*Bomberball.taillecase,instruction2.getWidth(),instruction2.getHeight());
         instruction2.setName("Instruction2");
 
-        instruction3 = new Label("Clic mollette sur un ennemi pour afficher/cacher \n sa trajectoire",skin);
+        instruction3 = new Label("Espace pour afficher/cacher \n la trajectoire des ennemis",skin);
         instruction3.setBounds(0,ymax-9*Bomberball.taillecase,instruction3.getWidth(),instruction3.getHeight());
         instruction3.setName("Instruction3");
 
@@ -331,7 +331,69 @@ public class EditeurNSolo extends Etat implements Screen {
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
-        return false;
+        if(keycode==Input.Keys.SPACE){
+            LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
+            for(int i=0;i<15;i++){
+                for(int j=0;j<13;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        liste.add(map.getGrille()[i][j].getEnnemi());
+                    }
+                }
+            }
+            if(cache) {
+                for (Ennemis en : liste) {
+                    LinkedList<Case> caca = en.prochain_deplacement;
+                    for (Case cas : caca) {
+                        int xc = cas.posX();
+                        int yc = cas.posY();
+                        if (cas.getEnnemi() != null) {
+                            Ennemi_passif ennemi_passif = (Ennemi_passif) cas.getEnnemi();
+
+                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                            map.getGrille()[xc][yc].setEnnemi(null);
+                            map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                        } else if (cas.getPersonnage() != null) {
+                            Personnage personnage = cas.getPersonnage();
+                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                            map.getGrille()[xc][yc].setPersonnage(null);
+                            map.getGrille()[xc][yc].setPersonnage(personnage);
+                        } else {
+                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                        }
+                    }
+                }
+                cache=false;
+            }
+            else{
+                for (Ennemis en : liste) {
+                    LinkedList<Case> caca = en.prochain_deplacement;
+                    for(Case cas: caca){
+                        int xc=cas.posX();
+                        int yc=cas.posY();
+                        System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
+                        if(cas.getEnnemi()!=null){
+                            Ennemi_passif ennemi_passif=(Ennemi_passif)cas.getEnnemi();
+                            map.getGrille()[xc][yc].setEnnemi(null);
+                            map.getGrille()[xc][yc].setMarque(null);
+                            map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                        }
+                        else if(cas.getPersonnage()!=null){
+                            Personnage personnage=cas.getPersonnage();
+                            map.getGrille()[xc][yc].setPersonnage(null);
+                            map.getGrille()[xc][yc].setMarque(null);
+                            map.getGrille()[xc][yc].setPersonnage(personnage);
+                        }
+                        else{
+                            map.getGrille()[xc][yc].setMarque(null);
+                        }
+                    }
+                }
+                cache=true;
+
+            }
+        }
+        return true;
+
     }
 
     @Override
@@ -637,64 +699,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.addActor(background);
                 }
                 if(button==Input.Buttons.MIDDLE){ //Il faut afficher tous les ennemis
-                    LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
-                    for(int i=0;i<15;i++){
-                        for(int j=0;j<13;j++){
-                            if(c.getMap().getGrille()[i][j].getEnnemi()!=null){
-                                liste.add(c.getMap().getGrille()[i][j].getEnnemi());
-                            }
-                        }
-                    }
-                    if(cache) {
-                        for (Ennemis en : liste) {
-                            LinkedList<Case> caca = en.prochain_deplacement;
-                            for (Case cas : caca) {
-                                int xc = cas.posX();
-                                int yc = cas.posY();
-                                if (cas.getEnnemi() != null) {
-                                    Ennemi_passif ennemi_passif = (Ennemi_passif) cas.getEnnemi();
-                                    c.getMap().getGrille()[xc][yc].setEnnemi(null);
-                                    c.getMap().getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                    c.getMap().getGrille()[xc][yc].setEnnemi(ennemi_passif);
-                                } else if (cas.getPersonnage() != null) {
-                                    Personnage personnage = cas.getPersonnage();
-                                    c.getMap().getGrille()[xc][yc].setPersonnage(null);
-                                    c.getMap().getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                    c.getMap().getGrille()[xc][yc].setPersonnage(personnage);
-                                } else {
-                                    c.getMap().getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                }
-                            }
-                        }
-                        cache=false;
-                    }
-                    else{
-                        for (Ennemis en : liste) {
-                            LinkedList<Case> caca = en.prochain_deplacement;
-                            for(Case cas: caca){
-                                int xc=cas.posX();
-                                int yc=cas.posY();
-                                System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
-                                if(cas.getEnnemi()!=null){
-                                    Ennemi_passif ennemi_passif=(Ennemi_passif)cas.getEnnemi();
-                                    c.getMap().getGrille()[xc][yc].setEnnemi(null);
-                                    c.getMap().getGrille()[xc][yc].setMarque(null);
-                                    c.getMap().getGrille()[xc][yc].setEnnemi(ennemi_passif);
-                                }
-                                else if(cas.getPersonnage()!=null){
-                                    Personnage personnage=cas.getPersonnage();
-                                    c.getMap().getGrille()[xc][yc].setPersonnage(null);
-                                    c.getMap().getGrille()[xc][yc].setMarque(null);
-                                    c.getMap().getGrille()[xc][yc].setPersonnage(personnage);
-                                }
-                                else{
-                                    c.getMap().getGrille()[xc][yc].setMarque(null);
-                                }
-                            }
-                        }
-                        cache=true;
 
-                    }
 
 
                 }
