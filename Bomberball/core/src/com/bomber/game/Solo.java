@@ -255,7 +255,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         if (keycode == Input.Keys.ESCAPE) {
             try {
                 fw = new FileWriter(f);
-                fw.write(map.mapToText());
+                fw.write(jeu.map.mapToText());
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();

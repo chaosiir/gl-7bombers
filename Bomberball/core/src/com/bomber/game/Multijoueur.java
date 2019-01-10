@@ -90,7 +90,13 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         back.setName("Je suis ton arrière plan");
 
         if(jeu.map==null){
-            jeu.map=Map.generatePvp(65);
+            if(jeu.nbBonus!=-1){
+                jeu.map=Map.generatePvp(65, jeu.nbBonus);
+                jeu.nbBonus=-1;
+            }
+            else{
+                jeu.map=Map.generatePvp(65,5);
+            }
         }
         int a=0;
         for(int i=0;i<jeu.map.getGrille().length;i++){

@@ -70,7 +70,7 @@ public class EditeurNMulti extends Etat implements Screen {
             map=Map.mapFromString(text);
         }
         else{
-            map=Map.generatePvp(20);
+            map=Map.generatePvp(20,5);
 
         }
         map.setPosition(7*Bomberball.taillecase,0);
