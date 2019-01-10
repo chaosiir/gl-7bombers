@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Json;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -500,6 +501,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 6 	mur destructible + bonusExplo
 	 * 7 	mur destructible + bonusMove
 	 * 8 	mur destructible + bonusPousser
+	 * 9 	Ennemis Passif (indication de fin de chaîne par 1010)
 	 *
 	 */
 	public String mapToText(){
@@ -536,6 +538,23 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 						}
 					}
 				}
+				else if(this.getGrille()[i][j].getEnnemi()!=null){
+					if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_passif){
+						s=s+i+" "+j+" "+"9 ";
+					}
+
+					int com=0;
+					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
+					for(Case ca: depla){
+						if(com==0){
+							com++;
+						}
+						else {
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
+					}
+					s=s+"1010\n";
+				}
 				else{
 					s=s+i+" "+j+" "+"0\n";
 				}
@@ -555,7 +574,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 6 	mur destructible + bonusExplo
 	 * 7 	mur destructible + bonusMove
 	 * 8 	mur destructible + bonusPousser
-	 *
+	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
 	 */
 	public static Map mapFromString(String string){
 		Map m= new Map();
@@ -575,6 +594,19 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 7: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+						Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
+
+						g[x][y].setEnnemi(ep);
+						int a,b;
+						a=scan.nextInt();
+						while (a!=1010){
+							b=scan.nextInt();
+							Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+							ep.prochain_deplacement.add(lol);
+							a=scan.nextInt();
+						}
+						break;
 			}
 		}
 		m.setGrille(g);

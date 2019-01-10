@@ -405,39 +405,7 @@ public class EditeurNMulti extends Etat implements Screen {
 
 
                             } else if (selectionne.getName().equals("p")) {
-                                Map m=c.getMap();
 
-                                int xp=c.posX();
-                                int yp=c.posY();
-
-                                c.setMur(null);
-                                m.getGrille()[14-xp][yp].setMur(null);
-                                m.getGrille()[14-xp][12-yp].setMur(null);
-                                m.getGrille()[xp][12-yp].setMur(null);
-
-                                c.setPorte(null);
-                                m.getGrille()[14-xp][yp].setPorte(null);
-                                m.getGrille()[14-xp][12-yp].setPorte(null);
-                                m.getGrille()[xp][12-yp].setPorte(null);
-
-                                c.setPersonnage(null);
-                                m.getGrille()[14-xp][yp].setPersonnage(null);
-                                m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                                m.getGrille()[xp][12-yp].setPersonnage(null);
-
-                                c.setBonus(null);
-                                m.getGrille()[14-xp][yp].setBonus(null);
-                                m.getGrille()[14-xp][12-yp].setBonus(null);
-                                m.getGrille()[xp][12-yp].setBonus(null);
-
-                                Image background=new Image(Bomberball.multiTexture[0]);
-                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                                c.addActor(background);
-
-                                m.getGrille()[14-xp][yp].addActor(background);
-                                m.getGrille()[14-xp][12-yp].addActor(background);
-                                m.getGrille()[xp][12-yp].addActor(background);
-                                c.setPorte(new Porte());
                             }
                             else if(selectionne.getName().equals("player")){
                                 if(c.getMur()==null){

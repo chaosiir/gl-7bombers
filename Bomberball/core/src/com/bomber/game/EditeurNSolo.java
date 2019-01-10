@@ -24,6 +24,7 @@ import java.io.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.LinkedList;
 
 import static com.bomber.game.Bomberball.stg;
 
@@ -45,6 +46,7 @@ public class EditeurNSolo extends Etat implements Screen {
     Label select;
     Label instruction1;
     Label instruction2;
+    Label instruction3;
 
     TextButton retour;
     TextButton valider;
@@ -53,6 +55,8 @@ public class EditeurNSolo extends Etat implements Screen {
     Map map;
 
     Skin skin;
+
+    Boolean cache=true;
 
     File f;
     FileWriter fw;
@@ -178,17 +182,21 @@ public class EditeurNSolo extends Etat implements Screen {
         instruction2.setBounds(0,ymax-8*Bomberball.taillecase,instruction2.getWidth(),instruction2.getHeight());
         instruction2.setName("Instruction2");
 
+        instruction3 = new Label("Clic mollette sur un ennemi pour afficher/cacher \n sa trajectoire",skin);
+        instruction3.setBounds(0,ymax-9*Bomberball.taillecase,instruction3.getWidth(),instruction3.getHeight());
+        instruction3.setName("Instruction3");
+
 
         retour= new TextButton("Retour",skin);
-        retour.setBounds(0,ymax-9*Bomberball.taillecase, retour.getWidth(),retour.getHeight());
+        retour.setBounds(0,ymax-10*Bomberball.taillecase, retour.getWidth(),retour.getHeight());
         retour.setName("Retour");
 
         valider = new TextButton("Valider la carte",skin);
-        valider.setBounds(0,ymax-10*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
+        valider.setBounds(0,ymax-11*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
         valider.setName("Valider");
 
         charger = new TextButton("Charger une carte",skin);
-        charger.setBounds(0,ymax-11*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
+        charger.setBounds(0,ymax-12*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
         charger.setName("Charger");
 
 
@@ -265,6 +273,7 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(selectionne);
         jeu.addActor(instruction1);
         jeu.addActor(instruction2);
+        jeu.addActor(instruction3);
         jeu.addActor(retour);
         jeu.addActor(valider);
         jeu.addActor(charger);
@@ -362,6 +371,17 @@ public class EditeurNSolo extends Etat implements Screen {
             else if(hitActor.getName().equals("ghost")){
                 selectionne.setDrawable(ennemisPassif.getDrawable());
                 selectionne.setName("Ep");
+                try {
+                    fw = new FileWriter(f);
+                    fw.write(map.mapToText());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                jeu.setEtat(game.selectionCheminEp);
+                game.setScreen(game.selectionCheminEp);
+
+
             }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
@@ -602,6 +622,119 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
 
             }
+            else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
+                Case c = (Case) hitActor.getParent();
+                if(button==Input.Buttons.RIGHT){
+                    c.getEnnemi().prochain_deplacement.clear();
+                    c.setEnnemi(null);
+                    c.setMur(null);
+                    c.setPorte(null);
+                    c.setPersonnage(null);
+                    c.setBonus(null);
+                    c.setEnnemi(null);
+                    Image background=new Image(Bomberball.multiTexture[0]);
+                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                    c.addActor(background);
+                }
+                if(button==Input.Buttons.MIDDLE){ //Il faut afficher tous les ennemis
+                    LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
+                    for(int i=0;i<15;i++){
+                        for(int j=0;j<13;j++){
+                            if(c.getMap().getGrille()[i][j].getEnnemi()!=null){
+                                liste.add(c.getMap().getGrille()[i][j].getEnnemi());
+                            }
+                        }
+                    }
+                    if(cache) {
+                        for (Ennemis en : liste) {
+                            LinkedList<Case> caca = en.prochain_deplacement;
+                            for (Case cas : caca) {
+                                int xc = cas.posX();
+                                int yc = cas.posY();
+                                if (cas.getEnnemi() != null) {
+                                    Ennemi_passif ennemi_passif = (Ennemi_passif) cas.getEnnemi();
+                                    c.getMap().getGrille()[xc][yc].setEnnemi(null);
+                                    c.getMap().getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    c.getMap().getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                } else if (cas.getPersonnage() != null) {
+                                    Personnage personnage = cas.getPersonnage();
+                                    c.getMap().getGrille()[xc][yc].setPersonnage(null);
+                                    c.getMap().getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    c.getMap().getGrille()[xc][yc].setPersonnage(personnage);
+                                } else {
+                                    c.getMap().getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                }
+                            }
+                        }
+                        cache=false;
+                    }
+                    else{
+                        for (Ennemis en : liste) {
+                            LinkedList<Case> caca = en.prochain_deplacement;
+                            for(Case cas: caca){
+                                int xc=cas.posX();
+                                int yc=cas.posY();
+                                System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
+                                if(cas.getEnnemi()!=null){
+                                    Ennemi_passif ennemi_passif=(Ennemi_passif)cas.getEnnemi();
+                                    c.getMap().getGrille()[xc][yc].setEnnemi(null);
+                                    c.getMap().getGrille()[xc][yc].setMarque(null);
+                                    c.getMap().getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getPersonnage()!=null){
+                                    Personnage personnage=cas.getPersonnage();
+                                    c.getMap().getGrille()[xc][yc].setPersonnage(null);
+                                    c.getMap().getGrille()[xc][yc].setMarque(null);
+                                    c.getMap().getGrille()[xc][yc].setPersonnage(personnage);
+                                }
+                                else{
+                                    c.getMap().getGrille()[xc][yc].setMarque(null);
+                                }
+                            }
+                        }
+                        cache=true;
+
+                    }
+
+
+                }
+                if(button==Input.Buttons.LEFT){
+                    if (selectionne.getDrawable() != null) {
+                        if (selectionne.getName().equals("murdes")) {
+                            c.getEnnemi().prochain_deplacement.clear();
+                            c.setEnnemi(null);
+                            c.setMur(new MurD());
+                        } else if (selectionne.getName().equals("sol")) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
+                            c.setBonus(null);
+                            c.getEnnemi().prochain_deplacement.clear();
+                            c.setEnnemi(null);
+                            Image background=new Image(Bomberball.multiTexture[0]);
+                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                            c.addActor(background);
+                        } else if (selectionne.getName().equals("murin")) {
+                            c.getEnnemi().prochain_deplacement.clear();
+                            c.setEnnemi(null);
+                            c.setMur(new MurI());
+                        } else if (selectionne.getName().equals("p")) {
+                            c.getEnnemi().prochain_deplacement.clear();
+                            c.setEnnemi(null);
+                            c.setPorte(new Porte());
+                        }
+                        else if(selectionne.getName().equals("player")){
+                            c.getEnnemi().prochain_deplacement.clear();
+                            c.setEnnemi(null);
+                            if(c.getMur()==null){
+                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                            }
+
+                        }
+                    }
+                }
+            }
+
             }else if(hitActor.getParent() instanceof Case){
                 Case c = (Case) hitActor.getParent();
                 if (button == Input.Buttons.RIGHT) {
@@ -609,24 +742,41 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.addActor(background);
                 } else if (button == Input.Buttons.LEFT) {
                     if (selectionne.getDrawable() != null) {
                         if (selectionne.getName().equals("murdes")) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
+                            c.setBonus(null);
+                            c.setEnnemi(null);
                             c.setMur(new MurD());
                         } else if (selectionne.getName().equals("sol")) {
                             c.setMur(null);
                             c.setPorte(null);
                             c.setPersonnage(null);
                             c.setBonus(null);
+                            c.setEnnemi(null);
                             Image background=new Image(Bomberball.multiTexture[0]);
                             background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                             c.addActor(background);
                         } else if (selectionne.getName().equals("murin")) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
+                            c.setBonus(null);
+                            c.setEnnemi(null);
                             c.setMur(new MurI());
                         } else if (selectionne.getName().equals("p")) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
+                            c.setBonus(null);
+                            c.setEnnemi(null);
                             c.setPorte(new Porte());
                         }
                         else if(selectionne.getName().equals("player")){
@@ -645,6 +795,8 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
         }
+
+
 
 
 
