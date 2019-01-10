@@ -42,6 +42,9 @@ public class EditeurNSolo extends Etat implements Screen {
     Image bonusM;
     Image bonusE;
     Image ennemisPassif;
+    Image ennemisActif;
+    Image ennemisPassifAgressif;
+    Image ennemisActifAgressif;
 
     Label select;
     Label instruction1;
@@ -112,19 +115,6 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -169,8 +159,20 @@ public class EditeurNSolo extends Etat implements Screen {
         bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         ennemisPassif = new Image(Bomberball.multiTexture[17]);
-        ennemisPassif.setName("ghost");
+        ennemisPassif.setName("ghost1");
         ennemisPassif.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisActif = new Image(Bomberball.multiTexture[]);
+        ennemisActif.setName("imp1");
+        ennemisActif.setBounds(2*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisPassifAgressif = new Image(Bomberball.multiTexture[]);
+        ennemisPassifAgressif.setName("ghost2");
+        ennemisPassifAgressif.setBounds(2*Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisActifAgressif = new Image(Bomberball.multiTexture[]);
+        ennemisActifAgressif.setName("imp2");
+        ennemisActifAgressif.setBounds(2*Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         select= new Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -272,6 +274,9 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(bonusE);
         jeu.addActor(bonusM);
         jeu.addActor(ennemisPassif);
+        jeu.addActor(ennemisActif);
+        jeu.addActor(ennemisPassifAgressif);
+        jeu.addActor(ennemisActifAgressif);
         jeu.addActor(select);
         jeu.addActor(selectionne);
         jeu.addActor(instruction1);
@@ -433,7 +438,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 selectionne.setDrawable(bonusM.getDrawable());
                 selectionne.setName("bM");
             }
-            else if(hitActor.getName().equals("ghost")){
+            else if(hitActor.getName().equals("ghost1")){
                 selectionne.setDrawable(ennemisPassif.getDrawable());
                 selectionne.setName("Ep");
                 try {
@@ -445,8 +450,43 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 jeu.setEtat(game.selectionCheminEp);
                 game.setScreen(game.selectionCheminEp);
-
-
+            }
+            else if(hitActor.getName().equals("imp1")){
+                selectionne.setDrawable(ennemisActif.getDrawable());
+                selectionne.setName("Ea");
+                try {
+                    fw = new FileWriter(f);
+                    fw.write(map.mapToText());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(hitActor.getName().equals("ghost2")){
+                selectionne.setDrawable(ennemisPassifAgressif.getDrawable());
+                selectionne.setName("Epa");
+                try {
+                    fw = new FileWriter(f);
+                    fw.write(map.mapToText());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                jeu.setEtat(game.selectionCheminEp);
+                game.setScreen(game.selectionCheminEp);
+            }
+            else if(hitActor.getName().equals("imp2")){
+                selectionne.setDrawable(ennemisActifAgressif.getDrawable());
+                selectionne.setName("Eaa");
+                try {
+                    fw = new FileWriter(f);
+                    fw.write(map.mapToText());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                jeu.setEtat(game.selectionCheminEp);
+                game.setScreen(game.selectionCheminEp);
             }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
@@ -687,7 +727,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
+            else if(hitActor.getName().equals("Ennemis")){
                 Case c = (Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
                     c.getEnnemi().prochain_deplacement.clear();
@@ -702,8 +742,6 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.addActor(background);
                 }
                 if(button==Input.Buttons.MIDDLE){ //Il faut afficher tous les ennemis
-
-
 
                 }
                 if(button==Input.Buttons.LEFT){
@@ -795,6 +833,15 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("Ep")){
                             c.setEnnemi(new Ennemi_passif(true,c,5));
+                        }
+                        else if(selectionne.getName().equals("Ea")){
+                            c.setEnnemi(new Ennemi_actif(true,c,5));
+                        }
+                        else if(selectionne.getName().equals("Epa")){
+                            c.setEnnemi(new Ennemi_passif_agressif(true,c,5));
+                        }
+                        else if(selectionne.getName().equals("Eaa")){
+                            c.setEnnemi(new Ennemi_actif_agressif(true,c,5));
                         }
                     }
                 }
