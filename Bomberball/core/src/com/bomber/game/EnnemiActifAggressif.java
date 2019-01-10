@@ -1,11 +1,43 @@
 package com.bomber.game;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class EnnemiActifAggressif extends Ennemis {
     private LinkedList<Case>  chemin;
     private int portee;
+    /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
+    dans un carré de taille 5x5 autour de l'ennemi*/
+
+    private boolean agro = false;
+
+    public LinkedList<Case> getChemin() {
+        return chemin;
+    }
+
+    public void setChemin(LinkedList<Case> chemin) {
+        this.chemin = chemin;
+    }
+
+    public int getPortee() {
+        return portee;
+    }
+
+    public void setPortee(int portee) {
+        this.portee = portee;
+    }
+
+    public boolean isAgro() {
+        return agro;
+    }
+
+    public void setAgro(boolean agro) {
+        this.agro = agro;
+    }
+
+    public EnnemiActifAggressif(int portee, boolean agro) {
+        this.portee = portee;
+        this.agro = agro;
+    }
 
 
     /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
@@ -161,7 +193,7 @@ public class EnnemiActifAggressif extends Ennemis {
         for(int i=0;i<15;i++){
             for (int j=0;j<13;j++){
                 if(m.getGrille()[i][j].getMur()!= null){
-                    res[i][j]=1
+                    res[i][j]=1;
                 }
                 else if(m.getGrille()[i][j].getMur()== null){
                     if(m.getGrille()[i][j]==c || m.getGrille()[i][j].getPersonnage()!=null ){
@@ -178,7 +210,9 @@ public class EnnemiActifAggressif extends Ennemis {
 
 
     public boolean verifAgro(){
-        return verifSolotraducteur();
+        Map map=c.getMap();
+        int[][] t = traducteur();
+        return map.verifSolo(t);
     }
 
 
@@ -186,8 +220,10 @@ public class EnnemiActifAggressif extends Ennemis {
         boolean poursuivre = detection();
         if (poursuivre&&verifAgro()) {
             cheminMin();
+            agro=true;
         } else {
             cheminMax();
+            agro=false;
         }
     }
 
