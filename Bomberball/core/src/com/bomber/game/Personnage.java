@@ -24,7 +24,7 @@ public class Personnage extends Image  {
 
 
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
-        super(Bomberball.perso.findRegion("pdown2"));
+        super(Bomberball.perso.findRegion("pdown"+id+"2"));
 
         this.setName("Personnage");
         this.setSize(Bomberball.taillecase,Bomberball.taillecase);
@@ -110,7 +110,7 @@ public class Personnage extends Image  {
     }
 
     public boolean deplacerHaut(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideHaut()){
 
@@ -129,7 +129,7 @@ public class Personnage extends Image  {
                 public boolean act(float delta) {
                     time+=delta;
 
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pup%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+""+(int)(time*8)%4))));
 
                     return time>0.5;
                 }
@@ -162,7 +162,7 @@ public class Personnage extends Image  {
     }
 
     public boolean deplacerBas(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (this.caseVideBas()){
 
@@ -172,7 +172,7 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pdown%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
@@ -190,7 +190,7 @@ public class Personnage extends Image  {
 
             MoveByAction action=new MoveByAction();
             action.setAmount(0,-Bomberball.taillecase);
-            action.setDuration(0.5f);
+            action.setDuration(0.45f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -215,7 +215,7 @@ public class Personnage extends Image  {
     }
 
     public boolean deplacerDroite(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideDroite()){
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
@@ -231,7 +231,7 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pr%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+""+(int)(time*8)%4))));
 
                     return time>0.5;
                 }
@@ -263,7 +263,7 @@ public class Personnage extends Image  {
     }
 
     public boolean deplacerGauche(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideGauche()){
 
@@ -272,7 +272,7 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pl%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+""+(int)(time*8)%4))));
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
@@ -289,7 +289,7 @@ public class Personnage extends Image  {
             });
             MoveByAction action=new MoveByAction();
             action.setAmount(-Bomberball.taillecase,0);
-            action.setDuration(0.5f);
+            action.setDuration(0.45f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/

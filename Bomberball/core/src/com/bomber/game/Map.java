@@ -569,6 +569,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 7 	mur destructible + bonusMove
 	 * 8 	mur destructible + bonusPousser
 	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
+	 * 10
 	 */
 	public static Map mapFromString(String string){
 		Map m= new Map();
