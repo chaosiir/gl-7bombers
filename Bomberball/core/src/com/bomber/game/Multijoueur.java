@@ -291,6 +291,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         jeu.addActor(pousse1);
         jeu.addActor(player1);
         jeu.addActor(player2);
+        jeu.addActor(player3);
+        jeu.addActor(player4);
         jeu.addActor(jeu.map);
 
 
