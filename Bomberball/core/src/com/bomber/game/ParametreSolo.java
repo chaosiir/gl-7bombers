@@ -95,7 +95,7 @@ public class ParametreSolo extends Etat implements Screen {
         nbDeplaEnnemisS.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int x=(int) nbEnnemisS.getValue();
+                int x=(int) nbDeplaEnnemisS.getValue();
                 jeu.nbEnnemis=x;
 
 
