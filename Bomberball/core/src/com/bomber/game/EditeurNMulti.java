@@ -409,7 +409,7 @@ public class EditeurNMulti extends Etat implements Screen {
                             }
                             else if(selectionne.getName().equals("player")){
                                 if(c.getMur()==null){
-                                    c.setPersonnage(new Personnage(true,c,2,1,5));
+                                    c.setPersonnage(new Personnage(true,c,2,1,5,0));
                                 }
 
                             }
@@ -463,7 +463,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         else if(selectionne.getName().equals("player")){
                             c.setBonus(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
                         }
                         else if(selectionne.getName().equals("bB")){
@@ -541,7 +541,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("player")){
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
                         }
                     }
@@ -581,7 +581,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         else if(selectionne.getName().equals("player")){
                             c.setBonus(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
@@ -639,7 +639,7 @@ public class EditeurNMulti extends Etat implements Screen {
                     }
                     else if(selectionne.getName().equals("player")){
                         if(c.getMur()==null){
-                            c.setPersonnage(new Personnage(true,c,2,1,5));
+                            c.setPersonnage(new Personnage(true,c,2,1,5,0));
                         }
                     }
                 }
