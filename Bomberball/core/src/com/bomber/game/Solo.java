@@ -15,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
@@ -39,6 +42,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     Skin skin;
 
     Image player;
+
+    File f;
+    FileWriter fw;
 
     private Bomberball bombaaaagh;
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
@@ -245,6 +251,19 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                     }
                 }
             }
+        }
+        if (keycode == Input.Keys.ESCAPE) {
+            try {
+                fw = new FileWriter(f);
+                fw.write(map.mapToText());
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            bombaaaagh.menuPause.setEtatAnterieur(this);
+            jeu.setEtat(bombaaaagh.menuPause);
+            bombaaaagh.setScreen(bombaaaagh.menuPause);
         }
 
 
