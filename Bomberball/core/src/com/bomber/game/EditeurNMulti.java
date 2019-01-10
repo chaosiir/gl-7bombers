@@ -24,7 +24,10 @@ public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
     Image floor;
-    Image perso;
+    Image perso1;
+    Image perso2;
+    Image perso3;
+    Image perso4;
     Image murd;
     Image muri;
     Image selectionne;
@@ -97,11 +100,21 @@ public class EditeurNMulti extends Etat implements Screen {
         muri.setName("muri");
         muri.setBounds(0,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        perso= new Image(Bomberball.multiTexture[4]);
-        perso.setName("perso");
-        perso.setBounds(Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        perso1= new Image(Bomberball.multiTexture[4]);
+        perso1.setName("perso1");
+        perso1.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
+        perso2= new Image(Bomberball.multiTexture[4]);
+        perso2.setName("perso2");
+        perso2.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
+        perso3= new Image(Bomberball.multiTexture[4]);
+        perso3.setName("perso3");
+        perso3.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        perso4= new Image(Bomberball.multiTexture[4]);
+        perso4.setName("perso4");
+        perso4.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         selectionne= new Image();
         selectionne.setName("selection");
@@ -121,7 +134,7 @@ public class EditeurNMulti extends Etat implements Screen {
 
         bonusP = new Image(Bomberball.multiTexture[19]);
         bonusP.setName("bonusP");
-        bonusP.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        bonusP.setBounds(Bomberball.taillecase,ymax-5*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         select= new com.badlogic.gdx.scenes.scene2d.ui.Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -203,12 +216,16 @@ public class EditeurNMulti extends Etat implements Screen {
 
         jeu.addActor(back);
         jeu.addActor(floor);
-        jeu.addActor(perso);
+        jeu.addActor(perso1);
+        jeu.addActor(perso2);
+        jeu.addActor(perso3);
+        jeu.addActor(perso4);
         jeu.addActor(murd);
         jeu.addActor(muri);
         jeu.addActor(bonusB);
         jeu.addActor(bonusE);
         jeu.addActor(bonusM);
+        jeu.addActor(bonusP);
         jeu.addActor(select);
         jeu.addActor(selectionne);
         jeu.addActor(instruction1);
@@ -276,8 +293,20 @@ public class EditeurNMulti extends Etat implements Screen {
                 selectionne.setDrawable(muri.getDrawable());
                 selectionne.setName("murin");
             }
-            else if(hitActor.getName().equals("perso")){
-                selectionne.setDrawable(perso.getDrawable());
+            else if(hitActor.getName().equals("perso1")){
+                selectionne.setDrawable(perso1.getDrawable());
+                selectionne.setName("player");
+            }
+            else if(hitActor.getName().equals("perso2")){
+                selectionne.setDrawable(perso2.getDrawable());
+                selectionne.setName("player");
+            }
+            else if(hitActor.getName().equals("perso3")){
+                selectionne.setDrawable(perso3.getDrawable());
+                selectionne.setName("player");
+            }
+            else if(hitActor.getName().equals("perso4")){
+                selectionne.setDrawable(perso4.getDrawable());
                 selectionne.setName("player");
             }
             else if(hitActor.getName().equals("bonusB")){
@@ -291,6 +320,10 @@ public class EditeurNMulti extends Etat implements Screen {
             else if(hitActor.getName().equals("bonusM")){
                 selectionne.setDrawable(bonusM.getDrawable());
                 selectionne.setName("bM");
+            }
+            else if(hitActor.getName().equals("bonusP")){
+                selectionne.setDrawable(bonusP.getDrawable());
+                selectionne.setName("bP");
             }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
@@ -421,6 +454,7 @@ public class EditeurNMulti extends Etat implements Screen {
                                 }
 
                             }
+
                         }
                     }
 
@@ -484,6 +518,10 @@ public class EditeurNMulti extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("bE")){
                             c.setBonus(new BonusExplo(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bP")){
+                            c.setBonus(new BonusPousser(c));
                             c.getBonus().setScale(0.5f);
                         }
                     }
