@@ -32,6 +32,7 @@ public class Bomberball extends Game {
 
 	MenuPrincipalBis menuPrincipalBis;
 	MenuSolo menuSolo;
+	MenuPause menupause;
 	ParametreSolo parametreSolo;
 	ChoixEditeurN choixEditeurN;
     ChoixMenuMultijoueur choixMenuMultijoueur;

@@ -101,9 +101,11 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         pm = joueurs[tour].getPm();
                         nb = joueurs[tour].getNbBombe();
                     }
-
-
-
+                    if (keycode == Input.Keys.ESCAPE) {
+                        bombaaaagh.menupause.setEtatAnterieur(this);
+                        jeu.setEtat(game.menupause);
+                        game.setScreen(game.menupause);
+                    }
                 }
             }
         }
