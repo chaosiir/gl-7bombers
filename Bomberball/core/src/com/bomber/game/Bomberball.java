@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.*;
 import java.io.*;
+import java.nio.channels.FileChannel;
 
 //classe de l'application
 public class Bomberball extends Game {
@@ -26,6 +28,7 @@ public class Bomberball extends Game {
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
 	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
 	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
+
 
 	MenuPrincipalBis menuPrincipalBis;
 	MenuSolo menuSolo;
@@ -39,12 +42,23 @@ public class Bomberball extends Game {
     ValiderEditeurSolo validerEditeurSolo;
     ErreurEditeurM erreurEditeurM;
     ValiderEditeurMulti validerEditeurMulti;
+    ChoixMapSoloE choixMapSoloE;
+    ChoixMapMultiE choixMapMultiE;
+    ChoixMapSoloJ choixMapSoloJ;
+	Multijoueur multijoueur;
+	Victoire victoire;
+	ChoixMapMultiJ choixMapMultiJ;
+	SelectionCheminEp selectionCheminEp;
 
     public static TextureAtlas perso ;
-	public static Texture[] multiTexture = new Texture[16];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	public static Texture[] multiTexture = new Texture[19];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
+
+
+
 		multiTexture[0] = new Texture("thefloorislava.png");//creation des différentes texture que l'on va chercher dans le fichier assets
 		multiTexture[1] = new Texture("murD.png");//=>voir Tuto Texture et Sprite
 		multiTexture[2] = new Texture("murI.png");
@@ -61,6 +75,9 @@ public class Bomberball extends Game {
 		multiTexture[13] = new Texture("flame1_down.png");
 		multiTexture[14] = new Texture("flame1_right.png");
 		multiTexture[15] = new Texture("flame1_left.png");
+		multiTexture[16] = new Texture("bat1.png");
+		multiTexture[17] = new Texture("ghost1.png");
+		multiTexture[18] = new Texture("rouge.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
 		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu = new Jeu();
@@ -81,6 +98,12 @@ public class Bomberball extends Game {
 		validerEditeurSolo=new ValiderEditeurSolo(this,jeu);
 		erreurEditeurM= new ErreurEditeurM(this, jeu);
 		validerEditeurMulti = new ValiderEditeurMulti(this,jeu);
+		choixMapSoloE = new ChoixMapSoloE(this,jeu);
+		choixMapMultiE = new ChoixMapMultiE(this,jeu);
+		choixMapSoloJ= new ChoixMapSoloJ(this,jeu);
+		multijoueur = new Multijoueur(this,jeu);
+		choixMapMultiJ = new ChoixMapMultiJ(this,jeu);
+		selectionCheminEp = new SelectionCheminEp(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 
@@ -138,5 +161,20 @@ public class Bomberball extends Game {
 		return null;
 	}
 
+	public static boolean copier(File source, File dest) {
+		try {InputStream sourceFile = new java.io.FileInputStream(source);
+			 OutputStream destinationFile = new FileOutputStream(dest);
+			// Lecture par segment de 0.5Mo
+			byte buffer[] = new byte[512 * 1024];
+			int nbLecture;
+			while ((nbLecture = sourceFile.read(buffer)) != -1){
+				destinationFile.write(buffer, 0, nbLecture);
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+			return false; // Erreur
+		}
+		return true; // Résultat OK
+	}
 
 }

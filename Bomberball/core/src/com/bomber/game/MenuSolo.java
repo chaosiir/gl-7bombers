@@ -59,7 +59,8 @@ public class MenuSolo extends Etat implements Screen {
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                jeu.setEtat(game.choixMapSoloJ);
+                game.setScreen(game.choixMapSoloJ);
             }
         });
 
@@ -74,6 +75,7 @@ public class MenuSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map=null;
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }

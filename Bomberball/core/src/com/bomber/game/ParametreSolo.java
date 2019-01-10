@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -62,6 +64,54 @@ public class ParametreSolo extends Etat implements Screen {
         porteeBombeS=  new Slider(0f,20f,1f,false,skin);
         nbDeplaEnnemisS =  new Slider(0f,20f,1f,false,skin);
         nbBombeS= new Slider(0f,20f,1f,false,skin);
+
+        nbBonusS.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int x=(int) nbBonusS.getValue();
+                jeu.nbBonus=x;
+
+
+            }
+        });
+        nbEnnemisS.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int x=(int) nbEnnemisS.getValue();
+                jeu.nbEnnemis=x;
+
+
+            }
+        });
+        porteeBombeS.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int x=(int) porteeBombeS.getValue();
+                jeu.porteeBombe=x;
+
+
+            }
+        });
+        nbDeplaEnnemisS.addListener(new ChangeListener(){
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int x=(int) nbEnnemisS.getValue();
+                jeu.nbEnnemis=x;
+
+
+            }
+        });
+
+        nbBombeS.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                int x=(int) nbBombeS.getValue();
+                jeu.nbBombe=x;
+            }
+        });
+
+
+
 
 
 

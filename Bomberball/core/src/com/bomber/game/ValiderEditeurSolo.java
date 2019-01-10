@@ -85,6 +85,9 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                 if (nom.equals("")){
                     //rien
                 }
+                else if(nom.equals("tmp")){
+                    //rien, tu as pas le droit à un nom pareil
+                }
                 else{
                     File directory = new File (".");
                     File fi= null;
