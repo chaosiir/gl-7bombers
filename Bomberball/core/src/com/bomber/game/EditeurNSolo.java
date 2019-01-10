@@ -43,6 +43,9 @@ public class EditeurNSolo extends Etat implements Screen {
     Image bonusE;
     Image bonusP;
     Image ennemisPassif;
+    Image ennemisActif;
+    Image ennemisPassifAgressif;
+    Image ennemisActifAgressif;
 
     Label select;
     Label instruction1;
@@ -177,8 +180,21 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
         ennemisPassif = new Image(Bomberball.multiTexture[17]);
-        ennemisPassif.setName("ghost");
-        ennemisPassif.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        ennemisPassif.setName("ghost1");
+        ennemisPassif.setBounds(3*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisActif = new Image(Bomberball.multiTexture[16]);
+        ennemisActif.setName("imp1");
+        ennemisActif.setBounds(3*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisPassifAgressif = new Image(Bomberball.multiTexture[25]);
+        ennemisPassifAgressif.setName("ghost2");
+        ennemisPassifAgressif.setBounds(3*Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        ennemisActifAgressif = new Image(Bomberball.multiTexture[24]);
+        ennemisActifAgressif.setName("imp2");
+        ennemisActifAgressif.setBounds(3*Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
 
 
         select= new Label("Bloc selectionne:",skin);
@@ -282,6 +298,9 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(bonusM);
         jeu.addActor(bonusP);
         jeu.addActor(ennemisPassif);
+        jeu.addActor(ennemisActif);
+        jeu.addActor(ennemisPassifAgressif);
+        jeu.addActor(ennemisActifAgressif);
         jeu.addActor(select);
         jeu.addActor(selectionne);
         jeu.addActor(instruction1);
@@ -443,7 +462,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 selectionne.setDrawable(bonusM.getDrawable());
                 selectionne.setName("bM");
             }
-            else if(hitActor.getName().equals("ghost")){
+            else if(hitActor.getName().equals("ghost1")){
                 selectionne.setDrawable(ennemisPassif.getDrawable());
                 selectionne.setName("Ep");
                 try {
@@ -457,6 +476,27 @@ public class EditeurNSolo extends Etat implements Screen {
                 game.setScreen(game.selectionCheminEp);
 
 
+            }
+            else if(hitActor.getName().equals("imp1")){
+                selectionne.setDrawable(ennemisActif.getDrawable());
+                selectionne.setName("Ea");
+            }
+            else if(hitActor.getName().equals("ghost2")){
+                selectionne.setDrawable(ennemisPassifAgressif.getDrawable());
+                selectionne.setName("Epa");
+                try {
+                    fw = new FileWriter(f);
+                    fw.write(map.mapToText());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                jeu.setEtat(game.selectionCheminEp);
+                game.setScreen(game.selectionCheminEp);
+            }
+            else if(hitActor.getName().equals("imp2")){
+                selectionne.setDrawable(ennemisActifAgressif.getDrawable());
+                selectionne.setName("Eaa");
             }
             else if(hitActor.getName().equals("BonusP")){
                 selectionne.setDrawable(bonusP.getDrawable());
@@ -539,7 +579,6 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setPorte(new Porte());
                         }
                         else if(selectionne.getName().equals("player")){
-                            c.setBonus(null);
                             if(c.getMur()==null){
                                 c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
@@ -593,12 +632,6 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setMur(new MurI());
                         } else if (selectionne.getName().equals("p")) {
                             c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
-                            }
-
                         }
                     }
                 }
@@ -811,9 +844,19 @@ public class EditeurNSolo extends Etat implements Screen {
                             }
 
                         }
-                        else if(selectionne.getName().equals("Ep")){
-                            c.setEnnemi(new Ennemi_passif(true,c,5));
+                        else if(selectionne.getName().equals("Ea")){
+                            c.setEnnemi(null);
+                            c.setEnnemi(new Ennemi_actif(true,c,5));
                         }
+                        else if(selectionne.getName().equals("Epa")){
+                            c.setEnnemi(null);
+                            c.setEnnemi(new Ennemi_passif_aggressif(true,c,5));
+                        }
+                        else if(selectionne.getName().equals("Eaa")){
+                            c.setEnnemi(null);
+                            c.setEnnemi(new Ennemi_actif_aggressif(true,c,5));
+                        }
+
                     }
                 }
 
