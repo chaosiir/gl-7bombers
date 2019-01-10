@@ -145,7 +145,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
                         caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
                         cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
                     }
-                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5));}
+                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5,0));}
                 }
             }
             int a;
@@ -349,7 +349,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
                 cpt--;
             }
             if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5));
+                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5,0));
                 cpt--;
             }
         }
@@ -360,7 +360,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			while(dest[x].getBonus()!=null) {
 				x=(int)(Math.random()*dest.length-1);
 			}
-			y=(int)(Math.random()*3);
+			y=(int)(Math.random()*4);
 			switch (y){
 				case 0: dest[x].setBonus(new BonusBombe(dest[x])); break;
 				case 1: dest[x].setBonus(new BonusExplo(dest[x])); break;
@@ -562,7 +562,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 0	sol vide
 	 * 1	mur destructible
 	 * 2 	mur indestructible
-	 * 3 	personnage
+	 * 3 	personnage de base
 	 * 4	porte
 	 * 5 	mur destructible + bonusBombe
 	 * 6 	mur destructible + bonusExplo
@@ -582,7 +582,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
 				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
 				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
-				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5)); break;
+				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5,0)); break;
 				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
 				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;

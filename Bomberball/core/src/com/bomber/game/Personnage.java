@@ -20,9 +20,10 @@ public class Personnage extends Image  {
     private int nbBombe;//bombe posable par tour, 1 par défaut
     private int pm;//points de mouvement, 5 par defaut
     private boolean poussee;
+    private int id;
 
 
-    public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm) {
+    public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
         super(Bomberball.perso.findRegion("pdown2"));
         this.setName("Personnage");
         this.setSize(Bomberball.taillecase,Bomberball.taillecase);
@@ -31,12 +32,14 @@ public class Personnage extends Image  {
         this.taille = taille;
         this.nbBombe = nbBombe;
         this.pm = pm;
-        this.poussee=true;
+        this.poussee=false;
+        this.id=id;
+
     }
 
     public int getTaille() {
         return taille;
-    }
+    } //Taille d'une explosion
 
     public void setTaille(int taille) {
         this.taille = taille;

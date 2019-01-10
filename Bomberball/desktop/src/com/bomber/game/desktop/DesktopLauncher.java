@@ -3,7 +3,7 @@ package com.bomber.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.bomber.game.Bomberball;
-//classe servant à lancer l'application sur ordinateur
+//class servant à lancer l'application sur ordinateur
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();//en plus de l'application on doit donner une configuration

@@ -27,11 +27,6 @@ public abstract class Ennemis extends Image {
 
     public void deplacer(){
         int i = pm;
-        while (i>0){
 
-            if (c.getPersonnage()!=null){
-                c.getPersonnage().setVivant(false);
-            }
-        }
     }
 }
