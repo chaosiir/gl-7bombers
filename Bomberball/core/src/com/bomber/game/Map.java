@@ -91,7 +91,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 		return t;
 	}
 
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		Map m=new Map();
 		int t[][]=m.mat(13,15);
 		for (int i=0;i<13;i++) {
@@ -107,28 +107,35 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 		else {
 			System.out.println("La carte n'est pas valide");
 		}
-        /*for (i=1;i<=10;i++){
+        for (i=1;i<=10;i++){
             int randomNum = 1 + (int)(Math.random() * 3);
             j=randomNum;
 
-        }*/
+        }
 
-	}
+	}*/
 
 
 	    //génération de la map PvP de base
 	    //Renvoie un tableau de case de taille 15x13 avec le pourtour
-        public static Map generatePvp(int nbDestru){
+        public static Map generatePvp(int nbDestru, int bonus){
             int i;			// indice de ligne
             int j;			// indice de colonne
-            int cpt = 0;		//compteur de cases potentiellment destructibles, spoiler il y en a 93
+            int cpt = 0;		//compteur de cases potentiellement destructibles, spoiler il y en a 93
+			int cpt2 = 0 ;   //indice allant de 1 à nbDestru
             int random;
             if (nbDestru>93){
                 nbDestru=93;
             }
+			if(bonus>nbDestru){
+				bonus=nbDestru;
+			}
+
+			int tmp = nbDestru ; //indicateur indiquant le nombre de cases destructibles qu'il reste à mettre
 
             Case[][] g = new Case[15][13];                          //ce qu'on va renvoyer, le tableau de case
-            Case[] caseDes = new Case[1000];                        //repertorie les cases potentiellment destructibles dans un  tableau
+            Case[] casePotDes = new Case[100];                        //repertorie les cases potentiellement destructibles dans un  tableau
+			Case[] caseDes = new Case[200] ;					// réportorie les cases destructibles (après la génération des murs destructibles)
 
             for (i = 0;i < 15;i++){                                 //on parcourt toutes les cases de la map
                 for (j = 0;j < 13;j++){
@@ -141,25 +148,51 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
                     } else if ((j==1 && (i==3||i==11))||(j==3 && (i==1 || i==13))||(j==9 &&(i==1 || i==13))||(j==11 && (i==3||i==11))){
                         Mur m = new MurD();                  //mise en place des cases destructibles obligatoires autour de zones de départ
                         g[i][j].setMur(m);
+                        caseDes[cpt2] = g[i][j] ;
+                        cpt2 ++ ;
                     } else if(!((j<=2 && i<=2) || (j>=10 && i<=2) || (j<=2 && i>=12) || (j>=10 && i>=12))){
-                        caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
+                        casePotDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
                         cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
                     }
-                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5,0));}
+                    if( (i==1 || i==13) && (j==1 || j==11)){
+                    	g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5,0));
+                    }
                 }
             }
-            int a;
-            int b;
-           // System.out.println(cpt);
+            int x;
+            int y;
+           	//System.out.println(cpt);
             for(i=0;i<nbDestru;i++){
                 random = (int)(Math.random() * cpt);
-                a=caseDes[random].posX();
-                b=caseDes[random].posY();
+                x=casePotDes[random].posX();
+                y=casePotDes[random].posY();
                 Mur m = new MurD();
-                g[a][b].setMur(m);
-                caseDes[random]=caseDes[cpt-1];
+                g[x][y].setMur(m);
+                casePotDes[random]=casePotDes[cpt-1];
                 cpt --;
+                caseDes[cpt2] = g[x][y] ;
+                cpt2 ++ ;
             }
+
+			int compteurb=0;
+            int a ;
+            int b ;
+
+			while (compteurb!=bonus){
+				a=(int)(Math.random()*cpt2-1);
+				while(caseDes[a].getBonus()!=null) {
+					a=(int)(Math.random()*cpt2-1);
+				}
+				b=(int)(Math.random()*4);
+				switch (b){
+					case 0: caseDes[a].setBonus(new BonusBombe(caseDes[a])); break;
+					case 1: caseDes[a].setBonus(new BonusExplo(caseDes[a])); break;
+					case 2: caseDes[a].setBonus(new BonusMove(caseDes[a])); break;
+					case 3: caseDes[a].setBonus(new BonusPousser(caseDes[a]));break;
+
+				}
+				compteurb++;
+			}/**/
 
             Map m=new Map();
             m.settailleX(15);
@@ -177,10 +210,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
             return m;
         }
 
-
-	    // 1 : indestructible
-	    // 2 : entree/sortie
-	    // 0 : libre
 
 
 	/**
