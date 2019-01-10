@@ -1,6 +1,7 @@
 package com.bomber.game;
 
 public class BonusExplo extends Bonus {
+
     public BonusExplo(Case C) {
         super(C,Bomberball.multiTexture[8]);
     }

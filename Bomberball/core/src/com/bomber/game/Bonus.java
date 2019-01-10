@@ -3,7 +3,9 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Bonus extends Image {
+import java.io.Serializable;
+
+public class Bonus extends Image  {
     Case c;
 
     public Bonus(Case C){
@@ -12,7 +14,8 @@ public class Bonus extends Image {
     protected Bonus(Case C,Texture t){
         super(t);
         this.setName("bonus");
-        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        this.setBounds(Bomberball.taillecase/4,Bomberball.taillecase/4,Bomberball.taillecase,Bomberball.taillecase);
+        this.setScale(0.5f);
         c=C;
     }
 

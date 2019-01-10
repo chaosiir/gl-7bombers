@@ -21,6 +21,8 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     private Mur mur;
     private Personnage personnage;
     private Porte porte;
+    private Ennemis ennemi;
+    private Image marque; //Elle me sert pour l'éditeur de déplacement des ennemis passifs
 
     public Case() {
         this.setPosition((x)*Bomberball.taillecase,(y)*Bomberball.taillecase);//definition de la position  = coordonnées * taille d'une case
@@ -32,6 +34,17 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
 
     }
 
+    public Ennemis getEnnemi(){
+        return ennemi;
+    }
+
+    public void setEnnemi(Ennemis E){
+        removeActor(this.ennemi);
+        this.ennemi=E;
+        if(E!=null){
+            this.addActor(E);
+        }
+    }
 
     public Map getMap() {
         return map;
@@ -41,6 +54,20 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         this.map = map;
     }
 
+    public void setMarque(Image r){
+        removeActor(this.marque);
+        this.marque=r;
+        if(r!=null){
+            this.addActor(r);
+            r.setName("red");
+            r.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        }
+    }
+
+    public Image getMarque(){
+        return this.marque;
+    }
+
 
 
     public Bombe getBombe() {
@@ -48,6 +75,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setBombe(Bombe bombe) {
+        this.removeActor(this.bombe);
         this.bombe = bombe;
         if (bombe != null) {
             this.addActor(bombe);
@@ -59,6 +87,8 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setBonus(Bonus bonus) {
+        this.removeActor(findActor("bonus"));
+        this.removeActor(this.bonus);
         this.bonus = bonus;
         if (bonus != null) {
             this.addActor(bonus);
@@ -88,17 +118,12 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setMur(Mur mur) {
+        removeActor(findActor("MurD"));
+        removeActor(findActor("MurI"));
+        this.mur = mur;
         if (mur != null) {
-            if (this.mur != null) {
-                removeActor(findActor("MurD"));
-                removeActor(findActor("MurI"));
-            }
-            this.mur = mur;
             mur.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
             this.addActor(mur);// rajout d'un mur à la bonne taille est possition
-        }
-        else{
-            this.mur=mur;
         }
     }
     public Personnage getPersonnage() {
@@ -135,6 +160,9 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         if(this.personnage!=null){
             this.personnage.setVivant(false);
             this.removeActor(personnage);
+        } if (this.ennemi!=null){
+            this.ennemi.setVivant(false);
+            this.removeActor(ennemi);
         }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {
@@ -182,6 +210,9 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
             this.personnage.setVivant(false);
             this.removeActor(personnage);
         }
+        if (this.ennemi!=null){
+              this.ennemi.setVivant(false);
+        }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {
                 float time=0;
@@ -227,6 +258,9 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
             this.personnage.setVivant(false);
             this.removeActor(personnage);
         }
+        if (this.ennemi!=null){
+            this.ennemi.setVivant(false);
+        }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {
                 float time=0;
@@ -271,6 +305,9 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         if(this.personnage!=null){
             this.personnage.setVivant(false);
             this.removeActor(personnage);
+        }
+        if (this.ennemi!=null){
+            this.ennemi.setVivant(false);
         }
         if (this.mur instanceof MurD){
             this.addAction(new Action() {

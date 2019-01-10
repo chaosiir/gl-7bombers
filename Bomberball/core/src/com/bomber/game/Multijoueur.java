@@ -74,14 +74,23 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         jeu.map=null;
                         jeu.removeActor(jeu.findActor("Map"));
 
+                        for(int i=0;i<4;i++){
+                            jeu.removeActor(joueurs[i]);
+                        }
+
                         game.victoire=new Victoire(game,jeu,"Match nul");
                         jeu.setEtat(game.victoire);
                         game.setScreen(game.victoire);
+
+
                     }
                     else if(nbviv==1){
                         jeu.map=null;
                         jeu.removeActor(jeu.findActor("Map"));
                         game.victoire=new Victoire(game,jeu,"Victoire joueur "+(viv+1));
+                        for(int i=0;i<4;i++){
+                            jeu.removeActor(joueurs[i]);
+                        }
                         jeu.setEtat(game.victoire);
                         game.setScreen(game.victoire);
                     }
@@ -116,7 +125,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
     @Override
     public void show() {
-        jeu.map=Map.generatePvp(65);
+        if(jeu.map==null){
+            jeu.map=Map.generatePvp(65);
+        }
         int a=0;
         for(int i=0;i<jeu.map.getGrille().length;i++){
             for (int j=0;j<jeu.map.getGrille()[1].length;j++){
