@@ -31,6 +31,7 @@ public class EditeurNMulti extends Etat implements Screen {
     Image bonusB;
     Image bonusM;
     Image bonusE;
+    Image bonusP;
 
     Label select;
     Label instruction1;
@@ -117,6 +118,10 @@ public class EditeurNMulti extends Etat implements Screen {
         bonusM = new Image(Bomberball.multiTexture[7]);
         bonusM.setName("bonusM");
         bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+        bonusP = new Image(Bomberball.multiTexture[19]);
+        bonusP.setName("bonusP");
+        bonusP.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         select= new com.badlogic.gdx.scenes.scene2d.ui.Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
