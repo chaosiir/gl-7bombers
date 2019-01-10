@@ -31,6 +31,7 @@ public class Bomberball extends Game {
 
 
 	MenuPrincipalBis menuPrincipalBis;
+    MenuPause menuPause;
 	MenuSolo menuSolo;
 	ParametreSolo parametreSolo;
 	ChoixEditeurN choixEditeurN;
@@ -79,6 +80,10 @@ public class Bomberball extends Game {
 		multiTexture[16] = new Texture("bat1.png");
 		multiTexture[17] = new Texture("ghost1.png");
 		multiTexture[18] = new Texture("rouge.png");
+		multiTexture[19]= new Texture("item_throwing.png");
+		multiTexture[20]= new Texture("player2.png");
+		multiTexture[21]= new Texture("player3.png");
+		multiTexture[22]= new Texture("player4.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
 		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu = new Jeu();
@@ -89,6 +94,7 @@ public class Bomberball extends Game {
 
 		menuPrincipalBis = new MenuPrincipalBis(this, jeu);
 		menuSolo = new MenuSolo(this, jeu);
+        menuPause = new MenuPause(this, jeu);
 		parametreSolo = new ParametreSolo(this, jeu);
 		choixEditeurN = new ChoixEditeurN(this, jeu);
 		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);
