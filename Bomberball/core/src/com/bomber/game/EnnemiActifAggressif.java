@@ -37,17 +37,7 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
 
-    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
 
-    public boolean caseLibre(Case caseC){
-        Map m=caseC.getMap();
-        Mur mur=caseC.getMur();
-        Ennemis ennemi=caseC.getEnnemi();
-        if ((ennemi==null)||(mur==null)){
-            return true;
-        }
-        else return false;
-    }
     public LinkedList<Case> voisinAccessibles (Case caseC){
 
         Map m=caseC.getMap();
@@ -82,7 +72,7 @@ public class EnnemiActifAggressif extends Ennemis {
         LinkedList<Case> visites = new LinkedList<Case>();
         visites.add(c);
 
-        chemin = cheminMaxAux(visites, pm - 1);
+        prochain_deplacement = cheminMaxAux(visites, pm - 1);
 
     }
 
@@ -173,7 +163,7 @@ public class EnnemiActifAggressif extends Ennemis {
                             cheminPasse.add(suivant);
                             if (suivant== cPerso) {
                                 // On a trouver un chemin vers le joueur: il est l'une des solutions optimales
-                                chemin = cheminPasse;
+                                prochain_deplacement = cheminPasse;
                             }
                         }
                     }
@@ -223,13 +213,4 @@ public class EnnemiActifAggressif extends Ennemis {
             agro=false;
         }
     }
-
-
-    public void main() {
-        Map map = Map.genererMapSolo(20, 10);
-
-    }
-
-
-    }
-
+}

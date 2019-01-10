@@ -1,22 +1,23 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.util.LinkedList;
 
-public abstract class Ennemis extends Actor {
+public abstract class Ennemis extends Image {
     protected Case c;
     protected boolean vivant;
 
-    public LinkedList<Case> getChemin() {
-        return chemin;
+    public LinkedList<Case> getProchain_deplacement() {
+        return prochain_deplacement;
     }
 
-    public void setChemin(LinkedList<Case> chemin) {
-        this.chemin = chemin;
+    public void setProchain_deplacement(LinkedList<Case> chemin) {
+        this.prochain_deplacement = chemin;
     }
 
-    protected LinkedList<Case> chemin;
+    protected LinkedList<Case> prochain_deplacement;
 
 
     public Case getC() {
@@ -53,4 +54,14 @@ public abstract class Ennemis extends Actor {
         this.pm = pm;
     }
 
+    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
+    public boolean caseLibre(Case caseC){
+        Map m=caseC.getMap();
+        Mur mur=caseC.getMur();
+        Ennemis ennemi=caseC.getEnnemi();
+        if ((ennemi==null)&&(mur==null)){
+            return true;
+        }
+        else return false;
+    }
 }

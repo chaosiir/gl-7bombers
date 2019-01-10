@@ -6,16 +6,7 @@ import java.util.LinkedList;
 public class EnnemiActif extends Ennemis {
 
 
-    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
-    public boolean caseLibre(Case caseC){
-        Map m=caseC.getMap();
-        Mur mur=caseC.getMur();
-        Ennemis ennemi=caseC.getEnnemi();
-        if ((ennemi==null)||(mur==null)){
-            return true;
-        }
-        else return false;
-    }
+
 
     /* fonction renvoyant la liste des cases non occupées par un mur ou un autre ennemi autour de la case donnée*/
     public LinkedList<Case> voisinAccessibles (Case caseC){
@@ -51,7 +42,7 @@ public class EnnemiActif extends Ennemis {
         LinkedList<Case> visites = new LinkedList<Case>();
         visites.add(c);
 
-        chemin = cheminMaxAux(visites,pm-1);
+        prochain_deplacement = cheminMaxAux(visites,pm-1);
 
     }
 
@@ -87,14 +78,4 @@ public class EnnemiActif extends Ennemis {
     public void miseAjour(){
         cheminMax();
     }
-
-
-
-
-    public void main(){
-        Map map=Map.genererMapSolo(20,10);
-
-    }
-
-
 }
