@@ -25,6 +25,7 @@ public class Personnage extends Image  {
 
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
         super(Bomberball.perso.findRegion("pdown2"));
+
         this.setName("Personnage");
         this.setSize(Bomberball.taillecase,Bomberball.taillecase);
         this.vivant = vivant;
@@ -35,6 +36,12 @@ public class Personnage extends Image  {
         this.poussee=false;
         this.id=id;
 
+    }
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
     }
 
     public int getTaille() {
