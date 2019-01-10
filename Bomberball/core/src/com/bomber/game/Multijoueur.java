@@ -15,6 +15,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     private Bomberball game;
     private Personnage joueurs[]=new Personnage[4];
     private int tour=0;
+    int reduction=1;
 
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
@@ -60,6 +61,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                     }
                 }
                 if (keycode == Input.Keys.ENTER) {
+                    if(15-2*reduction>5) {
+                        jeu.map.rapprochementDesMurs(reduction);
+                        reduction++;
+                    }
                     jeu.map.explosion();
                     tour=(tour+1)%4;
                     int nbviv=0;
@@ -71,6 +76,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         }
                     }
                     if(nbviv==0){
+                        reduction=1;
                         jeu.map=null;
                         jeu.removeActor(jeu.findActor("Map"));
 
@@ -85,6 +91,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
                     }
                     else if(nbviv==1){
+                        reduction=1;
                         jeu.map=null;
                         jeu.removeActor(jeu.findActor("Map"));
                         game.victoire=new Victoire(game,jeu,"Victoire joueur "+(viv+1));
@@ -125,6 +132,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
     @Override
     public void show() {
+
         if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.generatePvp(65, jeu.nbBonus);

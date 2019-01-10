@@ -658,10 +658,41 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 		}
 		return m;
 
-
 	}
 
+	public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
+		ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>() ;
 
+		for(int i=indiceContour ; i<= 14-indiceContour ; i++) {
+			grille[i][indiceContour].setMur(new MurI());
+			if(grille[i][indiceContour].getPersonnage() != null) {
+				grille[i][indiceContour].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[i][indiceContour].getPersonnage()) ;
+			}
+
+			grille[i][12-indiceContour].setMur(new MurI());
+			if(grille[i][12-indiceContour].getPersonnage() != null) {
+				grille[i][12-indiceContour].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[i][12-indiceContour].getPersonnage()) ;
+			}
+		}
+
+		for(int i=indiceContour+1 ; i<= 11-indiceContour ; i++) {
+			grille[indiceContour][i].setMur(new MurI());
+			if(grille[indiceContour][i].getPersonnage() != null) {
+				grille[indiceContour][i].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[indiceContour][i].getPersonnage()) ;
+			}
+
+			grille[14-indiceContour][i].setMur(new MurI());
+			if(grille[14-indiceContour][i].getPersonnage() != null) {
+				grille[14-indiceContour][i].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[14-indiceContour][i].getPersonnage()) ;
+			}
+		}
+
+		return listePersosEcrases ;
+	}
 
 }
 
