@@ -118,53 +118,88 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 
 	    //génération de la map PvP de base
 	    //Renvoie un tableau de case de taille 15x13 avec le pourtour
-        public static Map generatePvp(int nbDestru){
-            int i;			// indice de ligne
-            int j;			// indice de colonne
-            int cpt = 0;		//compteur de cases potentiellment destructibles, spoiler il y en a 93
-            int random;
-            if (nbDestru>93){
-                nbDestru=93;
-            }
+		public static Map generatePvp(int nbDestru, int bonus){
+			int i;			// indice de ligne
+			int j;			// indice de colonne
+			int cpt = 0;		//compteur de cases potentiellement destructibles, spoiler il y en a 93
+			int cpt2 = 0 ;   //indice allant de 1 à nbDestru
+			int random;
+			if (nbDestru>93){
+				nbDestru=93;
+			}
+			if(bonus>nbDestru){
+				bonus=nbDestru;
+			}
 
-            Case[][] g = new Case[15][13];                          //ce qu'on va renvoyer, le tableau de case
-            Case[] caseDes = new Case[1000];                        //repertorie les cases potentiellment destructibles dans un  tableau
+			int tmp = nbDestru ; //indicateur indiquant le nombre de cases destructibles qu'il reste à mettre
+			int id=0;
 
-            for (i = 0;i < 15;i++){                                 //on parcourt toutes les cases de la map
-                for (j = 0;j < 13;j++){
-                    g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
-                    g[i][j].setposX(i);
-                    g[i][j].setposY(j);
-                    if (i==0 || i==14 || j==0 || j==12 || (i%2==0 && j%2==0)) { //si la case fait partie des case indestructibles
-                        Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
-                        g[i][j].setMur(m);
-                    } else if ((j==1 && (i==3||i==11))||(j==3 && (i==1 || i==13))||(j==9 &&(i==1 || i==13))||(j==11 && (i==3||i==11))){
-                        Mur m = new MurD();                  //mise en place des cases destructibles obligatoires autour de zones de départ
-                        g[i][j].setMur(m);
-                    } else if(!((j<=2 && i<=2) || (j>=10 && i<=2) || (j<=2 && i>=12) || (j>=10 && i>=12))){
-                        caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
-                        cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
-                    }
-                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5));}
-                }
-            }
-            int a;
-            int b;
-           // System.out.println(cpt);
-            for(i=0;i<nbDestru;i++){
-                random = (int)(Math.random() * cpt);
-                a=caseDes[random].posX();
-                b=caseDes[random].posY();
-                Mur m = new MurD();
-                g[a][b].setMur(m);
-                caseDes[random]=caseDes[cpt-1];
-                cpt --;
-            }
+			Case[][] g = new Case[15][13];                          //ce qu'on va renvoyer, le tableau de case
+			Case[] casePotDes = new Case[100];                        //repertorie les cases potentiellement destructibles dans un  tableau
+			Case[] caseDes = new Case[200] ;					// réportorie les cases destructibles (après la génération des murs destructibles)
 
-            Map m=new Map();
-            m.settailleX(15);
-            m.settailleY(13);
-            m.setGrille(g);
+			for (i = 0;i < 15;i++){                                 //on parcourt toutes les cases de la map
+				for (j = 0;j < 13;j++){
+					g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
+					g[i][j].setposX(i);
+					g[i][j].setposY(j);
+					if (i==0 || i==14 || j==0 || j==12 || (i%2==0 && j%2==0)) { //si la case fait partie des case indestructibles
+						Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
+						g[i][j].setMur(m);
+					} else if ((j==1 && (i==3||i==11))||(j==3 && (i==1 || i==13))||(j==9 &&(i==1 || i==13))||(j==11 && (i==3||i==11))){
+						Mur m = new MurD();                  //mise en place des cases destructibles obligatoires autour de zones de départ
+						g[i][j].setMur(m);
+						caseDes[cpt2] = g[i][j] ;
+						cpt2 ++ ;
+					} else if(!((j<=2 && i<=2) || (j>=10 && i<=2) || (j<=2 && i>=12) || (j>=10 && i>=12))){
+						casePotDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
+						cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
+					}
+					if( (i==1 || i==13) && (j==1 || j==11)){
+						g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5,id));
+						id++;
+					}
+				}
+			}
+			int x;
+			int y;
+			//System.out.println(cpt);
+			for(i=0;i<nbDestru;i++){
+				random = (int)(Math.random() * cpt);
+				x=casePotDes[random].posX();
+				y=casePotDes[random].posY();
+				Mur m = new MurD();
+				g[x][y].setMur(m);
+				casePotDes[random]=casePotDes[cpt-1];
+				cpt --;
+				caseDes[cpt2] = g[x][y] ;
+				cpt2 ++ ;
+			}
+
+			int compteurb=0;
+			int a ;
+			int b ;
+
+			while (compteurb!=bonus){
+				a=(int)(Math.random()*cpt2-1);
+				while(caseDes[a].getBonus()!=null) {
+					a=(int)(Math.random()*cpt2-1);
+				}
+				b=(int)(Math.random()*4);
+				switch (b){
+					case 0: caseDes[a].setBonus(new BonusBombe(caseDes[a])); break;
+					case 1: caseDes[a].setBonus(new BonusExplo(caseDes[a])); break;
+					case 2: caseDes[a].setBonus(new BonusMove(caseDes[a])); break;
+					case 3: caseDes[a].setBonus(new BonusPousser(caseDes[a]));break;
+
+				}
+				compteurb++;
+			}/**/
+
+			Map m=new Map();
+			m.settailleX(15);
+			m.settailleY(13);
+			m.setGrille(g);
 			for (i = 0; i < m.tailleX(); i++) {
 				for (j = 0; j < m.tailleY(); j++) {
 					m.getGrille()[i][j].setName("Case"+i+j);
@@ -174,8 +209,8 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				}
 
 			}
-            return m;
-        }
+			return m;
+		}
 
 
 	    // 1 : indestructible
@@ -349,7 +384,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
                 cpt--;
             }
             if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5));
+                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5,0));
                 cpt--;
             }
         }
@@ -360,7 +395,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			while(dest[x].getBonus()!=null) {
 				x=(int)(Math.random()*dest.length-1);
 			}
-			y=(int)(Math.random()*3);
+			y=(int)(Math.random()*4);
 			switch (y){
 				case 0: dest[x].setBonus(new BonusBombe(dest[x])); break;
 				case 1: dest[x].setBonus(new BonusExplo(dest[x])); break;
@@ -562,13 +597,14 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 0	sol vide
 	 * 1	mur destructible
 	 * 2 	mur indestructible
-	 * 3 	personnage
+	 * 3 	personnage de base
 	 * 4	porte
 	 * 5 	mur destructible + bonusBombe
 	 * 6 	mur destructible + bonusExplo
 	 * 7 	mur destructible + bonusMove
 	 * 8 	mur destructible + bonusPousser
 	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
+	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
 	 */
 	public static Map mapFromString(String string){
 		Map m= new Map();
@@ -582,7 +618,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
 				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
 				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
-				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5)); break;
+				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5,0)); break;
 				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
 				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
