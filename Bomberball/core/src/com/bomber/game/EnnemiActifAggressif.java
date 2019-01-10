@@ -3,20 +3,11 @@ package com.bomber.game;
 import java.util.LinkedList;
 
 public class EnnemiActifAggressif extends Ennemis {
-    private LinkedList<Case>  chemin;
     private int portee;
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
     dans un carré de taille 5x5 autour de l'ennemi*/
 
     private boolean agro = false;
-
-    public LinkedList<Case> getChemin() {
-        return chemin;
-    }
-
-    public void setChemin(LinkedList<Case> chemin) {
-        this.chemin = chemin;
-    }
 
     public int getPortee() {
         return portee;
@@ -35,6 +26,12 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     public EnnemiActifAggressif(int portee, boolean agro) {
+        this.portee = portee;
+        this.agro = agro;
+    }
+
+    public EnnemiActifAggressif(boolean vivant, Case c, int pm, int portee, boolean agro) {
+        super(vivant, c, pm);
         this.portee = portee;
         this.agro = agro;
     }

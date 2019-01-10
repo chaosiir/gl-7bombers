@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class EnnemiActif extends Ennemis {
-    private LinkedList<Case>  chemin;
 
 
     /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/

@@ -2,9 +2,22 @@ package com.bomber.game;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import java.util.LinkedList;
+
 public abstract class Ennemis extends Actor {
     protected Case c;
     protected boolean vivant;
+
+    public LinkedList<Case> getChemin() {
+        return chemin;
+    }
+
+    public void setChemin(LinkedList<Case> chemin) {
+        this.chemin = chemin;
+    }
+
+    protected LinkedList<Case> chemin;
+
 
     public Case getC() {
         return c;
