@@ -1,20 +1,53 @@
+
 package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Case {
+import java.io.Serializable;
+
+// !!! a faire très important lorqu'on enleve les mur / perso/ acteur  => enlever l'acteur
+//ce serait mieux de supprimer les parametre et de prendre les acteurs par nom à chaque fois (à voir si plus pratique => on peut le recuperer
+// en damandant à un groupe de nous donner un acteur  avec un nom via group.getActor(nom) => voir tuto Acteur
+public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bonus /personnage)
+    Map map;
     private int x;
     private int y;
     private Bombe bombe;
     private Bonus bonus;
     private Mur mur;
-
-
-
-    private Porte porte;
     private Personnage personnage;
+    private Porte porte;
+    private Ennemis ennemi;
+
+
+
+
+
+
+    public Case() {
+        this.setPosition((x)*Bomberball.taillecase,(y)*Bomberball.taillecase);//definition de la position  = coordonnées * taille d'une case
+        Image background=new Image(Bomberball.multiTexture[0]);//de base une image s'affiche vide (sol) si il y a qqc il sera afficher au dessus
+        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);//definition de la taille de l'image
+        //et de la position (0,0) = sur la case car position relative
+        this.addActor(background);// une image est un acteur => voir tuto acteur
+
+
+    }
+
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+
 
     public Bombe getBombe() {
         return bombe;
@@ -22,6 +55,9 @@ public class Case {
 
     public void setBombe(Bombe bombe) {
         this.bombe = bombe;
+        if (bombe != null) {
+            this.addActor(bombe);
+        }
     }
 
     public Bonus getBonus() {
@@ -30,68 +66,269 @@ public class Case {
 
     public void setBonus(Bonus bonus) {
         this.bonus = bonus;
+        if (bonus != null) {
+            this.addActor(bonus);
+        }
     }
 
     public Mur getMur() {
         return mur;
     }
 
-    public void setMur(Mur mur) {
-        this.mur = mur;
-    }
-
-    public Personnage getPersonnage() {
-        return personnage;
-    }
-
-    public void setPersonnage(Personnage personnage) {
-        this.personnage = personnage;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) { this.y = y; }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
 
     public Porte getPorte() {
         return porte;
     }
 
     public void setPorte(Porte porte) {
-        this.porte = porte;
+        this.removeActor(this.findActor("Porte"));
+        if (porte!=null){
+            this.porte=porte;
+            porte.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            this.addActor(porte);
+        }
+        else{
+            this.porte=null;
+        }
+
     }
 
-    public void afficher(Batch b,Texture [] multt) {
-        Sprite s;
+    public void setMur(Mur mur) {
+        removeActor(findActor("MurD"));
+        removeActor(findActor("MurI"));
+        this.mur = mur;
+        if (mur != null) {
+            mur.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
+            this.addActor(mur);// rajout d'un mur à la bonne taille est possition
+        }
+    }
+    public Personnage getPersonnage() {
+        return personnage;
+    }
 
-        if (mur == null) {
-            s = new Sprite(multt[0]);
+    public void setPersonnage(Personnage personnage) {// meme chose que pour mur
+        this.removeActor(this.findActor("Personnage"));
+        this.personnage = personnage;
+        if (personnage != null) {
+            this.addActor(personnage);
+        }
+    }
+
+    public int posY() {
+        return y;
+    }
+
+    public void setposY(int y) { this.y = y;
+        this.setY(y*Bomberball.taillecase);}//convertion du y de position dans la grille à la coordonnee de l'ecran
+
+    public int posX() {
+        return x;
+    }
+
+    public void setposX(int x) {
+        this.x = x;
+        this.setX(2*Bomberball.taillecase+x*Bomberball.taillecase);
+    }
 
 
-        } else {
-            if (mur.destructible()) {
-                s = new Sprite(multt[1]);
-            } else {
-                s = new Sprite( multt[2]);
+    public Ennemis getEnnemi() {
+        return ennemi;
+    }
+
+    public void setEnnemi(Ennemis ennemi) {
+        this.ennemi = ennemi;
+    }
+
+
+
+    public void explosionHaute(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?11:12]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            if (longueur>0){
+                this.getMap().getGrille()[x][y+1].explosionHaute(longueur-1);
             }
         }
-        s.setPosition(x * 50 + 600, y * 50 + 100);
-        s.setSize(50, 50);
-        b.draw(s,s.getX(),s.getY(),0,0,s.getWidth(),s.getHeight(),s.getScaleX(),s.getScaleY(),0);
-        if (porte != null) {
-            porte.afficher(b, x, y,multt);
+
+    }
+
+    public void explosionBasse(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+
         }
-        if (personnage != null) {
-            personnage.afficher(b, x, y,multt);
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?11:13]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            if (longueur>0){
+                this.getMap().getGrille()[x][y-1].explosionBasse(longueur-1);
+            }
+        }
+
+    }
+
+    public void explosionDroite(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?10:14]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            if (longueur>0){
+                this.getMap().getGrille()[x+1][y].explosionDroite(longueur-1);
+            }
+        }
+
+    }
+
+    public void explosionGauche(int longueur){
+        if(this.personnage!=null){
+            this.personnage.setVivant(false);
+        }
+        if (this.mur instanceof MurD){
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(mur);
+                        setMur(null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } else if (this.mur instanceof MurI){
+            //rien
+        }else {
+            Image explo=new Image(Bomberball.multiTexture[(longueur>0)?10:15]);
+            explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+            explo.setName("explo");
+            this.addActor(explo);
+            this.addAction(new Action() {
+                float time=0;
+                @Override
+                public boolean act(float delta) {
+                    time+=delta;
+                    if(time>1){
+                        removeActor(findActor("explo"));
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            if (longueur>0){
+                this.getMap().getGrille()[x-1][y].explosionGauche(longueur-1);
+            }
         }
     }
+
+
+
+    public void suppBombe(){
+        this.bombe=null;
+        this.removeActor(this.findActor("bombe"));
+    }
+    public void suppBonus(){
+        this.bonus=null;
+        this.removeActor(this.findActor("bonus"));
+
+    }
+
+
 }

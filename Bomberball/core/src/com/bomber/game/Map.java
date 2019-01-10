@@ -1,22 +1,70 @@
 
 package com.bomber.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
-public class Map {
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Json;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class Map extends Group  {//meme chose map est un group d'acteur (les cases)
 	private int mat[][];
+	private Case[][] grille;
+	private int x;      //dimensions de la map, typiquement 15x13
+	private int y;
+	private boolean solomulti;
 
+
+	/**
+	 * Constructeur de la classe Map
+	 * @return une map 15*13
+	 */
 	public Map(){
 		super();
-		grille=new Case[13][11];
+		this.setPosition(Bomberball.taillecase*2.5f, Bomberball.taillecase/2);//on definit sa position dans la fenetre tout les acteurs
+		// appartenant à ce groupe auront une position relative à celle-ci => voir tuto Acteur/group
+		//la taillecase est defini dans bomberball par rapport à la taille de l'ecran
+		grille=new Case[15][13];
+		x=15;
+		y=13;
 	}
-	
+
+
+	/**
+	 * Constructeur de la classe Map
+	 * @param g un tableau de case
+	 * @return une map dont la grille est intialisée
+	 */
 	public Map(Case g[][]) {
 		super();
 		grille=g;
 	}
-	
+
+
+	/**
+	 * Accesseur du tableau de case
+	 * @return la grille
+	 */
+	public Case[][] getGrille() {return grille; }
+	public void setGrille(Case[][] grille) {this.grille = grille;}
+	public int tailleX() {return x; }//!!!!!!!!!!!!!!!!!!!!!!!  le get/set X ou Y sont interdit car sont des fonctions pour l'affichage !!!!!!!!!!!
+	public void settailleX(int x) {this.x = x;}
+	public int tailleY() {return y;}
+	public void settailleY(int y) { this.y = y;}
+	public boolean isSolomulti() {return solomulti;}
+	public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
+
+
+	/**
+	 * @param lignes
+	 * @param colonnes
+	 * @return
+	 */
+
 	public int[][] mat(int lignes,int colonnes){
 		int t[][]=new int[lignes][colonnes];
 		int x,y;
@@ -40,7 +88,7 @@ public class Map {
 		}
 		return t;
 	}
-	
+
 	public static void main(String args[]) {
 		Map m=new Map();
 		int t[][]=m.mat(13,15);
@@ -62,81 +110,83 @@ public class Map {
             j=randomNum;
 
         }*/
-		
-	}
-	
-	    private Case[][] grille;
-	    private int x;      //dimensions de la map, typiquement 15x13
-	    private int y;
-	    private boolean solomulti;
 
-	    public Case[][] getGrille() {return grille; }
-	    public void setGrille(Case[][] grille) {this.grille = grille;}
-	    public int getX() {return x; }
-	    public void setX(int x) {this.x = x;}
-	    public int getY() {return y;}
-	    public void setY(int y) { this.y = y;}
-	    public boolean isSolomulti() {return solomulti;}
-	    public void setSolomulti(boolean solomulti) {this.solomulti = solomulti;}
+	}
 
 
 	    //génération de la map PvP de base
-	    //Renvoie un tableau de case de taille 13x15 avec le pourtour
-	    public static Map generatePvp(int nbDestru){
-	        int i;			// indice de ligne
-	        int j;			// indice de colonne
-	        int cpt = 0;		//compteur de cases potentiellment destructibles, spoiler il y en a 93
-	        int random;
-	        if (nbDestru>93){
-	            nbDestru=93;
-	        }
+	    //Renvoie un tableau de case de taille 15x13 avec le pourtour
+        public static Map generatePvp(int nbDestru){
+            int i;			// indice de ligne
+            int j;			// indice de colonne
+            int cpt = 0;		//compteur de cases potentiellment destructibles, spoiler il y en a 93
+            int random;
+            if (nbDestru>93){
+                nbDestru=93;
+            }
 
-	        Case[][] g = new Case[13][15];                          //ce qu'on va renvoyer, le tableau de case
-	        Case[] caseDes = new Case[1000];                        //repertorie les cases potentiellment destructibles dans un  tableau
+            Case[][] g = new Case[15][13];                          //ce qu'on va renvoyer, le tableau de case
+            Case[] caseDes = new Case[1000];                        //repertorie les cases potentiellment destructibles dans un  tableau
 
-	        for (i = 0;i < 13;i++){                                 //on parcourt toutes les cases de la map
-	            for (j = 0;j < 15;j++){
-	                g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
-	                g[i][j].setX(i);
-	                g[i][j].setY(j);
-	                if (j==0 || j==14 || i==0 || i==12 || (j%2==0 && i%2==0)) { //si la case fait partie des case indestructibles
-	                    Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
-	                    g[i][j].setMur(m);
-	                } else if ((i==1 && (j==3||j==11))||(i==3 && (j==1 || j==13))||(i==9 &&(j==1 || j==13))||(i==11 && (j==3||j==11))){
-	                    Mur m = new MurD();                  //mise en place des cases destructibles obligatoires autour de zones de départ
-	                    g[i][j].setMur(m);
-	                } else if(!((i<=2 && j<=2) || (i>=10 && j<=2) || (i<=2 && j>=12) || (i>=10 && j>=12))){
-	                    caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
-	                    cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
-	                }
-					if( (j==1 || j==13) && (i==1 || i==11)){g[i][j].setPersonnage(new Personnage());}
-	            }
-	        }
-	        int a;
-	        int b;
-	        System.out.println(cpt);
-	        for(i=0;i<nbDestru;i++){
-	            random = (int)(Math.random() * cpt);
-	            a=caseDes[random].getX();
-	            b=caseDes[random].getY();
-	            Mur m = new MurD();
-	            g[a][b].setMur(m);
-	            caseDes[random]=caseDes[cpt-1];
-	            cpt --;
-	        }
+            for (i = 0;i < 15;i++){                                 //on parcourt toutes les cases de la map
+                for (j = 0;j < 13;j++){
+                    g[i][j] = new Case();							//création d'une nouvelle case à la postion i,j
+                    g[i][j].setposX(i);
+                    g[i][j].setposY(j);
+                    if (i==0 || i==14 || j==0 || j==12 || (i%2==0 && j%2==0)) { //si la case fait partie des case indestructibles
+                        Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
+                        g[i][j].setMur(m);
+                    } else if ((j==1 && (i==3||i==11))||(j==3 && (i==1 || i==13))||(j==9 &&(i==1 || i==13))||(j==11 && (i==3||i==11))){
+                        Mur m = new MurD();                  //mise en place des cases destructibles obligatoires autour de zones de départ
+                        g[i][j].setMur(m);
+                    } else if(!((j<=2 && i<=2) || (j>=10 && i<=2) || (j<=2 && i>=12) || (j>=10 && i>=12))){
+                        caseDes[cpt]=g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
+                        cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
+                    }
+                    if( (i==1 || i==13) && (j==1 || j==11)){g[i][j].setPersonnage(new Personnage(true,g[i][j],2,1,5));}
+                }
+            }
+            int a;
+            int b;
+           // System.out.println(cpt);
+            for(i=0;i<nbDestru;i++){
+                random = (int)(Math.random() * cpt);
+                a=caseDes[random].posX();
+                b=caseDes[random].posY();
+                Mur m = new MurD();
+                g[a][b].setMur(m);
+                caseDes[random]=caseDes[cpt-1];
+                cpt --;
+            }
 
-	        Map m=new Map();
-			m.setX(13);
-			m.setY(15);
-	        m.grille=g;
-	        return m;
-	    }
+            Map m=new Map();
+            m.settailleX(15);
+            m.settailleY(13);
+            m.setGrille(g);
+			for (i = 0; i < m.tailleX(); i++) {
+				for (j = 0; j < m.tailleY(); j++) {
+					m.getGrille()[i][j].setName("Case"+i+j);
+					m.addActor(m.getGrille()[i][j]);
+					m.getGrille()[i][j].setMap(m);
+
+				}
+
+			}
+            return m;
+        }
+
 
 	    // 1 : indestructible
 	    // 2 : entree/sortie
 	    // 0 : libre
 
 
+	/**
+	 * Vérifie qu'un tableau passé en paramètre avec la convention ci-dessus est valide pour représenter une map
+	 * C'est-à-dire qu'il existe un chemin entre l'entrée et la sortie
+	 * @param t
+	 * @return true si la map a un chemin entre l'entrée et la sortie, false sinon
+	 */
 	public boolean verifSolo(int t[][]) { //Vérifie qu'une map solo est valide (convention 1=mur indestructible 2=départ/arrivée 0=libre);
 		int lignes=t.length;
 		int colonnes=t[0].length;
@@ -194,7 +244,7 @@ public class Map {
 		//Ici la matrice d'existence est faite.
 		int a=yd+colonnes*xd; //Valeur des sommets dans la matrice d'existence
 		int b=ya+colonnes*xa;
-		System.out.println("a="+a+" b="+b+" xa="+xa+" ya="+ya+" xd="+xd+" yd="+yd);
+		//System.out.println("a="+a+" b="+b+" xa="+xa+" ya="+ya+" xd="+xd+" yd="+yd);
 
 
 		int k;
@@ -225,77 +275,100 @@ public class Map {
 
 
 	}
-	public  Map generatePve(int nbDestru,int nbInDestru) {
-		Case [][] grille=new Case[13][15];
-		int x,y,tmp,tmp1;
-		x=(int)(Math.random()*13);
-		y=(int)(Math.random()*15);
-		if(nbDestru>89) {
-			nbDestru=89;
-		}
-		if(nbInDestru>40) {
-			nbInDestru=40;
-		}
-		tmp=nbDestru;
-		tmp1=nbInDestru;
 
-		for(int i=0;i<13;i++) {
-			for(int j=0;j<15;j++) {
-				grille[i][j]=new Case();
-				grille[i][j].setX(i);
-				grille[i][j].setY(j);
-				if (i==0 || j==0 || i==12 || j==14) {
-					grille[i][j].setMur(new MurI());
-				}
-			}
-		}
-		while(tmp>0) {
-			while(grille[x][y].getMur()!=null && tmp>0) {
-				x=(int)(Math.random()*13);
-				y=(int)(Math.random()*15);
-			}
-			if(tmp>0) {
-				grille[x][y].setMur(new MurD());
-				tmp--;
-			}
-		}
-		while(tmp1>0) {
-			while(grille[x][y].getMur()!=null && tmp1>0) {
-				x=(int)(Math.random()*13);
-				y=(int)(Math.random()*15);
-			}
-			if(tmp1>0) {
-				grille[x][y].setMur(new MurI());
-				tmp1--;
-			}
-		}
 
-		int cpt=2;
-		while (cpt>0) {
-			x=(int)(Math.random()*13);
-			y=(int)(Math.random()*15);
-			if(grille[x][y].getMur()==null && cpt==2) {
-				grille[x][y].setPorte(new Porte());
-				cpt--;
-			}
-			if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
-				grille[x][y].setPersonnage(new Personnage());
-				cpt--;
-			}
-		}
-		Map m=new Map();
-		m.setX(13);
-		m.setY(15);
-		m.setGrille(grille);
-		return m;
-	}
+	/**
+	 * Génére une map aléatoire sans s'occuper de sa validité
+	 * @param nbDestru 		nombre de blocs destructibles
+	 * @param nbInDestru	nombre de blocs indestructibles
+	 * @return une map
+	 */
+    public  Map generatePve(int nbDestru,int nbInDestru) {
+        Case [][] grille=new Case[15][13];
+        int x,y,tmp,tmp1;
+        x=(int)(Math.random()*15);
+        y=(int)(Math.random()*13);
+        if(nbDestru>89) {
+            nbDestru=89;
+        }
+        if(nbInDestru>40) {
+            nbInDestru=40;
+        }
+        tmp=nbDestru;
+        tmp1=nbInDestru;
 
-	int [][] traducteur(){//map.traducteur
-		int [][] tableau=new int [13][15];
+        for(int i=0;i<15;i++) {
+            for(int j=0;j<13;j++) {
+                grille[i][j]=new Case();
+                grille[i][j].setposX(i);
+                grille[i][j].setposY(j);
+                if (j==0 || i==0 || j==12 || i==14) {
+                    grille[i][j].setMur(new MurI());
+                }
+            }
+        }
+        while(tmp>0) {
+            while(grille[x][y].getMur()!=null && tmp>0) {
+                x=(int)(Math.random()*15);
+                y=(int)(Math.random()*13);
+            }
+            if(tmp>0) {
+                grille[x][y].setMur(new MurD());
+                tmp--;
+            }
+        }
+        while(tmp1>0) {
+            while(grille[x][y].getMur()!=null && tmp1>0) {
+                x=(int)(Math.random()*15);
+                y=(int)(Math.random()*13);
+            }
+            if(tmp1>0) {
+                grille[x][y].setMur(new MurI());
+                tmp1--;
+            }
+        }
+
+        int cpt=2;
+        while (cpt>0) {
+            x=(int)(Math.random()*15);
+            y=(int)(Math.random()*13);
+            if(grille[x][y].getMur()==null && cpt==2) {
+                grille[x][y].setPorte(new Porte());
+                cpt--;
+            }
+            if(grille[x][y].getMur()==null && cpt==1 && grille[x][y].getPorte()==null) {
+                grille[x][y].setPersonnage(new Personnage(true,grille[x][y],2,1,5));
+                cpt--;
+            }
+        }
+        Map m=new Map();
+        m.setGrille(grille);
 		int i;
 		int j;
-		for (i=0;i<13;i++){
-			for (j=0;j<15;j++){
+		for (i = 0; i < m.tailleX(); i++) {
+			for (j = 0; j < m.tailleY(); j++) {
+				m.getGrille()[i][j].setName("Case"+i+j);
+				m.addActor(m.getGrille()[i][j]);
+				m.getGrille()[i][j].setMap(m);
+				m.getGrille()[i][j].setMap(m);
+
+			}
+
+		}
+        return m;
+    }
+
+
+	/**
+	 * Méthode réalisant une conversion entre une map et un tableau compréhensible par verifSolo
+	 * @return un tableau d'entier
+	 */
+	int [][] traducteur(){//map.traducteur
+		int [][] tableau=new int [15][13];
+		int i;
+		int j;
+		for (i=0;i<15;i++){
+			for (j=0;j<13;j++){
 				if (this.grille[i][j].getMur() instanceof MurI){
 					//(MurI)this.grille[i][j].getMur().fdh();
 					tableau[i][j]=1;
@@ -314,7 +387,25 @@ public class Map {
 
 	}
 
-	public static Map genererMapSolo(int nbDestru,int nbInDestru) {
+	public void explosion(){ //explose toutes les bombes de la map
+		int i;
+		int j;
+		for (i=0;i<15;i++) {
+			for (j = 0; j < 13; j++) {
+				if (this.getGrille()[i][j].getBombe()!=null) {
+					this.getGrille()[i][j].getBombe().explosion();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Méthode générant une map solo aléatoire
+	 * @param nbDestru 		nombre de blocs destructibles
+	 * @param nbInDestru	nombre de blocs indestructibles
+	 * @return une map
+	 */
+	public static Map genererMapSolo(int nbDestru,int nbInDestru) { //C'est la fonction à appeller pour avoir une map
 		Map m = new Map();
 		m = m.generatePve(nbDestru, nbInDestru);
 		int t[][] = m.traducteur();
@@ -326,8 +417,8 @@ public class Map {
 				int j;
 				int x=1;
 				int y=1;
-				for(i=0;i<m.getX();i++){
-					for (j=0;j<m.getY();j++){
+				for(i=0;i<m.tailleX();i++){
+					for (j=0;j<m.tailleY();j++){
 						if(m.getGrille()[i][j].getPersonnage()!=null){
 							x=i;
 							y=j;
@@ -344,19 +435,96 @@ public class Map {
 
 
 		}
+		int i;
+		int j;
+		for (i = 0; i < m.tailleX(); i++) {
+			for (j = 0; j < m.tailleY(); j++) {
+				m.getGrille()[i][j].setName("Case"+i+j);
+				m.getGrille()[i][j].setMap(m);
+				m.addActor(m.getGrille()[i][j]);
+
+			}
+
+		}
 		return m;
 	}
 
-	public void afficher(Batch b, Texture[] multt){
-	    	int i;
-	    	int j;
-	    	for(i=0;i<x;i++){
-	    		for (j=0;j<y;j++){
-	    			grille[i][j].afficher(b,multt);
+	/**Transformation d'une map sous forme de texte avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 3 	personnage
+	 * 4	porte
+	 *
+	 */
+	public String mapToText(){
+		String s=new String();
+		for(int i=0;i<15;i++){
+			for(int j=0;j<13;j++){
+				if(this.getGrille()[i][j].getPorte()!=null){
+					s=s+i+" "+j+" "+"4\n";
 				}
+				else if (this.getGrille()[i][j].getPersonnage()!=null){
+					s=s+i+" "+j+" "+"3\n";
+				}
+				else if(this.getGrille()[i][j].getMur()!=null){
+					if(this.getGrille()[i][j].getMur() instanceof MurI){
+						s=s+i+" "+j+" "+"2\n";
+					}
+					else{
+						s=s+i+" "+j+" "+"1\n";
+					}
+				}
+				else{
+					s=s+i+" "+j+" "+"0\n";
+				}
+
+
 			}
+		}
+		return s;
+	}
+	/**Transformation d'un texte vers une map avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 3 	personnage
+	 * 4	porte
+	 *
+	 */
+	public static Map mapFromString(String string){
+		Map m= new Map();
+		Case[][] g=new Case[15][13];
+		Scanner scan=new Scanner(string);
+		while(scan.hasNext()){
+			int x=scan.nextInt();
+			int y=scan.nextInt();
+			int choix=scan.nextInt();
+			switch (choix){
+				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
+				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
+				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
+				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5)); break;
+				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); g[x][y].setPorte(new Porte());
+			}
+		}
+		m.setGrille(g);
+		int i,j;
+		for (i = 0; i < m.tailleX(); i++) {
+			for (j = 0; j < m.tailleY(); j++) {
+				m.getGrille()[i][j].setName("Case"+i+j);
+				m.getGrille()[i][j].setMap(m);
+				m.addActor(m.getGrille()[i][j]);
+
+			}
+
+		}
+		return m;
+
 
 	}
 
 
+
 }
+
