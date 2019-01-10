@@ -32,7 +32,7 @@ public class Bomberball extends Game {
 
 	MenuPrincipalBis menuPrincipalBis;
 	MenuSolo menuSolo;
-	MenuPause menupause;
+	MenuPause menuPause;
 	ParametreSolo parametreSolo;
 	ChoixEditeurN choixEditeurN;
     ChoixMenuMultijoueur choixMenuMultijoueur;
@@ -89,6 +89,7 @@ public class Bomberball extends Game {
 
 		menuPrincipalBis = new MenuPrincipalBis(this, jeu);
 		menuSolo = new MenuSolo(this, jeu);
+		menuPause = new MenuPause(this, jeu);
 		parametreSolo = new ParametreSolo(this, jeu);
 		choixEditeurN = new ChoixEditeurN(this, jeu);
 		choixMenuMultijoueur = new ChoixMenuMultijoueur(this, jeu);

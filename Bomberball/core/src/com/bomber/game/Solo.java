@@ -90,9 +90,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                     }
                 }
                 if (keycode == Input.Keys.ESCAPE) {
-                    bombaaaagh.menupause.setEtatAnterieur(this);
-                    jeu.setEtat(game.menupause);
-                    game.setScreen(game.menupause);
+                    bombaaaagh.menuPause.setEtatAnterieur(this);
+                    jeu.setEtat(game.menuPause);
+                    game.setScreen(game.menuPause);
                 }
             }
         }
