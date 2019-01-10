@@ -41,6 +41,7 @@ public class EditeurNSolo extends Etat implements Screen {
     Image bonusB;
     Image bonusM;
     Image bonusE;
+    Image bonusP;
     Image ennemisPassif;
 
     Label select;
@@ -165,9 +166,15 @@ public class EditeurNSolo extends Etat implements Screen {
         bonusM.setName("bonusM");
         bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
+        bonusP = new Image(Bomberball.multiTexture[19]);
+        bonusP.setName("BonusP");
+        bonusP.setBounds(2*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+
         ennemisPassif = new Image(Bomberball.multiTexture[17]);
         ennemisPassif.setName("ghost");
         ennemisPassif.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
 
         select= new Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -268,6 +275,7 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(bonusB);
         jeu.addActor(bonusE);
         jeu.addActor(bonusM);
+        jeu.addActor(bonusP);
         jeu.addActor(ennemisPassif);
         jeu.addActor(select);
         jeu.addActor(selectionne);
@@ -445,6 +453,10 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
             }
+            else if(hitActor.getName().equals("BonusP")){
+                selectionne.setDrawable(bonusP.getDrawable());
+                selectionne.setName("bP");
+            }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
                 if(c.posX()==0 || c.posX()==14 || c.posY()==0 || c.posY()==12){
@@ -538,6 +550,10 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("bE")){
                             c.setBonus(new BonusExplo(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bP")){
+                            c.setBonus(new BonusPousser(c));
                             c.getBonus().setScale(0.5f);
                         }
                     }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.awt.*;
 
@@ -22,6 +23,13 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     Image mouvement;
     Image pousse;
     Image explosion;
+
+    Label nbmvt;
+    Label nbBombe;
+    Label porteExplo;
+
+    Image player;
+
     private Bomberball bombaaaagh;
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
@@ -133,22 +141,30 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         joueur=new Image(new Texture(Gdx.files.internal("Panneau_joueur.png")));
         joueur.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         joueur.setHeight(3*Bomberball.taillecase);
-        joueur.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight());
+        joueur.setPosition(0,Gdx.graphics.getHeight()-3*Bomberball.taillecase);
 
         mouvement = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
         mouvement.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
-        mouvement.setHeight(3*Bomberball.taillecase);
-        mouvement.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight()-mouvement.getHeight());
+        mouvement.setHeight(2*Bomberball.taillecase);
+        mouvement.setPosition(0,Gdx.graphics.getHeight()-5*Bomberball.taillecase);
 
         bombe=new Image(new Texture(Gdx.files.internal("Nombre_bombe.png")));
         bombe.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
-        bombe.setHeight(3*Bomberball.taillecase);
-        bombe.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight()-bombe.getHeight()-mouvement.getHeight());
+        bombe.setHeight(2*Bomberball.taillecase);
+        bombe.setPosition(0,Gdx.graphics.getHeight()- 7*Bomberball.taillecase);
 
         explosion=new Image(new Texture(Gdx.files.internal("Portée_bombe.png")));
         explosion.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
-        explosion.setHeight(3*Bomberball.taillecase);
+        explosion.setHeight(2*Bomberball.taillecase);
         explosion.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight()-bombe.getHeight()-mouvement.getHeight()-explosion.getHeight());
+
+        pousse=new Image(new Texture(Gdx.files.internal("icone_Bonus_pousser.png")));
+
+
+        player=new Image(Bomberball.multiTexture[4]);
+        player.setBounds(6*Bomberball.taillecase,Gdx.graphics.getHeight()-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+
 
 
 
@@ -157,6 +173,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         jeu.addActor(bombe);
         jeu.addActor(mouvement);
         jeu.addActor(explosion);
+        jeu.addActor(player);
         jeu.addActor(jeu.map);
 
     }

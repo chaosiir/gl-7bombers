@@ -170,6 +170,7 @@ public class Personnage extends Image  {
                         c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
                         c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage((Personnage) target);
                         c=tmp;
+                        if(c.getBonus()!=null){c.getBonus().action();}
                         c.addActor(target);
                         setY(0);
                     }
@@ -194,7 +195,7 @@ public class Personnage extends Image  {
                 c.getMap().getGrille()[c.posX()][c.posY()-i+1].setBombe(new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()-i+1]));
             }
 
-            if(c.getBonus()!=null){c.getBonus().action();}
+
             return true;
         }
         if (c.getEnnemi()!=null){
