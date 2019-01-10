@@ -4,15 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.awt.*;
 
 public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
     int nb=1;
+    Image back;
+
+    Image joueur;
+    Image bombe;
+    Image mouvement;
+    Image pousse;
+    Image explosion;
     private Bomberball bombaaaagh;
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
@@ -101,14 +110,53 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     public void show() {
         pm=5;
         nb=1;
+        int ymax= Toolkit.getDefaultToolkit().getScreenSize().height;
+        back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
+        back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+
+
+
 
         if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
+                jeu.nbBonus=-1;
+            }
+            else{
+                jeu.map=Map.genererMapSolo(65,10,5);
             }
 
         }
+        jeu.map.setPosition(Gdx.graphics.getWidth()-(jeu.map.getGrille().length+2f)*Bomberball.taillecase ,0);
+        jeu.map.setScaleY(27f/26f);
+        joueur=new Image(new Texture(Gdx.files.internal("Panneau_joueur.png")));
+        joueur.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        joueur.setHeight(3*Bomberball.taillecase);
+        joueur.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight());
 
+        mouvement = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
+        mouvement.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        mouvement.setHeight(3*Bomberball.taillecase);
+        mouvement.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight()-mouvement.getHeight());
+
+        bombe=new Image(new Texture(Gdx.files.internal("Nombre_bombe.png")));
+        bombe.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        bombe.setHeight(3*Bomberball.taillecase);
+        bombe.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight()-bombe.getHeight()-mouvement.getHeight());
+
+        explosion=new Image(new Texture(Gdx.files.internal("Portée_bombe.png")));
+        explosion.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
+        explosion.setHeight(3*Bomberball.taillecase);
+        explosion.setPosition(0,Gdx.graphics.getHeight()-joueur.getHeight()-bombe.getHeight()-mouvement.getHeight()-explosion.getHeight());
+
+
+
+        jeu.addActor(back);
+        jeu.addActor(joueur);
+        jeu.addActor(bombe);
+        jeu.addActor(mouvement);
+        jeu.addActor(explosion);
         jeu.addActor(jeu.map);
 
     }

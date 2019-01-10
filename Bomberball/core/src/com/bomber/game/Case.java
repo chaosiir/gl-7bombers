@@ -22,6 +22,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     private Personnage personnage;
     private Porte porte;
     private Ennemis ennemi;
+    private Image marque; //Elle me sert pour l'éditeur de déplacement des ennemis passifs
 
     public Case() {
         this.setPosition((x)*Bomberball.taillecase,(y)*Bomberball.taillecase);//definition de la position  = coordonnées * taille d'une case
@@ -38,7 +39,11 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
     public void setEnnemi(Ennemis E){
-        ennemi=E;
+        removeActor(this.ennemi);
+        this.ennemi=E;
+        if(E!=null){
+            this.addActor(E);
+        }
     }
 
     public Map getMap() {
@@ -47,6 +52,20 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
 
     public void setMap(Map map) {
         this.map = map;
+    }
+
+    public void setMarque(Image r){
+        removeActor(this.marque);
+        this.marque=r;
+        if(r!=null){
+            this.addActor(r);
+            r.setName("red");
+            r.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        }
+    }
+
+    public Image getMarque(){
+        return this.marque;
     }
 
 
