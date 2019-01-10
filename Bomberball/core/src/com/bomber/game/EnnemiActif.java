@@ -19,12 +19,12 @@ public class EnnemiActif extends Ennemis {
     }
 
     /* fonction renvoyant la liste des cases non occupées par un mur ou un autre ennemi autour de la case donnée*/
-    public ArrayList<Case> voisinAccessibles (Case caseC){
+    public LinkedList<Case> voisinAccessibles (Case caseC){
         Map m=caseC.getMap();
         Case[][] grille = m.getGrille();
         int a=caseC.posX();
         int b=caseC.posY();
-        ArrayList<Case> voisin = new ArrayList<Case>();
+        LinkedList<Case> voisin = new LinkedList<Case>();
 
         if (caseLibre(grille[a-1][b])) {
             voisin.add(grille[a-1][b]);
@@ -46,17 +46,18 @@ public class EnnemiActif extends Ennemis {
     }
 
 
-    public void cheminMax(Case caseC){
+    /* Met à jour le chemin de l'ennemi pour qu'il soit maximum */
+    public void cheminMax(){
 
-        ArrayList<Case> visites = new ArrayList<Case>();
-        visites.add(caseC);
+        LinkedList<Case> visites = new LinkedList<Case>();
+        visites.add(c);
 
         chemin = cheminMaxAux(visites,pm-1);
 
     }
 
-
-    public LinkedList<Case> cheminMaxAux(ArrayList<Case> visites,int pmRestants){
+    /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
+    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmRestants){
         //case initiale = visites[pm - pmRestants]
         LinkedList<Case> res = new LinkedList<Case>();
 
@@ -65,15 +66,15 @@ public class EnnemiActif extends Ennemis {
             return res;
         }
         else {
-            ArrayList<Case> voisins = voisinAccessibles(visites.get( pm - pmRestants - 1));
+            LinkedList<Case> voisins = voisinAccessibles(visites.get( pm - pmRestants - 1));
 
             LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
 
 
             // sinon on parcours les cases voisines non visitées
-            for (Case c : voisins) {
-                if (!visites.contains(c)) {
-                    visites.set( pm - pmRestants,c) ;
+            for (Case a : voisins) {
+                if (!visites.contains(a)) {
+                    visites.set( pm - pmRestants,a) ;
                     cheminProvisoire = cheminMaxAux(visites, pmRestants - 1);
                     if (cheminProvisoire.size() > res.size()) {
                         res = cheminProvisoire;
@@ -83,6 +84,13 @@ public class EnnemiActif extends Ennemis {
             return res;
         }
     }
+
+    public void miseAjour(){
+        cheminMax();
+    }
+
+
+
 
     public void main(){
         Map map=Map.genererMapSolo(20,10);
