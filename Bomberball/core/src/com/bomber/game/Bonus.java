@@ -19,6 +19,9 @@ public class Bonus extends Image  {
         c=C;
     }
 
+    /**
+     * Applique les effets du bonus au joueur sur la case associee au bonus
+     */
     public void action(){
     }
 

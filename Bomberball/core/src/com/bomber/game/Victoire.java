@@ -28,6 +28,9 @@ public class Victoire extends Etat implements Screen {
 
 
     @Override
+    /**
+     * Affiche une fenetre signalant la victoire d'un joueur, jusqu'à ce qu'on clique sur un bouton
+     */
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 

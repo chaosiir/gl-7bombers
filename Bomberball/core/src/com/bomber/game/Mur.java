@@ -12,7 +12,10 @@ public class Mur extends Image  {// un mur est une image = un acteur avec un spr
     }
 
 
-
+    /**
+     * Verifie si le mur est destructible
+     * @return boolean
+     */
     public boolean destructible(){
         return true;
     }

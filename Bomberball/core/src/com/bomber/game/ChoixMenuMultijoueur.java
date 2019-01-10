@@ -40,6 +40,9 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Affiche un menu permettant de choisir une option pour le mode multi (jouer, selection de map, parametres, quitter)
+     */
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );

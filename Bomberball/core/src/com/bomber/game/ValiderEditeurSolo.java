@@ -42,6 +42,9 @@ public class ValiderEditeurSolo extends Etat implements Screen {
 
 
     @Override
+    /**
+     * Affiche un menu permettant de sauvegarder une map solo
+     */
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 

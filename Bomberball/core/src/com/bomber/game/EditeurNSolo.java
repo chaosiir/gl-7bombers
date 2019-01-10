@@ -80,6 +80,9 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Permet de generer une map solo, d'y ajouter et enlever différents éléments du solo (personnage, bonus, ennemis, blocs, porte)
+     */
     public void show() {
 
         if(f.exists()){

@@ -30,6 +30,11 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     }
 
     @Override
+    /**
+     * Indique la reaction lors de l'appui d'une touche en mode solo (deplacement, depot de bombe, fin de tour)
+     * @param event evenement traité
+     * @param keycode code de la touche appuyée
+     */
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = jeu.map.findActor("Personnage");
         if(jeu.findActor("explo")==null) {

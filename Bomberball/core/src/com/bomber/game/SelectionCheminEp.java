@@ -60,6 +60,9 @@ public class SelectionCheminEp extends Etat implements Screen {
 
 
     @Override
+    /**
+     * Affiche un menu permettant d'ajouter un ennemi passif dans l'editeur et de configurer sa trajectoire
+     */
     public void show() {
         String text=Bomberball.loadFile(f);
         map=Map.mapFromString(text);
@@ -189,6 +192,15 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * 
+     * @param event
+     * @param x
+     * @param y
+     * @param pointer
+     * @param button
+     * @return boolean
+     */
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         Actor hitActor= jeu.getStage().hit(x,y,true);
         if(hitActor.getParent() instanceof Case && hitActor.getName()==null){

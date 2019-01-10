@@ -30,6 +30,9 @@ public class ErreurEditeurS extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Affiche un menu indiquant que la map solo créée n'est pas valide (joueur ou porte manquant)
+     */
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 

@@ -60,6 +60,9 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Permet de generer une map multi, d'y ajouter et enlever différents éléments du multi (personnages, bonus, blocs)
+     */
     public void show() {
         if(f.exists()){
             String text=Bomberball.loadFile(f);

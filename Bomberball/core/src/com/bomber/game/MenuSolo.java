@@ -30,6 +30,9 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Affiche un menu permettant de choisir une option pour le mode solo (jouer, selection de map, parametres, quitter)
+     */
     public void show() {
 
         // called when this screen is set as the screen with game.setScreen();

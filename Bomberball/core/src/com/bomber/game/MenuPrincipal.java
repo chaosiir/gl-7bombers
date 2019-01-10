@@ -37,8 +37,6 @@ public class MenuPrincipal extends Etat { //Vestige du passé
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
-
-
         return true;
     }
 
@@ -51,6 +49,7 @@ public class MenuPrincipal extends Etat { //Vestige du passé
     public boolean mouseMoved(InputEvent event, float x, float y) {
         return false;
     }
+
 
     public void createMenu(){
         skin=new Skin(Gdx.files.internal("uiskin.json"));
