@@ -56,7 +56,7 @@ public class EnnemiActif extends Ennemis {
             return res;
         }
         else {
-            LinkedList<Case> voisins = voisinAccessibles(visites.get( pm - pmRestants - 1));
+            LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
 
             LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
 
