@@ -24,7 +24,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
+    public boolean keyDown(InputEvent event, int keycode) {//deplacement = fleche pas encore implementee
         Personnage joueur = joueurs[tour];
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {
