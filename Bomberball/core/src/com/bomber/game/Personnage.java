@@ -110,7 +110,7 @@ public class Personnage extends Image  {
     }
 
     public boolean deplacerHaut(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"2"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideHaut()){
 
@@ -128,9 +128,9 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-
+                    System.out.println(id+"  "+(int)(time*8)%4);
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+""+(int)(time*8)%4))));
-
+                    setSize(Bomberball.taillecase,Bomberball.taillecase);
                     return time>0.5;
                 }
             });
@@ -173,6 +173,7 @@ public class Personnage extends Image  {
                 public boolean act(float delta) {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
+                    setSize(Bomberball.taillecase,Bomberball.taillecase);
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
