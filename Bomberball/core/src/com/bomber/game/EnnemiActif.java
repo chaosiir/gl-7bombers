@@ -48,7 +48,7 @@ public class EnnemiActif extends Ennemis {
 
     /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
     public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmRestants){
-        //case initiale = visites[pm - pmRestants]
+        //case initiale = visites[pm - pmRestants -1]
         LinkedList<Case> res = new LinkedList<Case>();
 
         // cas de base: l'ennemi ne peut pas aller plus loin
@@ -64,7 +64,12 @@ public class EnnemiActif extends Ennemis {
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    visites.set( pm - pmRestants,a) ;
+                    if (visites.size()==(pm-pmRestants)){
+                        visites.add(a) ;
+                    }
+                    else{
+                        visites.set(pm - pmRestants,a) ;
+                    }
                     cheminProvisoire = cheminMaxAux(visites, pmRestants - 1);
                     if (cheminProvisoire.size() > res.size()) {
                         res = cheminProvisoire;
