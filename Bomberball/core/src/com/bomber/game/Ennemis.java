@@ -18,20 +18,15 @@ public abstract class Ennemis extends Image {
         this.setName("Ennemis");
     }
 
+
     public void setVivant(boolean v) {
         vivant = v;
     }
 
     public Case getC(){return c;}
 
-
     public void deplacer(){
         int i = pm;
-        while (i>0){
 
-            if (c.getPersonnage()!=null){
-                c.getPersonnage().setVivant(false);
-            }
-        }
     }
 }

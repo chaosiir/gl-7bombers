@@ -30,9 +30,6 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     @Override
-    /**
-     * Affichage d'un menu permettant de choisir entre editer une map solo et une map multi
-     */
     public void show() {
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));

@@ -30,6 +30,8 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);//definition de la taille de l'image
         //et de la position (0,0) = sur la case car position relative
         this.addActor(background);// une image est un acteur => voir tuto acteur
+
+
     }
 
     public Ennemis getEnnemi(){
@@ -66,6 +68,8 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         return this.marque;
     }
 
+
+
     public Bombe getBombe() {
         return bombe;
     }
@@ -94,6 +98,7 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     public Mur getMur() {
         return mur;
     }
+
 
     public Porte getPorte() {
         return porte;
@@ -149,14 +154,9 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         this.setX(2*Bomberball.taillecase+x*Bomberball.taillecase);
     }
 
-    /**
-     * Declenche une explosion sur la case.
-     * Bloque L'explosion s'il y a un mur, la propage à la case supérieure si la portée de l'explosion n'est pas atteinte.
-     * Tue les joueurs et ennemis sur la case, et détruis les murs destructibles.
-     */
+
 
     public void explosionHaute(int longueur){
-        // S'il y a un joueur ou un ennemi sur une case atteinte par l'explosion, celui-ci est elimine
         if(this.personnage!=null){
             this.personnage.setVivant(false);
             this.removeActor(personnage);
@@ -165,7 +165,6 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
             this.removeActor(ennemi);
         }
         if (this.mur instanceof MurD){
-            // Si la case est occupee par un mur destructible, celui-ci est supprime, il reste une case vide avec pottentiellement un bonus
             this.addAction(new Action() {
                 float time=0;
                 @Override
@@ -181,9 +180,8 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
             });
 
         } else if (this.mur instanceof MurI){
-            // Si la case est occupee par un mur indestructible, celui-ci bloque l'explosion et il ne se passe rien
+            //rien
         }else {
-            // Si la case n'est occupee par aucun mur, on affiche la texture de l'explosion
             Image explo=new Image(Bomberball.multiTexture[(longueur>0)?11:12]);
             explo.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
             explo.setName("explo");
@@ -200,7 +198,6 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
                     return false;
                 }
             });
-            // Ensuite, si la portée limite de l'explosion n'a pas ete atteinte, on indique a la case suivante dans la direction appropriee qu'elle subit aussi l'explosion
             if (longueur>0){
                 this.getMap().getGrille()[x][y+1].explosionHaute(longueur-1);
             }
@@ -208,11 +205,6 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
 
     }
 
-    /**
-     * Declenche une explosion sur la case.
-     * Bloque L'explosion s'il y a un mur, la propage à la case inferieure si la portée de l'explosion n'est pas atteinte.
-     * Tue les joueurs et ennemis sur la case, et détruis les murs destructibles.
-     */
     public void explosionBasse(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
@@ -261,11 +253,6 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
 
     }
 
-    /**
-     * Declenche une explosion sur la case.
-     * Bloque L'explosion s'il y a un mur, la propage à la case de droite si la portée de l'explosion n'est pas atteinte.
-     * Tue les joueurs et ennemis sur la case, et détruis les murs destructibles.
-     */
     public void explosionDroite(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
@@ -314,11 +301,6 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
 
     }
 
-    /**
-     * Declenche une explosion sur la case.
-     * Bloque L'explosion s'il y a un mur, la propage à la case de gauche si la portée de l'explosion n'est pas atteinte.
-     * Tue les joueurs et ennemis sur la case, et détruis les murs destructibles.
-     */
     public void explosionGauche(int longueur){
         if(this.personnage!=null){
             this.personnage.setVivant(false);
@@ -367,17 +349,11 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     }
 
 
-    /**
-     * Supprime la bombe associée a la case
-     */
+
     public void suppBombe(){
         this.bombe=null;
         this.removeActor(this.findActor("bombe"));
     }
-
-    /**
-     * Supprime le bonus associé a la case
-     */
     public void suppBonus(){
         this.bonus=null;
         this.removeActor(this.findActor("bonus"));

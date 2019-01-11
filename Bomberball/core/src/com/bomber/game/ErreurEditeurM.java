@@ -26,9 +26,6 @@ public class ErreurEditeurM extends Etat implements Screen {
 
 
     @Override
-    /**
-     * Affiche un menu indiquant que la map multijoueur créée n'est pas valide (nombre de joueur inapproprié)
-     */
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 

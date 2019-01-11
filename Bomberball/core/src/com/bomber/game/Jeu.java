@@ -24,7 +24,7 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
         this.addListener(new InputListener(){//on rajoute au jeu un des fonctions en cas d'input => voir tuto Inputs
             @Override
             public boolean keyDown(InputEvent event, int keycode) {//si une touche est pressée le return renvoi si la touche a été traitée => pas utile ici
-                if(keycode==Input.Keys.ESCAPE){
+                if(keycode==Input.Keys.ESCAPE && !(etat instanceof Solo)){
                         Gdx.app.exit();//si c'est escape on quitte le jeu
                 }
                 return etat.keyDown( event, keycode);//sinon on l'envoi à l'etat

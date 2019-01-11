@@ -251,7 +251,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                         nbBombe.setText(""+nb);
                         nbmvt.setText(""+pm);
                     } else {
-                        joueur.getC().removeActor(joueur);
+                       joueur.getC().removeActor(joueur);
                     }
                     if(joueur.getC().getPorte()!=null){
                         jeu.removeActor(joueur);

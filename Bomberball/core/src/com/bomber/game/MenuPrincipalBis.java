@@ -60,9 +60,6 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
 
         @Override
-        /**
-         * Affiche un menu permettant de choisir des options de jeu (jouer en solo, joueur en multi, editer une ma p, quitter)
-         */
         public void show() {
 
             // called when this screen is set as the screen with game.setScreen();

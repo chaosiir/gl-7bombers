@@ -14,16 +14,18 @@ import java.io.Serializable;
 
 public class Personnage extends Image  {
 
-    private boolean vivant;//statut du personnage,
-    private Case c;//case ou se trouve le personnage
+    private boolean vivant;
+    private Case c;
     private int taille;//taille de l'explosion de la bombe, 3 par defaut
     private int nbBombe;//bombe posable par tour, 1 par défaut
     private int pm;//points de mouvement, 5 par defaut
     private boolean poussee;
+    private int id;
 
 
-    public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm) {
-        super(Bomberball.perso.findRegion("pdown2"));
+    public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
+        super(Bomberball.perso.findRegion("pdown"+id+"2"));
+
         this.setName("Personnage");
         this.setSize(Bomberball.taillecase,Bomberball.taillecase);
         this.vivant = vivant;
@@ -31,12 +33,20 @@ public class Personnage extends Image  {
         this.taille = taille;
         this.nbBombe = nbBombe;
         this.pm = pm;
-        this.poussee=true;
+        this.poussee=false;
+        this.id=id;
+
+    }
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
     }
 
     public int getTaille() {
         return taille;
-    }
+    } //Taille d'une explosion
 
     public void setTaille(int taille) {
         this.taille = taille;
@@ -82,11 +92,7 @@ public class Personnage extends Image  {
         this.vivant = vivant;
     }
 
-    /**
-     * Associe une bombe à la case associée au personnage
-     */
     public boolean poserBombe() {
-        // Si le personnage a encore des bombes a poser, une bombe est cree avec la portée du personnage, et deposée sur la case ou il se trouve
         if (c.getBombe() == null && this.nbBombe>0) {
             Bombe b = new Bombe(taille, c);
             c.setBombe(b);
@@ -103,24 +109,17 @@ public class Personnage extends Image  {
         s.draw(b);
     }
 
-    /**
-     * Deplace le personnage d'une case vers le haut si celle-ci n'a pas de mur.
-     * Tue le personnage s'il y a un ennemi, et s'il y a un bonus, lui attribue.
-     * Si le personnage a le bonus appoprie,lui permet de pousser une bombe.
-     */
     public boolean deplacerHaut(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"2"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-        // Si la case ciblee est libre, le personnage s'y deplace
         if (caseVideHaut()){
-            // On commence par changer la case a laquelle le joueur est associe
+
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
             c.removeActor(this);
             c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage((Personnage) this);
             c=tmp;
-            // S'il y a un bonus sur la case ou le joueur arrive, celui-ci est consomme et les caracteristiques du joueur sont modifies en consequence
             if(c.getBonus()!=null){c.getBonus().action();}
             c.addActor(this);
             setY(-Bomberball.taillecase);
@@ -129,22 +128,21 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pup%d",(int)(time*8)%4)))));
-
+                    System.out.println(id+"  "+(int)(time*8)%4);
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+""+(int)(time*8)%4))));
+                    setSize(Bomberball.taillecase,Bomberball.taillecase);
                     return time>0.5;
                 }
             });
-            // On effectue ensuite l'animation du deplacement
             MoveByAction action=new MoveByAction();
             action.setAmount(0,Bomberball.taillecase);
             action.setDuration(0.5f);
             this.addAction(action);
-            // Si le joueur dispose du bonus de pousse et qu'il y a une bombe sur la case, il peut la pousser
+            /*Fin de l'animation*/
+            /*Poussage de la bombe*/
             if (c.getBombe()!=null){
                 c.setBombe(null);
                 int i = 0;
-                // Dans ce cas, la bombe se deplace jusqu'a ce qu'elle rencontre le moindre obstacle
                 do {
                     i++;
                 } while (c.getMap().getGrille()[c.posX()][c.posY()+i].getPersonnage()==null &&
@@ -156,20 +154,15 @@ public class Personnage extends Image  {
 
             return true;
         }
-        // S'il y a un ennemi sur la case ou le joueur arrive, le joueur est tue
+
         if (c.getEnnemi()!=null){
             this.setVivant(false);
         }
         return false;
     }
 
-    /**
-     * Deplace le personnage d'une case vers le bas si celle-ci n'a pas de mur.
-     * Tue le personnage s'il y a un ennemi, et s'il y a un bonus, lui attribue.
-     * Si le personnage a le bonus appoprie,lui permet de pousser une bombe.
-     */
     public boolean deplacerBas(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (this.caseVideBas()){
 
@@ -179,7 +172,8 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pdown%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
+                    setSize(Bomberball.taillecase,Bomberball.taillecase);
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
@@ -187,6 +181,7 @@ public class Personnage extends Image  {
                         c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
                         c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage((Personnage) target);
                         c=tmp;
+                        if(c.getBonus()!=null){c.getBonus().action();}
                         c.addActor(target);
                         setY(0);
                     }
@@ -196,7 +191,7 @@ public class Personnage extends Image  {
 
             MoveByAction action=new MoveByAction();
             action.setAmount(0,-Bomberball.taillecase);
-            action.setDuration(0.5f);
+            action.setDuration(0.45f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -211,7 +206,7 @@ public class Personnage extends Image  {
                 c.getMap().getGrille()[c.posX()][c.posY()-i+1].setBombe(new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()-i+1]));
             }
 
-            if(c.getBonus()!=null){c.getBonus().action();}
+
             return true;
         }
         if (c.getEnnemi()!=null){
@@ -220,13 +215,8 @@ public class Personnage extends Image  {
         return false;
     }
 
-    /**
-     * Deplace le personnage d'une case vers la droite si celle-ci n'a pas de mur.
-     * Tue le personnage s'il y a un ennemi, et s'il y a un bonus, lui attribue.
-     * Si le personnage a le bonus appoprie,lui permet de pousser une bombe.
-     */
     public boolean deplacerDroite(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideDroite()){
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
@@ -242,7 +232,7 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pr%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+""+(int)(time*8)%4))));
 
                     return time>0.5;
                 }
@@ -273,13 +263,8 @@ public class Personnage extends Image  {
         return false;
     }
 
-    /**
-     * Deplace le personnage d'une case vers la gauche si celle-ci n'a pas de mur.
-     * Tue le personnage s'il y a un ennemi, et s'il y a un bonus, lui attribue.
-     * Si le personnage a le bonus appoprie,lui permet de pousser une bombe.
-     */
     public boolean deplacerGauche(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl0"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideGauche()){
 
@@ -288,7 +273,7 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion(String.format("pl%d",(int)(time*8)%4)))));
+                    setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+""+(int)(time*8)%4))));
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
@@ -305,7 +290,7 @@ public class Personnage extends Image  {
             });
             MoveByAction action=new MoveByAction();
             action.setAmount(-Bomberball.taillecase,0);
-            action.setDuration(0.5f);
+            action.setDuration(0.45f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -329,18 +314,12 @@ public class Personnage extends Image  {
         return false;
     }
 
-    /**
-     * Attribue au persoonage le bonus de la case ou il se trouve
-     */
     public void ramasserBonus(){
         if (c.getBonus()!=null){
             c.getBonus().action();
         }
     }
 
-    /**
-     * Verifie que la case au-dessus du personnage est vide
-     */
     public boolean caseVideHaut(){
         if (c.getMap().getGrille()[c.posX()][c.posY()+1].getMur()!=null ||
                 c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
@@ -357,9 +336,6 @@ public class Personnage extends Image  {
         return false;
     }
 
-    /**
-     * Verifie que la case au-dessous du personnage est vide
-     */
     public boolean caseVideBas(){
         if (c.getMap().getGrille()[c.posX()][c.posY()-1].getMur()!=null ||
                 c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
@@ -376,9 +352,6 @@ public class Personnage extends Image  {
         return false;
     }
 
-    /**
-     * Verifie que la case à droite du personnage est vide
-     */
     public boolean caseVideDroite(){
         if (c.getMap().getGrille()[c.posX()+1][c.posY()].getMur()!=null ||
                 c.getMap().getGrille()[c.posX()+1][c.posY()].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
@@ -395,9 +368,6 @@ public class Personnage extends Image  {
         return false;
     }
 
-    /**
-     * Verifie que la case à gauche du personnage est vide
-     */
     public boolean caseVideGauche(){
         if (c.getMap().getGrille()[c.posX()-1][c.posY()].getMur()!=null ||
                 c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
@@ -413,4 +383,9 @@ public class Personnage extends Image  {
         }
         return false;
     }
+
+
+
+
+
 }

@@ -16,7 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class MenuPause extends Etat implements Screen {
+
+
+
     private Etat etatAnterieur;
     private Image back;
     private Skin skin;
@@ -24,12 +31,21 @@ public class MenuPause extends Etat implements Screen {
     private TextButton reprendreButton;
     private  TextButton recommencerButton;
     private  TextButton quitterButton;
+    File f;
+    FileWriter fw;
     Bomberball game; // Note it's "MyGame" not "Game"
 
     // constructor to keep a reference to the main Game class
     public MenuPause(Bomberball game,Jeu jeu){
         super(jeu);
         this.game = game;
+        File directory = new File (".");
+        try {
+            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+
+        } catch (IOException e) {
+
+        }
     }
 
     public void setEtatAnterieur(Etat e){
@@ -71,7 +87,7 @@ public class MenuPause extends Etat implements Screen {
         return false;
     }
 
-    public void show{
+    public void show(){
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -89,7 +105,7 @@ public class MenuPause extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.setEtat(etatAnterieur);
-                game.setScreen(etatAnterieur);
+                game.setScreen((Screen)etatAnterieur);
             }
         });
 
@@ -106,6 +122,7 @@ public class MenuPause extends Etat implements Screen {
         quitterButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map=null;
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }

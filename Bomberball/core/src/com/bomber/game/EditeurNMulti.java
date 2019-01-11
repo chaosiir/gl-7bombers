@@ -24,16 +24,16 @@ public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
     Image floor;
-    Image perso1;
-    Image perso2;
-    Image perso3;
-    Image perso4;
     Image murd;
     Image muri;
     Image selectionne;
     Image bonusB;
     Image bonusM;
     Image bonusE;
+    Image perso1;
+    Image perso2;
+    Image perso3;
+    Image perso4;
     Image bonusP;
 
     Label select;
@@ -64,16 +64,13 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
-    /**
-     * Permet de generer une map multi, d'y ajouter et enlever différents éléments du multi (personnages, bonus, blocs)
-     */
     public void show() {
         if(f.exists()){
             String text=Bomberball.loadFile(f);
             map=Map.mapFromString(text);
         }
         else{
-            map=Map.generatePvp(20);
+            map=Map.generatePvp(20,5);
 
         }
         map.setPosition(7*Bomberball.taillecase,0);
@@ -104,17 +101,19 @@ public class EditeurNMulti extends Etat implements Screen {
         perso1.setName("perso1");
         perso1.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        perso2= new Image(Bomberball.multiTexture[4]);
+        perso2= new Image(Bomberball.multiTexture[20]);
         perso2.setName("perso2");
-        perso2.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        perso2.setBounds(2*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        perso3= new Image(Bomberball.multiTexture[4]);
+        perso3= new Image(Bomberball.multiTexture[21]);
         perso3.setName("perso3");
-        perso3.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        perso3.setBounds(2*Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        perso4= new Image(Bomberball.multiTexture[4]);
+        perso4= new Image(Bomberball.multiTexture[22]);
         perso4.setName("perso4");
-        perso4.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        perso4.setBounds(2*Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+
 
         selectionne= new Image();
         selectionne.setName("selection");
@@ -134,7 +133,7 @@ public class EditeurNMulti extends Etat implements Screen {
 
         bonusP = new Image(Bomberball.multiTexture[19]);
         bonusP.setName("bonusP");
-        bonusP.setBounds(Bomberball.taillecase,ymax-5*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        bonusP.setBounds(Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
         select= new com.badlogic.gdx.scenes.scene2d.ui.Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -295,19 +294,19 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("perso1")){
                 selectionne.setDrawable(perso1.getDrawable());
-                selectionne.setName("player");
+                selectionne.setName("player1");
             }
             else if(hitActor.getName().equals("perso2")){
                 selectionne.setDrawable(perso2.getDrawable());
-                selectionne.setName("player");
+                selectionne.setName("player2");
             }
             else if(hitActor.getName().equals("perso3")){
                 selectionne.setDrawable(perso3.getDrawable());
-                selectionne.setName("player");
+                selectionne.setName("player3");
             }
             else if(hitActor.getName().equals("perso4")){
                 selectionne.setDrawable(perso4.getDrawable());
-                selectionne.setName("player");
+                selectionne.setName("player4");
             }
             else if(hitActor.getName().equals("bonusB")){
                 selectionne.setDrawable(bonusB.getDrawable());
@@ -448,13 +447,6 @@ public class EditeurNMulti extends Etat implements Screen {
                             } else if (selectionne.getName().equals("p")) {
 
                             }
-                            else if(selectionne.getName().equals("player")){
-                                if(c.getMur()==null){
-                                    c.setPersonnage(new Personnage(true,c,2,1,5));
-                                }
-
-                            }
-
                         }
                     }
 
@@ -505,7 +497,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         else if(selectionne.getName().equals("player")){
                             c.setBonus(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
                         }
                         else if(selectionne.getName().equals("bB")){
@@ -585,9 +577,28 @@ public class EditeurNMulti extends Etat implements Screen {
                             c.setPersonnage(null);
                             c.setPorte(new Porte());
                         }
-                        else if(selectionne.getName().equals("player")){
+                        else if(selectionne.getName().equals("player1")){
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(null);
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                            }
+                        }
+                        else if(selectionne.getName().equals("player2")){
+                            if(c.getMur()==null){
+                                c.setPersonnage(null);
+                                c.setPersonnage(new Personnage(true,c,2,1,5,1));
+                            }
+                        }
+                        else if(selectionne.getName().equals("player3")){
+                            if(c.getMur()==null){
+                                c.setPersonnage(null);
+                                c.setPersonnage(new Personnage(true,c,2,1,5,2));
+                            }
+                        }
+                        else if(selectionne.getName().equals("player4")){
+                            if(c.getMur()==null){
+                                c.setPersonnage(null);
+                                c.setPersonnage(new Personnage(true,c,2,1,5,3));
                             }
                         }
                     }
@@ -627,7 +638,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         else if(selectionne.getName().equals("player")){
                             c.setBonus(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
@@ -641,6 +652,10 @@ public class EditeurNMulti extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("bE")){
                             c.setBonus(new BonusExplo(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bP")){
+                            c.setBonus(new BonusPousser(c));
                             c.getBonus().setScale(0.5f);
                         }
 
@@ -683,9 +698,28 @@ public class EditeurNMulti extends Etat implements Screen {
                     } else if (selectionne.getName().equals("p")) {
                         c.setPorte(new Porte());
                     }
-                    else if(selectionne.getName().equals("player")){
+                    else if(selectionne.getName().equals("player1")){
                         if(c.getMur()==null){
-                            c.setPersonnage(new Personnage(true,c,2,1,5));
+                            c.setPersonnage(null);
+                            c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                        }
+                    }
+                    else if(selectionne.getName().equals("player2")){
+                        if(c.getMur()==null){
+                            c.setPersonnage(null);
+                            c.setPersonnage(new Personnage(true,c,2,1,5,1));
+                        }
+                    }
+                    else if(selectionne.getName().equals("player3")){
+                        if(c.getMur()==null){
+                            c.setPersonnage(null);
+                            c.setPersonnage(new Personnage(true,c,2,1,5,2));
+                        }
+                    }
+                    else if(selectionne.getName().equals("player4")){
+                        if(c.getMur()==null){
+                            c.setPersonnage(null);
+                            c.setPersonnage(new Personnage(true,c,2,1,5,3));
                         }
                     }
                 }

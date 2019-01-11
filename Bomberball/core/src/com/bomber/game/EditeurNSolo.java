@@ -41,6 +41,7 @@ public class EditeurNSolo extends Etat implements Screen {
     Image bonusB;
     Image bonusM;
     Image bonusE;
+    Image bonusP;
     Image ennemisPassif;
     Image ennemisActif;
     Image ennemisPassifAgressif;
@@ -83,9 +84,6 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
-    /**
-     * Permet de generer une map solo, d'y ajouter et enlever différents éléments du solo (personnage, bonus, ennemis, blocs, porte)
-     */
     public void show() {
 
         if(f.exists()){
@@ -109,8 +107,26 @@ public class EditeurNSolo extends Etat implements Screen {
                     map.getGrille()[i][j].setBonus(b);
                     map.getGrille()[i][j].getBonus().setScale(0.5f);
                 }
+                if(map.getGrille()[i][j].getPersonnage()!=null){
+                    Personnage papa=map.getGrille()[i][j].getPersonnage();
+                    map.getGrille()[i][j].setPersonnage(null);
+                    map.getGrille()[i][j].setPersonnage(papa);
+                }
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -158,21 +174,28 @@ public class EditeurNSolo extends Etat implements Screen {
         bonusM.setName("bonusM");
         bonusM.setBounds(Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
+        bonusP = new Image(Bomberball.multiTexture[19]);
+        bonusP.setName("BonusP");
+        bonusP.setBounds(2*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+
         ennemisPassif = new Image(Bomberball.multiTexture[17]);
         ennemisPassif.setName("ghost1");
-        ennemisPassif.setBounds(2*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        ennemisPassif.setBounds(3*Bomberball.taillecase,ymax-Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        ennemisActif = new Image(Bomberball.multiTexture[]);
+        ennemisActif = new Image(Bomberball.multiTexture[16]);
         ennemisActif.setName("imp1");
-        ennemisActif.setBounds(2*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        ennemisActif.setBounds(3*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        ennemisPassifAgressif = new Image(Bomberball.multiTexture[]);
+        ennemisPassifAgressif = new Image(Bomberball.multiTexture[25]);
         ennemisPassifAgressif.setName("ghost2");
-        ennemisPassifAgressif.setBounds(2*Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        ennemisPassifAgressif.setBounds(3*Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        ennemisActifAgressif = new Image(Bomberball.multiTexture[]);
+        ennemisActifAgressif = new Image(Bomberball.multiTexture[24]);
         ennemisActifAgressif.setName("imp2");
-        ennemisActifAgressif.setBounds(2*Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+        ennemisActifAgressif.setBounds(3*Bomberball.taillecase,ymax-4*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
+
+
 
         select= new Label("Bloc selectionne:",skin);
         select.setBounds(0,ymax-5*Bomberball.taillecase,select.getWidth(),select.getHeight());
@@ -273,6 +296,7 @@ public class EditeurNSolo extends Etat implements Screen {
         jeu.addActor(bonusB);
         jeu.addActor(bonusE);
         jeu.addActor(bonusM);
+        jeu.addActor(bonusP);
         jeu.addActor(ennemisPassif);
         jeu.addActor(ennemisActif);
         jeu.addActor(ennemisPassifAgressif);
@@ -450,17 +474,12 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 jeu.setEtat(game.selectionCheminEp);
                 game.setScreen(game.selectionCheminEp);
+
+
             }
             else if(hitActor.getName().equals("imp1")){
                 selectionne.setDrawable(ennemisActif.getDrawable());
                 selectionne.setName("Ea");
-                try {
-                    fw = new FileWriter(f);
-                    fw.write(map.mapToText());
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
             else if(hitActor.getName().equals("ghost2")){
                 selectionne.setDrawable(ennemisPassifAgressif.getDrawable());
@@ -478,15 +497,10 @@ public class EditeurNSolo extends Etat implements Screen {
             else if(hitActor.getName().equals("imp2")){
                 selectionne.setDrawable(ennemisActifAgressif.getDrawable());
                 selectionne.setName("Eaa");
-                try {
-                    fw = new FileWriter(f);
-                    fw.write(map.mapToText());
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                jeu.setEtat(game.selectionCheminEp);
-                game.setScreen(game.selectionCheminEp);
+            }
+            else if(hitActor.getName().equals("BonusP")){
+                selectionne.setDrawable(bonusP.getDrawable());
+                selectionne.setName("bP");
             }
             else if(hitActor.getName().equals("MurI")){
                 Case c = (Case) hitActor.getParent();
@@ -523,7 +537,7 @@ public class EditeurNSolo extends Etat implements Screen {
                             }
                             else if(selectionne.getName().equals("player")){
                                 if(c.getMur()==null){
-                                    c.setPersonnage(new Personnage(true,c,2,1,5));
+                                    c.setPersonnage(new Personnage(true,c,2,1,5,0));
                                 }
 
                             }
@@ -565,9 +579,8 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setPorte(new Porte());
                         }
                         else if(selectionne.getName().equals("player")){
-                            c.setBonus(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
@@ -581,6 +594,10 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("bE")){
                             c.setBonus(new BonusExplo(c));
+                            c.getBonus().setScale(0.5f);
+                        }
+                        else if(selectionne.getName().equals("bP")){
+                            c.setBonus(new BonusPousser(c));
                             c.getBonus().setScale(0.5f);
                         }
                     }
@@ -615,12 +632,6 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setMur(new MurI());
                         } else if (selectionne.getName().equals("p")) {
                             c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
-                            }
-
                         }
                     }
                 }
@@ -659,7 +670,7 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("player")){
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
@@ -706,7 +717,7 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setBonus(null);
                             c.setEnnemi(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
@@ -727,7 +738,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("Ennemis")){
+            else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
                 Case c = (Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
                     c.getEnnemi().prochain_deplacement.clear();
@@ -742,6 +753,8 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.addActor(background);
                 }
                 if(button==Input.Buttons.MIDDLE){ //Il faut afficher tous les ennemis
+
+
 
                 }
                 if(button==Input.Buttons.LEFT){
@@ -773,7 +786,7 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.getEnnemi().prochain_deplacement.clear();
                             c.setEnnemi(null);
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
@@ -827,22 +840,23 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("player")){
                             if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5));
+                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
 
                         }
-                        else if(selectionne.getName().equals("Ep")){
-                            c.setEnnemi(new Ennemi_passif(true,c,5));
-                        }
                         else if(selectionne.getName().equals("Ea")){
+                            c.setEnnemi(null);
                             c.setEnnemi(new Ennemi_actif(true,c,5));
                         }
                         else if(selectionne.getName().equals("Epa")){
-                            c.setEnnemi(new Ennemi_passif_agressif(true,c,5));
+                            c.setEnnemi(null);
+                            c.setEnnemi(new Ennemi_passif_aggressif(true,c,5));
                         }
                         else if(selectionne.getName().equals("Eaa")){
-                            c.setEnnemi(new Ennemi_actif_agressif(true,c,5));
+                            c.setEnnemi(null);
+                            c.setEnnemi(new Ennemi_actif_aggressif(true,c,5));
                         }
+
                     }
                 }
 

@@ -9,10 +9,6 @@ public class MurD extends Mur {
        setName("MurD");
     }
 
-    /**
-     * Indique que le mur est destructible
-     * @return boolean
-     */
     @Override
     public boolean destructible() {
         return true;

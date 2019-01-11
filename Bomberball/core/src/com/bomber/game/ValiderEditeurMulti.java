@@ -43,9 +43,6 @@ public class ValiderEditeurMulti extends Etat implements Screen {
 
 
     @Override
-    /**
-     * Affiche un menu permettant de sauvegarder une map multi
-     */
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 

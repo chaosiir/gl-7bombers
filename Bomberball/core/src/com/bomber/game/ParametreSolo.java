@@ -41,9 +41,6 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    /**
-     * Affiche un menu permettant de modifier les paramètres du solo (difficulté, nombre ennemi, nombre bonus, portée bombe, déplacement ennemi, nombre bombe)
-     */
     public void show() {
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -98,7 +95,7 @@ public class ParametreSolo extends Etat implements Screen {
         nbDeplaEnnemisS.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int x=(int) nbEnnemisS.getValue();
+                int x=(int) nbDeplaEnnemisS.getValue();
                 jeu.nbEnnemis=x;
 
 
