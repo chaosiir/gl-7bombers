@@ -7,6 +7,10 @@ public class EnnemiActifAggressif extends Ennemis {
     private LinkedList<Case>  chemin;
     private int portee;
 
+    public EnnemiActifAggressif() {
+        super(Bomberball.multiTexture[16]);
+
+    }
 
     /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
 
@@ -161,7 +165,7 @@ public class EnnemiActifAggressif extends Ennemis {
         for(int i=0;i<15;i++){
             for (int j=0;j<13;j++){
                 if(m.getGrille()[i][j].getMur()!= null){
-                    res[i][j]=1
+                    res[i][j]=1;
                 }
                 else if(m.getGrille()[i][j].getMur()== null){
                     if(m.getGrille()[i][j]==c || m.getGrille()[i][j].getPersonnage()!=null ){
@@ -178,7 +182,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
 
     public boolean verifAgro(){
-        return verifSolotraducteur();
+        return true;
     }
 
 
@@ -188,14 +192,11 @@ public class EnnemiActifAggressif extends Ennemis {
             cheminMin();
         } else {
             cheminMax();
-        }
+    }
     }
 
 
-    public void main() {
-        Map map = Map.genererMapSolo(20, 10);
 
-    }
 
 
     }

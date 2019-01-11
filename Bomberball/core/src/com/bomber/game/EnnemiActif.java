@@ -1,11 +1,17 @@
 package com.bomber.game;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class EnnemiActif extends Ennemis {
     private LinkedList<Case>  chemin;
 
+    public EnnemiActif() {
+        super(Bomberball.multiTexture[16]);
+
+    }
 
     /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
     public boolean caseLibre(Case caseC){
@@ -92,10 +98,7 @@ public class EnnemiActif extends Ennemis {
 
 
 
-    public void main(){
-        Map map=Map.genererMapSolo(20,10);
 
-    }
 
 
 }

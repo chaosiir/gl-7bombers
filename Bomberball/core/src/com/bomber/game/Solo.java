@@ -293,28 +293,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         return false;
     }
 
-    @Override
-    public void show() {
-        pm=5;
-        nb=1;
-        back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
-        back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        int xmax=Toolkit.getDefaultToolkit().getScreenSize().width;
 
-        if(jeu.map==null){
-            if(jeu.nbBonus!=-1){
-                jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
-                jeu.nbBonus=-1;
-            }
-            else{
-                jeu.map=Map.genererMapSolo(65,10,5);
-            }
-
-        }
-        jeu.map.setPosition(Gdx.graphics.getWidth()-(jeu.map.getGrille().length+2f)*Bomberball.taillecase ,0);
-        jeu.map.setScaleY(27f/26f);
-        jeu.addActor(back);
-        jeu.addActor(jeu.map);
 
     @Override
     public void render(float delta) {

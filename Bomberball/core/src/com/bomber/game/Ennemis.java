@@ -1,10 +1,15 @@
 package com.bomber.game;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public abstract class Ennemis extends Actor {
+import java.util.LinkedList;
+
+public abstract class Ennemis extends Image {
     protected Case c;
     protected boolean vivant;
+    protected int pm;//points de mouvement, 5 par defaut
+    protected LinkedList<Case> prochain_deplacement;
 
     public Case getC() {
         return c;
@@ -30,14 +35,27 @@ public abstract class Ennemis extends Actor {
         this.pm = pm;
     }
 
-    protected int pm;//points de mouvement, 5 par defaut
+    public void miseAjour(){
 
-    public Ennemis(){}
-
-    public Ennemis(boolean vivant, Case c, int pm) {
-        this.vivant = vivant;
-        this.c = c;
-        this.pm = pm;
     }
+
+
+    public void deplacer(){
+        int i = pm;
+        miseAjour();
+        while(!prochain_deplacement.isEmpty() && pm>0){
+
+        }
+
+    }
+
+    public Ennemis(Texture t){
+        super(t);
+        prochain_deplacement=new LinkedList<Case>();
+        this.setName("Ennemis");
+    }
+
+
+
 
 }
