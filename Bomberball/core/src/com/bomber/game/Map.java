@@ -321,7 +321,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * @param bonus 		nombre de case bonus<=nombre de blocs destructibles
 	 * @return une map
 	 */
-    public  Map generatePve(int nbDestru,int nbInDestru,int bonus) {
+    public  Map generatePve(int nbDestru,int nbInDestru,int bonus, int nbEnnemi) {
         Case [][] grille=new Case[15][13];
         int x,y,tmp,tmp1;
         x=(int)(Math.random()*15);
@@ -405,6 +405,14 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			}
 			compteurb++;
 		}
+        while (nbEnnemi>0){
+			while(grille[x][y].getMur()!=null || grille[x][y].getPersonnage()!=null) {
+				x = (int) (Math.random() * 15);
+				y = (int) (Math.random() * 13);
+			}
+			grille[x][y].setEnnemi(new Ennemi_passif(true,grille[x][y],3));
+			nbEnnemi--;
+		}
         Map m=new Map();
         m.setGrille(grille);
 		int i;
@@ -482,7 +490,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * @param bonus			nombre de bonus
 	 * @return une map
 	 */
-	public static Map genererMapSolo(int nbDestru,int nbInDestru,int bonus) { //C'est la fonction à appeller pour avoir une map
+	public static Map genererMapSolo(int nbDestru,int nbInDestru,int bonus, int nbEnnemi) { //C'est la fonction à appeller pour avoir une map
 		Map m = new Map();
 		m = m.generatePve(nbDestru, nbInDestru,bonus);
 		int t[][] = m.traducteur();
