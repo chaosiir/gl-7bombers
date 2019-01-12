@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -227,35 +228,45 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                     }
                 }
                 if (keycode == Input.Keys.ENTER) {
-
                     jeu.map.explosion();
-                    jeu.map.tourEnnemi();
                     porteExplo.setText(""+personnage.getTaille());
-                    jeu.map.tourEnnemi();
                     if (joueur.isVivant()) {
-                        pm = joueur.getPm();
-                        nb = joueur.getNbBombe();
-                        nbBombe.setText(""+nb);
-                        nbmvt.setText(""+pm);
-                    } else {
-                       joueur.getC().removeActor(joueur);
+                        jeu.map.tourEnnemi();
+                        if (joueur.isVivant()) {
+                            pm = joueur.getPm();
+                            nb = joueur.getNbBombe();
+                            nbBombe.setText("" + nb);
+                            nbmvt.setText("" + pm);
+                        }
                     }
-                    if(joueur.getC().getPorte()!=null){
-                        jeu.removeActor(joueur);
-                        jeu.map=null;
-                        jeu.removeActor(jeu.map);
-                        jeu.setEtat(bombaaaagh.menuPrincipalBis);
-                        bombaaaagh.setScreen(bombaaaagh.menuPrincipalBis);
+                    if(!joueur.isVivant()){
+                        jeu.addAction(new Action() {
+                            float time=0;
+                            @Override
+                            public boolean act(float delta) {
+                                time+=delta;
+                                if(time>3){
+                                    jeu.removeActor(jeu.map);
+                                    jeu.map=null;
+                                    bombaaaagh.defaite=new Defaite(bombaaaagh,jeu,"gdjdj");
+                                    jeu.setEtat(bombaaaagh.defaite);
+                                    bombaaaagh.setScreen(bombaaaagh.defaite);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
                     }
                     if(joueur.isPoussee()){
                         poussee.setText("X");
                     }
                     if(joueur.getC().getPorte()!=null){
                         jeu.removeActor(joueur);
-                        jeu.map=null;
                         jeu.removeActor(jeu.map);
-                        jeu.setEtat(bombaaaagh.menuPrincipalBis);
-                        bombaaaagh.setScreen(bombaaaagh.menuPrincipalBis);
+                        jeu.map=null;
+                        bombaaaagh.victoire = new Victoire(bombaaaagh, jeu, "                           Victoire");
+                        jeu.setEtat(bombaaaagh.victoire);
+                        bombaaaagh.setScreen(bombaaaagh.victoire);
                     }
                 }
             }

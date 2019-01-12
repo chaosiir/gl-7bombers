@@ -38,6 +38,7 @@ public class Bomberball extends Game {
     ChoixMenuMultijoueur choixMenuMultijoueur;
     EditeurNSolo editeurNSolo;
     Solo jeuSolo;
+    Defaite defaite;
     EditeurNMulti editeurNMulti;
     ErreurEditeurS erreurEditeurS;
     ValiderEditeurSolo validerEditeurSolo;
@@ -53,7 +54,7 @@ public class Bomberball extends Game {
 
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;
-	public static Texture[] multiTexture = new Texture[19];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	public static Texture[] multiTexture = new Texture[23];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
