@@ -13,6 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Multijoueur extends Etat implements Screen {//etat multijoueur
     int pm;
     int nb;
@@ -79,9 +83,19 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     Image explosion4;
     Image player4;
 
+    File f;
+    FileWriter fw;
+
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
+        File directory = new File (".");
+        try {
+            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+
+        } catch (IOException e) {
+
+        }
 
     }
 
@@ -94,6 +108,64 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
 
+        if(f.exists()){
+            jeu.map=null;
+            jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+            f.delete();
+            if(jeu.pmtmp1!=-1){
+                pm=jeu.pmtmp1;
+                nbmvt1.setText(""+pm);
+                jeu.pmtmp1=-1;
+            }
+            if(jeu.pmtmp2!=-1){
+                pm=jeu.pmtmp2;
+                nbmvt2.setText(""+pm);
+                jeu.pmtmp2=-1;
+            }
+            if(jeu.pmtmp3!=-1){
+                pm=jeu.pmtmp3;
+                nbmvt3.setText(""+pm);
+                jeu.pmtmp3=-1;
+            }
+            if(jeu.pmtmp4!=-1){
+                pm=jeu.pmtmp4;
+                nbmvt4.setText(""+pm);
+                jeu.pmtmp4=-1;
+            }
+            if(jeu.nbtmp1!=-1){
+                nb=jeu.nbtmp1;
+                nbBombe1.setText(""+nb);
+                jeu.nbtmp1=-1;
+            }
+            if(jeu.nbtmp2!=-1){
+                nb=jeu.nbtmp2;
+                nbBombe2.setText(""+nb);
+                jeu.nbtmp2=-1;
+            }
+            if(jeu.nbtmp3!=-1){
+                nb=jeu.nbtmp3;
+                nbBombe3.setText(""+nb);
+                jeu.nbtmp3=-1;
+            }
+            if(jeu.nbtmp4!=-1){
+                nb=jeu.nbtmp4;
+                nbBombe4.setText(""+nb);
+                jeu.nbtmp4=-1;
+            }
+            if(jeu.poussee1){
+                poussee1=new Label("X",skin);
+            }
+            if(jeu.poussee2){
+                poussee2=new Label("X",skin);
+            }
+            if(jeu.poussee3){
+                poussee3=new Label("X",skin);
+            }
+            if(jeu.poussee4){
+                poussee4=new Label("X",skin);
+            }
+
+        }
         if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.generatePvp(65, jeu.nbBonus);
@@ -103,6 +175,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 jeu.map=Map.generatePvp(65,5);
             }
         }
+
         int a=0;
         for(int i=0;i<jeu.map.getGrille().length;i++){
             for (int j=0;j<jeu.map.getGrille()[1].length;j++){
@@ -116,6 +189,18 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         case 2:  personnage3=p; break;
                         case 3:  personnage4=p;break;
                     }
+                }
+            }
+        }
+        for (int i=0;i<15;i++){
+            for (int j=0;j<13;j++){
+                if(jeu.map.getGrille()[i][j].getBonus()!=null){
+
+
+                    Bonus b=jeu.map.getGrille()[i][j].getBonus();
+                    jeu.map.getGrille()[i][j].setBonus(null);
+                    jeu.map.getGrille()[i][j].setBonus(b);
+                    jeu.map.getGrille()[i][j].getBonus().setScale(0.5f);
                 }
             }
         }
@@ -167,9 +252,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         poussee4=new Label("",skin);
 
         poussee1.setPosition(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
-        poussee2.setPosition(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
-        poussee3.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
-        poussee4.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
+
+
+
 
 
         player1=new Image(Bomberball.multiTexture[4]);
@@ -212,6 +297,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse2.setHeight(Bomberball.taillecase);
         pousse2.setPosition(0,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
 
+        poussee2.setPosition(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
+
         player2=new Image(Bomberball.multiTexture[20]);
         player2.setBounds(3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-8*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
@@ -251,6 +338,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse3.setHeight(Bomberball.taillecase);
         pousse3.setPosition(jeu.map.getX()+17f*Bomberball.taillecase,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
 
+        poussee3.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
+
         player3=new Image(Bomberball.multiTexture[21]);
         player3.setBounds(jeu.map.getX()+jeu.map.tailleX()+17*Bomberball.taillecase+3*Bomberball.taillecase,Gdx.graphics.getHeight()-Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
@@ -289,6 +378,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse4.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         pousse4.setHeight(Bomberball.taillecase);
         pousse4.setPosition(jeu.map.getX()+17f*Bomberball.taillecase,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
+
+        poussee4.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
 
         player4=new Image(Bomberball.multiTexture[22]);
         player4.setBounds(jeu.map.getX()+jeu.map.tailleX()+17*Bomberball.taillecase+3*Bomberball.taillecase,Gdx.graphics.getHeight()-8*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
@@ -480,6 +571,25 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 //Animation bombe + ennemis Map
                 }
             }
+        }
+        else if(keycode==Input.Keys.ESCAPE){
+            try {
+                fw = new FileWriter(f);
+                fw.write(jeu.map.mapToTextP());
+                for(int i=0;i<4;i++){
+                    fw.write(joueurs[i].getC().posX()+" "+joueurs[i].getC().posY()+"1212 "+" "+joueurs[i].getId()+" "+pm+" "+nb+" "+joueurs[i].getPm()+" "+joueurs[i].isVivant()+" "+joueurs[i].getTaille()+" "+joueurs[i].getNbBombe()+" "+joueurs[i].isPoussee()+"\n");
+                }
+                fw.write("9999 "+tour);
+
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            game.menuPause.setEtatAnterieur(game.multijoueur);
+            jeu.setEtat(game.menuPause);
+            game.setScreen(game.menuPause);
+
         }
 
 

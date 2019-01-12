@@ -44,6 +44,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     Image player;
 
     File f;
+    File fp;
     FileWriter fw;
 
     private Bomberball bombaaaagh;
@@ -69,8 +70,21 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
 
+        if(f.exists()){
+            jeu.map=null;
+            jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+            f.delete();
+            if(jeu.pmtmp1!=-1){
+                pm=jeu.pmtmp1;
+                jeu.pmtmp1=-1;
+            }
 
+            if(jeu.nbtmp1!=-1){
+                nb=jeu.nbtmp1;
+                jeu.nbtmp1=-1;
+            }
 
+        }
 
         if(jeu.map==null){
             if(jeu.nbBonus!=-1){
@@ -81,12 +95,6 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 jeu.map=Map.genererMapSolo(65,10,5);
             }
 
-        }
-
-        if(f.exists()){
-            jeu.map=null;
-            jeu.map=Map.mapFromString(Bomberball.loadFile(f));
-            f.delete();
         }
 
         for (int i=0;i<15;i++){
@@ -109,6 +117,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         joueur.setPosition(0,Gdx.graphics.getHeight()-3*Bomberball.taillecase);
 
         personnage=jeu.map.findActor("Personnage");
+        System.out.println(personnage==null);
 
 
         mouvement = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
@@ -269,7 +278,8 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         if (keycode == Input.Keys.ESCAPE) {
             try {
                 fw = new FileWriter(f);
-                fw.write(jeu.map.mapToText());
+                fw.write(jeu.map.mapToTextP());
+                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 1212 "+" "+joueur.getId()+" "+pm+" "+nb+" "+personnage.getPm()+" "+personnage.isVivant()+" "+personnage.getTaille()+" "+personnage.getNbBombe()+" "+personnage.isPoussee()+"\n");
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();

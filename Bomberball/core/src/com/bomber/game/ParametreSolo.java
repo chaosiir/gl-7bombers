@@ -28,11 +28,13 @@ public class ParametreSolo extends Etat implements Screen {
     private TextButton moyen;
     private TextButton difficile;
 
-    private Slider nbBonusS;
-    private Slider nbEnnemisS;
-    private Slider porteeBombeS;
-    private Slider nbDeplaEnnemisS;
-    private Slider nbBombeS;
+    private TextField nbBonusT;
+    private TextField nbEnnemisT;
+    private TextField porteeBombeT;
+    private TextField nbDeplaEnnemisT;
+    private TextField nbBombeT;
+
+
 
 
     public ParametreSolo(Bomberball game,Jeu jeu){
@@ -59,16 +61,18 @@ public class ParametreSolo extends Etat implements Screen {
         moyen = new TextButton("Moyen",skin);
         difficile= new TextButton("Difficile",skin);
 
-        nbBonusS= new Slider(0f,20f,1f,false,skin);
-        nbEnnemisS =  new Slider(0f,20f,1f,false,skin);
-        porteeBombeS=  new Slider(0f,20f,1f,false,skin);
-        nbDeplaEnnemisS =  new Slider(0f,20f,1f,false,skin);
-        nbBombeS= new Slider(0f,20f,1f,false,skin);
+        nbBonusT= new TextField("5",skin);
+        nbEnnemisT= new TextField("2",skin);
+        porteeBombeT = new TextField("2",skin);
+        nbDeplaEnnemisT = new TextField("3",skin);
+        nbBombeT= new TextField("1",skin);
 
-        nbBonusS.addListener(new ChangeListener(){
+
+
+        /*nbBonusT.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int x=(int) nbBonusS.getValue();
+                int x=(int) nbBonusT.getText();
                 jeu.nbBonus=x;
 
 
@@ -108,7 +112,7 @@ public class ParametreSolo extends Etat implements Screen {
                 int x=(int) nbBombeS.getValue();
                 jeu.nbBombe=x;
             }
-        });
+        });*/
 
 
 
@@ -126,16 +130,16 @@ public class ParametreSolo extends Etat implements Screen {
         table.add(difficile);
         table.row();
         table.add(nbBonus).padBottom(30);
-        table.add(nbBonusS);
+        table.add(nbBonusT);
         table.row();
         table.add(nbEnnemis).padBottom(30);
-        table.add(nbEnnemisS);
+        table.add(nbEnnemisT);
         table.row();
         table.add(porteeBombe).padBottom(30);
-        table.add(porteeBombeS);
+        table.add(porteeBombeT);
         table.row();
         table.add(nbDeplaEnnemis).padBottom(30);
-        table.add(nbDeplaEnnemisS);
+        table.add(nbDeplaEnnemisT);
         table.row();
         table.add(retour).padBottom(30);
 

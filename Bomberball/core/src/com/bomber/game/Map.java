@@ -541,6 +541,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
 	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
 	 *
+	 *
 	 */
 	public String mapToText(){
 		String s=new String();
@@ -745,15 +746,25 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
 	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
 	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
-	 * 13 	A la toute fin, on stocke le pm,nbBombe de chaque perso
-	 *
+	 * 1212	id,pm et nombre de bombe en cours (dès le début) ex: 1212 0 3 2
+	 * 14	bonusBombe
+	 * 15	bonusExplo
+	 * 16	bonusMove
+	 * 17 	bonusPousser
+	 *18	bombe
 	 *
 	 */
-	public static Map mapFromStringPauseS(String string){
+	public static Map mapFromStringP(String string,Jeu jeu){
 		Map m= new Map();
 		int a,b;
+		int n=0;
 		Case[][] g=new Case[15][13];
+		LinkedList<Bombe> bombes=new LinkedList<Bombe>();
+		Personnage personnage12[]=new Personnage[4];
 		Scanner scan=new Scanner(string);
+
+
+
 		while(scan.hasNext()){
 			int x=scan.nextInt();
 			int y=scan.nextInt();
@@ -762,17 +773,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
 				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
 				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
-				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					int id=scan.nextInt();
-					int pm=scan.nextInt();
-					boolean vivant=scan.nextBoolean();
-					int tailleExplo=scan.nextInt();
-					int nbBombe=scan.nextInt();
-					boolean poussee=scan.nextBoolean();
-					Personnage personnage=new Personnage(vivant,g[x][y],tailleExplo,nbBombe,pm,id);
-					personnage.setPoussee(poussee);
-					g[x][y].setPersonnage(personnage);
-					break;
 				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
 				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
@@ -822,6 +822,43 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 						a=scan.nextInt();
 					}
 					break;
+				case 1212: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					int id1=scan.nextInt();
+					int pmtmp=scan.nextInt();
+					int nbtmp=scan.nextInt();
+					int pm1=scan.nextInt();
+					boolean vivant1=scan.nextBoolean();
+					int te1=scan.nextInt();
+					int nb1=scan.nextInt();
+					boolean p1=scan.nextBoolean();
+					switch (id1){
+						case 0: jeu.pmtmp1=pmtmp; jeu.nbtmp1=nbtmp; jeu.poussee1=p1; break;
+						case 1: jeu.pmtmp2=pmtmp; jeu.nbtmp2=nbtmp;jeu.poussee2=p1; break;
+						case 2: jeu.pmtmp3=pmtmp; jeu.nbtmp3=nbtmp;jeu.poussee3=p1; break;
+						case 3: jeu.pmtmp4=pmtmp; jeu.nbtmp4=nbtmp;jeu.poussee4=p1; break;
+					}
+					Personnage personnage=new Personnage(vivant1,g[x][y],te1,nb1,pm1,id1);
+					personnage.setPoussee(p1);
+					personnage12[n]=personnage;
+					n++;
+					g[x][y].setPersonnage(personnage);
+					break;
+				case 14:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); break;
+				case 15:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); break;
+				case 16: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); break;
+				case 17:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); break;
+				case 18:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);Bombe bo=new Bombe(2,g[x][y]);g[x][y].setBombe(bo); bombes.add(bo); break;
+				case 9999:
+					choix=scan.nextInt();
+					for(Bombe bobo: bombes){
+						for(Personnage popo: personnage12){
+							if(popo.getId()==choix){
+								bobo.setTaille(popo.getTaille());
+							}
+						}
+
+					}
+					break;
 
 			}
 		}
@@ -841,6 +878,8 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				cas.setBonus(g[cas.posX()][cas.posY()].getBonus());
 			}
 		}
+
+
 		m.setGrille(g);
 		int i,j;
 		for (i = 0; i < m.tailleX(); i++) {
@@ -870,8 +909,12 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
 	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
 	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
-	 * 13 	A la toute fin, on stocke le pm,nbBombe de chaque perso
-	 *
+	 * 1212	id,pm et nombre de bombe en cours (dès le début) ex: 1212 0 3 2
+	 * 14	bonusBombe
+	 * 15	bonusExplo
+	 * 16	bonusMove
+	 * 17 	bonusPousser
+	 * 18 	Bombe
 	 *
 	 */
 	public String mapToTextP(){
@@ -881,12 +924,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			for(int j=0;j<13;j++){
 				if(this.getGrille()[i][j].getPorte()!=null){
 					s=s+i+" "+j+" "+"4\n";
-				}
-				else if (this.getGrille()[i][j].getPersonnage()!=null){
-					Personnage personnage=this.getGrille()[i][j].getPersonnage();
-					listperso.add(personnage);
-					s=s+i+" "+j+" "+"3 ";
-					s=s+personnage.getId()+" "+personnage.getPm()+" "+personnage.isVivant()+" "+personnage.getTaille()+" "+personnage.getNbBombe()+" "+personnage.isPoussee()+"\n";
 				}
 				else if(this.getGrille()[i][j].getMur()!=null){
 					if(this.getGrille()[i][j].getMur() instanceof MurI){
@@ -932,6 +969,23 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					}
 					s=s+"1010\n";
 				}
+				else if(this.getGrille()[i][j].getBonus()!=null){
+					if(this.getGrille()[i][j].getBonus() instanceof BonusBombe){
+						s=s+i+" "+j+" "+"14\n";
+					}
+					else if(this.getGrille()[i][j].getBonus() instanceof BonusExplo){
+						s=s+i+" "+j+" "+"15\n";
+					}
+					else if(this.getGrille()[i][j].getBonus() instanceof BonusMove){
+						s=s+i+" "+j+" "+"16\n";
+					}
+					else if(this.getGrille()[i][j].getBonus() instanceof BonusPousser){
+						s=s+i+" "+j+" "+"17\n";
+					}
+				}
+				else if(this.getGrille()[i][j].getBombe()!=null){
+					s=s+i+" "+j+" 18\n";
+				}
 				else{
 					s=s+i+" "+j+" "+"0\n";
 				}
@@ -940,6 +994,40 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 		}
 
 		return s;
+	}
+
+	public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
+		ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>() ;
+
+		for(int i=indiceContour ; i<= 14-indiceContour ; i++) {
+			grille[i][indiceContour].setMur(new MurI());
+			if(grille[i][indiceContour].getPersonnage() != null) {
+				grille[i][indiceContour].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[i][indiceContour].getPersonnage()) ;
+			}
+
+			grille[i][12-indiceContour].setMur(new MurI());
+			if(grille[i][12-indiceContour].getPersonnage() != null) {
+				grille[i][12-indiceContour].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[i][12-indiceContour].getPersonnage()) ;
+			}
+		}
+
+		for(int i=indiceContour+1 ; i<= 11-indiceContour ; i++) {
+			grille[indiceContour][i].setMur(new MurI());
+			if(grille[indiceContour][i].getPersonnage() != null) {
+				grille[indiceContour][i].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[indiceContour][i].getPersonnage()) ;
+			}
+
+			grille[14-indiceContour][i].setMur(new MurI());
+			if(grille[14-indiceContour][i].getPersonnage() != null) {
+				grille[14-indiceContour][i].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[14-indiceContour][i].getPersonnage()) ;
+			}
+		}
+
+		return listePersosEcrases ;
 	}
 
 
