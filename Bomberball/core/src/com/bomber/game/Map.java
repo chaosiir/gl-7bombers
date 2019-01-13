@@ -751,7 +751,8 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 15	bonusExplo
 	 * 16	bonusMove
 	 * 17 	bonusPousser
-	 *18	bombe
+	 * 18	bombe
+	 * 9999	Mise à jour à la fin de la portée des bombes posées
 	 *
 	 */
 	public static Map mapFromStringP(String string,Jeu jeu){
@@ -850,7 +851,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 18:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);Bombe bo=new Bombe(2,g[x][y]);g[x][y].setBombe(bo); bombes.add(bo); break;
 				case 9999:
 					choix=scan.nextInt();
-					for(Bombe bobo: bombes){
+					for(Bombe bobo: bombes){ //Mise à jour de la portée de l'ensemble des bombes sur la map
 						for(Personnage popo: personnage12){
 							if(popo.getId()==choix){
 								bobo.setTaille(popo.getTaille());
@@ -899,7 +900,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 0	sol vide
 	 * 1	mur destructible
 	 * 2 	mur indestructible
-	 * 3 	personnage de base (Dans l'ordre,id, ces pm, vivant, tailleExplo, nbBombe, poussee)
 	 * 4	porte
 	 * 5 	mur destructible + bonusBombe
 	 * 6 	mur destructible + bonusExplo
@@ -909,13 +909,13 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
 	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
 	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
-	 * 1212	id,pm et nombre de bombe en cours (dès le début) ex: 1212 0 3 2
+	 * 1212	Personnage (id,pm en cours, nombre de bombe en cours, pm global, Vivant,taille de l'explosion, nombre de bombe global, bonus poussee activé)
 	 * 14	bonusBombe
 	 * 15	bonusExplo
 	 * 16	bonusMove
 	 * 17 	bonusPousser
 	 * 18 	Bombe
-	 *
+	 * 9999	Mise à jour à la fin de la portée des bombes posées
 	 */
 	public String mapToTextP(){
 		String s=new String();
@@ -1030,7 +1030,20 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 		return listePersosEcrases ;
 	}
 
-
+public void suppActor(){
+		for (int i=0;i<15;i++){
+			for (int j=0;j<13;j++){
+				this.getGrille()[i][j].setPersonnage(null);
+				this.getGrille()[i][j].setBombe(null);
+				this.getGrille()[i][j].setEnnemi(null);
+				this.getGrille()[i][j].setBonus(null);
+				this.getGrille()[i][j].setMur(null);
+				this.getGrille()[i][j].setMarque(null);
+				this.getGrille()[i][j].setPorte(null);
+				this.removeActor(this.getGrille()[i][j]);
+			}
+		}
+}
 
 }
 

@@ -44,8 +44,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     Image player;
 
     File f;
-    File fp;
+    File frecommencer;
     FileWriter fw;
+    FileWriter fwr;
 
     private Bomberball bombaaaagh;
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
@@ -54,6 +55,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         File directory = new File (".");
         try {
             f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
         } catch (IOException e) {
 
@@ -71,30 +73,63 @@ public class Solo extends Etat implements Screen {//etat multijoueur
 
 
         if(f.exists()){
+            jeu.map.suppActor();
+            jeu.removeActor(jeu.map);
             jeu.map=null;
-            jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
-            f.delete();
-            if(jeu.pmtmp1!=-1){
-                pm=jeu.pmtmp1;
-                jeu.pmtmp1=-1;
+            if(jeu.recommencer){
+                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.recommencer=false;
+                f.delete();
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
-            if(jeu.nbtmp1!=-1){
+            else{
+                jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+                f.delete();
+                pm=jeu.pmtmp1; //Remise à jour des valeurs de pm et du nb de bombes restantes
+                jeu.pmtmp1=-1;
                 nb=jeu.nbtmp1;
                 jeu.nbtmp1=-1;
             }
 
         }
-
-        if(jeu.map==null){
+        else if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
                 jeu.nbBonus=-1;
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else{
                 jeu.map=Map.genererMapSolo(65,10,5);
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
+        }
+        else{
+            try {
+                fwr = new FileWriter(frecommencer);
+                fwr.write(jeu.map.mapToText());
+                fwr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         for (int i=0;i<15;i++){
@@ -280,6 +315,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextP());
                 fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 1212 "+" "+joueur.getId()+" "+pm+" "+nb+" "+personnage.getPm()+" "+personnage.isVivant()+" "+personnage.getTaille()+" "+personnage.getNbBombe()+" "+personnage.isPoussee()+"\n");
+                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 9999 "+joueur.getId());
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();

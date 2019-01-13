@@ -27,6 +27,8 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
     int nbtmp3=-1;
     int nbtmp4=-1;
 
+    boolean recommencer=false;
+
     boolean poussee1=false;
     boolean poussee2=false;
     boolean poussee3=false;

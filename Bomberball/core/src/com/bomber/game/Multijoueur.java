@@ -18,8 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Multijoueur extends Etat implements Screen {//etat multijoueur
-    int pm;
-    int nb;
+    int pm=5;
+    int nb=1;
     private Bomberball game;
     private Personnage joueurs[]=new Personnage[4];
     private int tour=0;
@@ -84,7 +84,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     Image player4;
 
     File f;
+    File frecommencer;
     FileWriter fw;
+    FileWriter fwr;
 
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
@@ -92,6 +94,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         File directory = new File (".");
         try {
             f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
         } catch (IOException e) {
 
@@ -109,70 +112,123 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         back.setName("Je suis ton arrière plan");
 
         if(f.exists()){
+            jeu.map.suppActor();
+            jeu.removeActor(jeu.map);
             jeu.map=null;
-            jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
-            f.delete();
-            if(jeu.pmtmp1!=-1){
-                pm=jeu.pmtmp1;
-                nbmvt1.setText(""+pm);
-                jeu.pmtmp1=-1;
+            if(jeu.recommencer){
+                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.recommencer=false;
+                tour=0;
+                f.delete();
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            if(jeu.pmtmp2!=-1){
-                pm=jeu.pmtmp2;
-                nbmvt2.setText(""+pm);
-                jeu.pmtmp2=-1;
-            }
-            if(jeu.pmtmp3!=-1){
-                pm=jeu.pmtmp3;
-                nbmvt3.setText(""+pm);
-                jeu.pmtmp3=-1;
-            }
-            if(jeu.pmtmp4!=-1){
-                pm=jeu.pmtmp4;
-                nbmvt4.setText(""+pm);
-                jeu.pmtmp4=-1;
-            }
-            if(jeu.nbtmp1!=-1){
-                nb=jeu.nbtmp1;
-                nbBombe1.setText(""+nb);
-                jeu.nbtmp1=-1;
-            }
-            if(jeu.nbtmp2!=-1){
-                nb=jeu.nbtmp2;
-                nbBombe2.setText(""+nb);
-                jeu.nbtmp2=-1;
-            }
-            if(jeu.nbtmp3!=-1){
-                nb=jeu.nbtmp3;
-                nbBombe3.setText(""+nb);
-                jeu.nbtmp3=-1;
-            }
-            if(jeu.nbtmp4!=-1){
-                nb=jeu.nbtmp4;
-                nbBombe4.setText(""+nb);
-                jeu.nbtmp4=-1;
-            }
-            if(jeu.poussee1){
-                poussee1=new Label("X",skin);
-            }
-            if(jeu.poussee2){
-                poussee2=new Label("X",skin);
-            }
-            if(jeu.poussee3){
-                poussee3=new Label("X",skin);
-            }
-            if(jeu.poussee4){
-                poussee4=new Label("X",skin);
+            else{
+                jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+                f.delete();
+                switch (tour){
+                    case 0: if(jeu.pmtmp1!=-1){
+                        pm=jeu.pmtmp1;
+                        nbmvt1.setText(""+pm);
+                        jeu.pmtmp1=-1;
+                    }
+                        if(jeu.nbtmp1!=-1){
+                            nb=jeu.nbtmp1;
+                            nbBombe1.setText(""+nb);
+                            jeu.nbtmp1=-1;
+                        }
+                        if(jeu.poussee1){
+                            poussee1=new Label("X",skin);
+                        }
+                        break;
+                    case 1: if(jeu.pmtmp2!=-1){
+                        pm=jeu.pmtmp2;
+                        nbmvt2.setText(""+pm);
+                        jeu.pmtmp2=-1;
+                    }
+                        if(jeu.nbtmp2!=-1){
+                            nb=jeu.nbtmp2;
+                            nbBombe2.setText(""+nb);
+                            jeu.nbtmp2=-1;
+                        }
+                        if(jeu.poussee2){
+                            poussee2=new Label("X",skin);
+                        }
+                        break;
+                    case 2: if(jeu.pmtmp3!=-1){
+                        pm=jeu.pmtmp3;
+                        nbmvt3.setText(""+pm);
+                        jeu.pmtmp3=-1;
+                    }
+                        if(jeu.nbtmp3!=-1){
+                            nb=jeu.nbtmp3;
+                            nbBombe3.setText(""+nb);
+                            jeu.nbtmp3=-1;
+                        }
+                        if(jeu.poussee3){
+                            poussee3=new Label("X",skin);
+                        }
+                        break;
+                    case 3: if(jeu.pmtmp4!=-1){
+                        pm=jeu.pmtmp4;
+                        nbmvt4.setText(""+pm);
+                        jeu.pmtmp4=-1;
+                    }
+
+
+
+                        if(jeu.nbtmp4!=-1){
+                            nb=jeu.nbtmp4;
+                            nbBombe4.setText(""+nb);
+                            jeu.nbtmp4=-1;
+                        }
+
+
+
+                        if(jeu.poussee4){
+                            poussee4=new Label("X",skin);
+                        }
+                        break;
+
+                }
             }
 
         }
-        if(jeu.map==null){
+       else if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.generatePvp(65, jeu.nbBonus);
                 jeu.nbBonus=-1;
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else{
                 jeu.map=Map.generatePvp(65,5);
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else{
+            try {
+                fwr = new FileWriter(frecommencer);
+                fwr.write(jeu.map.mapToText());
+                fwr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -204,8 +260,6 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 }
             }
         }
-        pm=5;
-        nb=1;
 
         jeu.map.setBounds(Gdx.graphics.getWidth()/9,0,jeu.map.getWidth(),jeu.map.getHeight());
         jeu.map.setScaleY(27f/26f);
@@ -529,7 +583,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         for(int i=0;i<4;i++){
                             jeu.removeActor(joueurs[i]);
                         }
-
+                        frecommencer.delete();
                         game.victoire=new Victoire(game,jeu,"Match nul");
                         jeu.setEtat(game.victoire);
                         game.setScreen(game.victoire);
@@ -539,6 +593,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                     else if(nbviv==1){
                         jeu.map=null;
                         jeu.removeActor(jeu.findActor("Map"));
+                        frecommencer.delete();
                         game.victoire=new Victoire(game,jeu,"Victoire joueur "+(viv+1));
                         for(int i=0;i<4;i++){
                             jeu.removeActor(joueurs[i]);
@@ -572,14 +627,15 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 }
             }
         }
-        else if(keycode==Input.Keys.ESCAPE){
+        if(keycode==Input.Keys.ESCAPE){
             try {
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextP());
                 for(int i=0;i<4;i++){
-                    fw.write(joueurs[i].getC().posX()+" "+joueurs[i].getC().posY()+"1212 "+" "+joueurs[i].getId()+" "+pm+" "+nb+" "+joueurs[i].getPm()+" "+joueurs[i].isVivant()+" "+joueurs[i].getTaille()+" "+joueurs[i].getNbBombe()+" "+joueurs[i].isPoussee()+"\n");
+                    fw.write(joueurs[i].getC().posX()+" "+joueurs[i].getC().posY()+" 1212 "+joueurs[i].getId()+" "+pm+" "+nb+" "+joueurs[i].getPm()+" "+joueurs[i].isVivant()+" "+joueurs[i].getTaille()+" "+joueurs[i].getNbBombe()+" "+joueurs[i].isPoussee()+"\n");
+
                 }
-                fw.write("9999 "+tour);
+                fw.write("0 0 9999 "+tour+"\n");
 
                 fw.close();
             } catch (IOException e) {
