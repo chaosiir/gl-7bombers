@@ -23,7 +23,6 @@ public class Personnage extends Image  {
     private boolean poussee;
     private int taillepoussee;
     private int id;
-    private int taillepoussee;
 
 
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
