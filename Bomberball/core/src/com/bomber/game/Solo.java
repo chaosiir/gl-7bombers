@@ -70,6 +70,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
                 jeu.nbBonus=-1;
+              
             }
             else{
                 jeu.map=Map.genererMapSolo(65,10,5);
