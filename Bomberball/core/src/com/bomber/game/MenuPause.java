@@ -32,7 +32,7 @@ public class MenuPause extends Etat implements Screen {
     private  TextButton recommencerButton;
     private  TextButton quitterButton;
     File f;
-    FileWriter fw;
+    File source;
     Bomberball game; // Note it's "MyGame" not "Game"
 
     // constructor to keep a reference to the main Game class
@@ -42,6 +42,7 @@ public class MenuPause extends Etat implements Screen {
         File directory = new File (".");
         try {
             f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+            source = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
         } catch (IOException e) {
 
@@ -112,10 +113,10 @@ public class MenuPause extends Etat implements Screen {
         recommencerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                /*
-                jeu.setEtat();
-                game.setScreen();
-                */
+                source.renameTo(f);
+                jeu.recommencer=true;
+                jeu.setEtat(etatAnterieur);
+                game.setScreen((Screen)etatAnterieur);
             }
         });
 
@@ -123,6 +124,8 @@ public class MenuPause extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map=null;
+                f.delete();
+                source.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }

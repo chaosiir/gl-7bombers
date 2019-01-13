@@ -72,7 +72,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             table=new Table(); //Tableau
             table.setWidth(Bomberball.stg.getWidth());
             table.align(Align.center | Align.top); // Middle of the screen start at the top
-            table.setPosition(0, Gdx.graphics.getHeight());
+            table.setPosition(0, 3*Gdx.graphics.getHeight()/4);
 
             soloButton = new TextButton("Mode Solo",skin);
             multiButton = new TextButton("Mode multijoueur",skin);

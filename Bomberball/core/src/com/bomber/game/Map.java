@@ -530,13 +530,17 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 0	sol vide
 	 * 1	mur destructible
 	 * 2 	mur indestructible
-	 * 3 	personnage
+	 * 3 	personnage (Dans l'ordre,id, ces pm, vivant, tailleExplo, nbBombe, poussee)
 	 * 4	porte
 	 * 5 	mur destructible + bonusBombe
 	 * 6 	mur destructible + bonusExplo
 	 * 7 	mur destructible + bonusMove
 	 * 8 	mur destructible + bonusPousser
 	 * 9 	Ennemis Passif (indication de fin de chaîne par 1010)
+	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
+	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
+	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
+	 *
 	 *
 	 */
 	public String mapToText(){
@@ -547,7 +551,9 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					s=s+i+" "+j+" "+"4\n";
 				}
 				else if (this.getGrille()[i][j].getPersonnage()!=null){
-					s=s+i+" "+j+" "+"3\n";
+					Personnage personnage=this.getGrille()[i][j].getPersonnage();
+					s=s+i+" "+j+" "+"3 ";
+					s=s+personnage.getId()+" "+personnage.getPm()+" "+personnage.isVivant()+" "+personnage.getTaille()+" "+personnage.getNbBombe()+" "+personnage.isPoussee()+"\n";
 				}
 				else if(this.getGrille()[i][j].getMur()!=null){
 					if(this.getGrille()[i][j].getMur() instanceof MurI){
@@ -577,6 +583,15 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_passif){
 						s=s+i+" "+j+" "+"9 ";
 					}
+					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif){
+						s=s+i+" "+j+" "+"10 ";
+					}
+					else if(this.getGrille()[i][j].getEnnemi() instanceof  Ennemi_passif_aggressif){
+						s=s+i+" "+j+" "+"11 ";
+					}
+					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif_aggressif){
+						s=s+i+" "+j+" 12 ";
+					}
 
 					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
 					for(Case ca: depla){
@@ -597,7 +612,7 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 0	sol vide
 	 * 1	mur destructible
 	 * 2 	mur indestructible
-	 * 3 	personnage de base
+	 * 3 	personnage (Dans l'ordre,id, ces pm, vivant, tailleExplo, nbBombe, poussee)
 	 * 4	porte
 	 * 5 	mur destructible + bonusBombe
 	 * 6 	mur destructible + bonusExplo
@@ -605,9 +620,13 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 	 * 8 	mur destructible + bonusPousser
 	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
 	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
+	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
+	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
+	 *
 	 */
 	public static Map mapFromString(String string){
 		Map m= new Map();
+		int a,b;
 		Case[][] g=new Case[15][13];
 		Scanner scan=new Scanner(string);
 		while(scan.hasNext()){
@@ -618,7 +637,17 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
 				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
 				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
-				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPersonnage(new Personnage(true,g[x][y],2,1,5,0)); break;
+				case 3: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+				int id=scan.nextInt();
+				int pm=scan.nextInt();
+				boolean vivant=scan.nextBoolean();
+				int tailleExplo=scan.nextInt();
+				int nbBombe=scan.nextInt();
+				boolean poussee=scan.nextBoolean();
+				Personnage personnage=new Personnage(vivant,g[x][y],tailleExplo,nbBombe,pm,id);
+				personnage.setPoussee(poussee);
+				g[x][y].setPersonnage(personnage);
+				break;
 				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
 				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
@@ -627,7 +656,6 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
 						Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
 						g[x][y].setEnnemi(ep);
-						int a,b;
 						a=scan.nextInt();
 						while (a!=1010){
 							b=scan.nextInt();
@@ -636,6 +664,40 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 							a=scan.nextInt();
 						}
 						break;
+				case 10: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+						Ennemi_actif ea=new Ennemi_actif(true,g[x][y],5);
+						g[x][y].setEnnemi(ea);
+						a=scan.nextInt();
+						while (a!=1010){
+							b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						ea.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+				case 11: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_passif_aggressif epa=new Ennemi_passif_aggressif(true,g[x][y],5);
+					g[x][y].setEnnemi(epa);
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						epa.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+				case 12: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_actif_aggressif eaa=new Ennemi_actif_aggressif(true,g[x][y],5);
+					g[x][y].setEnnemi(eaa);
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						eaa.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+
 			}
 		}
 		LinkedList<Ennemis> liste=new LinkedList<Ennemis>(); // Récupération ennemis
@@ -650,6 +712,8 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 			LinkedList<Case> caca=en.prochain_deplacement;
 			for(Case cas: caca){
 				cas.setPersonnage(g[cas.posX()][cas.posY()].getPersonnage());
+				cas.setMur(g[cas.posX()][cas.posY()].getMur());
+				cas.setBonus(g[cas.posX()][cas.posY()].getBonus());
 			}
 		}
 		m.setGrille(g);
@@ -668,7 +732,318 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 
 	}
 
+	/**Transformation d'un texte vers une map avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 3 	personnage de base (Dans l'ordre,id, ces pm, vivant, tailleExplo, nbBombe, poussee)
+	 * 4	porte
+	 * 5 	mur destructible + bonusBombe
+	 * 6 	mur destructible + bonusExplo
+	 * 7 	mur destructible + bonusMove
+	 * 8 	mur destructible + bonusPousser
+	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
+	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
+	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
+	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
+	 * 1212	id,pm et nombre de bombe en cours (dès le début) ex: 1212 0 3 2
+	 * 14	bonusBombe
+	 * 15	bonusExplo
+	 * 16	bonusMove
+	 * 17 	bonusPousser
+	 * 18	bombe
+	 * 9999	Mise à jour à la fin de la portée des bombes posées
+	 *
+	 */
+	public static Map mapFromStringP(String string,Jeu jeu){
+		Map m= new Map();
+		int a,b;
+		int n=0;
+		Case[][] g=new Case[15][13];
+		LinkedList<Bombe> bombes=new LinkedList<Bombe>();
+		Personnage personnage12[]=new Personnage[4];
+		Scanner scan=new Scanner(string);
 
+
+
+		while(scan.hasNext()){
+			int x=scan.nextInt();
+			int y=scan.nextInt();
+			int choix=scan.nextInt();
+			switch (choix){
+				case 0: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y); break;
+				case 1: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurD()); break;
+				case 2: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setMur(new MurI()); break;
+				case 4: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setPorte(new Porte()); break;
+				case 5: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 6: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 7: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
+				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
+					g[x][y].setEnnemi(ep);
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						ep.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+				case 10: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_actif ea=new Ennemi_actif(true,g[x][y],5);
+					g[x][y].setEnnemi(ea);
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						ea.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+				case 11: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_passif_aggressif epa=new Ennemi_passif_aggressif(true,g[x][y],5);
+					g[x][y].setEnnemi(epa);
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						epa.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+				case 12: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					Ennemi_actif_aggressif eaa=new Ennemi_actif_aggressif(true,g[x][y],5);
+					g[x][y].setEnnemi(eaa);
+					a=scan.nextInt();
+					while (a!=1010){
+						b=scan.nextInt();
+						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
+						eaa.prochain_deplacement.add(lol);
+						a=scan.nextInt();
+					}
+					break;
+				case 1212: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
+					int id1=scan.nextInt();
+					int pmtmp=scan.nextInt();
+					int nbtmp=scan.nextInt();
+					int pm1=scan.nextInt();
+					boolean vivant1=scan.nextBoolean();
+					int te1=scan.nextInt();
+					int nb1=scan.nextInt();
+					boolean p1=scan.nextBoolean();
+					switch (id1){
+						case 0: jeu.pmtmp1=pmtmp; jeu.nbtmp1=nbtmp; jeu.poussee1=p1; break;
+						case 1: jeu.pmtmp2=pmtmp; jeu.nbtmp2=nbtmp;jeu.poussee2=p1; break;
+						case 2: jeu.pmtmp3=pmtmp; jeu.nbtmp3=nbtmp;jeu.poussee3=p1; break;
+						case 3: jeu.pmtmp4=pmtmp; jeu.nbtmp4=nbtmp;jeu.poussee4=p1; break;
+					}
+					Personnage personnage=new Personnage(vivant1,g[x][y],te1,nb1,pm1,id1);
+					personnage.setPoussee(p1);
+					personnage12[n]=personnage;
+					n++;
+					g[x][y].setPersonnage(personnage);
+					break;
+				case 14:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusBombe(g[x][y])); break;
+				case 15:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusExplo(g[x][y])); break;
+				case 16: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); break;
+				case 17:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); break;
+				case 18:g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);Bombe bo=new Bombe(2,g[x][y]);g[x][y].setBombe(bo); bombes.add(bo); break;
+				case 9999:
+					choix=scan.nextInt();
+					for(Bombe bobo: bombes){ //Mise à jour de la portée de l'ensemble des bombes sur la map
+						for(Personnage popo: personnage12){
+							if(popo.getId()==choix){
+								bobo.setTaille(popo.getTaille());
+							}
+						}
+
+					}
+					break;
+
+			}
+		}
+		LinkedList<Ennemis> liste=new LinkedList<Ennemis>(); // Récupération ennemis
+		for(int i=0;i<15;i++){
+			for(int j=0;j<13;j++){
+				if(g[i][j].getEnnemi()!=null){
+					liste.add(g[i][j].getEnnemi());
+				}
+			}
+		}
+		for(Ennemis en: liste){ //Mise à jour des cases des ennemis
+			LinkedList<Case> caca=en.prochain_deplacement;
+			for(Case cas: caca){
+				cas.setPersonnage(g[cas.posX()][cas.posY()].getPersonnage());
+				cas.setMur(g[cas.posX()][cas.posY()].getMur());
+				cas.setBonus(g[cas.posX()][cas.posY()].getBonus());
+			}
+		}
+
+
+		m.setGrille(g);
+		int i,j;
+		for (i = 0; i < m.tailleX(); i++) {
+			for (j = 0; j < m.tailleY(); j++) {
+				m.getGrille()[i][j].setName("Case"+i+j);
+				m.getGrille()[i][j].setMap(m);
+				m.addActor(m.getGrille()[i][j]);
+
+			}
+
+		}
+		return m;
+
+	}
+
+	/**Transformation d'une map vers un texte avec les conventions suivantes:
+	 * 0	sol vide
+	 * 1	mur destructible
+	 * 2 	mur indestructible
+	 * 4	porte
+	 * 5 	mur destructible + bonusBombe
+	 * 6 	mur destructible + bonusExplo
+	 * 7 	mur destructible + bonusMove
+	 * 8 	mur destructible + bonusPousser
+	 * 9	Ennemis Passif (indication de fin de chaîne par 1010)
+	 * 10	Ennemis Actif (indication de fin de chaîne par 1010)
+	 * 11 	Ennemis Passif-Agressif (indication de fin de chaîne par 1010)
+	 * 12 	Ennemis Actif-Agressif (indication de fin de chaîne par 1010)
+	 * 1212	Personnage (id,pm en cours, nombre de bombe en cours, pm global, Vivant,taille de l'explosion, nombre de bombe global, bonus poussee activé)
+	 * 14	bonusBombe
+	 * 15	bonusExplo
+	 * 16	bonusMove
+	 * 17 	bonusPousser
+	 * 18 	Bombe
+	 * 9999	Mise à jour à la fin de la portée des bombes posées
+	 */
+	public String mapToTextP(){
+		String s=new String();
+		LinkedList<Personnage> listperso=new LinkedList<Personnage>();
+		for(int i=0;i<15;i++){
+			for(int j=0;j<13;j++){
+				if(this.getGrille()[i][j].getPorte()!=null){
+					s=s+i+" "+j+" "+"4\n";
+				}
+				else if(this.getGrille()[i][j].getMur()!=null){
+					if(this.getGrille()[i][j].getMur() instanceof MurI){
+						s=s+i+" "+j+" "+"2\n";
+					}
+					else{
+						if(this.getGrille()[i][j].getBonus()!=null){
+							if(this.getGrille()[i][j].getBonus() instanceof BonusBombe){
+								s=s+i+" "+j+" "+"5\n";
+							}
+							else if(this.getGrille()[i][j].getBonus() instanceof BonusExplo){
+								s=s+i+" "+j+" "+"6\n";
+							}
+							else if(this.getGrille()[i][j].getBonus() instanceof BonusMove){
+								s=s+i+" "+j+" "+"7\n";
+							}
+							else if(this.getGrille()[i][j].getBonus() instanceof BonusPousser){
+								s=s+i+" "+j+" "+"8\n";
+							}
+						}
+						else {
+							s = s + i + " " + j + " " + "1\n";
+						}
+					}
+				}
+				else if(this.getGrille()[i][j].getEnnemi()!=null){
+					if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_passif){
+						s=s+i+" "+j+" "+"9 ";
+					}
+					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif){
+						s=s+i+" "+j+" "+"10 ";
+					}
+					else if(this.getGrille()[i][j].getEnnemi() instanceof  Ennemi_passif_aggressif){
+						s=s+i+" "+j+" "+"11 ";
+					}
+					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif_aggressif){
+						s=s+i+" "+j+" 12 ";
+					}
+
+					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
+					for(Case ca: depla){
+						s = s + ca.posX() + " " + ca.posY() + " ";
+					}
+					s=s+"1010\n";
+				}
+				else if(this.getGrille()[i][j].getBonus()!=null){
+					if(this.getGrille()[i][j].getBonus() instanceof BonusBombe){
+						s=s+i+" "+j+" "+"14\n";
+					}
+					else if(this.getGrille()[i][j].getBonus() instanceof BonusExplo){
+						s=s+i+" "+j+" "+"15\n";
+					}
+					else if(this.getGrille()[i][j].getBonus() instanceof BonusMove){
+						s=s+i+" "+j+" "+"16\n";
+					}
+					else if(this.getGrille()[i][j].getBonus() instanceof BonusPousser){
+						s=s+i+" "+j+" "+"17\n";
+					}
+				}
+				else if(this.getGrille()[i][j].getBombe()!=null){
+					s=s+i+" "+j+" 18\n";
+				}
+				else{
+					s=s+i+" "+j+" "+"0\n";
+				}
+
+			}
+		}
+
+		return s;
+	}
+
+	public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
+		ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>() ;
+
+		for(int i=indiceContour ; i<= 14-indiceContour ; i++) {
+			grille[i][indiceContour].setMur(new MurI());
+			if(grille[i][indiceContour].getPersonnage() != null) {
+				grille[i][indiceContour].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[i][indiceContour].getPersonnage()) ;
+			}
+
+			grille[i][12-indiceContour].setMur(new MurI());
+			if(grille[i][12-indiceContour].getPersonnage() != null) {
+				grille[i][12-indiceContour].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[i][12-indiceContour].getPersonnage()) ;
+			}
+		}
+
+		for(int i=indiceContour+1 ; i<= 11-indiceContour ; i++) {
+			grille[indiceContour][i].setMur(new MurI());
+			if(grille[indiceContour][i].getPersonnage() != null) {
+				grille[indiceContour][i].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[indiceContour][i].getPersonnage()) ;
+			}
+
+			grille[14-indiceContour][i].setMur(new MurI());
+			if(grille[14-indiceContour][i].getPersonnage() != null) {
+				grille[14-indiceContour][i].getPersonnage().setVivant(false);
+				listePersosEcrases.add(grille[14-indiceContour][i].getPersonnage()) ;
+			}
+		}
+
+		return listePersosEcrases ;
+	}
+
+public void suppActor(){
+		for (int i=0;i<15;i++){
+			for (int j=0;j<13;j++){
+				this.getGrille()[i][j].setPersonnage(null);
+				this.getGrille()[i][j].setBombe(null);
+				this.getGrille()[i][j].setEnnemi(null);
+				this.getGrille()[i][j].setBonus(null);
+				this.getGrille()[i][j].setMur(null);
+				this.getGrille()[i][j].setMarque(null);
+				this.getGrille()[i][j].setPorte(null);
+				this.removeActor(this.getGrille()[i][j]);
+			}
+		}
+}
 
 }
 

@@ -19,14 +19,42 @@ public abstract class Ennemis extends Image {
     }
 
 
-    public void setVivant(boolean v) {
-        vivant = v;
+
+    public Case getC() {
+        return c;
     }
 
-    public Case getC(){return c;}
+    public void setC(Case c) {
+        this.c = c;
+    }
+
+    public boolean isVivant() {
+        return vivant;
+    }
+
+    public void setVivant(boolean vivant) {
+        this.vivant = vivant;
+    }
+
+    public int getPm() {
+        return pm;
+    }
+
+    public void setPm(int pm) {
+        this.pm = pm;
+    }
+
+    public void miseAjour(){
+
+    }
+
 
     public void deplacer(){
         int i = pm;
+        miseAjour();
+        while(!prochain_deplacement.isEmpty() && pm>0){
+
+        }
 
     }
 }
