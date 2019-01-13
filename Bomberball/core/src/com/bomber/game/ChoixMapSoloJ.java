@@ -145,6 +145,10 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                                 map.getGrille()[i][j].setBonus(b);
                                 map.getGrille()[i][j].getBonus().setScale(0.5f);
                             }
+                            if(map.getGrille()[i][j].getPersonnage()!=null){
+                                Personnage personnage=map.getGrille()[i][j].getPersonnage();
+                                map.getGrille()[i][j].setPersonnage(personnage);
+                            }
                         }
                     }
                     jeu.addActor(map);

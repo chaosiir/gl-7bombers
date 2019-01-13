@@ -23,6 +23,7 @@ public class Personnage extends Image  {
     private boolean poussee;
     private int taillepoussee;
     private int id;
+    private int taillepoussee;
 
 
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
@@ -279,7 +280,7 @@ public class Personnage extends Image  {
             /*Poussage de la bombe*/
             if (c.getBombe()!=null){
                 c.setBombe(null);
-               taillepoussee=0;
+                taillepoussee=0;
                 do {
                     taillepoussee++;
                 } while (c.getMap().getGrille()[c.posX()+taillepoussee][c.posY()].getPersonnage()==null &&
