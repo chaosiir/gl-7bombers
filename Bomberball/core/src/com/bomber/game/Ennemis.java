@@ -1,9 +1,12 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import javax.sound.midi.Sequence;
 import java.util.LinkedList;
 
 public abstract class Ennemis extends Image {
@@ -60,7 +63,27 @@ public abstract class Ennemis extends Image {
     public void deplacer(){
         int i = pm;
         miseAjour();
-        while(!prochain_deplacement.isEmpty() && pm>0){
+        SequenceAction seq=new SequenceAction();
+        Case actuel=c;
+        while(!prochain_deplacement.isEmpty() && i>0){
+            Case prochaine=prochain_deplacement.removeFirst();
+            if(actuel.posX()!=prochaine.posX()){
+                if(actuel.posX()<prochaine.posX()){
+                }
+                else {
+
+                }
+            }
+            if(actuel.posY()!=prochaine.posY()){
+                if(actuel.posY()<prochaine.posY()){
+
+                }
+                else {
+
+                }
+            }
+            actuel=prochaine;
+            i--;
 
         }
 
