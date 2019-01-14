@@ -1,9 +1,16 @@
 package com.bomber.game;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import java.util.LinkedList;
 
 public class EnnemiPassif extends Ennemis {
 
+
+    public EnnemiPassif(boolean vivant,Case c,int pm,LinkedList<Case> chemin) {
+        super(Bomberball.multiTexture[17],vivant,c,pm);
+        this.chemin=chemin;
+    }
 
     public LinkedList<Case> getChemin() {
         return chemin;

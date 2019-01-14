@@ -30,7 +30,7 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     Label indication;
     Label indication1;
-    Ennemi_passif ennemi_passif;
+    EnnemiPassif ennemi_passif;
 
     TextButton valider;
     TextButton retour;
@@ -199,7 +199,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif=new Ennemi_passif(true,c,5);
+                    ennemi_passif=new EnnemiPassif(true,c,5,null);
                     ennemi_passif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif);
                     ennemi_passif.prochain_deplacement.add(c);

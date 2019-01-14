@@ -25,13 +25,9 @@ public class EnnemiActifAggressif extends Ennemis {
         this.agro = agro;
     }
 
-    public EnnemiActifAggressif(int portee, boolean agro) {
-        this.portee = portee;
-        this.agro = agro;
-    }
 
     public EnnemiActifAggressif(boolean vivant, Case c, int pm, int portee, boolean agro) {
-        super(vivant, c, pm);
+        super(Bomberball.multiTexture[24],vivant, c, pm);
         this.portee = portee;
         this.agro = agro;
     }
@@ -239,5 +235,3 @@ public class EnnemiActifAggressif extends Ennemis {
         }
     }
     }
-
-}

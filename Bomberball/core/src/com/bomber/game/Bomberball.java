@@ -88,7 +88,6 @@ public class Bomberball extends Game {
 		multiTexture[22]= new Texture("player4.png");
 		multiTexture[23]= new Texture("ghost2.png");
 		multiTexture[24]= new Texture("bat2.png");
-		multiTexture[25]= new Texture("ghost2.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
 		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu = new Jeu();

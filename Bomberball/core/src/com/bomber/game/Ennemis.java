@@ -1,5 +1,6 @@
 package com.bomber.game;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -19,8 +20,13 @@ public abstract class Ennemis extends Image {
         this.prochain_deplacement = chemin;
     }
 
-    protected LinkedList<Case> prochain_deplacement;
-
+    public Ennemis(Texture t,boolean vivant, Case c, int pm){
+        super(t);
+        this.c=c;
+        this.vivant=vivant;
+        this.pm=pm;
+        setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    }
 
     public Case getC() {
         return c;

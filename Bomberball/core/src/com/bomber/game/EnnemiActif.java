@@ -7,8 +7,8 @@ import java.util.LinkedList;
 
 public class EnnemiActif extends Ennemis {
 
-    public EnnemiActif() {
-        super(Bomberball.multiTexture[16]);
+    public EnnemiActif(boolean vivant, Case c, int pm) {
+        super(Bomberball.multiTexture[16],vivant,c,pm);
 
     }
 
@@ -28,8 +28,10 @@ public class EnnemiActif extends Ennemis {
     public LinkedList<Case> voisinAccessibles (Case caseC){
         Map m=caseC.getMap();
         Case[][] grille = m.getGrille();
+
         int a=caseC.posX();
         int b=caseC.posY();
+        System.out.println(a+" "+b);
         LinkedList<Case> voisin = new LinkedList<Case>();
 
         if (caseLibre(grille[a-1][b])) {

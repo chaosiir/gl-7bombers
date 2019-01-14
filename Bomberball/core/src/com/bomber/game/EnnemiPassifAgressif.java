@@ -39,14 +39,9 @@ public class EnnemiPassifAgressif extends Ennemis {
         this.agro = agro;
     }
 
-    public EnnemiPassifAgressif(int portee, boolean agro, LinkedList<Case> chemin) {
-        this.portee = portee;
-        this.agro = agro;
-        this.chemin=chemin;
-    }
 
     public EnnemiPassifAgressif(boolean vivant, Case c, int pm, int portee, boolean agro, LinkedList<Case> chemin) {
-        super(vivant, c, pm);
+        super(Bomberball.multiTexture[23],vivant, c, pm);
         this.portee = portee;
         this.agro = agro;
         this.chemin=chemin;

@@ -23,7 +23,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
 
     Label indication;
     Label indication1;
-    Ennemi_passif_aggressif ennemi_passif_aggressif;
+    EnnemiPassifAgressif ennemi_passif_aggressif;
 
     TextButton valider;
     TextButton retour;
@@ -181,7 +181,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif_aggressif=new Ennemi_passif_aggressif(true,c,5);
+                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,5,5,false,null);
                     ennemi_passif_aggressif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif_aggressif);
                     ennemi_passif_aggressif.prochain_deplacement.add(c);
