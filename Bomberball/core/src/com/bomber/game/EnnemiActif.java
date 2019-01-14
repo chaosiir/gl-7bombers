@@ -37,17 +37,17 @@ public class EnnemiActif extends Ennemis {
 
 
     /* Met à jour le chemin de l'ennemi pour qu'il soit maximum */
-    public void cheminMax(){
+    public LinkedList<Case> cheminMax(int pmMax, Case cChemin){
 
         LinkedList<Case> visites = new LinkedList<Case>();
-        visites.add(c);
+        visites.add(cChemin);
 
-        prochain_deplacement = cheminMaxAux(visites,pm-1);
-
+        return cheminMaxAux(visites,pmMax, pmMax -1);
     }
 
+
     /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
-    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmRestants){
+    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmMax, int pmRestants){
         //case initiale = visites[pm - pmRestants -1]
         LinkedList<Case> res = new LinkedList<Case>();
 
@@ -64,13 +64,13 @@ public class EnnemiActif extends Ennemis {
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    if (visites.size()==(pm-pmRestants)){
+                    if (visites.size()==(pmMax-pmRestants)){
                         visites.add(a) ;
                     }
                     else{
-                        visites.set(pm - pmRestants,a) ;
+                        visites.set(pmMax - pmRestants,a) ;
                     }
-                    cheminProvisoire = cheminMaxAux(visites, pmRestants - 1);
+                    cheminProvisoire = cheminMaxAux(visites, pmMax, pmRestants - 1);
                     if (cheminProvisoire.size() > res.size()) {
                         res = cheminProvisoire;
                     }
@@ -80,7 +80,15 @@ public class EnnemiActif extends Ennemis {
         }
     }
 
-    public void miseAjour(){
-        cheminMax();
+    public void miseAjour() {
+        int i= 0;
+        Case suivante = c;
+        LinkedList<Case> cheminProvisoire = cheminMax(pm, suivante);
+        suivante= cheminProvisoire.get(1);
+        while (i<pm && caseLibre(suivante) ){
+            prochain_deplacement.add(suivante);
+            i = i+1;
+            suivante= cheminProvisoire.get(i);
+        }
     }
 }

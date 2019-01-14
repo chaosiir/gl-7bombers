@@ -14,6 +14,9 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     private LinkedList<Case> chemin;
 
+    // indice de la case en cours sur le chemin défini
+    private int i = 0;
+
     private int portee;
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
     dans un carré de taille 5x5 autour de l'ennemi*/
@@ -198,7 +201,6 @@ public class EnnemiPassifAgressif extends Ennemis {
             agro = false;
             prochain_deplacement = new LinkedList<Case>();
             int n = chemin.size();
-            int i = 0;
             Case suivante = chemin.get(0);
             while (i < n && caseLibre(suivante)) {
                 prochain_deplacement.add(suivante);

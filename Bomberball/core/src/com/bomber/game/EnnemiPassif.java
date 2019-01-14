@@ -15,11 +15,13 @@ public class EnnemiPassif extends Ennemis {
 
     private LinkedList<Case> chemin;
 
+    // indice de la case en cours sur le chemin défini
+    private int i = 0;
+
 
     public void miseAjour() {
         prochain_deplacement = new LinkedList<Case>();
         int n = chemin.size();
-        int i = 0;
         Case suivante = chemin.get(0);
         while (i<n && caseLibre(suivante) ){
             prochain_deplacement.add(suivante);
