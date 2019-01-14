@@ -18,6 +18,7 @@ public class MenuSolo extends Etat implements Screen {
     private Image back;
     private Table table;
     private TextButton demarrerpartie;
+    private TextButton campagne;
     private  TextButton choixmap;
     private  TextButton parametre;
     private  TextButton retour;
@@ -45,6 +46,7 @@ public class MenuSolo extends Etat implements Screen {
         table.setPosition(0, Gdx.graphics.getHeight());
 
         demarrerpartie = new TextButton("Demarrer une partie",skin);
+        campagne = new TextButton("campagne",skin);
         choixmap = new TextButton("Choix d'une map personnalisee",skin);
         parametre = new TextButton("Parametre",skin);
         retour= new TextButton("Retour",skin);
@@ -84,6 +86,7 @@ public class MenuSolo extends Etat implements Screen {
         table.padTop(30);
 
         table.add(demarrerpartie);
+        table.add(campagne);
         table.add(choixmap);
         table.add(parametre);
         table.add(retour);

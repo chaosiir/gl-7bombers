@@ -12,13 +12,21 @@ public abstract class Ennemis extends Image {
     protected int pm;//points de mouvement, 5 par defaut
     protected LinkedList<Case> prochain_deplacement;
 
-    public Ennemis(Texture t){
-        super(t);
-        prochain_deplacement=new LinkedList<Case>();
-        this.setName("Ennemis");
+    public LinkedList<Case> getProchain_deplacement() {
+        return prochain_deplacement;
     }
 
+    public void setProchain_deplacement(LinkedList<Case> chemin) {
+        this.prochain_deplacement = chemin;
+    }
 
+    public Ennemis(Texture t,boolean vivant, Case c, int pm){
+        super(t);
+        this.c=c;
+        this.vivant=vivant;
+        this.pm=pm;
+        setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    }
 
     public Case getC() {
         return c;
@@ -56,5 +64,16 @@ public abstract class Ennemis extends Image {
 
         }
 
+    }
+
+    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
+    public boolean caseLibre(Case caseC){
+        Map m=caseC.getMap();
+        Mur mur=caseC.getMur();
+        Ennemis ennemi=caseC.getEnnemi();
+        if ((ennemi==null)&&(mur==null)){
+            return true;
+        }
+        else return false;
     }
 }

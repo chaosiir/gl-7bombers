@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -479,7 +481,6 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         jeu.addActor(player4);
         jeu.addActor(jeu.map);
 
-
     }
 
 
@@ -569,37 +570,81 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
                     }
                     int nbviv=0;
-                    int viv=0;
                     for(int i=0;i<4;i++){
                         if(joueurs[i].isVivant()){
                             nbviv++;
-                            viv=i;
                         }
                     }
                     if(nbviv==0){
-                        jeu.map=null;
-                        jeu.removeActor(jeu.findActor("Map"));
 
-                        for(int i=0;i<4;i++){
-                            jeu.removeActor(joueurs[i]);
-                        }
-                        frecommencer.delete();
-                        game.victoire=new Victoire(game,jeu,"Match nul");
-                        jeu.setEtat(game.victoire);
-                        game.setScreen(game.victoire);
+                        MoveByAction action=new MoveByAction();
+                        action.setDuration(12);
+                        action.setAmount(0,0);
+                        joueurs[0].addAction(action);
+                        joueurs[1].addAction(action);
+                        joueurs[2].addAction(action);
+                        joueurs[3].addAction(action);
+                        jeu.addAction(new Action() {
+                            float time = 0;
 
+                            @Override
+                            public boolean act(float delta) {
+                                time += delta;
+                                if (time > 3) {
+                                    tour=0;
+                                    jeu.map = null;
+                                    jeu.removeActor(jeu.findActor("Map"));
+
+                                    for (int i = 0; i < 4; i++) {
+                                        jeu.removeActor(joueurs[i]);
+                                    }
+
+                                    game.victoire = new Victoire(game, jeu, "                         Match nul");
+                                    jeu.setEtat(game.victoire);
+                                    game.setScreen(game.victoire);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
 
                     }
                     else if(nbviv==1){
-                        jeu.map=null;
-                        jeu.removeActor(jeu.findActor("Map"));
-                        frecommencer.delete();
-                        game.victoire=new Victoire(game,jeu,"Victoire joueur "+(viv+1));
-                        for(int i=0;i<4;i++){
-                            jeu.removeActor(joueurs[i]);
-                        }
-                        jeu.setEtat(game.victoire);
-                        game.setScreen(game.victoire);
+
+                        MoveByAction action=new MoveByAction();
+                        action.setDuration(16);
+                        action.setAmount(0,0);
+                        joueurs[0].addAction(action);
+                        joueurs[1].addAction(action);
+                        joueurs[2].addAction(action);
+                        joueurs[3].addAction(action);
+                        jeu.addAction(new Action() {
+                            float time=0;
+                            @Override
+                            public boolean act(float delta) {
+                                time+=delta;
+                                if(time>3){
+                                    jeu.map=null;
+                                    int viv=0;
+                                    tour=0;
+                                    for(int i=0;i<4;i++){
+                                        if(joueurs[i].isVivant()){
+                                            viv=i;
+                                        }
+                                    }
+                                    jeu.removeActor(jeu.findActor("Map"));
+                                    game.victoire=new Victoire(game,jeu,"                     Victoire joueur "+(viv+1));
+                                    for(int i=0;i<4;i++){
+                                        jeu.removeActor(joueurs[i]);
+                                    }
+                                    jeu.setEtat(game.victoire);
+                                    game.setScreen(game.victoire);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
+
                     }
                     else {
                         while (!joueurs[tour].isVivant()) {
