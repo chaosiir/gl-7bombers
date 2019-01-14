@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class EnnemiActif extends Ennemis {
-    private LinkedList<Case>  chemin;
 
     public EnnemiActif() {
         super(Bomberball.multiTexture[16]);
@@ -23,6 +22,7 @@ public class EnnemiActif extends Ennemis {
         }
         else return false;
     }
+
 
     /* fonction renvoyant la liste des cases non occupées par un mur ou un autre ennemi autour de la case donnée*/
     public LinkedList<Case> voisinAccessibles (Case caseC){
@@ -53,18 +53,18 @@ public class EnnemiActif extends Ennemis {
 
 
     /* Met à jour le chemin de l'ennemi pour qu'il soit maximum */
-    public void cheminMax(){
+    public LinkedList<Case> cheminMax(int pmMax, Case cChemin){
 
         LinkedList<Case> visites = new LinkedList<Case>();
-        visites.add(c);
+        visites.add(cChemin);
 
-        chemin = cheminMaxAux(visites,pm-1);
-
+        return cheminMaxAux(visites,pmMax, pmMax -1);
     }
 
+
     /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
-    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmRestants){
-        //case initiale = visites[pm - pmRestants]
+    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmMax, int pmRestants){
+        //case initiale = visites[pm - pmRestants -1]
         LinkedList<Case> res = new LinkedList<Case>();
 
         // cas de base: l'ennemi ne peut pas aller plus loin
@@ -72,7 +72,7 @@ public class EnnemiActif extends Ennemis {
             return res;
         }
         else {
-            LinkedList<Case> voisins = voisinAccessibles(visites.get( pm - pmRestants - 1));
+            LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
 
             LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
 
@@ -80,8 +80,13 @@ public class EnnemiActif extends Ennemis {
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    visites.set( pm - pmRestants,a) ;
-                    cheminProvisoire = cheminMaxAux(visites, pmRestants - 1);
+                    if (visites.size()==(pmMax-pmRestants)){
+                        visites.add(a) ;
+                    }
+                    else{
+                        visites.set(pmMax - pmRestants,a) ;
+                    }
+                    cheminProvisoire = cheminMaxAux(visites, pmMax, pmRestants - 1);
                     if (cheminProvisoire.size() > res.size()) {
                         res = cheminProvisoire;
                     }
@@ -91,14 +96,15 @@ public class EnnemiActif extends Ennemis {
         }
     }
 
-    public void miseAjour(){
-        cheminMax();
+    public void miseAjour() {
+        int i= 0;
+        Case suivante = c;
+        LinkedList<Case> cheminProvisoire = cheminMax(pm, suivante);
+        suivante= cheminProvisoire.get(1);
+        while (i<pm && caseLibre(suivante) ){
+            prochain_deplacement.add(suivante);
+            i = i+1;
+            suivante= cheminProvisoire.get(i);
+        }
     }
-
-
-
-
-
-
-
 }
