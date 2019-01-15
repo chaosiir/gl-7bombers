@@ -18,6 +18,14 @@ public abstract class Ennemis extends Image {
         this.setName("Ennemis");
     }
 
+    public LinkedList<Case> getProchain_deplacement() {
+        return prochain_deplacement;
+    }
+
+    public void setProchain_deplacement(LinkedList<Case> chemin) {
+        this.prochain_deplacement = chemin;
+    }
+
 
 
     public Case getC() {
@@ -56,5 +64,16 @@ public abstract class Ennemis extends Image {
 
         }
 
+    }
+
+    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
+    public boolean caseLibre(Case caseC){
+        Map m=caseC.getMap();
+        Mur mur=caseC.getMur();
+        Ennemis ennemi=caseC.getEnnemi();
+        if ((ennemi==null)&&(mur==null)){
+            return true;
+        }
+        else return false;
     }
 }

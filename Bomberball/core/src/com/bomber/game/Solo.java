@@ -19,6 +19,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Classe Solo
+ * Elle affiche l'écran du jeu lors d'un jeu solo
+ * @author Pascal Ferrari
+ *
+ */
+
 public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
     int nb=1;
@@ -63,6 +70,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -152,7 +162,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         joueur.setPosition(0,Gdx.graphics.getHeight()-3*Bomberball.taillecase);
 
         personnage=jeu.map.findActor("Personnage");
-        System.out.println(personnage==null);
+
 
 
         mouvement = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
@@ -314,8 +324,14 @@ public class Solo extends Etat implements Screen {//etat multijoueur
             try {
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextP());
-                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 1212 "+" "+joueur.getId()+" "+pm+" "+nb+" "+personnage.getPm()+" "+personnage.isVivant()+" "+personnage.getTaille()+" "+personnage.getNbBombe()+" "+personnage.isPoussee()+"\n");
-                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 9999 "+joueur.getId());
+                if(joueur.getC().getBombe()!=null){
+                    fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 19 "+joueur.getId()+" "+pm+" "+nb+" "+joueur.getPm()+" "+joueur.isVivant()+" "+joueur.getTaille()+" "+joueur.getNbBombe()+" "+joueur.isPoussee()+"\n");
+                }
+                else{
+                    fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 1212 "+" "+joueur.getId()+" "+pm+" "+nb+" "+joueur.getPm()+" "+joueur.isVivant()+" "+joueur.getTaille()+" "+joueur.getNbBombe()+" "+joueur.isPoussee()+"\n");
+                }
+
+                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 9999 "+joueur.getId()+"\n");
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();

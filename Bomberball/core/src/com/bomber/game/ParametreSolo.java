@@ -10,7 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ParametreSolo
+ * Elle affiche les paramètres modifiables par le joueur lorsqu'il joue en mode solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class ParametreSolo extends Etat implements Screen {
     Bomberball game;
     private Skin skin;
@@ -42,6 +47,9 @@ public class ParametreSolo extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         // called when this screen is set as the screen with game.setScreen();

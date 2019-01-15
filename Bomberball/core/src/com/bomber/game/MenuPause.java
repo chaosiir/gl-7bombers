@@ -19,7 +19,12 @@ import com.badlogic.gdx.utils.Align;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe MenuPause
+ * Elle affiche le menu pause dans le mode solo et multijoueur
+ * @author Théo Loïs, Paul-Louis Renard
+ *
+ */
 public class MenuPause extends Etat implements Screen {
 
 
@@ -88,6 +93,9 @@ public class MenuPause extends Etat implements Screen {
         return false;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     public void show(){
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
