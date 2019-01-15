@@ -31,6 +31,8 @@ public abstract class Ennemis extends Image {
         setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
     }
 
+
+
     public Case getC() {
         return c;
     }

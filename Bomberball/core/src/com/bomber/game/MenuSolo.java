@@ -11,7 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe MenuSolo
+ * Elle affiche le menu spécifique au mode solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class MenuSolo extends Etat implements Screen {
     private Bomberball game;
     private Skin skin;
@@ -30,6 +35,9 @@ public class MenuSolo extends Etat implements Screen {
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
 

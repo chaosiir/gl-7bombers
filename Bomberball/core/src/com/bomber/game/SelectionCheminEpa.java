@@ -15,7 +15,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import static com.bomber.game.Bomberball.stg;
-
+/**
+ * Classe SelectionCheminEpa
+ * Elle permet au joueur de placer un ennemi passif aggressif sur la carte dans l'éditeur de niveau
+ * @author Paul-Louis Renard
+ *
+ */
 public class SelectionCheminEpa extends Etat implements Screen {
     Bomberball game;
 
@@ -49,6 +54,9 @@ public class SelectionCheminEpa extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         String text=Bomberball.loadFile(f);

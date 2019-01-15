@@ -15,7 +15,12 @@ package com.bomber.game;
     import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
     import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
     import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe MenuPrincipalBis
+ * Elle affiche le menu principal lorsque le jeu démarre
+ * @author Paul-Louis Renard
+ *
+ */
 public class MenuPrincipalBis extends Etat implements Screen {
     private Image back;
     private Skin skin;
@@ -58,7 +63,9 @@ public class MenuPrincipalBis extends Etat implements Screen {
         public void resize(int width, int height) {
         }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
         @Override
         public void show() {
 
@@ -82,24 +89,27 @@ public class MenuPrincipalBis extends Etat implements Screen {
             soloButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.removeActor(back);
+                    jeu.removeActor(table);
                     jeu.setEtat(game.menuSolo);
-
                     game.setScreen(game.menuSolo);
                 }
             });
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.removeActor(back);
+                    jeu.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);
-
                     game.setScreen(game.choixMenuMultijoueur);
                 }
             });
             editeurButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.removeActor(back);
+                    jeu.removeActor(table);
                     jeu.setEtat(game.choixEditeurN);
-
                     game.setScreen(game.choixEditeurN);
                 }
             });

@@ -20,6 +20,12 @@ import java.io.IOException;
 
 import static com.bomber.game.Bomberball.stg;
 
+/**
+ * Classe EditeurNMulti
+ * Elle affiche l'éditeur de niveau pour des maps multijoueurs
+ * @author Paul-Louis Renard
+ *
+ */
 public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -63,6 +69,9 @@ public class EditeurNMulti extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         if(f.exists()){
