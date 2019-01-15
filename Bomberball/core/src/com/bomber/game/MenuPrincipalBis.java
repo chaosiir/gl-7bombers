@@ -15,7 +15,12 @@ package com.bomber.game;
     import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
     import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
     import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe MenuPrincipalBis
+ * Elle affiche le menu principal lorsque le jeu démarre
+ * @author Paul-Louis Renard
+ *
+ */
 public class MenuPrincipalBis extends Etat implements Screen {
     private Image back;
     private Skin skin;
@@ -58,7 +63,9 @@ public class MenuPrincipalBis extends Etat implements Screen {
         public void resize(int width, int height) {
         }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
         @Override
         public void show() {
 

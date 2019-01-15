@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapSoloJ
+ * Elle affiche des maps solo que le joueur a déjà créé et sur lesquelles il veut jouer
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapSoloJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -44,6 +49,9 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         super(jeu);
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );

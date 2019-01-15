@@ -12,7 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ChoixEditeur
+ * Elle affiche l'écran pour choisir si le joueur veut éditer une map solo ou multijoueur
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixEditeurN extends Etat implements Screen {
     private Image back;
     private Skin skin;
@@ -24,11 +29,19 @@ public class ChoixEditeurN extends Etat implements Screen {
 
     Bomberball game;
 
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixEditeurN(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         // called when this screen is set as the screen with game.setScreen();

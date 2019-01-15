@@ -102,7 +102,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

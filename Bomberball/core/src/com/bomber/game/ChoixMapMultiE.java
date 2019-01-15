@@ -11,7 +11,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapMultiE
+ * Elle affiche des maps que le joueur a déjà créé en multijoueur et qu'il veut remodifié
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapMultiE extends Etat implements Screen {
 
     Bomberball game;
@@ -40,6 +45,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );

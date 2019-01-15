@@ -8,7 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ChoixMenuMultijoueur
+ * Elle affiche les paramètres que le joueur peut choisir pour lancer une partie multijoueur et le moyen de lancer cette partie
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMenuMultijoueur extends Etat implements Screen {
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {
@@ -39,6 +44,9 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

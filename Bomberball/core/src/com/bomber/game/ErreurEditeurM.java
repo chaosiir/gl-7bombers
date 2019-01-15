@@ -11,7 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
-
+/**
+ * Classe ErreurEditeurM
+ * Elle affiche un message d'erreur si le joueur a réalisé une map multijoueur invalide
+ * @author Paul-Louis Renard
+ *
+ */
 public class ErreurEditeurM extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -24,7 +29,9 @@ public class ErreurEditeurM extends Etat implements Screen {
         this.game=game;
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

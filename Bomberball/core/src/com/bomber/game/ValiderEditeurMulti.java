@@ -15,7 +15,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe ValiderEditeurMulti
+ * Elle permet de sauvegarder sa carte multijoueur qu'il a créé
+ * @author Paul-Louis Renard
+ *
+ */
 public class ValiderEditeurMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -41,7 +46,9 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

@@ -28,7 +28,9 @@ public class Defaite extends Etat implements Screen {
         txt = st;
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin = new Skin(Gdx.files.internal("uiskin.json"));

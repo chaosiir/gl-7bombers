@@ -19,6 +19,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Classe Solo
+ * Elle affiche l'écran du jeu lors d'un jeu solo
+ * @author Pascal Ferrari
+ *
+ */
+
 public class Solo extends Etat implements Screen {//etat multijoueur
     int pm=5;
     int nb=1;
@@ -63,6 +70,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

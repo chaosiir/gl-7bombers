@@ -27,7 +27,12 @@ import java.io.FileOutputStream;
 import java.util.LinkedList;
 
 import static com.bomber.game.Bomberball.stg;
-
+/**
+ * Classe EditeurNSolo
+ * Elle affiche l'éditeur de niveau pour des maps solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class EditeurNSolo extends Etat implements Screen {
 
     Bomberball game;
@@ -83,6 +88,9 @@ public class EditeurNSolo extends Etat implements Screen {
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
 

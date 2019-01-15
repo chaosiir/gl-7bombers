@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapMultiJ
+ * Elle affiche des maps multijoueurs que le joueur a déjà créé et sur lesquelles il veut jouer
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapMultiJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -40,7 +45,9 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
