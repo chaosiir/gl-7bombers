@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 
 import java.io.Serializable;
 
@@ -21,8 +21,8 @@ public class Personnage extends Image  {
     private int nbBombe;//bombe posable par tour, 1 par défaut
     private int pm;//points de mouvement, 5 par defaut
     private boolean poussee;
-    private int id;
     private int taillepoussee;
+    private int id;
 
 
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {

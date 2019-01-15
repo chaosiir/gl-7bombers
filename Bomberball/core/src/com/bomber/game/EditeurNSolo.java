@@ -382,31 +382,32 @@ public class EditeurNSolo extends Etat implements Screen {
             }
             if(cache) {
                 for (Ennemis en : liste) {
+                    en.miseAjour();
                     LinkedList<Case> caca = en.prochain_deplacement;
                     for (Case cas : caca) {
                         int xc = cas.posX();
                         int yc = cas.posY();
                         if (cas.getEnnemi() != null) {
-                            if(cas.getEnnemi() instanceof Ennemi_passif){
-                                Ennemi_passif ennemi_passif = (Ennemi_passif) cas.getEnnemi();
+                            if(cas.getEnnemi() instanceof EnnemiPassif){
+                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
                             }
-                            else if(cas.getEnnemi() instanceof Ennemi_passif_aggressif){
-                                Ennemi_passif_aggressif ennemi_passif_aggressif = (Ennemi_passif_aggressif) cas.getEnnemi();
+                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
                             }
-                            else if(cas.getEnnemi() instanceof  Ennemi_actif){
-                                Ennemi_actif ennemi_actif = (Ennemi_actif) cas.getEnnemi();
+                            else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
                             }
-                            else if(cas.getEnnemi() instanceof  Ennemi_actif_aggressif){
-                                Ennemi_actif_aggressif ennemi_actif_aggressif = (Ennemi_actif_aggressif) cas.getEnnemi();
+                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
@@ -432,26 +433,26 @@ public class EditeurNSolo extends Etat implements Screen {
                         int yc=cas.posY();
                         System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
                         if(cas.getEnnemi()!=null){
-                            if(cas.getEnnemi() instanceof Ennemi_passif){
-                                Ennemi_passif ennemi_passif = (Ennemi_passif) cas.getEnnemi();
+                            if(cas.getEnnemi() instanceof EnnemiPassif){
+                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(null);
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
                             }
-                            else if(cas.getEnnemi() instanceof Ennemi_passif_aggressif){
-                                Ennemi_passif_aggressif ennemi_passif_aggressif = (Ennemi_passif_aggressif) cas.getEnnemi();
+                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(null);
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
                             }
-                            else if(cas.getEnnemi() instanceof  Ennemi_actif){
-                                Ennemi_actif ennemi_actif = (Ennemi_actif) cas.getEnnemi();
+                            else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(null);
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
                             }
-                            else if(cas.getEnnemi() instanceof  Ennemi_actif_aggressif){
-                                Ennemi_actif_aggressif ennemi_actif_aggressif = (Ennemi_actif_aggressif) cas.getEnnemi();
+                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
                                 map.getGrille()[xc][yc].setMarque(null);
                                 map.getGrille()[xc][yc].setEnnemi(null);
                                 map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
@@ -894,18 +895,16 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("Ea")){
                             c.setEnnemi(null);
-                            Ennemi_actif ea=new Ennemi_actif(true,c,5);
-                            ea.miseAjour();
+                            EnnemiActif ea=new EnnemiActif(true,c,5);
                             c.setEnnemi(ea);
                         }
                         else if(selectionne.getName().equals("Epa")){
                             c.setEnnemi(null);
-                            c.setEnnemi(new Ennemi_passif_aggressif(true, c, 3, 5, false));
+                            c.setEnnemi(new EnnemiPassifAgressif(true,c,5,5,false));
                         }
                         else if(selectionne.getName().equals("Eaa")){
                             c.setEnnemi(null);
-                            Ennemi_actif_aggressif eaa=new  Ennemi_actif_aggressif(true,c,2, 5, false);
-                            eaa.miseAjour();
+                            EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,5,5,false);
                             c.setEnnemi(eaa);
                         }
 

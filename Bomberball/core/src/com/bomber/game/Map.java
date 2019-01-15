@@ -580,23 +580,36 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					}
 				}
 				else if(this.getGrille()[i][j].getEnnemi()!=null){
-					if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_passif){
+					if(this.getGrille()[i][j].getEnnemi() instanceof EnnemiPassif){
 						s=s+i+" "+j+" "+"9 ";
+						LinkedList<Case> depla=((EnnemiPassif) this.getGrille()[i][j].getEnnemi()).getChemin();
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
-					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif){
+					else if(this.getGrille()[i][j].getEnnemi() instanceof EnnemiActif){
 						s=s+i+" "+j+" "+"10 ";
+						LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
-					else if(this.getGrille()[i][j].getEnnemi() instanceof  Ennemi_passif_aggressif){
+					else if(this.getGrille()[i][j].getEnnemi() instanceof  EnnemiPassifAgressif){
 						s=s+i+" "+j+" "+"11 ";
+						LinkedList<Case> depla=((EnnemiPassifAgressif) this.getGrille()[i][j].getEnnemi()).getChemin();
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
-					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif_aggressif){
+					else if(this.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif){
 						s=s+i+" "+j+" 12 ";
+						LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
 
-					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
-					for(Case ca: depla){
-						s = s + ca.posX() + " " + ca.posY() + " ";
-					}
+
 					s=s+"1010\n";
 				}
 				else{
@@ -654,18 +667,18 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 7: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-						Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
+						EnnemiPassif ep=new EnnemiPassif(true,g[x][y],5);
 						g[x][y].setEnnemi(ep);
 						a=scan.nextInt();
 						while (a!=1010){
 							b=scan.nextInt();
 							Case lol=new Case(); lol.setposX(a); lol.setposY(b);
-							ep.prochain_deplacement.add(lol);
+							ep.getChemin().add(lol);
 							a=scan.nextInt();
 						}
 						break;
 				case 10: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-						Ennemi_actif ea=new Ennemi_actif(true,g[x][y],3);
+						EnnemiActif ea=new EnnemiActif(true,g[x][y],5);
 						g[x][y].setEnnemi(ea);
 						a=scan.nextInt();
 						while (a!=1010){
@@ -676,18 +689,18 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					}
 					break;
 				case 11: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					Ennemi_passif_aggressif epa=new Ennemi_passif_aggressif(true, g[x][y], 3, 5, false);
+					EnnemiPassifAgressif epa=new EnnemiPassifAgressif(true,g[x][y],5,5,false);
 					g[x][y].setEnnemi(epa);
 					a=scan.nextInt();
 					while (a!=1010){
 						b=scan.nextInt();
 						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
-						epa.prochain_deplacement.add(lol);
+						epa.getChemin().add(lol);
 						a=scan.nextInt();
 					}
 					break;
 				case 12: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					Ennemi_actif_aggressif eaa=new Ennemi_actif_aggressif(true,g[x][y],2, 5, false);
+					EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,g[x][y],5,5,false);
 					g[x][y].setEnnemi(eaa);
 					a=scan.nextInt();
 					while (a!=1010){
@@ -708,14 +721,14 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				}
 			}
 		}
-		for(Ennemis en: liste){ //Mise à jour des cases des ennemis
+		/*for(Ennemis en: liste){ //Mise à jour des cases des ennemis
 			LinkedList<Case> caca=en.prochain_deplacement;
 			for(Case cas: caca){
 				cas.setPersonnage(g[cas.posX()][cas.posY()].getPersonnage());
 				cas.setMur(g[cas.posX()][cas.posY()].getMur());
 				cas.setBonus(g[cas.posX()][cas.posY()].getBonus());
 			}
-		}
+		}*/
 		m.setGrille(g);
 		int i,j;
 		for (i = 0; i < m.tailleX(); i++) {
@@ -780,18 +793,18 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 				case 7: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusMove(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 8: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);g[x][y].setBonus(new BonusPousser(g[x][y])); g[x][y].setMur(new MurD()); break;
 				case 9:	g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					Ennemi_passif ep=new Ennemi_passif(true,g[x][y],5);
+					EnnemiPassif ep=new EnnemiPassif(true,g[x][y],5);
 					g[x][y].setEnnemi(ep);
 					a=scan.nextInt();
 					while (a!=1010){
 						b=scan.nextInt();
 						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
-						ep.prochain_deplacement.add(lol);
+						ep.getChemin().add(lol);
 						a=scan.nextInt();
 					}
 					break;
 				case 10: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					Ennemi_actif ea=new Ennemi_actif(true,g[x][y],5);
+					EnnemiActif ea=new EnnemiActif(true,g[x][y],5);
 					g[x][y].setEnnemi(ea);
 					a=scan.nextInt();
 					while (a!=1010){
@@ -802,18 +815,18 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					}
 					break;
 				case 11: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					Ennemi_passif_aggressif epa=new Ennemi_passif_aggressif(true, g[x][y], 3, 5, false);
+					EnnemiPassifAgressif epa=new EnnemiPassifAgressif(true,g[x][y],5,5,false);
 					g[x][y].setEnnemi(epa);
 					a=scan.nextInt();
 					while (a!=1010){
 						b=scan.nextInt();
 						Case lol=new Case(); lol.setposX(a); lol.setposY(b);
-						epa.prochain_deplacement.add(lol);
+						epa.getChemin().add(lol);
 						a=scan.nextInt();
 					}
 					break;
 				case 12: g[x][y]=new Case(); g[x][y].setposX(x); g[x][y].setposY(y);
-					Ennemi_actif_aggressif eaa=new Ennemi_actif_aggressif(true,g[x][y],2, 5, false);;
+					EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,g[x][y],5,5,false);
 					g[x][y].setEnnemi(eaa);
 					a=scan.nextInt();
 					while (a!=1010){
@@ -973,23 +986,36 @@ public class Map extends Group  {//meme chose map est un group d'acteur (les cas
 					}
 				}
 				else if(this.getGrille()[i][j].getEnnemi()!=null){
-					if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_passif){
+					if(this.getGrille()[i][j].getEnnemi() instanceof EnnemiPassif){
 						s=s+i+" "+j+" "+"9 ";
+						LinkedList<Case> depla=((EnnemiPassif) this.getGrille()[i][j].getEnnemi()).getChemin();
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
-					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif){
+					else if(this.getGrille()[i][j].getEnnemi() instanceof EnnemiActif){
 						s=s+i+" "+j+" "+"10 ";
+						LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
-					else if(this.getGrille()[i][j].getEnnemi() instanceof  Ennemi_passif_aggressif){
+					else if(this.getGrille()[i][j].getEnnemi() instanceof  EnnemiPassifAgressif){
+						LinkedList<Case> depla=((EnnemiPassifAgressif) this.getGrille()[i][j].getEnnemi()).getChemin();
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 						s=s+i+" "+j+" "+"11 ";
 					}
-					else if(this.getGrille()[i][j].getEnnemi() instanceof Ennemi_actif_aggressif){
+					else if(this.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif){
 						s=s+i+" "+j+" 12 ";
+						LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
+						for(Case ca: depla){
+							s = s + ca.posX() + " " + ca.posY() + " ";
+						}
 					}
 
-					LinkedList<Case> depla=this.getGrille()[i][j].getEnnemi().prochain_deplacement;
-					for(Case ca: depla){
-						s = s + ca.posX() + " " + ca.posY() + " ";
-					}
+
 					s=s+"1010\n";
 				}
 				else if(this.getGrille()[i][j].getBonus()!=null){
