@@ -98,7 +98,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         Bomberball.copier(f1,f2);
-
+                        table.removeActor(valider);
+                        table.removeActor(retour);
+                        jeu.removeActor(back);
+                        jeu.removeActor(scrollPane);
+                        jeu.removeActor(table);
                         jeu.setEtat(game.editeurNMulti);
                         game.setScreen(game.editeurNMulti);
 
@@ -112,6 +116,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                table.removeActor(valider);
+                table.removeActor(retour);
+                jeu.removeActor(back);
+                jeu.removeActor(scrollPane);
+                jeu.removeActor(table);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }

@@ -82,24 +82,27 @@ public class MenuPrincipalBis extends Etat implements Screen {
             soloButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.removeActor(back);
+                    jeu.removeActor(table);
                     jeu.setEtat(game.menuSolo);
-
                     game.setScreen(game.menuSolo);
                 }
             });
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.removeActor(back);
+                    jeu.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);
-
                     game.setScreen(game.choixMenuMultijoueur);
                 }
             });
             editeurButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.removeActor(back);
+                    jeu.removeActor(table);
                     jeu.setEtat(game.choixEditeurN);
-
                     game.setScreen(game.choixEditeurN);
                 }
             });

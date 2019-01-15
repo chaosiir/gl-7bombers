@@ -6,12 +6,31 @@ import java.util.LinkedList;
 
 public class Ennemi_actif_aggressif extends Ennemis {
     private int portee;
+    private boolean agro = false;
 
-    public Ennemi_actif_aggressif(boolean vivant,Case c,int pm) {
+    public int getPortee() {
+        return portee;
+    }
+
+    public void setPortee(int portee) {
+        this.portee = portee;
+    }
+
+    public boolean isAgro() {
+        return agro;
+    }
+
+    public void setAgro(boolean agro) {
+        this.agro = agro;
+    }
+
+    public Ennemi_actif_aggressif(boolean vivant, Case c, int pm, int portee, boolean agro) {
         super(Bomberball.multiTexture[24]);
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         this.vivant=vivant;
         this.c=c;
+        this.portee = portee;
+        this.agro = agro;
         this.pm=pm;
     }
     public boolean caseLibre(Case caseC){
@@ -52,25 +71,26 @@ public class Ennemi_actif_aggressif extends Ennemis {
 
 
     /* Met à jour le chemin de l'ennemi pour qu'il soit maximum */
-    public void cheminMax() {
+    public LinkedList<Case> cheminMax(int pmMax, Case cChemin) {
 
         LinkedList<Case> visites = new LinkedList<Case>();
-        visites.add(c);
+        visites.add(cChemin);
 
-        prochain_deplacement= cheminMaxAux(visites, pm - 1);
+        return cheminMaxAux(visites, pmMax, pmMax - 1);
 
     }
 
-    /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case oùù il se trouve */
-    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites, int pmRestants) {
-        //case initiale = visites[pm - pmRestants]
+    /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
+    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites,int pmMax, int pmRestants){
+        //case initiale = visites[pm - pmRestants -1]
         LinkedList<Case> res = new LinkedList<Case>();
 
         // cas de base: l'ennemi ne peut pas aller plus loin
-        if (pmRestants == 0) {
+        if (pmRestants ==0) {
             return res;
-        } else {
-            LinkedList<Case> voisins = voisinAccessibles(visites.get(pm - pmRestants - 1));
+        }
+        else {
+            LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
 
             LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
 
@@ -78,8 +98,13 @@ public class Ennemi_actif_aggressif extends Ennemis {
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    visites.set(pm - pmRestants, a);
-                    cheminProvisoire = cheminMaxAux(visites, pmRestants - 1);
+                    if (visites.size()==(pmMax-pmRestants)){
+                        visites.add(a) ;
+                    }
+                    else{
+                        visites.set(pmMax - pmRestants,a) ;
+                    }
+                    cheminProvisoire = cheminMaxAux(visites, pmMax,pmRestants - 1);
                     if (cheminProvisoire.size() > res.size()) {
                         res = cheminProvisoire;
                     }
@@ -88,6 +113,7 @@ public class Ennemi_actif_aggressif extends Ennemis {
             return res;
         }
     }
+
 
     // Met à jour la variable poursuivre si le joueur est détecté par l'ennemi
     public boolean detection(){
@@ -107,13 +133,14 @@ public class Ennemi_actif_aggressif extends Ennemis {
         int a2 = Math.min(13,a+portee);
 
         int b1 = Math.max(b-portee,0);
-        int b2 = Math.min(11,a+portee);
+        int b2 = Math.min(11,b+portee);
 
         // Si le joueur est à portée de l'ennemi, il se fera alors poursuivre
         return (((a1<=xPerso)&&(xPerso<=a2)) && ((a1<=xPerso)&&(xPerso<=a2)));
     }
 
-    /* Met à jour le chemin de l'ennemi pour qu'il trouve le chemin minimum vers le joueur*/
+    /* Met à jour le chemin de l'ennemi pour qu'il trouve le chemin minimum vers le joueur
+     *  Pré: requis On suppose qu'il existe bien un chemin reliant l'ennemi au joueur. */
     public void cheminMin() {
 
         Map m=c.getMap();
@@ -123,7 +150,7 @@ public class Ennemi_actif_aggressif extends Ennemis {
         Personnage personnage=m.findActor("Personnage");
         Case cPerso = personnage.getC();
 
-        /* On créer une liste de liste de case pour parcourir tous les chemins partant de la case de
+        /* On créer une liste de liste de case pour parcourir tous les chemins partants de la case de
         l'ennemi, case par case, jusqu'à trouver le joueur, et ainsi obtenir le plus court chemin vers lui.
          */
 
@@ -142,13 +169,21 @@ public class Ennemi_actif_aggressif extends Ennemis {
             LinkedList<Case> voisins = voisinAccessibles(temp);
             for (Case suivant : voisins) {
                 if (!visites.contains(suivant)) {
+                    // On parcours les nouvelles cases voisines et on les sauvegarde dans voisins
                     visites.add(suivant);
-                    for (LinkedList<Case> cheminPasse : listeChemin) {
-                        if (cheminPasse.getLast() == temp) {
-                            cheminPasse.add(suivant);
+                    int n = listeChemin.size();
+                    int i=0;
+                    /* On parcours tous les chemins existants  dont la dernière case est "suivant" et on rajoute alors
+                    alors ceux qui permettent d'atteindre la nouvelle case visitée,
+                    */
+                    for (i=0;i<n;i++) {
+                        LinkedList<Case> cheminNouveau = listeChemin.get(i);
+                        if (cheminNouveau.getLast() == temp) {
+                            cheminNouveau.add(suivant);
+                            listeChemin.add(cheminNouveau);
                             if (suivant== cPerso) {
                                 // On a trouver un chemin vers le joueur: il est l'une des solutions optimales
-                                prochain_deplacement = cheminPasse;
+                                prochain_deplacement = cheminNouveau;
                             }
                         }
                     }
@@ -157,6 +192,8 @@ public class Ennemi_actif_aggressif extends Ennemis {
             k=k+1;
         }
     }
+
+
 
 
     public int[][] traducteur(){
@@ -182,7 +219,9 @@ public class Ennemi_actif_aggressif extends Ennemis {
 
 
     public boolean verifAgro(){
-        return true;
+        Map map=c.getMap();
+        int[][] t = traducteur();
+        return map.verifSolo(t);
     }
 
 
@@ -190,11 +229,21 @@ public class Ennemi_actif_aggressif extends Ennemis {
         boolean poursuivre = detection();
         if (poursuivre&&verifAgro()) {
             cheminMin();
+            agro=true;
         } else {
-            cheminMax();
+            int i= 0;
+            Case suivante = c;
+            LinkedList<Case> cheminProvisoire = cheminMax(pm, suivante);
+            suivante= cheminProvisoire.get(1);
+            while (i<pm && caseLibre(suivante) ){
+                prochain_deplacement.add(suivante);
+                i = i+1;
+                suivante= cheminProvisoire.get(i);
+            }
+            agro=false;
         }
     }
-
-
-
 }
+
+
+

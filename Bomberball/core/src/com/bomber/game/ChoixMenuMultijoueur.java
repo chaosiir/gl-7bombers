@@ -65,6 +65,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         lancerP.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(table);
                 jeu.setEtat(game.multijoueur);
                 game.setScreen(game.multijoueur);
             }
@@ -76,6 +78,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map=null;
                 jeu.removeActor(jeu.findActor("Map"));
+                jeu.removeActor(back);
+                jeu.removeActor(table);
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
@@ -84,6 +88,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(table);
                 jeu.setEtat(game.choixMapMultiJ);
                 game.setScreen(game.choixMapMultiJ);
             }

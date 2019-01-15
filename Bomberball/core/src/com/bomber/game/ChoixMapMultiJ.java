@@ -99,6 +99,9 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
                         jeu.removeActor(jeu.findActor("YOLO"));
+                        jeu.removeActor(back);
+                        jeu.removeActor(scrollPane);
+                        jeu.removeActor(table);
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);
 
@@ -113,6 +116,9 @@ public class ChoixMapMultiJ extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.removeActor(jeu.findActor("YOLO"));
+                jeu.removeActor(back);
+                jeu.removeActor(scrollPane);
+                jeu.removeActor(table);
                 jeu.setEtat(game.choixMenuMultijoueur);
                 game.setScreen(game.choixMenuMultijoueur);
 

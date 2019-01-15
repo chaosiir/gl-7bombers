@@ -99,7 +99,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
                         Bomberball.copier(f1,f2);
-
+                        jeu.removeActor(back);
+                        jeu.removeActor(scrollPane);
+                        jeu.removeActor(table);
                         jeu.setEtat(game.editeurNSolo);
                         game.setScreen(game.editeurNSolo);
 
@@ -113,6 +115,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(scrollPane);
+                jeu.removeActor(table);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
