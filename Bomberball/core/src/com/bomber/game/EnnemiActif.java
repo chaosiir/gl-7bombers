@@ -1,14 +1,18 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class EnnemiActif extends Ennemis {
+                    public class EnnemiActif extends Ennemis {
 
     public EnnemiActif(boolean vivant, Case c, int pm) {
         super(Bomberball.multiTexture[16],vivant,c,pm);
+        setAnimationdroite();
 
     }
 
@@ -96,6 +100,60 @@ public class EnnemiActif extends Ennemis {
             }
             return res;
         }
+    }
+
+    @Override
+    public void setAnimationgauche() {
+        this.removeAction(animation);
+        animation=new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + (int) (time * 6) % 4+"inv"))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
+
+    public void setAnimationdefaite() {
+        this.removeAction(animation);
+        animation = new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int)(time * 5) % 2) == 0) ? "" : "inv")))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
+
+    @Override
+    public void setAnimationdroite() {
+        this.removeAction(animation);
+        animation=new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + (int) (time * 6) % 4))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+
     }
 
     public void miseAjour() {

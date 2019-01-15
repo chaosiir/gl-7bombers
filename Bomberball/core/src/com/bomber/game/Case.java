@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.io.Serializable;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 // !!! a faire très important lorqu'on enleve les mur / perso/ acteur  => enlever l'acteur
 //ce serait mieux de supprimer les parametre et de prendre les acteurs par nom à chaque fois (à voir si plus pratique => on peut le recuperer
 // en damandant à un groupe de nous donner un acteur  avec un nom via group.getActor(nom) => voir tuto Acteur

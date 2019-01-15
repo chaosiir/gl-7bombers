@@ -3,6 +3,8 @@ package com.bomber.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -14,11 +16,15 @@ public abstract class Ennemis extends Image {
     protected boolean vivant;
     protected int pm;//points de mouvement, 5 par defaut
     protected LinkedList<Case> prochain_deplacement;
+    protected Action animation;
 
     public LinkedList<Case> getProchain_deplacement() {
         return prochain_deplacement;
     }
 
+    public abstract void setAnimationgauche();
+    public abstract void setAnimationdroite();
+    public abstract void setAnimationdefaite();
     public void setProchain_deplacement(LinkedList<Case> chemin) {
         this.prochain_deplacement = chemin;
     }
@@ -69,9 +75,23 @@ public abstract class Ennemis extends Image {
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
         while(!prochain_deplacement.isEmpty() && i>0){
-            Case prochaine=prochain_deplacement.removeFirst();
+            final Case prochaine=prochain_deplacement.removeFirst();
             if(actuel.posX()!=prochaine.posX()){
                 if(actuel.posX()<prochaine.posX()){
+                    seq.addAction(new Action() {
+                        @Override
+                        public boolean act(float delta) {
+                            c.setEnnemi(null);
+                            c.removeActor(target);
+                            prochaine.setEnnemi((Ennemis) target);
+                            target.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                            return true;
+                        }
+                    });
+                    MoveToAction mv= new MoveToAction();
+                    mv.setPosition(0,0);
+                    mv.setDuration(0.3f);
+                    seq.addAction(mv);
                 }
                 else {
 

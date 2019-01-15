@@ -371,6 +371,47 @@ public class EditeurNSolo extends Etat implements Screen {
 
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
+        if(Input.Keys.A==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().setAnimationgauche();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.E==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null ){
+                        if (map.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif ){
+                            ((EnnemiActifAggressif) map.getGrille()[i][j].getEnnemi()).setAgro(!((EnnemiActifAggressif) map.getGrille()[i][j].getEnnemi()).getAgro());
+                        }
+                        if( map.getGrille()[i][j].getEnnemi() instanceof EnnemiPassifAgressif){
+                            ((EnnemiPassifAgressif) map.getGrille()[i][j].getEnnemi()).setAgro(!((EnnemiPassifAgressif) map.getGrille()[i][j].getEnnemi()).getAgro());
+                        }
+                    }
+                }
+            }
+        }
+        if(Input.Keys.Z==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().setAnimationdroite();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.R==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().setAnimationdefaite();
+                    }
+                }
+            }
+        }
         if(keycode==Input.Keys.SPACE){
             LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
             for(int i=0;i<15;i++){
