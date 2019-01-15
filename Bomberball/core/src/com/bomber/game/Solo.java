@@ -77,8 +77,6 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
-        pm=5;
-        nb=1;
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 

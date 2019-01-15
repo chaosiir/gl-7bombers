@@ -7,9 +7,9 @@ import java.util.LinkedList;
 public class EnnemiPassif extends Ennemis {
 
 
-    public EnnemiPassif(boolean vivant,Case c,int pm,LinkedList<Case> chemin) {
+    public EnnemiPassif(boolean vivant,Case c,int pm) {
         super(Bomberball.multiTexture[17],vivant,c,pm);
-        this.chemin=chemin;
+        this.chemin=new LinkedList<Case>();
     }
 
     public LinkedList<Case> getChemin() {
@@ -27,13 +27,13 @@ public class EnnemiPassif extends Ennemis {
 
 
     public void miseAjour() {
-        prochain_deplacement = new LinkedList<Case>();
-        int n = chemin.size();
-        Case suivante = chemin.get(0);
-        while (i<n && caseLibre(suivante) ){
-            prochain_deplacement.add(suivante);
-            i = i+1;
-            suivante= chemin.get(i);
+        for(Case cas : chemin){
+            if(caseLibre(c.getMap().getGrille()[cas.posX()][cas.posY()])){
+                prochain_deplacement.add(c.getMap().getGrille()[cas.posX()][cas.posY()]);
+            }
+            else {
+                break;
+            }
         }
     }
 

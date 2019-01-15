@@ -382,6 +382,7 @@ public class EditeurNSolo extends Etat implements Screen {
             }
             if(cache) {
                 for (Ennemis en : liste) {
+                    en.miseAjour();
                     LinkedList<Case> caca = en.prochain_deplacement;
                     for (Case cas : caca) {
                         int xc = cas.posX();
@@ -899,7 +900,7 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("Epa")){
                             c.setEnnemi(null);
-                            c.setEnnemi(new EnnemiPassifAgressif(true,c,5,5,false,null));
+                            c.setEnnemi(new EnnemiPassifAgressif(true,c,5,5,false));
                         }
                         else if(selectionne.getName().equals("Eaa")){
                             c.setEnnemi(null);

@@ -189,55 +189,55 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,5,5,false,null);
+                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,5,5,false);
                     ennemi_passif_aggressif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif_aggressif);
-                    ennemi_passif_aggressif.prochain_deplacement.add(c);
+                    ennemi_passif_aggressif.getChemin().add(c);
                 }
                 else if(compteur==1){
                     if(c.getMap().getGrille()[xc+1][yc].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(c.getMap().getGrille()[xc-1][yc].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(c.getMap().getGrille()[xc][yc+1].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(c.getMap().getGrille()[xc][yc-1].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                 }
                 else if(compteur>1){
-                    Case CaseC=ennemi_passif_aggressif.prochain_deplacement.getLast();
+                    Case CaseC=ennemi_passif_aggressif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     if(xc==xactuel+1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(xc==xactuel-1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(xc==xactuel && yc==yactuel+1){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(xc==xactuel && yc==yactuel-1){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
 
@@ -253,7 +253,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
                         c.setMarque(null);
                     }
                     compteur=0;
-                    ennemi_passif_aggressif.prochain_deplacement.clear();
+                    ennemi_passif_aggressif.getChemin().clear();
                     ennemi_passif_aggressif=null;
                     Case c=(Case) hitActor.getParent();
                     c.setEnnemi(null);
@@ -268,15 +268,15 @@ public class SelectionCheminEpa extends Etat implements Screen {
             else if(hitActor.getName().equals("red")){
                 Case c=(Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif_aggressif.prochain_deplacement.getLast()!=c){
-                        ennemi_passif_aggressif.prochain_deplacement.getLast().setMarque(null);
+                    while(ennemi_passif_aggressif.getChemin().getLast()!=c){
+                        ennemi_passif_aggressif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                        ennemi_passif_aggressif.prochain_deplacement.getLast().addActor(background);
-                        ennemi_passif_aggressif.prochain_deplacement.removeLast();
+                        ennemi_passif_aggressif.getChemin().getLast().addActor(background);
+                        ennemi_passif_aggressif.getChemin().removeLast();
                         compteur--;
                     }
-                    ennemi_passif_aggressif.prochain_deplacement.removeLast();
+                    ennemi_passif_aggressif.getChemin().removeLast();
                     compteur--;
                     c.setMarque(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
@@ -291,15 +291,15 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 int xc=c.posX();
                 int yc=c.posY();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif_aggressif.prochain_deplacement.getLast()!=c){
-                        ennemi_passif_aggressif.prochain_deplacement.getLast().setMarque(null);
+                    while(ennemi_passif_aggressif.getChemin().getLast()!=c){
+                        ennemi_passif_aggressif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                        ennemi_passif_aggressif.prochain_deplacement.getLast().addActor(background);
-                        ennemi_passif_aggressif.prochain_deplacement.removeLast();
+                        ennemi_passif_aggressif.getChemin().getLast().addActor(background);
+                        ennemi_passif_aggressif.getChemin().removeLast();
                         compteur--;
                     }
-                    ennemi_passif_aggressif.prochain_deplacement.removeLast();
+                    ennemi_passif_aggressif.getChemin().removeLast();
                     compteur--;
                     c.setMarque(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
@@ -308,31 +308,31 @@ public class SelectionCheminEpa extends Etat implements Screen {
                     return true;
                 }
                 else if(button==Input.Buttons.LEFT){
-                    Case CaseC=ennemi_passif_aggressif.prochain_deplacement.getLast();
+                    Case CaseC=ennemi_passif_aggressif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     Personnage p=c.getPersonnage();
                     if(xc==xactuel+1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel-1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel+1){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel-1){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
@@ -344,15 +344,15 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 int xc=c.posX();
                 int yc=c.posY();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif_aggressif.prochain_deplacement.getLast()!=c){
-                        ennemi_passif_aggressif.prochain_deplacement.getLast().setMarque(null);
+                    while(ennemi_passif_aggressif.getChemin().getLast()!=c){
+                        ennemi_passif_aggressif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                        ennemi_passif_aggressif.prochain_deplacement.getLast().addActor(background);
-                        ennemi_passif_aggressif.prochain_deplacement.removeLast();
+                        ennemi_passif_aggressif.getChemin().getLast().addActor(background);
+                        ennemi_passif_aggressif.getChemin().removeLast();
                         compteur--;
                     }
-                    ennemi_passif_aggressif.prochain_deplacement.removeLast();
+                    ennemi_passif_aggressif.getChemin().removeLast();
                     compteur--;
                     c.setMarque(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
@@ -361,31 +361,31 @@ public class SelectionCheminEpa extends Etat implements Screen {
                     return true;
                 }
                 else if(button==Input.Buttons.LEFT){
-                    Case CaseC=ennemi_passif_aggressif.prochain_deplacement.getLast();
+                    Case CaseC=ennemi_passif_aggressif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     Personnage p=c.getPersonnage();
                     if(xc==xactuel+1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel-1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel+1){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel-1){
                         compteur++;
-                        ennemi_passif_aggressif.prochain_deplacement.add(c);
+                        ennemi_passif_aggressif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }

@@ -28,6 +28,7 @@ public abstract class Ennemis extends Image {
         this.c=c;
         this.vivant=vivant;
         this.pm=pm;
+        prochain_deplacement=new LinkedList<Case>();
         setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
     }
 

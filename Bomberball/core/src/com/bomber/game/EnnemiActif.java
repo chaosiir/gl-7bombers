@@ -76,7 +76,7 @@ public class EnnemiActif extends Ennemis {
         else {
             LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
 
-            LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
+            LinkedList<Case> cheminProvisoire ;
 
 
             // sinon on parcours les cases voisines non visitées
