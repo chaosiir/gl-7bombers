@@ -35,13 +35,15 @@ public class MenuPrincipalBis extends Etat implements Screen {
     Bomberball game; // Note it's "MyGame" not "Game"
 
 
-
-        // constructor to keep a reference to the main Game class
-        public MenuPrincipalBis(Bomberball game,Jeu jeu){
-            super(jeu);
-            this.game = game;
-
-        }
+    /**
+     * Constructeur de la classe MenuPrincipalBis
+     * @param game
+     * @param jeu
+     */
+    public MenuPrincipalBis(Bomberball game,Jeu jeu){
+        super(jeu);
+        this.game = game;
+    }
 
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {

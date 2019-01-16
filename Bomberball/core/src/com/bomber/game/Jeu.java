@@ -34,7 +34,9 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
     boolean poussee3=false;
     boolean poussee4=false;
 
-
+    /**
+     * Constructeur de la classe jeu
+     */
     public Jeu (){//creation du jeu
         this.addListener(new InputListener(){//on rajoute au jeu un des fonctions en cas d'input => voir tuto Inputs
             @Override

@@ -40,8 +40,11 @@ public class ParametreSolo extends Etat implements Screen {
     private TextField nbBombeT;
 
 
-
-
+    /**
+     * Constructeur de la classe ParametreSolo
+     * @param game
+     * @param jeu
+     */
     public ParametreSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;

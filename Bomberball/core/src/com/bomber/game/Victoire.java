@@ -25,6 +25,12 @@ public class Victoire extends Etat implements Screen {
     TextButton ok;
     String txt;
 
+    /**
+     * Constructeur de la classe Solo
+     * @param game
+     * @param jeu
+     * @param st
+     */
     public Victoire(Bomberball game,Jeu jeu,String st){
         super(jeu);
         this.game=game;

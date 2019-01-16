@@ -29,6 +29,11 @@ public class ErreurEditeurS extends Etat implements Screen {
     Skin skin;
     TextButton ok;
 
+    /**
+     * Constructeur de la classe ErreurEditeurS
+     * @param game
+     * @param jeu
+     */
     public  ErreurEditeurS(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
