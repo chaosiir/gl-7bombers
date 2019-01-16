@@ -37,7 +37,6 @@ public class SelectionCheminEpa extends Etat implements Screen {
     int compteur=0;
 
     Map map;
-
     Skin skin;
 
     File f;

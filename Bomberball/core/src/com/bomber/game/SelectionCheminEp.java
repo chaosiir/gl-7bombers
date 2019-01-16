@@ -46,6 +46,7 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     Map map;
 
+
     Skin skin;
 
     File f;

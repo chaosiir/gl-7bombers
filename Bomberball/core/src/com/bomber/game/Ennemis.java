@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import javax.sound.midi.Sequence;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 public abstract class Ennemis extends Image {
@@ -32,7 +33,7 @@ public abstract class Ennemis extends Image {
         setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
     }
 
-
+public abstract int getPortee();
 
     public Case getC() {
         return c;
@@ -58,10 +59,10 @@ public abstract class Ennemis extends Image {
         this.pm = pm;
     }
 
-    public void miseAjour(){
+    public abstract LinkedList<Case> getChemin();
 
-    }
-
+    public abstract void miseAjour();
+    public abstract boolean isAgro();
 
     public void deplacer(){
         int i = pm;

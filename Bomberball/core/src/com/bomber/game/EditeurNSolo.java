@@ -3,6 +3,7 @@ package com.bomber.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -26,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
 
+import static com.bomber.game.Bomberball.loadFile;
 import static com.bomber.game.Bomberball.stg;
 /**
  * Classe EditeurNSolo
@@ -70,6 +72,9 @@ public class EditeurNSolo extends Etat implements Screen {
     File f;
     FileWriter fw;
 
+    Color Couleur[]={Color.BLACK,Color.BLUE,Color.BROWN,Color.CHARTREUSE,Color.CORAL,Color.CYAN,Color.DARK_GRAY,Color.FIREBRICK,Color.FOREST,Color.GOLD,Color.GOLDENROD,Color.GRAY,Color.GREEN,Color.LIGHT_GRAY,Color.LIME,Color.MAGENTA,Color.MAROON
+    ,Color.NAVY,Color.OLIVE,Color.ORANGE,Color.PINK,Color.PURPLE,Color.RED,Color.ROYAL,Color.SALMON,Color.SCARLET,Color.SKY,Color.SLATE,Color.TAN,Color.TEAL,Color.VIOLET,Color.WHITE,Color.YELLOW};
+
 
 
 
@@ -95,8 +100,7 @@ public class EditeurNSolo extends Etat implements Screen {
     public void show() {
 
         if(f.exists()){
-            String text=Bomberball.loadFile(f);
-            map=Map.mapFromString(text);
+            map=Map.mapFromString(loadFile(f));
         }
         else{
             map=Map.genererMapSolo(20,10,5);
@@ -252,10 +256,11 @@ public class EditeurNSolo extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 try {
-                    fw = new FileWriter(f);
-                    fw.write(map.mapToText());
-                    fw.close();
-                } catch (IOException e) {
+                    fw=new FileWriter(f);
+                   fw.write(map.mapToTextN());
+                   fw.close();
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -382,92 +387,111 @@ public class EditeurNSolo extends Etat implements Screen {
             }
             if(cache) {
                 for (Ennemis en : liste) {
-                    en.miseAjour();
-                    LinkedList<Case> caca = en.prochain_deplacement;
-                    for (Case cas : caca) {
-                        int xc = cas.posX();
-                        int yc = cas.posY();
-                        if (cas.getEnnemi() != null) {
-                            if(cas.getEnnemi() instanceof EnnemiPassif){
-                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
-                            }
-                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
-                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
-                            }
-                            else if(cas.getEnnemi() instanceof  EnnemiActif){
-                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
-                            }
-                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
-                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
-                            }
+                    int choix=(int)(Math.random()*33);
 
-                        } else if (cas.getPersonnage() != null) {
-                            Personnage personnage = cas.getPersonnage();
-                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                            map.getGrille()[xc][yc].setPersonnage(null);
-                            map.getGrille()[xc][yc].setPersonnage(personnage);
-                        } else {
-                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                    if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
+                        LinkedList<Case> caca = en.getChemin();
+                        for (Case cas : caca) {
+                            int xc = cas.posX();
+                            int yc = cas.posY();
+                            if (cas.getEnnemi() != null) {
+                                if(cas.getEnnemi() instanceof EnnemiPassif){
+                                    EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                    //map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                    EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Color.WHITE);
+                                    //map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                    EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                  //  map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                    EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                   // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                                }
+
+                            } else if (cas.getPersonnage() != null) {
+                                Personnage personnage = cas.getPersonnage();
+                                map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                               // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setPersonnage(null);
+                                map.getGrille()[xc][yc].setPersonnage(personnage);
+                            } else {
+                                map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                               // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                            }
                         }
                     }
+
                 }
                 cache=false;
             }
             else{
                 for (Ennemis en : liste) {
-                    LinkedList<Case> caca = en.prochain_deplacement;
-                    for(Case cas: caca){
-                        int xc=cas.posX();
-                        int yc=cas.posY();
-                        System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
-                        if(cas.getEnnemi()!=null){
-                            if(cas.getEnnemi() instanceof EnnemiPassif){
-                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                    if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
+                        LinkedList<Case> caca = en.getChemin();
+                        for(Case cas: caca){
+                            int xc=cas.posX();
+                            int yc=cas.posY();
+                            System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
+                            if(cas.getEnnemi()!=null){
+                                if(cas.getEnnemi() instanceof EnnemiPassif){
+                                    EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                  //  map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                    EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                 //   map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                    EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                //    map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                    EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                  //  map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                                }
                             }
-                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
-                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                            else if(cas.getPersonnage()!=null){
+                                Personnage personnage=cas.getPersonnage();
+                                map.getGrille()[xc][yc].setPersonnage(null);
+                                map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                             //   map.getGrille()[xc][yc].setMarque(null);
+                                map.getGrille()[xc][yc].setPersonnage(personnage);
                             }
-                            else if(cas.getEnnemi() instanceof  EnnemiActif){
-                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                            else{
+                                map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                               // map.getGrille()[xc][yc].setMarque(null);
                             }
-                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
-                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
-                            }
-                        }
-                        else if(cas.getPersonnage()!=null){
-                            Personnage personnage=cas.getPersonnage();
-                            map.getGrille()[xc][yc].setPersonnage(null);
-                            map.getGrille()[xc][yc].setMarque(null);
-                            map.getGrille()[xc][yc].setPersonnage(personnage);
-                        }
-                        else{
-                            map.getGrille()[xc][yc].setMarque(null);
                         }
                     }
+
                 }
                 cache=true;
 

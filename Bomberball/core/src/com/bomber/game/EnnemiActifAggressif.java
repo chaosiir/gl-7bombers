@@ -1,5 +1,6 @@
 package com.bomber.game;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 public class EnnemiActifAggressif extends Ennemis {
@@ -215,6 +216,11 @@ public class EnnemiActifAggressif extends Ennemis {
         return map.verifSolo(t);
     }
 
+
+    @Override
+    public LinkedList<Case> getChemin() {
+        return null;
+    }
 
     public void miseAjour() {
         boolean poursuivre = detection();

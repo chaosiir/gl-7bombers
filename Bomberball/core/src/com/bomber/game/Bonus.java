@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 public class Bonus extends Image  {
     Case c;
-
     public Bonus(Case C){
             c=C;
     }

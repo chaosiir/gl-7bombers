@@ -1,8 +1,10 @@
 package com.bomber.game;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 public class EnnemiPassifAgressif extends Ennemis {
+
 
     public LinkedList<Case> getChemin() {
         return chemin;

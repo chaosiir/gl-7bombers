@@ -31,6 +31,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     Map map;
 
+
     File f;
 
 

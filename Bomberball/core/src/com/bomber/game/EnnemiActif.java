@@ -2,10 +2,60 @@ package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class EnnemiActif extends Ennemis {
+public class EnnemiActif extends Ennemis  {
+    @Override
+    public LinkedList<Case> getProchain_deplacement() {
+        return super.getProchain_deplacement();
+    }
+
+    @Override
+    public void setProchain_deplacement(LinkedList<Case> chemin) {
+        super.setProchain_deplacement(chemin);
+    }
+
+    @Override
+    public int getPortee() {
+        return 0;
+    }
+
+    @Override
+    public Case getC() {
+        return super.getC();
+    }
+
+    @Override
+    public void setC(Case c) {
+        super.setC(c);
+    }
+
+    @Override
+    public boolean isVivant() {
+        return super.isVivant();
+    }
+
+    @Override
+    public void setVivant(boolean vivant) {
+        super.setVivant(vivant);
+    }
+
+    @Override
+    public int getPm() {
+        return super.getPm();
+    }
+
+    @Override
+    public void setPm(int pm) {
+        super.setPm(pm);
+    }
+
+    @Override
+    public boolean isAgro() {
+        return false;
+    }
 
     public EnnemiActif(boolean vivant, Case c, int pm) {
         super(Bomberball.multiTexture[16],vivant,c,pm);
@@ -96,6 +146,11 @@ public class EnnemiActif extends Ennemis {
             }
             return res;
         }
+    }
+
+    @Override
+    public LinkedList<Case> getChemin() {
+        return null;
     }
 
     public void miseAjour() {

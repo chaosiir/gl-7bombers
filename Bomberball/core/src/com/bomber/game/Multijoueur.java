@@ -90,6 +90,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     FileWriter fw;
     FileWriter fwr;
 
+
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -120,7 +121,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
             jeu.removeActor(jeu.map);
             jeu.map=null;
             if(jeu.recommencer){
-                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
                 tour=0;
                 f.delete();

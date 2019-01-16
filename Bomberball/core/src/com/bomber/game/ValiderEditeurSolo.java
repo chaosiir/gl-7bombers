@@ -32,7 +32,6 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     TextField inputui;
     Table table;
     File f;
-
     public ValiderEditeurSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;

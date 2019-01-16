@@ -1,6 +1,8 @@
 package com.bomber.game;
 
-public class MurI extends Mur{
+import java.io.Serializable;
+
+public class MurI extends Mur {
 
     public MurI(){
         super(Bomberball.multiTexture[2]);
