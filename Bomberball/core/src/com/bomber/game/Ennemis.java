@@ -1,9 +1,13 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import javax.sound.midi.Sequence;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 public abstract class Ennemis extends Image {
@@ -11,12 +15,6 @@ public abstract class Ennemis extends Image {
     protected boolean vivant;
     protected int pm;//points de mouvement, 5 par defaut
     protected LinkedList<Case> prochain_deplacement;
-
-    public Ennemis(Texture t){
-        super(t);
-        prochain_deplacement=new LinkedList<Case>();
-        this.setName("Ennemis");
-    }
 
     public LinkedList<Case> getProchain_deplacement() {
         return prochain_deplacement;
@@ -26,7 +24,16 @@ public abstract class Ennemis extends Image {
         this.prochain_deplacement = chemin;
     }
 
+    public Ennemis(Texture t,boolean vivant, Case c, int pm){
+        super(t);
+        this.c=c;
+        this.vivant=vivant;
+        this.pm=pm;
+        prochain_deplacement=new LinkedList<Case>();
+        setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+    }
 
+public abstract int getPortee();
 
     public Case getC() {
         return c;
@@ -52,15 +59,35 @@ public abstract class Ennemis extends Image {
         this.pm = pm;
     }
 
-    public void miseAjour(){
+    public abstract LinkedList<Case> getChemin();
 
-    }
-
+    public abstract void miseAjour();
+    public abstract boolean isAgro();
 
     public void deplacer(){
         int i = pm;
         miseAjour();
-        while(!prochain_deplacement.isEmpty() && pm>0){
+        SequenceAction seq=new SequenceAction();
+        Case actuel=c;
+        while(!prochain_deplacement.isEmpty() && i>0){
+            Case prochaine=prochain_deplacement.removeFirst();
+            if(actuel.posX()!=prochaine.posX()){
+                if(actuel.posX()<prochaine.posX()){
+                }
+                else {
+
+                }
+            }
+            if(actuel.posY()!=prochaine.posY()){
+                if(actuel.posY()<prochaine.posY()){
+
+                }
+                else {
+
+                }
+            }
+            actuel=prochaine;
+            i--;
 
         }
 

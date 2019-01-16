@@ -36,6 +36,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
 
 
+
         // constructor to keep a reference to the main Game class
         public MenuPrincipalBis(Bomberball game,Jeu jeu){
             super(jeu);

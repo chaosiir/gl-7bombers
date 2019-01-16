@@ -1,6 +1,5 @@
 package com.bomber.game;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 public abstract class Etat {//classe etat
@@ -8,6 +7,7 @@ public abstract class Etat {//classe etat
     public Etat(Jeu jeu){
         this.jeu=jeu;// on prend le jeu pour un changement d'etat eventuel (à voir si besoin)
     }
+
 
 
     public abstract boolean keyDown(InputEvent event, int keycode);//traitement des inputs

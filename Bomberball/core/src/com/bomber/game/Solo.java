@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -76,8 +77,6 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
-        pm=5;
-        nb=1;
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
@@ -87,12 +86,12 @@ public class Solo extends Etat implements Screen {//etat multijoueur
             jeu.removeActor(jeu.map);
             jeu.map=null;
             if(jeu.recommencer){
-                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
                 f.delete();
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -114,7 +113,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 jeu.nbBonus=-1;
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -124,7 +123,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 jeu.map=Map.genererMapSolo(65,10,5);
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -135,7 +134,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         else{
             try {
                 fwr = new FileWriter(frecommencer);
-                fwr.write(jeu.map.mapToText());
+                fwr.write(jeu.map.mapToTextN());
                 fwr.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -246,7 +245,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = jeu.map.findActor("Personnage");
+       System.out.println(jeu.findActor("explo")==null);
         if(jeu.findActor("explo")==null) {
+
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b = false;
                 if (keycode == Input.Keys.RIGHT) {
@@ -295,27 +296,45 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                     }
                 }
                 if (keycode == Input.Keys.ENTER) {
-
                     jeu.map.explosion();
-                    jeu.map.tourEnnemi();
                     porteExplo.setText(""+personnage.getTaille());
                     if (joueur.isVivant()) {
-                        pm = joueur.getPm();
-                        nb = joueur.getNbBombe();
-                        nbBombe.setText(""+nb);
-                        nbmvt.setText(""+pm);
-                    } else {
-                       joueur.getC().removeActor(joueur);
+                        jeu.map.tourEnnemi();
+                        if (joueur.isVivant()) {
+                            pm = joueur.getPm();
+                            nb = joueur.getNbBombe();
+                            nbBombe.setText("" + nb);
+                            nbmvt.setText("" + pm);
+                        }
                     }
-                    if(joueur.getC().getPorte()!=null){
-                        jeu.removeActor(joueur);
-                        jeu.map=null;
-                        jeu.removeActor(jeu.map);
-                        jeu.setEtat(bombaaaagh.menuPrincipalBis);
-                        bombaaaagh.setScreen(bombaaaagh.menuPrincipalBis);
+                    if(!joueur.isVivant()){
+                        jeu.addAction(new Action() {
+                            float time=0;
+                            @Override
+                            public boolean act(float delta) {
+                                time+=delta;
+                                if(time>3){
+                                    jeu.removeActor(jeu.map);
+                                    jeu.map=null;
+                                    bombaaaagh.defaite=new Defaite(bombaaaagh,jeu,"gdjdj");
+                                    jeu.setEtat(bombaaaagh.defaite);
+                                    bombaaaagh.setScreen(bombaaaagh.defaite);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
                     }
                     if(joueur.isPoussee()){
                         poussee.setText("X");
+                    }
+                    if(joueur.getC().getPorte()!=null){
+                        jeu.removeActor(joueur);
+                        jeu.removeActor(jeu.map);
+                        jeu.map=null;
+                        bombaaaagh.victoire = new Victoire(bombaaaagh, jeu, "                           Victoire");
+                        jeu.setEtat(bombaaaagh.victoire);
+                        bombaaaagh.setScreen(bombaaaagh.victoire);
                     }
                 }
             }
@@ -365,6 +384,8 @@ public class Solo extends Etat implements Screen {//etat multijoueur
 
     @Override
     public void render(float delta) {
+
+
 
     }
 

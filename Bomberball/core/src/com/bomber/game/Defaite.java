@@ -22,6 +22,7 @@ public class Defaite extends Etat implements Screen {
     TextButton rejouer;
     String txt;
 
+
     public Defaite(Bomberball game, Jeu jeu, String st) {
         super(jeu);
         this.game = game;
