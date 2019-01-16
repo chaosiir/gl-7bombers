@@ -40,6 +40,7 @@ public abstract class Ennemis extends Image {
         setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
     }
 
+public abstract int getPortee();
 
 
     public Case getC() {
@@ -66,10 +67,10 @@ public abstract class Ennemis extends Image {
         this.pm = pm;
     }
 
-    public void miseAjour(){
+    public abstract LinkedList<Case> getChemin();
 
-    }
-
+    public abstract void miseAjour();
+    public abstract boolean isAgro();
 
     public void deplacer(){
         int i = pm;

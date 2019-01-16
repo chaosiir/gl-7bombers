@@ -28,7 +28,6 @@ public class ChoixMapMultiE extends Etat implements Screen {
     TextButton retour;
     Table table;
     ScrollPane scrollPane;
-
     Map map;
 
     File f;

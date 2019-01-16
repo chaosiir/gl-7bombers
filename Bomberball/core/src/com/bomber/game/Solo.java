@@ -86,12 +86,12 @@ public class Solo extends Etat implements Screen {//etat multijoueur
             jeu.removeActor(jeu.map);
             jeu.map=null;
             if(jeu.recommencer){
-                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
                 f.delete();
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -113,7 +113,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 jeu.nbBonus=-1;
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -123,7 +123,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                 jeu.map=Map.genererMapSolo(65,10,5);
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -134,7 +134,7 @@ public class Solo extends Etat implements Screen {//etat multijoueur
         else{
             try {
                 fwr = new FileWriter(frecommencer);
-                fwr.write(jeu.map.mapToText());
+                fwr.write(jeu.map.mapToTextN());
                 fwr.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -245,7 +245,9 @@ public class Solo extends Etat implements Screen {//etat multijoueur
     @Override
     public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = jeu.map.findActor("Personnage");
+       System.out.println(jeu.findActor("explo")==null);
         if(jeu.findActor("explo")==null) {
+
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b = false;
                 if (keycode == Input.Keys.RIGHT) {

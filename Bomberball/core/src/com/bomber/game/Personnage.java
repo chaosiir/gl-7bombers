@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.io.Serializable;
 
-public class Personnage extends Image  {
+public class Personnage extends Image {
 
     private boolean vivant;
     private Case c;

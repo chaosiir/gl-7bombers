@@ -29,6 +29,7 @@ public class MenuSolo extends Etat implements Screen {
     private  TextButton retour;
 
 
+
     public MenuSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game = game;

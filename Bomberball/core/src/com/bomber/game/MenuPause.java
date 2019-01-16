@@ -40,6 +40,7 @@ public class MenuPause extends Etat implements Screen {
     File source;
     Bomberball game; // Note it's "MyGame" not "Game"
 
+
     // constructor to keep a reference to the main Game class
     public MenuPause(Bomberball game,Jeu jeu){
         super(jeu);

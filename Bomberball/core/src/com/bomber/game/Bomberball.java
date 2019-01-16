@@ -56,7 +56,6 @@ public class Bomberball extends Game {
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;
 	public static Texture[] multiTexture = new Texture[25];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
-
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
@@ -137,6 +136,7 @@ public class Bomberball extends Game {
 	@Override
 	public void dispose() {//quand la fenetre est fermé on lance cette fonction
 		int i;
+		//System.out.println(stg.getActors().first()==jeu);
 		for (i = 0; i < multiTexture.length; i++) {
 			multiTexture[i].dispose();//pour chaque texture on la detruit pour eviter les fuites memoire =>voir tuto Texture
 		}

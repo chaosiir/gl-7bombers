@@ -104,11 +104,11 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 int i=list.getSelectedIndex();
                 if (i!=-1){
                     File f1;
-                    File f2;
                     File directory = new File (".");
                     try {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
-                        jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
+                        map.suppActor();
+                        jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         jeu.removeActor(jeu.findActor("YOLO"));
                         jeu.removeActor(back);
                         jeu.removeActor(scrollPane);
@@ -145,7 +145,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setName("YOLO");
                     map.setScale(0.8f);

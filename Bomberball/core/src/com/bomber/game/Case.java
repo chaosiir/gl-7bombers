@@ -26,9 +26,20 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
     private Ennemis ennemi;
     private Image marque; //Elle me sert pour l'éditeur de déplacement des ennemis passifs
 
+
+    public Image getBackground() {
+        return background;
+    }
+
+    public void setBackground(Image background) {
+        this.background = background;
+    }
+
+    private Image background;
+
     public Case() {
         this.setPosition((x)*Bomberball.taillecase,(y)*Bomberball.taillecase);//definition de la position  = coordonnées * taille d'une case
-        Image background=new Image(Bomberball.multiTexture[0]);//de base une image s'affiche vide (sol) si il y a qqc il sera afficher au dessus
+       background=new Image(Bomberball.multiTexture[0]);//de base une image s'affiche vide (sol) si il y a qqc il sera afficher au dessus
         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);//definition de la taille de l'image
         //et de la position (0,0) = sur la case car position relative
         this.addActor(background);// une image est un acteur => voir tuto acteur

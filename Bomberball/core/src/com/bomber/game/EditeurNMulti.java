@@ -57,6 +57,7 @@ public class EditeurNMulti extends Etat implements Screen {
     File f;
     FileWriter fw;
 
+
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
