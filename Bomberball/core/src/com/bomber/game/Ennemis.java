@@ -57,6 +57,9 @@ public abstract int getPortee();
 
     public void setVivant(boolean vivant) {
         this.vivant = vivant;
+        if(!vivant){
+            c.setEnnemi(null);
+        }
     }
 
     public int getPm() {

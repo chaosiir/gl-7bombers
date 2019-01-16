@@ -42,6 +42,11 @@ public class EnnemiPassif extends Ennemis {
     }
 
     @Override
+    public boolean isAgro() {
+        return false;
+    }
+
+    @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
         animation=new Action() {
@@ -75,6 +80,14 @@ public class EnnemiPassif extends Ennemis {
         };
         this.addAction(animation);
     }
+
+    @Override
+    public int getPortee() {
+        return 0;
+    }
+
+    @Override
+
     public void setAnimationgauche() {
         this.removeAction(animation);
         animation=new Action() {

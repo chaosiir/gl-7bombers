@@ -125,6 +125,16 @@ public class EnnemiActif extends Ennemis {
     }
 
     @Override
+    public int getPortee() {
+        return 0;
+    }
+
+    @Override
+    public LinkedList<Case> getChemin() {
+        return null;
+    }
+
+    @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
         animation = new Action() {
@@ -157,6 +167,11 @@ public class EnnemiActif extends Ennemis {
         } else {
             prochain_deplacement = new LinkedList<Case>();
         }
+    }
+
+    @Override
+    public boolean isAgro() {
+        return false;
     }
 
 }

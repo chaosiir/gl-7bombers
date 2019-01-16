@@ -153,7 +153,7 @@ public class Personnage extends Image {
                 Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee-1]);
                 b.setY(-(taillepoussee-1)*Bomberball.taillecase);
                 MoveToAction move=new MoveToAction();
-                move.setPosition(0,0);
+                move.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
                 move.setDuration(taillepoussee*0.2f);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
@@ -285,7 +285,7 @@ public class Personnage extends Image {
                 Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()+taillepoussee-1][c.posY()]);
                 b.setX(-(taillepoussee-1)*Bomberball.taillecase);
                 MoveToAction move=new MoveToAction();
-                move.setPosition(0,0);
+                move.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
                 move.setDuration(taillepoussee*0.2f);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);

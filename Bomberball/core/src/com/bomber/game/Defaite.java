@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Defaite extends Etat implements Screen {
 
@@ -21,12 +23,21 @@ public class Defaite extends Etat implements Screen {
     TextButton ok;
     TextButton rejouer;
     String txt;
+    File frecommencer;
 
 
     public Defaite(Bomberball game, Jeu jeu, String st) {
         super(jeu);
         this.game = game;
         txt = st;
+
+        File directory = new File (".");
+        try {
+            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
+
+        } catch (IOException e) {
+
+        }
     }
 
     /**
@@ -34,6 +45,8 @@ public class Defaite extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -57,7 +70,8 @@ public class Defaite extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map = null;
-                jeu.removeActor(jeu.findActor("Map"));
+                game.defaite.removeActor(jeu.findActor("Map"));
+                frecommencer.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
@@ -69,16 +83,19 @@ public class Defaite extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map = null;
-                jeu.removeActor(jeu.findActor("Map"));
-                jeu.setEtat(game.menuSolo);
-                game.setScreen(game.menuSolo);
+                game.defaite.removeActor(jeu.findActor("Map"));
+                jeu.map=Map.mapFromStringN(Bomberball.loadFile(frecommencer));
+                jeu.setEtat(game.jeuSolo);
+                game.setScreen(game.jeuSolo);
+                game.jeuSolo.pm=((Personnage)jeu.findActor("Personnage")).getPm();
+                game.jeuSolo.nb=((Personnage)jeu.findActor("Personnage")).getNbBombe();;
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(explication);
-        jeu.addActor(ok);
-        jeu.addActor(rejouer);
+        this.addActor(back);
+        this.addActor(explication);
+        this.addActor(ok);
+        this.addActor(rejouer);
     }
 
     @Override
@@ -103,6 +120,7 @@ public class Defaite extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -112,17 +130,17 @@ public class Defaite extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

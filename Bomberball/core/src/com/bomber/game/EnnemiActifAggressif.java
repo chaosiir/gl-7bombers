@@ -17,6 +17,11 @@ public class EnnemiActifAggressif extends Ennemis {
         return portee;
     }
 
+    @Override
+    public LinkedList<Case> getChemin() {
+        return null;
+    }
+
     public void setPortee(int portee) {
         this.portee = portee;
     }

@@ -33,6 +33,8 @@ public class ErreurEditeurM extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -46,7 +48,7 @@ public class ErreurEditeurM extends Etat implements Screen {
 
 
         explication=new Label("Il doit y avoir 4 joueurs",skin);
-        explication.setBounds(xmax/2-300,ymax/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
+        explication.setBounds(xmax/2-300,ymax/2-explication.getWidth()/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
         explication.setWrap(true);
 
 
@@ -61,9 +63,9 @@ public class ErreurEditeurM extends Etat implements Screen {
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(explication);
-        jeu.addActor(ok);
+        this.addActor(back);
+        this.addActor(explication);
+        this.addActor(ok);
     }
 
     @Override
@@ -88,6 +90,7 @@ public class ErreurEditeurM extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -97,17 +100,17 @@ public class ErreurEditeurM extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }
