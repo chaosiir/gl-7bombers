@@ -145,13 +145,17 @@ public class EnnemiActif extends Ennemis {
 
     public void miseAjour() {
         int i = 0;
-        Case suivante = c;
-        LinkedList<Case> cheminProvisoire = cheminMax(pm, suivante);
-        suivante = cheminProvisoire.get(0);
-        while (i < pm && caseLibre(suivante)) {
-            prochain_deplacement.add(suivante);
-            i = i + 1;
-            suivante = cheminProvisoire.get(i);
+        Case suivante;
+        LinkedList<Case> cheminProvisoire = cheminMax(pm, c);
+        if (cheminProvisoire != null) {
+            suivante = cheminProvisoire.get(0);
+            while (i < pm && caseLibre(suivante)) {
+                prochain_deplacement.add(suivante);
+                i = i + 1;
+                suivante = cheminProvisoire.get(i);
+            }
+        } else {
+            prochain_deplacement = new LinkedList<Case>();
         }
     }
 
