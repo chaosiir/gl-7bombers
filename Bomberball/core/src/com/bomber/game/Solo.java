@@ -305,23 +305,53 @@ public class Solo extends Etat implements Screen {//etat multijoueur
                             nbmvt.setText("" + pm);
                         }
                     }
-                    if(!joueur.isVivant()){
-                        jeu.addAction(new Action() {
-                            float time=0;
-                            @Override
-                            public boolean act(float delta) {
-                                time+=delta;
-                                if(time>3){
-                                    jeu.removeActor(jeu.map);
-                                    jeu.map=null;
-                                    bombaaaagh.defaite=new Defaite(bombaaaagh,jeu,"gdjdj");
-                                    jeu.setEtat(bombaaaagh.defaite);
-                                    bombaaaagh.setScreen(bombaaaagh.defaite);
-                                    return true;
+                    if(!joueur.isVivant()) {
+                        boolean ennemis = false;
+                        for (int k = 0; k < jeu.map.getGrille().length; k++) {
+                            for (int j = 0; j < jeu.map.getGrille()[0].length; j++) {
+                                if (jeu.map.getGrille()[k][j].getEnnemi() != null) {
+                                    ennemis = true;
+                                    jeu.map.getGrille()[k][j].getEnnemi().setAnimationdefaite();
                                 }
-                                return false;
                             }
-                        });
+                        }
+                        if (ennemis) {
+                            jeu.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    if (time > 8) {
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map = null;
+                                        bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.setEtat(bombaaaagh.defaite);
+                                        bombaaaagh.setScreen(bombaaaagh.defaite);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+                        } else {
+                            jeu.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    if (time > 3) {
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map = null;
+                                        bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.setEtat(bombaaaagh.defaite);
+                                        bombaaaagh.setScreen(bombaaaagh.defaite);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+                        }
                     }
                     if(joueur.isPoussee()){
                         poussee.setText("X");

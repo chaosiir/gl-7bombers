@@ -372,6 +372,64 @@ public class EditeurNSolo extends Etat implements Screen {
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
         if(Input.Keys.A==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
+                        }
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
+                        }
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.D==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.W==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.S==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j-1])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j-1]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.E==keycode){
             for (int i =1;i<map.getGrille().length;i++){
                 for (int j =1;j<map.getGrille()[1].length;j++){
                     if(map.getGrille()[i][j].getEnnemi()!=null){
@@ -380,7 +438,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
             }
         }
-        if(Input.Keys.E==keycode){
+        if(Input.Keys.R==keycode){
             for (int i =1;i<map.getGrille().length;i++){
                 for (int j =1;j<map.getGrille()[1].length;j++){
                     if(map.getGrille()[i][j].getEnnemi()!=null ){
@@ -403,7 +461,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
             }
         }
-        if(Input.Keys.R==keycode){
+        if(Input.Keys.T==keycode){
             for (int i =1;i<map.getGrille().length;i++){
                 for (int j =1;j<map.getGrille()[1].length;j++){
                     if(map.getGrille()[i][j].getEnnemi()!=null){

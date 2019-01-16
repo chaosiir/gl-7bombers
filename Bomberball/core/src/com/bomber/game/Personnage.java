@@ -119,7 +119,6 @@ public class Personnage extends Image  {
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
             c.removeActor(this);
-            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage((Personnage) this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action();}
@@ -190,7 +189,6 @@ public class Personnage extends Image  {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
                         c.removeActor(target);
-                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
                         c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage((Personnage) target);
                         c=tmp;
                         if(c.getBonus()!=null){c.getBonus().action();}
@@ -255,7 +253,6 @@ public class Personnage extends Image  {
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
             c.setPersonnage(null);
             c.removeActor(this);
-            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()+1][c.posY()].setPersonnage(this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action();}
@@ -320,7 +317,6 @@ public class Personnage extends Image  {
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
-                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
                         c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
                         c.removeActor(target);
                         c=tmp;
