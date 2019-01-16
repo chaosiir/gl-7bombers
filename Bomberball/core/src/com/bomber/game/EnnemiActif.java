@@ -147,7 +147,7 @@ public class EnnemiActif extends Ennemis {
         int i = 0;
         Case suivante;
         LinkedList<Case> cheminProvisoire = cheminMax(pm, c);
-        if (cheminProvisoire != null) {
+        if (!cheminProvisoire.isEmpty()) {
             suivante = cheminProvisoire.get(0);
             while (i < pm && caseLibre(suivante)) {
                 prochain_deplacement.add(suivante);
