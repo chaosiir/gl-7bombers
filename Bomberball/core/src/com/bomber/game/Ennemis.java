@@ -59,7 +59,7 @@ public abstract class Ennemis extends Image {
         Map m=caseC.getMap();
         Mur mur=caseC.getMur();
         Ennemis ennemi=caseC.getEnnemi();
-        if ((ennemi==null)&&(mur==null)){
+        if ((ennemi!=this)&&(mur==null)){
             return true;
         }
         else return false;
