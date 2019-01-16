@@ -8,7 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ChoixMenuMultijoueur
+ * Elle affiche les paramètres que le joueur peut choisir pour lancer une partie multijoueur et le moyen de lancer cette partie
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMenuMultijoueur extends Etat implements Screen {
     @Override
     public boolean mouseMoved(InputEvent event, float x, float y) {
@@ -39,6 +44,9 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -65,6 +73,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         lancerP.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(table);
                 jeu.setEtat(game.multijoueur);
                 game.setScreen(game.multijoueur);
             }
@@ -76,6 +86,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map=null;
                 jeu.removeActor(jeu.findActor("Map"));
+                jeu.removeActor(back);
+                jeu.removeActor(table);
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
@@ -84,6 +96,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(table);
                 jeu.setEtat(game.choixMapMultiJ);
                 game.setScreen(game.choixMapMultiJ);
             }

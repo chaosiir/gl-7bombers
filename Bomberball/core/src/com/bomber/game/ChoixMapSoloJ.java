@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapSoloJ
+ * Elle affiche des maps solo que le joueur a déjà créé et sur lesquelles il veut jouer
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapSoloJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -28,6 +33,12 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     File f;
 
+    /**
+     * Constructeur de la classe ChoixMapSoloJ
+     * @param game
+     * @param jeu
+     * @return un menu ChoixMapSoloJ
+     */
     public ChoixMapSoloJ(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -44,6 +55,9 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         super(jeu);
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -102,6 +116,9 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
                         jeu.removeActor(jeu.findActor("YOLO"));
+                        jeu.removeActor(back);
+                        jeu.removeActor(scrollPane);
+                        jeu.removeActor(table);
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
 
@@ -115,6 +132,9 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(scrollPane);
+                jeu.removeActor(table);
                 jeu.removeActor(jeu.findActor("YOLO"));
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
@@ -144,6 +164,10 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                                 map.getGrille()[i][j].setBonus(null);
                                 map.getGrille()[i][j].setBonus(b);
                                 map.getGrille()[i][j].getBonus().setScale(0.5f);
+                            }
+                            if(map.getGrille()[i][j].getPersonnage()!=null){
+                                Personnage personnage=map.getGrille()[i][j].getPersonnage();
+                                map.getGrille()[i][j].setPersonnage(personnage);
                             }
                         }
                     }

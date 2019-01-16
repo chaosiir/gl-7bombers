@@ -38,6 +38,7 @@ public class Bomberball extends Game {
     ChoixMenuMultijoueur choixMenuMultijoueur;
     EditeurNSolo editeurNSolo;
     Solo jeuSolo;
+    Defaite defaite;
     EditeurNMulti editeurNMulti;
     ErreurEditeurS erreurEditeurS;
     ValiderEditeurSolo validerEditeurSolo;
@@ -50,14 +51,19 @@ public class Bomberball extends Game {
 	Victoire victoire;
 	ChoixMapMultiJ choixMapMultiJ;
 	SelectionCheminEp selectionCheminEp;
+	SelectionCheminEpa selectionCheminEpa;
 
     public static TextureAtlas perso ;
-	public static Texture[] multiTexture = new Texture[26];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	public static TextureAtlas ennemis ;
+	public static Texture[] multiTexture = new Texture[25];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 
 	@Override
+	/**
+	 * Initialise les textures et les états du jeu à son lancement
+	 */
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
-
+		ennemis = new TextureAtlas(Gdx.files.internal("ennemis.atlas"));
 
 
 		multiTexture[0] = new Texture("thefloorislava.png");//creation des différentes texture que l'on va chercher dans le fichier assets
@@ -85,7 +91,6 @@ public class Bomberball extends Game {
 		multiTexture[22]= new Texture("player4.png");
 		multiTexture[23]= new Texture("ghost2.png");
 		multiTexture[24]= new Texture("bat2.png");
-		multiTexture[25]= new Texture("ghost2.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
 		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu = new Jeu();
@@ -113,6 +118,7 @@ public class Bomberball extends Game {
 		multijoueur = new Multijoueur(this,jeu);
 		choixMapMultiJ = new ChoixMapMultiJ(this,jeu);
 		selectionCheminEp = new SelectionCheminEp(this,jeu);
+		selectionCheminEpa = new SelectionCheminEpa(this,jeu);
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 
@@ -122,6 +128,9 @@ public class Bomberball extends Game {
 
 
 	@Override
+	/**
+	 * Assure l'affichage en continu du jeu
+	 */
 	public void render() {//une fois l'application lancée la fonction render tourne en boucle et va afficher une image sur l'écran à
 		// chaque fin d'appel (appellé autant de fois qu'il ya d'image par seconde )
 
@@ -132,6 +141,9 @@ public class Bomberball extends Game {
 	}
 
 	@Override
+	/**
+	 * Supprime les données du jeu lorsque celui-ci est fermé
+	 */
 	public void dispose() {//quand la fenetre est fermé on lance cette fonction
 		int i;
 		for (i = 0; i < multiTexture.length; i++) {
@@ -140,6 +152,9 @@ public class Bomberball extends Game {
 	}
 
 	@Override
+	/**
+	 * Gère le changement de taille de la fenêtre d'affichage
+	 */
 	public void resize(int width, int height) {//se lance quand la fenetre change de taille donc jamais car le jeu est bloqué en plein ecran
 		stg.getViewport().update(width,height);//on change le point de vu (surtout la taille de ce qu'on voit ) !! ne marche pas
 	}

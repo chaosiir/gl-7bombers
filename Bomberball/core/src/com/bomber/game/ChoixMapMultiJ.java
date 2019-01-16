@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapMultiJ
+ * Elle affiche des maps multijoueurs que le joueur a déjà créé et sur lesquelles il veut jouer
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapMultiJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -28,6 +33,11 @@ public class ChoixMapMultiJ extends Etat implements Screen {
 
     File f;
 
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixMapMultiJ(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -40,7 +50,9 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -99,6 +111,9 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
                         jeu.removeActor(jeu.findActor("YOLO"));
+                        jeu.removeActor(back);
+                        jeu.removeActor(scrollPane);
+                        jeu.removeActor(table);
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);
 
@@ -113,6 +128,9 @@ public class ChoixMapMultiJ extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.removeActor(jeu.findActor("YOLO"));
+                jeu.removeActor(back);
+                jeu.removeActor(scrollPane);
+                jeu.removeActor(table);
                 jeu.setEtat(game.choixMenuMultijoueur);
                 game.setScreen(game.choixMenuMultijoueur);
 

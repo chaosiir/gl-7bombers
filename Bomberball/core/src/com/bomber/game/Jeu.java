@@ -17,14 +17,29 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
     int porteeBombe=-1;
     int nbDeplaEnnemis=-1;
     int nbBombe=-1;
+    int pmtmp1=-1;
+    int pmtmp2=-1;
+    int pmtmp3=-1;
+    int pmtmp4=-1;
+
+    int nbtmp1=-1;
+    int nbtmp2=-1;
+    int nbtmp3=-1;
+    int nbtmp4=-1;
+
+    boolean recommencer=false;
+
+    boolean poussee1=false;
+    boolean poussee2=false;
+    boolean poussee3=false;
+    boolean poussee4=false;
 
 
     public Jeu (){//creation du jeu
-        this.etat= new MenuPrincipal(this);;//de base le jeu a l'etat multijoueur car c'est le seul que l'on a
         this.addListener(new InputListener(){//on rajoute au jeu un des fonctions en cas d'input => voir tuto Inputs
             @Override
             public boolean keyDown(InputEvent event, int keycode) {//si une touche est pressée le return renvoi si la touche a été traitée => pas utile ici
-                if(keycode==Input.Keys.ESCAPE && !(etat instanceof Solo)){
+                if(keycode==Input.Keys.ESCAPE && !(etat instanceof Solo) && !(etat instanceof Multijoueur)){
                         Gdx.app.exit();//si c'est escape on quitte le jeu
                 }
                 return etat.keyDown( event, keycode);//sinon on l'envoi à l'etat

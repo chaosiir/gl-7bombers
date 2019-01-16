@@ -7,15 +7,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Multijoueur extends Etat implements Screen {//etat multijoueur
-    int pm;
-    int nb;
+    int pm=5;
+    int nb=1;
     private Bomberball game;
     private Personnage joueurs[]=new Personnage[4];
     private int tour=0;
@@ -79,13 +85,28 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     Image explosion4;
     Image player4;
 
+    File f;
+    File frecommencer;
+    FileWriter fw;
+    FileWriter fwr;
+
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
+        File directory = new File (".");
+        try {
+            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
+            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
+
+        } catch (IOException e) {
+
+        }
 
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -94,15 +115,127 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
 
-        if(jeu.map==null){
+        if(f.exists()){
+            jeu.map.suppActor();
+            jeu.removeActor(jeu.map);
+            jeu.map=null;
+            if(jeu.recommencer){
+                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.recommencer=false;
+                tour=0;
+                f.delete();
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+                f.delete();
+                switch (tour){
+                    case 0: if(jeu.pmtmp1!=-1){
+                        pm=jeu.pmtmp1;
+                        nbmvt1.setText(""+pm);
+                        jeu.pmtmp1=-1;
+                    }
+                        if(jeu.nbtmp1!=-1){
+                            nb=jeu.nbtmp1;
+                            nbBombe1.setText(""+nb);
+                            jeu.nbtmp1=-1;
+                        }
+                        if(jeu.poussee1){
+                            poussee1=new Label("X",skin);
+                        }
+                        break;
+                    case 1: if(jeu.pmtmp2!=-1){
+                        pm=jeu.pmtmp2;
+                        nbmvt2.setText(""+pm);
+                        jeu.pmtmp2=-1;
+                    }
+                        if(jeu.nbtmp2!=-1){
+                            nb=jeu.nbtmp2;
+                            nbBombe2.setText(""+nb);
+                            jeu.nbtmp2=-1;
+                        }
+                        if(jeu.poussee2){
+                            poussee2=new Label("X",skin);
+                        }
+                        break;
+                    case 2: if(jeu.pmtmp3!=-1){
+                        pm=jeu.pmtmp3;
+                        nbmvt3.setText(""+pm);
+                        jeu.pmtmp3=-1;
+                    }
+                        if(jeu.nbtmp3!=-1){
+                            nb=jeu.nbtmp3;
+                            nbBombe3.setText(""+nb);
+                            jeu.nbtmp3=-1;
+                        }
+                        if(jeu.poussee3){
+                            poussee3=new Label("X",skin);
+                        }
+                        break;
+                    case 3: if(jeu.pmtmp4!=-1){
+                        pm=jeu.pmtmp4;
+                        nbmvt4.setText(""+pm);
+                        jeu.pmtmp4=-1;
+                    }
+
+
+
+                        if(jeu.nbtmp4!=-1){
+                            nb=jeu.nbtmp4;
+                            nbBombe4.setText(""+nb);
+                            jeu.nbtmp4=-1;
+                        }
+
+
+
+                        if(jeu.poussee4){
+                            poussee4=new Label("X",skin);
+                        }
+                        break;
+
+                }
+            }
+
+        }
+       else if(jeu.map==null){
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.generatePvp(65, jeu.nbBonus);
                 jeu.nbBonus=-1;
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else{
                 jeu.map=Map.generatePvp(65,5);
+                try {
+                    fwr = new FileWriter(frecommencer);
+                    fwr.write(jeu.map.mapToText());
+                    fwr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        else{
+            try {
+                fwr = new FileWriter(frecommencer);
+                fwr.write(jeu.map.mapToText());
+                fwr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         int a=0;
         for(int i=0;i<jeu.map.getGrille().length;i++){
             for (int j=0;j<jeu.map.getGrille()[1].length;j++){
@@ -119,8 +252,18 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 }
             }
         }
-        pm=5;
-        nb=1;
+        for (int i=0;i<15;i++){
+            for (int j=0;j<13;j++){
+                if(jeu.map.getGrille()[i][j].getBonus()!=null){
+
+
+                    Bonus b=jeu.map.getGrille()[i][j].getBonus();
+                    jeu.map.getGrille()[i][j].setBonus(null);
+                    jeu.map.getGrille()[i][j].setBonus(b);
+                    jeu.map.getGrille()[i][j].getBonus().setScale(0.5f);
+                }
+            }
+        }
 
         jeu.map.setBounds(Gdx.graphics.getWidth()/9,0,jeu.map.getWidth(),jeu.map.getHeight());
         jeu.map.setScaleY(27f/26f);
@@ -167,9 +310,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         poussee4=new Label("",skin);
 
         poussee1.setPosition(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
-        poussee2.setPosition(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
-        poussee3.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
-        poussee4.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
+
+
+
 
 
         player1=new Image(Bomberball.multiTexture[4]);
@@ -212,6 +355,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse2.setHeight(Bomberball.taillecase);
         pousse2.setPosition(0,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
 
+        poussee2.setPosition(Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
+
         player2=new Image(Bomberball.multiTexture[20]);
         player2.setBounds(3*Bomberball.taillecase+30,Gdx.graphics.getHeight()-8*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
@@ -251,6 +396,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse3.setHeight(Bomberball.taillecase);
         pousse3.setPosition(jeu.map.getX()+17f*Bomberball.taillecase,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
 
+        poussee3.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-6*Bomberball.taillecase);
+
         player3=new Image(Bomberball.multiTexture[21]);
         player3.setBounds(jeu.map.getX()+jeu.map.tailleX()+17*Bomberball.taillecase+3*Bomberball.taillecase,Gdx.graphics.getHeight()-Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
@@ -289,6 +436,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         pousse4.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         pousse4.setHeight(Bomberball.taillecase);
         pousse4.setPosition(jeu.map.getX()+17f*Bomberball.taillecase,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
+
+        poussee4.setPosition(jeu.map.getX()+17f*Bomberball.taillecase+Bomberball.taillecase*3+30,Gdx.graphics.getHeight()-13*Bomberball.taillecase);
 
         player4=new Image(Bomberball.multiTexture[22]);
         player4.setBounds(jeu.map.getX()+jeu.map.tailleX()+17*Bomberball.taillecase+3*Bomberball.taillecase,Gdx.graphics.getHeight()-8*Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
@@ -333,7 +482,6 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         jeu.addActor(pousse4);
         jeu.addActor(player4);
         jeu.addActor(jeu.map);
-
 
     }
 
@@ -424,36 +572,81 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
                     }
                     int nbviv=0;
-                    int viv=0;
                     for(int i=0;i<4;i++){
                         if(joueurs[i].isVivant()){
                             nbviv++;
-                            viv=i;
                         }
                     }
                     if(nbviv==0){
-                        jeu.map=null;
-                        jeu.removeActor(jeu.findActor("Map"));
 
-                        for(int i=0;i<4;i++){
-                            jeu.removeActor(joueurs[i]);
-                        }
+                        MoveByAction action=new MoveByAction();
+                        action.setDuration(12);
+                        action.setAmount(0,0);
+                        joueurs[0].addAction(action);
+                        joueurs[1].addAction(action);
+                        joueurs[2].addAction(action);
+                        joueurs[3].addAction(action);
+                        jeu.addAction(new Action() {
+                            float time = 0;
 
-                        game.victoire=new Victoire(game,jeu,"Match nul");
-                        jeu.setEtat(game.victoire);
-                        game.setScreen(game.victoire);
+                            @Override
+                            public boolean act(float delta) {
+                                time += delta;
+                                if (time > 3) {
+                                    tour=0;
+                                    jeu.map = null;
+                                    jeu.removeActor(jeu.findActor("Map"));
 
+                                    for (int i = 0; i < 4; i++) {
+                                        jeu.removeActor(joueurs[i]);
+                                    }
+
+                                    game.victoire = new Victoire(game, jeu, "                         Match nul");
+                                    jeu.setEtat(game.victoire);
+                                    game.setScreen(game.victoire);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
 
                     }
                     else if(nbviv==1){
-                        jeu.map=null;
-                        jeu.removeActor(jeu.findActor("Map"));
-                        game.victoire=new Victoire(game,jeu,"Victoire joueur "+(viv+1));
-                        for(int i=0;i<4;i++){
-                            jeu.removeActor(joueurs[i]);
-                        }
-                        jeu.setEtat(game.victoire);
-                        game.setScreen(game.victoire);
+
+                        MoveByAction action=new MoveByAction();
+                        action.setDuration(16);
+                        action.setAmount(0,0);
+                        joueurs[0].addAction(action);
+                        joueurs[1].addAction(action);
+                        joueurs[2].addAction(action);
+                        joueurs[3].addAction(action);
+                        jeu.addAction(new Action() {
+                            float time=0;
+                            @Override
+                            public boolean act(float delta) {
+                                time+=delta;
+                                if(time>3){
+                                    jeu.map=null;
+                                    int viv=0;
+                                    tour=0;
+                                    for(int i=0;i<4;i++){
+                                        if(joueurs[i].isVivant()){
+                                            viv=i;
+                                        }
+                                    }
+                                    jeu.removeActor(jeu.findActor("Map"));
+                                    game.victoire=new Victoire(game,jeu,"                     Victoire joueur "+(viv+1));
+                                    for(int i=0;i<4;i++){
+                                        jeu.removeActor(joueurs[i]);
+                                    }
+                                    jeu.setEtat(game.victoire);
+                                    game.setScreen(game.victoire);
+                                    return true;
+                                }
+                                return false;
+                            }
+                        });
+
                     }
                     else {
                         while (!joueurs[tour].isVivant()) {
@@ -480,6 +673,26 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 //Animation bombe + ennemis Map
                 }
             }
+        }
+        if(keycode==Input.Keys.ESCAPE){
+            try {
+                fw = new FileWriter(f);
+                fw.write(jeu.map.mapToTextP());
+                for(int i=0;i<4;i++){
+                    fw.write(joueurs[i].getC().posX()+" "+joueurs[i].getC().posY()+" 1212 "+joueurs[i].getId()+" "+pm+" "+nb+" "+joueurs[i].getPm()+" "+joueurs[i].isVivant()+" "+joueurs[i].getTaille()+" "+joueurs[i].getNbBombe()+" "+joueurs[i].isPoussee()+"\n");
+
+                }
+                fw.write("0 0 9999 "+tour+"\n");
+
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            game.menuPause.setEtatAnterieur(game.multijoueur);
+            jeu.setEtat(game.menuPause);
+            game.setScreen(game.menuPause);
+
         }
 
 

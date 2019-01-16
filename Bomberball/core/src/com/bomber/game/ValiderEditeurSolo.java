@@ -15,7 +15,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe ValiderEditeurSolo
+ * Elle permet de sauvegarder sa carte solo qu'il a créé
+ * @author Paul-Louis Renard
+ *
+ */
 public class ValiderEditeurSolo extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -40,7 +45,9 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

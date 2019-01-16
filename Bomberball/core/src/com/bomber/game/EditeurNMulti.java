@@ -20,6 +20,12 @@ import java.io.IOException;
 
 import static com.bomber.game.Bomberball.stg;
 
+/**
+ * Classe EditeurNMulti
+ * Elle affiche l'éditeur de niveau pour des maps multijoueurs
+ * @author Paul-Louis Renard
+ *
+ */
 public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -51,6 +57,11 @@ public class EditeurNMulti extends Etat implements Screen {
     File f;
     FileWriter fw;
 
+    /**
+     * Générateur de la classe EditeurNMulti
+     * @param game
+     * @param jeu
+     */
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -63,6 +74,9 @@ public class EditeurNMulti extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         if(f.exists()){
@@ -278,6 +292,14 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         Actor hitActor= jeu.getStage().hit(x,y,true); //Retourne référence de l'acteur touché
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)

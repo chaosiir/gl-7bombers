@@ -16,7 +16,12 @@ import com.badlogic.gdx.utils.Align;
 
 
 import java.awt.*;
-
+/**
+ * Classe ErreurEditeurS
+ * Elle affiche un message d'erreur si le joueur a réalisé une map solo invalide
+ * @author Paul-Louis Renard
+ *
+ */
 public class ErreurEditeurS extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -29,6 +34,9 @@ public class ErreurEditeurS extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

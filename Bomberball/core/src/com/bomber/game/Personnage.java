@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 
 import java.io.Serializable;
 
@@ -20,6 +21,7 @@ public class Personnage extends Image  {
     private int nbBombe;//bombe posable par tour, 1 par défaut
     private int pm;//points de mouvement, 5 par defaut
     private boolean poussee;
+    private int taillepoussee;
     private int id;
 
 
@@ -110,7 +112,7 @@ public class Personnage extends Image  {
     }
 
     public boolean deplacerHaut(){
-        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"2"))));
+        this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
         if (caseVideHaut()){
 
@@ -128,9 +130,9 @@ public class Personnage extends Image  {
                 @Override
                 public boolean act(float delta) {
                     time+=delta;
-                    System.out.println(id+"  "+(int)(time*8)%4);
+
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+""+(int)(time*8)%4))));
-                    setSize(Bomberball.taillecase,Bomberball.taillecase);
+
                     return time>0.5;
                 }
             });
@@ -142,13 +144,24 @@ public class Personnage extends Image  {
             /*Poussage de la bombe*/
             if (c.getBombe()!=null){
                 c.setBombe(null);
-                int i = 0;
+                taillepoussee = 0;
                 do {
-                    i++;
-                } while (c.getMap().getGrille()[c.posX()][c.posY()+i].getPersonnage()==null &&
-                        c.getMap().getGrille()[c.posX()][c.posY()+i].getBombe()==null &&
-                        c.getMap().getGrille()[c.posX()][c.posY()+i].getMur()==null);
-                c.getMap().getGrille()[c.posX()][c.posY()+i-1].setBombe(new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()+i-1]));
+                    taillepoussee++;
+                } while (c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee].getMur()==null);
+
+                Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee-1]);
+                b.setY(-(taillepoussee-1)*Bomberball.taillecase);
+                MoveToAction move=new MoveToAction();
+                move.setPosition(0,0);
+                move.setDuration(taillepoussee*0.2f);
+                MoveByAction attente=new MoveByAction();
+                attente.setAmount(0,0);
+                attente.setDuration(taillepoussee*0.2f);
+                this.addAction(attente);
+                c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee-1].setBombe(b);
+                b.addAction(move);
             }
 
 
@@ -173,7 +186,6 @@ public class Personnage extends Image  {
                 public boolean act(float delta) {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
-                    setSize(Bomberball.taillecase,Bomberball.taillecase);
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
@@ -195,15 +207,36 @@ public class Personnage extends Image  {
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
-            if (c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()!=null){
-                c.getMap().getGrille()[c.posX()][c.posY()-1].setBombe(null);
-                int i = 0;
+            if (c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()!=null) {
+                taillepoussee = 0;
                 do {
-                    i++;
-                } while (c.getMap().getGrille()[c.posX()][c.posY()-i].getPersonnage()==null &&
-                        c.getMap().getGrille()[c.posX()][c.posY()-i].getBombe()==null &&
-                        c.getMap().getGrille()[c.posX()][c.posY()-i].getMur()==null);
-                c.getMap().getGrille()[c.posX()][c.posY()-i+1].setBombe(new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()-i+1]));
+                    taillepoussee++;
+                } while (c.getMap().getGrille()[c.posX()][c.posY() - taillepoussee-1].getPersonnage() == null &&
+                        c.getMap().getGrille()[c.posX()][c.posY() - taillepoussee-1].getBombe() == null &&
+                        c.getMap().getGrille()[c.posX()][c.posY() - taillepoussee-1].getMur() == null);
+                Bombe b = c.getMap().getGrille()[c.posX()][c.posY() - 1].getBombe();
+                MoveToAction action1=new MoveToAction();
+                action1.setDuration(0.2f*taillepoussee);
+                action1.setPosition(0,-(taillepoussee-1)*Bomberball.taillecase);
+                MoveByAction attente=new MoveByAction();
+                attente.setAmount(0,0);
+                attente.setDuration(0.2f*taillepoussee);
+                this.addAction(attente);
+                b.addAction(action1);
+                b.addAction(new Action() {
+                    float time = 0;
+
+                    @Override
+                    public boolean act(float delta) {
+                        time += delta;
+                        if (time > taillepoussee * 0.2f) {
+                            c.getMap().getGrille()[c.posX()][c.posY() - taillepoussee+1].setBombe(new Bombe(taille, c.getMap().getGrille()[c.posX()][c.posY() - taillepoussee+1]));
+                            c.getMap().getGrille()[c.posX()][c.posY() ].setBombe(null);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
             }
 
 
@@ -246,13 +279,23 @@ public class Personnage extends Image  {
             /*Poussage de la bombe*/
             if (c.getBombe()!=null){
                 c.setBombe(null);
-                int i = 0;
+                taillepoussee=0;
                 do {
-                    i++;
-                } while (c.getMap().getGrille()[c.posX()+i][c.posY()].getPersonnage()==null &&
-                        c.getMap().getGrille()[c.posX()+i][c.posY()].getBombe()==null &&
-                        c.getMap().getGrille()[c.posX()+i][c.posY()].getMur()==null);
-                c.getMap().getGrille()[c.posX()+i-1][c.posY()].setBombe(new Bombe(this.taille,c.getMap().getGrille()[c.posX()+i-1][c.posY()]));
+                    taillepoussee++;
+                } while (c.getMap().getGrille()[c.posX()+taillepoussee][c.posY()].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()+taillepoussee][c.posY()].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()+taillepoussee][c.posY()].getMur()==null);
+                Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()+taillepoussee-1][c.posY()]);
+                b.setX(-(taillepoussee-1)*Bomberball.taillecase);
+                MoveToAction move=new MoveToAction();
+                move.setPosition(0,0);
+                move.setDuration(taillepoussee*0.2f);
+                MoveByAction attente=new MoveByAction();
+                attente.setAmount(0,0);
+                attente.setDuration(taillepoussee*0.2f);
+                this.addAction(attente);
+                c.getMap().getGrille()[c.posX()+taillepoussee-1][c.posY()].setBombe(b);
+                b.addAction(move);
             }
             if(c.getBonus()!=null){c.getBonus().action();}
             return true;
@@ -295,15 +338,37 @@ public class Personnage extends Image  {
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
             if (c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()!=null){
-                c.getMap().getGrille()[c.posX()-1][c.posY()].setBombe(null);
-                int i = 0;
-                do {
-                    i++;
-                } while (c.getMap().getGrille()[c.posX()-i][c.posY()].getPersonnage()==null &&
-                        c.getMap().getGrille()[c.posX()-i][c.posY()].getBombe()==null &&
-                        c.getMap().getGrille()[c.posX()-i][c.posY()].getMur()==null);
 
-                c.getMap().getGrille()[c.posX()-i+1][c.posY()].setBombe(new Bombe(this.taille,c.getMap().getGrille()[c.posX()-i+1][c.posY()]));
+                taillepoussee = 0;
+                do {
+                    taillepoussee++;
+                } while (c.getMap().getGrille()[c.posX()-taillepoussee-1][c.posY()].getPersonnage()==null &&
+                        c.getMap().getGrille()[c.posX()-taillepoussee-1][c.posY()].getBombe()==null &&
+                        c.getMap().getGrille()[c.posX()-taillepoussee-1][c.posY()].getMur()==null);
+
+                MoveByAction action1=new MoveByAction();
+                action1.setDuration(0.2f*taillepoussee);
+                action1.setAmountX(-Bomberball.taillecase*(taillepoussee-1));
+                MoveByAction attente=new MoveByAction();
+                attente.setAmount(0,0);
+                attente.setDuration(taillepoussee*0.2f);
+                this.addAction(attente);
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe().addAction(action1);
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe().addAction(new Action() {
+                    float time=0;
+                    @Override
+                    public boolean act(float delta) {
+                        time+=delta;
+                        if(time>taillepoussee*0.2f){
+                            c.getMap().getGrille()[c.posX()-taillepoussee+1][c.posY()].setBombe(new Bombe(taille,c.getMap().getGrille()[c.posX()-taillepoussee+1][c.posY()]));
+                            c.getMap().getGrille()[c.posX()][c.posY()].setBombe(null);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+
             }
 
             return true;

@@ -11,7 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
-
+/**
+ * Classe Victoire
+ * Elle affiche un message avec un bouton ok puis retourne sur le menu principal
+ * @author Pascal Ferrari
+ *
+ */
 public class Victoire extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -26,7 +31,9 @@ public class Victoire extends Etat implements Screen {
         txt=st;
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         skin=new Skin(Gdx.files.internal("uiskin.json"));

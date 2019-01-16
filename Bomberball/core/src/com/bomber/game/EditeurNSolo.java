@@ -27,7 +27,12 @@ import java.io.FileOutputStream;
 import java.util.LinkedList;
 
 import static com.bomber.game.Bomberball.stg;
-
+/**
+ * Classe EditeurNSolo
+ * Elle affiche l'éditeur de niveau pour des maps solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class EditeurNSolo extends Etat implements Screen {
 
     Bomberball game;
@@ -66,10 +71,11 @@ public class EditeurNSolo extends Etat implements Screen {
     FileWriter fw;
 
 
-
-
-
-
+    /**
+     * Générateur de la classe EditeurNSolo
+     * @param game
+     * @param jeu
+     */
     public EditeurNSolo(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -83,6 +89,9 @@ public class EditeurNSolo extends Etat implements Screen {
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
 
@@ -187,7 +196,7 @@ public class EditeurNSolo extends Etat implements Screen {
         ennemisActif.setName("imp1");
         ennemisActif.setBounds(3*Bomberball.taillecase,ymax-2*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
-        ennemisPassifAgressif = new Image(Bomberball.multiTexture[25]);
+        ennemisPassifAgressif = new Image(Bomberball.multiTexture[23]);
         ennemisPassifAgressif.setName("ghost2");
         ennemisPassifAgressif.setBounds(3*Bomberball.taillecase,ymax-3*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase);
 
@@ -362,6 +371,14 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique sur une touche du clavier en fonction de la touche appuyée
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean keyDown(InputEvent event, int keycode) {
         if(keycode==Input.Keys.SPACE){
             LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
@@ -374,16 +391,37 @@ public class EditeurNSolo extends Etat implements Screen {
             }
             if(cache) {
                 for (Ennemis en : liste) {
+                    en.miseAjour();
                     LinkedList<Case> caca = en.prochain_deplacement;
                     for (Case cas : caca) {
                         int xc = cas.posX();
                         int yc = cas.posY();
                         if (cas.getEnnemi() != null) {
-                            Ennemi_passif ennemi_passif = (Ennemi_passif) cas.getEnnemi();
+                            if(cas.getEnnemi() instanceof EnnemiPassif){
+                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                            }
+                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                            }
+                            else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                            }
+                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                            }
 
-                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                            map.getGrille()[xc][yc].setEnnemi(null);
-                            map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
                         } else if (cas.getPersonnage() != null) {
                             Personnage personnage = cas.getPersonnage();
                             map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
@@ -404,10 +442,30 @@ public class EditeurNSolo extends Etat implements Screen {
                         int yc=cas.posY();
                         System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
                         if(cas.getEnnemi()!=null){
-                            Ennemi_passif ennemi_passif=(Ennemi_passif)cas.getEnnemi();
-                            map.getGrille()[xc][yc].setEnnemi(null);
-                            map.getGrille()[xc][yc].setMarque(null);
-                            map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                            if(cas.getEnnemi() instanceof EnnemiPassif){
+                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(null);
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                            }
+                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(null);
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                            }
+                            else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(null);
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                            }
+                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                map.getGrille()[xc][yc].setMarque(null);
+                                map.getGrille()[xc][yc].setEnnemi(null);
+                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                            }
                         }
                         else if(cas.getPersonnage()!=null){
                             Personnage personnage=cas.getPersonnage();
@@ -429,6 +487,14 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         Actor hitActor= jeu.getStage().hit(x,y,true); //Retourne référence de l'acteur touché
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
@@ -491,8 +557,8 @@ public class EditeurNSolo extends Etat implements Screen {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                jeu.setEtat(game.selectionCheminEp);
-                game.setScreen(game.selectionCheminEp);
+                jeu.setEtat(game.selectionCheminEpa);
+                game.setScreen(game.selectionCheminEpa);
             }
             else if(hitActor.getName().equals("imp2")){
                 selectionne.setDrawable(ennemisActifAgressif.getDrawable());
@@ -846,15 +912,17 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("Ea")){
                             c.setEnnemi(null);
-                            c.setEnnemi(new Ennemi_actif(true,c,5));
+                            EnnemiActif ea=new EnnemiActif(true,c,5);
+                            c.setEnnemi(ea);
                         }
                         else if(selectionne.getName().equals("Epa")){
                             c.setEnnemi(null);
-                            c.setEnnemi(new Ennemi_passif_aggressif(true,c,5));
+                            c.setEnnemi(new EnnemiPassifAgressif(true,c,5,5,false));
                         }
                         else if(selectionne.getName().equals("Eaa")){
                             c.setEnnemi(null);
-                            c.setEnnemi(new Ennemi_actif_aggressif(true,c,5));
+                            EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,5,5,false);
+                            c.setEnnemi(eaa);
                         }
 
                     }

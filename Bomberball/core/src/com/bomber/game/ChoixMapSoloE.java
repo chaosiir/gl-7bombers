@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapSoloE
+ * Elle affiche des maps solo que le joueur a déjà créé et qu'il veut remodifié
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapSoloE extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -28,7 +33,11 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     File f;
 
-
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixMapSoloE(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -41,6 +50,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -99,7 +111,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
                         Bomberball.copier(f1,f2);
-
+                        jeu.removeActor(back);
+                        jeu.removeActor(scrollPane);
+                        jeu.removeActor(table);
                         jeu.setEtat(game.editeurNSolo);
                         game.setScreen(game.editeurNSolo);
 
@@ -113,6 +127,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(back);
+                jeu.removeActor(scrollPane);
+                jeu.removeActor(table);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
