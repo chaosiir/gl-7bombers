@@ -3,6 +3,7 @@ package com.bomber.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -26,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
 
+import static com.bomber.game.Bomberball.loadFile;
 import static com.bomber.game.Bomberball.stg;
 /**
  * Classe EditeurNSolo
@@ -70,12 +72,14 @@ public class EditeurNSolo extends Etat implements Screen {
     File f;
     FileWriter fw;
 
+    Color Couleur[]={Color.BLACK,Color.BLUE,Color.BROWN,Color.CHARTREUSE,Color.CORAL,Color.CYAN,Color.DARK_GRAY,Color.FIREBRICK,Color.FOREST,Color.GOLD,Color.GOLDENROD,Color.GRAY,Color.GREEN,Color.LIGHT_GRAY,Color.LIME,Color.MAGENTA,Color.MAROON
+    ,Color.NAVY,Color.OLIVE,Color.ORANGE,Color.PINK,Color.PURPLE,Color.RED,Color.ROYAL,Color.SALMON,Color.SCARLET,Color.SKY,Color.SLATE,Color.TAN,Color.TEAL,Color.VIOLET,Color.YELLOW};
 
-    /**
-     * Générateur de la classe EditeurNSolo
-     * @param game
-     * @param jeu
-     */
+
+
+
+
+
     public EditeurNSolo(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -94,10 +98,11 @@ public class EditeurNSolo extends Etat implements Screen {
      */
     @Override
     public void show() {
-
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.input.addProcessor(this);
         if(f.exists()){
-            String text=Bomberball.loadFile(f);
-            map=Map.mapFromString(text);
+            map=Map.mapFromStringN(loadFile(f));
         }
         else{
             map=Map.genererMapSolo(20,10,5);
@@ -253,10 +258,11 @@ public class EditeurNSolo extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 try {
-                    fw = new FileWriter(f);
-                    fw.write(map.mapToText());
-                    fw.close();
-                } catch (IOException e) {
+                    fw=new FileWriter(f);
+                   fw.write(map.mapToTextN());
+                   fw.close();
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -296,30 +302,30 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
 
-        jeu.addActor(back);
-        jeu.addActor(floor);
-        jeu.addActor(perso);
-        jeu.addActor(murd);
-        jeu.addActor(muri);
-        jeu.addActor(porte);
-        jeu.addActor(bonusB);
-        jeu.addActor(bonusE);
-        jeu.addActor(bonusM);
-        jeu.addActor(bonusP);
-        jeu.addActor(ennemisPassif);
-        jeu.addActor(ennemisActif);
-        jeu.addActor(ennemisPassifAgressif);
-        jeu.addActor(ennemisActifAgressif);
-        jeu.addActor(select);
-        jeu.addActor(selectionne);
-        jeu.addActor(instruction1);
-        jeu.addActor(instruction2);
-        jeu.addActor(instruction3);
-        jeu.addActor(retour);
-        jeu.addActor(valider);
-        jeu.addActor(charger);
+        this.addActor(back);
+        this.addActor(floor);
+        this.addActor(perso);
+        this.addActor(murd);
+        this.addActor(muri);
+        this.addActor(porte);
+        this.addActor(bonusB);
+        this.addActor(bonusE);
+        this.addActor(bonusM);
+        this.addActor(bonusP);
+        this.addActor(ennemisPassif);
+        this.addActor(ennemisActif);
+        this.addActor(ennemisPassifAgressif);
+        this.addActor(ennemisActifAgressif);
+        this.addActor(select);
+        this.addActor(selectionne);
+        this.addActor(instruction1);
+        this.addActor(instruction2);
+        this.addActor(instruction3);
+        this.addActor(retour);
+        this.addActor(valider);
+        this.addActor(charger);
 
-        jeu.addActor(map);
+        this.addActor(map);
 
 
 
@@ -341,7 +347,6 @@ public class EditeurNSolo extends Etat implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-        stg.draw();
 
     }
 
@@ -362,7 +367,8 @@ public class EditeurNSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
-
+    Bomberball.stg.clear();
+    Bomberball.input.removeProcessor(this);
     }
 
     @Override
@@ -371,15 +377,106 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
-    /**
-     * Indique l'action à effectuer lorsqu'on clique sur une touche du clavier en fonction de la touche appuyée
-     * @param event
-     * @param x abscisse du pointeur sur l'écran
-     * @param y ordonnée du pointeur sur l'écran
-     * @param pointer
-     * @param button bouton de la souris appuyé
-     */
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
+        if(Input.Keys.A==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
+                        }
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
+                        }
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.D==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.W==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.S==keycode){
+            for (int i =1;i<map.getGrille().length-1;i++) {
+                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                    if (map.getGrille()[i][j].getEnnemi() != null) {
+                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j-1])){
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j-1]);
+                        }
+                        map.getGrille()[i][j].getEnnemi().deplacer();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.E==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().setAnimationgauche();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.R==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null ){
+                        if (map.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif ){
+                            ((EnnemiActifAggressif) map.getGrille()[i][j].getEnnemi()).setAgro(!((EnnemiActifAggressif) map.getGrille()[i][j].getEnnemi()).getAgro());
+                        }
+                        if( map.getGrille()[i][j].getEnnemi() instanceof EnnemiPassifAgressif){
+                            ((EnnemiPassifAgressif) map.getGrille()[i][j].getEnnemi()).setAgro(!((EnnemiPassifAgressif) map.getGrille()[i][j].getEnnemi()).getAgro());
+                        }
+                    }
+                }
+            }
+        }
+        if(Input.Keys.Z==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().setAnimationdroite();
+                    }
+                }
+            }
+        }
+        if(Input.Keys.T==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().setAnimationdefaite();
+                    }
+                }
+            }
+        }
         if(keycode==Input.Keys.SPACE){
             LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
             for(int i=0;i<15;i++){
@@ -391,92 +488,111 @@ public class EditeurNSolo extends Etat implements Screen {
             }
             if(cache) {
                 for (Ennemis en : liste) {
-                    en.miseAjour();
-                    LinkedList<Case> caca = en.prochain_deplacement;
-                    for (Case cas : caca) {
-                        int xc = cas.posX();
-                        int yc = cas.posY();
-                        if (cas.getEnnemi() != null) {
-                            if(cas.getEnnemi() instanceof EnnemiPassif){
-                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
-                            }
-                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
-                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
-                            }
-                            else if(cas.getEnnemi() instanceof  EnnemiActif){
-                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
-                            }
-                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
-                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
-                            }
+                    int choix=(int)(Math.random()*32);
 
-                        } else if (cas.getPersonnage() != null) {
-                            Personnage personnage = cas.getPersonnage();
-                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
-                            map.getGrille()[xc][yc].setPersonnage(null);
-                            map.getGrille()[xc][yc].setPersonnage(personnage);
-                        } else {
-                            map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                    if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
+                        LinkedList<Case> caca = en.getChemin();
+                        for (Case cas : caca) {
+                            int xc = cas.posX();
+                            int yc = cas.posY();
+                            if (cas.getEnnemi() != null) {
+                                if(cas.getEnnemi() instanceof EnnemiPassif){
+                                    EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                    //map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                    EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Color.WHITE);
+                                    //map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                    EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                  //  map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                    EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                   // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                                }
+
+                            } else if (cas.getPersonnage() != null) {
+                                Personnage personnage = cas.getPersonnage();
+                                map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                               // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setPersonnage(null);
+                                map.getGrille()[xc][yc].setPersonnage(personnage);
+                            } else {
+                                map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                               // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                            }
                         }
                     }
+
                 }
                 cache=false;
             }
             else{
                 for (Ennemis en : liste) {
-                    LinkedList<Case> caca = en.prochain_deplacement;
-                    for(Case cas: caca){
-                        int xc=cas.posX();
-                        int yc=cas.posY();
-                        System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
-                        if(cas.getEnnemi()!=null){
-                            if(cas.getEnnemi() instanceof EnnemiPassif){
-                                EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                    if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
+                        LinkedList<Case> caca = en.getChemin();
+                        for(Case cas: caca){
+                            int xc=cas.posX();
+                            int yc=cas.posY();
+                            System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
+                            if(cas.getEnnemi()!=null){
+                                if(cas.getEnnemi() instanceof EnnemiPassif){
+                                    EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                  //  map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                    EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                 //   map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                    EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                //    map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                    EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                  //  map.getGrille()[xc][yc].setMarque(null);
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                                }
                             }
-                            else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
-                                EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                            else if(cas.getPersonnage()!=null){
+                                Personnage personnage=cas.getPersonnage();
+                                map.getGrille()[xc][yc].setPersonnage(null);
+                                map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                             //   map.getGrille()[xc][yc].setMarque(null);
+                                map.getGrille()[xc][yc].setPersonnage(personnage);
                             }
-                            else if(cas.getEnnemi() instanceof  EnnemiActif){
-                                EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                            else{
+                                map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                               // map.getGrille()[xc][yc].setMarque(null);
                             }
-                            else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
-                                EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
-                                map.getGrille()[xc][yc].setMarque(null);
-                                map.getGrille()[xc][yc].setEnnemi(null);
-                                map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
-                            }
-                        }
-                        else if(cas.getPersonnage()!=null){
-                            Personnage personnage=cas.getPersonnage();
-                            map.getGrille()[xc][yc].setPersonnage(null);
-                            map.getGrille()[xc][yc].setMarque(null);
-                            map.getGrille()[xc][yc].setPersonnage(personnage);
-                        }
-                        else{
-                            map.getGrille()[xc][yc].setMarque(null);
                         }
                     }
+
                 }
                 cache=true;
 
@@ -487,16 +603,8 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
-    /**
-     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
-     * @param event
-     * @param x abscisse du pointeur sur l'écran
-     * @param y ordonnée du pointeur sur l'écran
-     * @param pointer
-     * @param button bouton de la souris appuyé
-     */
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        Actor hitActor= jeu.getStage().hit(x,y,true); //Retourne référence de l'acteur touché
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true); //Retourne référence de l'acteur touché
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if (hitActor.getName()!=null) {
             if (hitActor.getName().equals("murd")) {
@@ -533,11 +641,12 @@ public class EditeurNSolo extends Etat implements Screen {
                 selectionne.setName("Ep");
                 try {
                     fw = new FileWriter(f);
-                    fw.write(map.mapToText());
+                    fw.write(map.mapToTextN());
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                this.removeActor(map);
                 jeu.setEtat(game.selectionCheminEp);
                 game.setScreen(game.selectionCheminEp);
 
@@ -552,11 +661,12 @@ public class EditeurNSolo extends Etat implements Screen {
                 selectionne.setName("Epa");
                 try {
                     fw = new FileWriter(f);
-                    fw.write(map.mapToText());
+                    fw.write(map.mapToTextN());
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                this.removeActor(map);
                 jeu.setEtat(game.selectionCheminEpa);
                 game.setScreen(game.selectionCheminEpa);
             }
@@ -944,7 +1054,7 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 }

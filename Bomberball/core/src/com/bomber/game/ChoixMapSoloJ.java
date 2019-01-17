@@ -33,12 +33,6 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     File f;
 
-    /**
-     * Constructeur de la classe ChoixMapSoloJ
-     * @param game
-     * @param jeu
-     * @return un menu ChoixMapSoloJ
-     */
     public ChoixMapSoloJ(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -60,6 +54,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -110,15 +106,15 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 int i=list.getSelectedIndex();
                 if (i!=-1){
                     File f1;
-                    File f2;
                     File directory = new File (".");
                     try {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
-                        jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
-                        jeu.removeActor(jeu.findActor("YOLO"));
-                        jeu.removeActor(back);
-                        jeu.removeActor(scrollPane);
-                        jeu.removeActor(table);
+                        map.suppActor();
+                        jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
+                        game.choixMapSoloJ.removeActor(map);
+                        game.choixMapSoloJ.removeActor(back);
+                        game.choixMapSoloJ.removeActor(scrollPane);
+                        game.choixMapSoloJ.removeActor(table);
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
 
@@ -132,10 +128,11 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.removeActor(back);
-                jeu.removeActor(scrollPane);
-                jeu.removeActor(table);
-                jeu.removeActor(jeu.findActor("YOLO"));
+                game.choixMapSoloJ.removeActor(back);
+                game.choixMapSoloJ.removeActor(scrollPane);
+                game.choixMapSoloJ.removeActor(table);
+                game.choixMapSoloJ.removeActor(map);
+                jeu.map=null;
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
 
@@ -151,9 +148,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-                    map.setName("YOLO");
                     map.setScale(0.8f);
                     for (int i=0;i<15;i++){
                         for (int j=0;j<13;j++){
@@ -184,9 +180,10 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         table.add(retour);
 
 
-        jeu.addActor(back);
-        jeu.addActor(scrollPane);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(scrollPane);
+        this.addActor(table);
+        this.addActor(jeu);
 
 
     }
@@ -214,6 +211,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
+        jeu.removeActor(map);
 
     }
 
@@ -223,17 +222,17 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 }

@@ -28,16 +28,10 @@ public class ChoixMapMultiE extends Etat implements Screen {
     TextButton retour;
     Table table;
     ScrollPane scrollPane;
-
     Map map;
 
     File f;
 
-    /**
-     * Constructeur de la fenêtre
-     * @param game  La classe principal du jeu
-     * @param jeu   Un jeu contenant les acteurs
-     */
     public ChoixMapMultiE(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -55,6 +49,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -113,9 +109,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         Bomberball.copier(f1,f2);
                         table.removeActor(valider);
                         table.removeActor(retour);
-                        jeu.removeActor(back);
-                        jeu.removeActor(scrollPane);
-                        jeu.removeActor(table);
+                        game.choixMapMultiE.removeActor(back);
+                        game.choixMapMultiE.removeActor(scrollPane);
+                        game.choixMapMultiE.removeActor(table);
                         jeu.setEtat(game.editeurNMulti);
                         game.setScreen(game.editeurNMulti);
 
@@ -131,9 +127,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 table.removeActor(valider);
                 table.removeActor(retour);
-                jeu.removeActor(back);
-                jeu.removeActor(scrollPane);
-                jeu.removeActor(table);
+                game.choixMapMultiE.removeActor(back);
+                game.choixMapMultiE.removeActor(scrollPane);
+                game.choixMapMultiE.removeActor(table);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
@@ -164,11 +160,13 @@ public class ChoixMapMultiE extends Etat implements Screen {
         table.add(retour);
 
 
-        jeu.addActor(back);
-        jeu.addActor(scrollPane);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(scrollPane);
+        this.addActor(table);
+        this.addActor(jeu);
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -192,7 +190,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
     @Override
     public void hide() {
-
+    Bomberball.stg.clear();
+    jeu.removeActor(map);
     }
 
     @Override
@@ -201,20 +200,17 @@ public class ChoixMapMultiE extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
-
-
-
 }

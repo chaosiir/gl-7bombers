@@ -35,18 +35,17 @@ public class MenuPrincipalBis extends Etat implements Screen {
     Bomberball game; // Note it's "MyGame" not "Game"
 
 
-    /**
-     * Constructeur de la classe MenuPrincipalBis
-     * @param game
-     * @param jeu
-     */
-    public MenuPrincipalBis(Bomberball game,Jeu jeu){
-        super(jeu);
-        this.game = game;
-    }
+
+
+        // constructor to keep a reference to the main Game class
+        public MenuPrincipalBis(Bomberball game,Jeu jeu){
+            super(jeu);
+            this.game = game;
+
+        }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 
@@ -70,7 +69,8 @@ public class MenuPrincipalBis extends Etat implements Screen {
      */
         @Override
         public void show() {
-
+            Bomberball.stg.addActor(this);
+            Bomberball.stg.setKeyboardFocus(this);
             // called when this screen is set as the screen with game.setScreen();
             skin=new Skin(Gdx.files.internal("uiskin.json"));
             back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -91,8 +91,8 @@ public class MenuPrincipalBis extends Etat implements Screen {
             soloButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    jeu.removeActor(back);
-                    jeu.removeActor(table);
+                    game.menuPrincipalBis.removeActor(back);
+                    game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.menuSolo);
                     game.setScreen(game.menuSolo);
                 }
@@ -100,8 +100,8 @@ public class MenuPrincipalBis extends Etat implements Screen {
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    jeu.removeActor(back);
-                    jeu.removeActor(table);
+                    game.menuPrincipalBis.removeActor(back);
+                    game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);
                     game.setScreen(game.choixMenuMultijoueur);
                 }
@@ -109,8 +109,8 @@ public class MenuPrincipalBis extends Etat implements Screen {
             editeurButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    jeu.removeActor(back);
-                    jeu.removeActor(table);
+                    game.menuPrincipalBis.removeActor(back);
+                    game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.choixEditeurN);
                     game.setScreen(game.choixEditeurN);
                 }
@@ -139,8 +139,8 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
             back.setName("Arrière plan: menu principal");
 
-            jeu.addActor(back);
-            jeu.addActor(table);
+            this.addActor(back);
+            this.addActor(table);
 
 
 
@@ -151,6 +151,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
         @Override
         public void hide() {
             // called when current screen changes from this to a different screen
+            Bomberball.stg.clear();
         }
 
 
@@ -170,12 +171,12 @@ public class MenuPrincipalBis extends Etat implements Screen {
         }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return true;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 }

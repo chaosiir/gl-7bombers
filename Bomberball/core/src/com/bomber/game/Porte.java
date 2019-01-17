@@ -7,23 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.io.Serializable;
 
-public class Porte extends Image  {
+public class Porte extends Image {
 
-    /**
-     * Constructeur de la classe Porte
-     */
     public Porte(){
         super(Bomberball.multiTexture[3]);
         setName("Porte");
     }
-
-    /**
-     * Affiche la porte
-     * @param b
-     * @param x abscisse
-     * @param y ordonnée
-     * @param multt
-     */
     public void afficher(Batch b,int x,int y,Texture [] multt){
         Sprite s;
         s=new Sprite(multt[3]);

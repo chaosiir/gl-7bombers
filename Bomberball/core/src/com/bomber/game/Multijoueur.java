@@ -90,11 +90,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     FileWriter fw;
     FileWriter fwr;
 
-    /**
-     * Constructeur de la classe Multijoueur
-     * @param game
-     * @param jeu
-     */
+
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -114,6 +110,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.input.addProcessor(this);
+        jeu.removeActor(jeu.map);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -125,7 +125,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
             jeu.removeActor(jeu.map);
             jeu.map=null;
             if(jeu.recommencer){
-                jeu.map=Map.mapFromString(Bomberball.loadFile(f));
+                jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
                 tour=0;
                 f.delete();
@@ -449,55 +449,51 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
 
 
-        jeu.addActor(back);
-        jeu.addActor(joueur1);
-        jeu.addActor(mouvement1);
-        jeu.addActor(nbmvt1);
-        jeu.addActor(bombe1);
-        jeu.addActor(nbBombe1);
-        jeu.addActor(explosion1);
-        jeu.addActor(porteExplo1);
-        jeu.addActor(pousse1);
-        jeu.addActor(player1);
-        jeu.addActor(joueur2);
-        jeu.addActor(mouvement2);
-        jeu.addActor(nbmvt2);
-        jeu.addActor(bombe2);
-        jeu.addActor(nbBombe2);
-        jeu.addActor(explosion2);
-        jeu.addActor(porteExplo2);
-        jeu.addActor(pousse2);
-        jeu.addActor(player2);
-        jeu.addActor(joueur3);
-        jeu.addActor(mouvement3);
-        jeu.addActor(nbmvt3);
-        jeu.addActor(bombe3);
-        jeu.addActor(nbBombe3);
-        jeu.addActor(explosion3);
-        jeu.addActor(porteExplo3);
-        jeu.addActor(pousse3);
-        jeu.addActor(player3);
-        jeu.addActor(joueur4);
-        jeu.addActor(mouvement4);
-        jeu.addActor(nbmvt4);
-        jeu.addActor(bombe4);
-        jeu.addActor(nbBombe4);
-        jeu.addActor(explosion4);
-        jeu.addActor(porteExplo4);
-        jeu.addActor(pousse4);
-        jeu.addActor(player4);
+        this.addActor(back);
+        this.addActor(joueur1);
+        this.addActor(mouvement1);
+        this.addActor(nbmvt1);
+        this.addActor(bombe1);
+        this.addActor(nbBombe1);
+        this.addActor(explosion1);
+        this.addActor(porteExplo1);
+        this.addActor(pousse1);
+        this.addActor(player1);
+        this.addActor(joueur2);
+        this.addActor(mouvement2);
+        this.addActor(nbmvt2);
+        this.addActor(bombe2);
+        this.addActor(nbBombe2);
+        this.addActor(explosion2);
+        this.addActor(porteExplo2);
+        this.addActor(pousse2);
+        this.addActor(player2);
+        this.addActor(joueur3);
+        this.addActor(mouvement3);
+        this.addActor(nbmvt3);
+        this.addActor(bombe3);
+        this.addActor(nbBombe3);
+        this.addActor(explosion3);
+        this.addActor(porteExplo3);
+        this.addActor(pousse3);
+        this.addActor(player3);
+        this.addActor(joueur4);
+        this.addActor(mouvement4);
+        this.addActor(nbmvt4);
+        this.addActor(bombe4);
+        this.addActor(nbBombe4);
+        this.addActor(explosion4);
+        this.addActor(porteExplo4);
+        this.addActor(pousse4);
+        this.addActor(player4);
         jeu.addActor(jeu.map);
+        this.addActor(jeu);
 
     }
 
 
     @Override
-    /**
-     * Effectue l'action liée à un appui de touche en fonction de la touche appuyée
-     * @param event
-     * @param keycode code de la touche appuyée
-     */
-    public boolean keyDown(InputEvent event, int keycode) {//delpacement = fleche pas encore implementer
+    public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = joueurs[tour];
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {
@@ -507,10 +503,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         b = joueur.deplacerDroite();
                         pm = ((b) ? pm - 1 : pm);
                         switch(tour){
-                            case 0:     jeu.removeActor(nbmvt1);nbmvt1.setText(""+pm);jeu.addActor(nbmvt1);break;
-                            case 1:     jeu.removeActor(nbmvt2);nbmvt2.setText(""+pm);jeu.addActor(nbmvt2);break;
-                            case 2:     jeu.removeActor(nbmvt3);nbmvt3.setText(""+pm);jeu.addActor(nbmvt3);break;
-                            case 3:     jeu.removeActor(nbmvt4);nbmvt4.setText(""+pm);jeu.addActor(nbmvt4);break;
+                            case 0:     this.removeActor(nbmvt1);nbmvt1.setText(""+pm);this.addActor(nbmvt1);break;
+                            case 1:     this.removeActor(nbmvt2);nbmvt2.setText(""+pm);this.addActor(nbmvt2);break;
+                            case 2:     this.removeActor(nbmvt3);nbmvt3.setText(""+pm);this.addActor(nbmvt3);break;
+                            case 3:     this.removeActor(nbmvt4);nbmvt4.setText(""+pm);this.addActor(nbmvt4);break;
                         }
                     }
                 }
@@ -520,10 +516,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         b = joueur.deplacerGauche();
                         pm = ((b) ? pm - 1 : pm);
                         switch(tour){
-                            case 0:     jeu.removeActor(nbmvt1);nbmvt1.setText(""+pm);jeu.addActor(nbmvt1);break;
-                            case 1:     jeu.removeActor(nbmvt2);nbmvt2.setText(""+pm);jeu.addActor(nbmvt2);break;
-                            case 2:     jeu.removeActor(nbmvt3);nbmvt3.setText(""+pm);jeu.addActor(nbmvt3);break;
-                            case 3:     jeu.removeActor(nbmvt4);nbmvt4.setText(""+pm);jeu.addActor(nbmvt4);break;
+                            case 0:     this.removeActor(nbmvt1);nbmvt1.setText(""+pm);this.addActor(nbmvt1);break;
+                            case 1:     this.removeActor(nbmvt2);nbmvt2.setText(""+pm);this.addActor(nbmvt2);break;
+                            case 2:     this.removeActor(nbmvt3);nbmvt3.setText(""+pm);this.addActor(nbmvt3);break;
+                            case 3:     this.removeActor(nbmvt4);nbmvt4.setText(""+pm);this.addActor(nbmvt4);break;
                         }
                     }
                 }
@@ -532,10 +528,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         b = joueur.deplacerBas();
                         pm = ((b) ? pm - 1 : pm);
                         switch(tour){
-                            case 0:     jeu.removeActor(nbmvt1);nbmvt1.setText(""+pm);jeu.addActor(nbmvt1);break;
-                            case 1:     jeu.removeActor(nbmvt2);nbmvt2.setText(""+pm);jeu.addActor(nbmvt2);break;
-                            case 2:     jeu.removeActor(nbmvt3);nbmvt3.setText(""+pm);jeu.addActor(nbmvt3);break;
-                            case 3:     jeu.removeActor(nbmvt4);nbmvt4.setText(""+pm);jeu.addActor(nbmvt4);break;
+                            case 0:     this.removeActor(nbmvt1);nbmvt1.setText(""+pm);this.addActor(nbmvt1);break;
+                            case 1:     this.removeActor(nbmvt2);nbmvt2.setText(""+pm);this.addActor(nbmvt2);break;
+                            case 2:     this.removeActor(nbmvt3);nbmvt3.setText(""+pm);this.addActor(nbmvt3);break;
+                            case 3:     this.removeActor(nbmvt4);nbmvt4.setText(""+pm);this.addActor(nbmvt4);break;
                         }
                     }
                 }
@@ -544,10 +540,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         b = joueur.deplacerHaut();
                         pm = ((b) ? pm - 1 : pm);
                         switch(tour){
-                            case 0:     jeu.removeActor(nbmvt1);nbmvt1.setText(""+pm);jeu.addActor(nbmvt1);break;
-                            case 1:     jeu.removeActor(nbmvt2);nbmvt2.setText(""+pm);jeu.addActor(nbmvt2);break;
-                            case 2:     jeu.removeActor(nbmvt3);nbmvt3.setText(""+pm);jeu.addActor(nbmvt3);break;
-                            case 3:     jeu.removeActor(nbmvt4);nbmvt4.setText(""+pm);jeu.addActor(nbmvt4);break;
+                            case 0:     this.removeActor(nbmvt1);nbmvt1.setText(""+pm);this.addActor(nbmvt1);break;
+                            case 1:     this.removeActor(nbmvt2);nbmvt2.setText(""+pm);this.addActor(nbmvt2);break;
+                            case 2:     this.removeActor(nbmvt3);nbmvt3.setText(""+pm);this.addActor(nbmvt3);break;
+                            case 3:     this.removeActor(nbmvt4);nbmvt4.setText(""+pm);this.addActor(nbmvt4);break;
                         }
                     }
                 }
@@ -672,10 +668,10 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
                         }
                         switch(tour){
-                            case 0:     jeu.removeActor(nbmvt1);nbmvt1.setText(""+pm);jeu.addActor(nbmvt1);porteExplo1.setText(""+joueurs[tour].getTaille());break;
-                            case 1:     jeu.removeActor(nbmvt2);nbmvt2.setText(""+pm);jeu.addActor(nbmvt2);porteExplo2.setText(""+joueurs[tour].getTaille());break;
-                            case 2:     jeu.removeActor(nbmvt3);nbmvt3.setText(""+pm);jeu.addActor(nbmvt3);porteExplo3.setText(""+joueurs[tour].getTaille());break;
-                            case 3:     jeu.removeActor(nbmvt4);nbmvt4.setText(""+pm);jeu.addActor(nbmvt4);porteExplo4.setText(""+joueurs[tour].getTaille());break;
+                            case 0:     this.removeActor(nbmvt1);nbmvt1.setText(""+pm);this.addActor(nbmvt1);porteExplo1.setText(""+joueurs[tour].getTaille());break;
+                            case 1:     this.removeActor(nbmvt2);nbmvt2.setText(""+pm);this.addActor(nbmvt2);porteExplo2.setText(""+joueurs[tour].getTaille());break;
+                            case 2:     this.removeActor(nbmvt3);nbmvt3.setText(""+pm);this.addActor(nbmvt3);porteExplo3.setText(""+joueurs[tour].getTaille());break;
+                            case 3:     this.removeActor(nbmvt4);nbmvt4.setText(""+pm);this.addActor(nbmvt4);porteExplo4.setText(""+joueurs[tour].getTaille());break;
                         }
                     }
 
@@ -709,13 +705,13 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         return true;
     }
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {//test de fonction clic
+    public boolean touchDown(int x, int y, int pointer, int button) {//test de fonction clic
 
         return true;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved( int x, int y) {
         return false;
     }
 
@@ -744,6 +740,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
     @Override
     public void hide() {
+    Bomberball.stg.clear();
+    jeu.removeActor(jeu.map);
+    Bomberball.input.removeProcessor(this);
 
     }
 

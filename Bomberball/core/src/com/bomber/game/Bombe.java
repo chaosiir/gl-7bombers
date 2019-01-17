@@ -5,13 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.io.Serializable;
 
-public class Bombe extends Image  {
+public class Bombe extends Image {
     int taille; //taille de l'explosion
     Case c;
-    /**
-     * Constructeur de la classe Bombe
-     * @return une bombe de portée taille sur la case c
-     */
+
     public Bombe(int taille, Case c) {
         super(Bomberball.multiTexture[5]);
         this.taille = taille;
@@ -21,41 +18,25 @@ public class Bombe extends Image  {
         this.c = c;
     }
 
-    /**
-     * Accesseur de la taille de la bombe
-     * @return la taille
-     */
     public int getTaille() {
         return taille;
     }
 
-    /**
-     * Modificateureur de la taille de la bombe
-     */
     public void setTaille(int taille) {
         this.taille = taille;
     }
 
 
-    /**
-     * Accesseur de la case de la bombe
-     * @return la case
-     */
+
     public Case getC() {
         return c;
     }
 
-    /**
-     * Modificateureur de la case de la bombe
-     */
     public void setC(Case c) {
         this.c = c;
     }
 
-    /**
-     * Informe la case de la bombe qu'une explosion y prend sa source
-     * Supprime la bombe une fois que l'explosion a eu lieu
-     */
+
     public void explosion(){
         this.c.explosionHaute(taille);
         this.c.explosionBasse(taille);

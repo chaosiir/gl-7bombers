@@ -1,20 +1,12 @@
 package com.bomber.game;
 
-public class BonusBombe extends Bonus {
+import java.io.Serializable;
 
-    /**
-     * Constructeur de la classe BonusBombe
-     * @param C
-     * @return un bonus de bombe ur la case C
-     */
+public class BonusBombe extends Bonus {
     public BonusBombe(Case C) {
         super(C,Bomberball.multiTexture[6]);
     }
-
     @Override
-    /**
-     * Permet au personnage sur la case de récupérer le bonus de bombe
-     */
     public void action(){
         c.getPersonnage().setNbBombe(c.getPersonnage().getNbBombe()+1);
         c.suppBonus();

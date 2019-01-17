@@ -31,13 +31,10 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     Map map;
 
+
     File f;
 
-    /**
-     * Constructeur de la fenêtre
-     * @param game  La classe principal du jeu
-     * @param jeu   Un jeu contenant les acteurs
-     */
+
     public ChoixMapSoloE(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -55,6 +52,8 @@ public class ChoixMapSoloE extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -111,9 +110,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
                         Bomberball.copier(f1,f2);
-                        jeu.removeActor(back);
-                        jeu.removeActor(scrollPane);
-                        jeu.removeActor(table);
+                        game.choixMapSoloE.removeActor(back);
+                        game.choixMapSoloE.removeActor(scrollPane);
+                        game.choixMapSoloE.removeActor(table);
                         jeu.setEtat(game.editeurNSolo);
                         game.setScreen(game.editeurNSolo);
 
@@ -127,9 +126,9 @@ public class ChoixMapSoloE extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.removeActor(back);
-                jeu.removeActor(scrollPane);
-                jeu.removeActor(table);
+                game.choixMapSoloE.removeActor(back);
+                game.choixMapSoloE.removeActor(scrollPane);
+                game.choixMapSoloE.removeActor(table);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -170,9 +169,10 @@ public class ChoixMapSoloE extends Etat implements Screen {
         table.add(retour);
 
 
-        jeu.addActor(back);
-        jeu.addActor(scrollPane);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(scrollPane);
+        this.addActor(table);
+        this.addActor(jeu);
 
 
 
@@ -180,7 +180,6 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     @Override
     public void render(float delta) {
-
 
     }
 
@@ -201,6 +200,8 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
+        jeu.removeActor(map);
 
     }
 
@@ -210,17 +211,17 @@ public class ChoixMapSoloE extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

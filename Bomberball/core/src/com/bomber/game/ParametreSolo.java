@@ -27,6 +27,7 @@ public class ParametreSolo extends Etat implements Screen {
     private Label nbBombe;
     private Label porteeBombe;
     private Label nbDeplaEnnemis;
+    private Label nbDeplaJoueur
 
     private TextButton retour;
     private TextButton facile;
@@ -36,16 +37,25 @@ public class ParametreSolo extends Etat implements Screen {
     private TextField nbBonusT;
     private TextField nbEnnemisT;
     private TextField porteeBombeT;
+    private Textfield nbDepla;
     private TextField nbDeplaEnnemisT;
+    private Textfield nbDeplaJoueurT;
     private TextField nbBombeT;
 
 
-    /**
-     * Constructeur de la classe ParametreSolo
-     * @param game
-     * @param jeu
-     */
-    public ParametreSolo(Bomberball game,Jeu jeu){
+    public Textfield getNbBombeT() {
+        return nbBombeT;
+    }
+
+    public TextField getPorteeBombeT() {
+        return porteeBombeT;
+    }
+
+    public Textfield getNbDeplaJoueurT() {
+        return nbDeplaJoueurT;
+    }
+
+    public ParametreSolo(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
     }
@@ -55,6 +65,8 @@ public class ParametreSolo extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -65,6 +77,7 @@ public class ParametreSolo extends Etat implements Screen {
         nbEnnemis= new Label("Nombre d'ennemis :",skin);
         porteeBombe= new Label("Portee d'une bombe :",skin);
         nbDeplaEnnemis = new Label("Nombre de deplacement des ennemis :",skin);
+        nbDeplaJoueur = new Label("Nombre de deplacement du joueur :",skin);
         nbBombe= new Label("Nombre de Bombes :", skin);
 
         retour= new TextButton("Retour",skin);
@@ -77,6 +90,7 @@ public class ParametreSolo extends Etat implements Screen {
         porteeBombeT = new TextField("2",skin);
         nbDeplaEnnemisT = new TextField("3",skin);
         nbBombeT= new TextField("1",skin);
+        nbDeplaJoueurT = new Textfield("6",skin)
 
 
 
@@ -152,12 +166,15 @@ public class ParametreSolo extends Etat implements Screen {
         table.add(nbDeplaEnnemis).padBottom(30);
         table.add(nbDeplaEnnemisT);
         table.row();
+        table.add(nbDeplaJoueur).padBottom(30);
+        table.add(nbDeplaJoueurT);
+        table.row()
         table.add(retour).padBottom(30);
 
         back.setName("Arrière plan: parametre solo");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
         retour.addListener(new ClickListener(){
             @Override
@@ -169,7 +186,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 
@@ -195,6 +212,7 @@ public class ParametreSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -204,12 +222,12 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 }
