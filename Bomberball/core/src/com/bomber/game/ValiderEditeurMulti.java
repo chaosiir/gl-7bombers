@@ -104,7 +104,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
                     }
                     f.renameTo(fi);
 
-                    jeu.map.suppActor();
+
                     jeu.removeActor(jeu.map);
                     jeu.map=null;
                     game.validerEditeurMulti.removeActor(jeu);
@@ -119,7 +119,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.validerEditeurMulti.removeActor(jeu);
@@ -134,7 +134,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.validerEditeurMulti.removeActor(jeu);

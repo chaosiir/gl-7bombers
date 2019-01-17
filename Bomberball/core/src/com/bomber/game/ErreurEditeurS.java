@@ -64,7 +64,7 @@ public class ErreurEditeurS extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.erreurEditeurS.removeActor(jeu);

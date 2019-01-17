@@ -24,6 +24,7 @@ public class Defaite extends Etat implements Screen {
     TextButton rejouer;
     String txt;
     File frecommencer;
+    File f;
 
 
     public Defaite(Bomberball game, Jeu jeu, String st) {
@@ -33,6 +34,7 @@ public class Defaite extends Etat implements Screen {
 
         File directory = new File (".");
         try {
+            f=new File(directory.getCanonicalPath()+"/SaveTempo/tmp.txt");
             frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
         } catch (IOException e) {
@@ -70,10 +72,10 @@ public class Defaite extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                game.defaite.removeActor(jeu.findActor("Map"));
                 frecommencer.delete();
+                f.delete();
 
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.defaite.removeActor(jeu);
@@ -91,7 +93,7 @@ public class Defaite extends Etat implements Screen {
                 game.defaite.removeActor(jeu.findActor("Map"));
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(frecommencer));
 
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 game.defaite.removeActor(jeu);
 

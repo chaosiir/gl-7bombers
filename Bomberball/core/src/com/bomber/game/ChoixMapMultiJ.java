@@ -111,7 +111,6 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                         game.choixMapMultiJ.removeActor(back);
                         game.choixMapMultiJ.removeActor(scrollPane);
                         game.choixMapMultiJ.removeActor(table);
-                        map.suppActor();
                         jeu.removeActor(map);
                         map=null;
                         game.choixMapMultiJ.removeActor(jeu);

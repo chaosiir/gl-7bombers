@@ -104,7 +104,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    jeu.map.suppActor();
+
                     jeu.removeActor(jeu.map);
                     jeu.map=null;
                     game.validerEditeurSolo.removeActor(jeu);
@@ -121,7 +121,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.validerEditeurSolo.removeActor(jeu);
@@ -135,7 +135,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         abandonner.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.validerEditeurSolo.removeActor(jeu);

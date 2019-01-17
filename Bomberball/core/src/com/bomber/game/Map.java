@@ -206,13 +206,13 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 case 0:
                     caseDes[a].setBonus(new BonusBombe(caseDes[a]));
                     break;
-                case 1:
+                case 2:
                     caseDes[a].setBonus(new BonusExplo(caseDes[a]));
                     break;
-                case 2:
+                case 3:
                     caseDes[a].setBonus(new BonusMove(caseDes[a]));
                     break;
-                case 3:
+                case 1:
                     caseDes[a].setBonus(new BonusPousser(caseDes[a]));
                     break;
 
@@ -1360,16 +1360,10 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         s = s + " 1010\n";
                     } else if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiActif) {
                         s = s + "4 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm() + "\n";
-                        for (Case cas : this.getGrille()[i][j].getEnnemi().getProchain_deplacement()) {
-                            s = s + " " + cas.posX() + " " + cas.posY();
-                        }
-                        s = s + " 1010\n";
+
                     } else if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif) {
                         s = s + "5 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPortee() + " " + this.getGrille()[i][j].getEnnemi().isAgro() + "\n";
-                        for (Case cas : this.getGrille()[i][j].getEnnemi().getProchain_deplacement()) {
-                            s = s + " " + cas.posX() + " " + cas.posY();
-                        }
-                        s = s + " 1010\n";
+
                     }
                 }
             }
@@ -1607,16 +1601,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         s = s + " 1010\n";
                     } else if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiActif) {
                         s = s + "4 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm() + "\n";
-                        for (Case cas : this.getGrille()[i][j].getEnnemi().getProchain_deplacement()) {
-                            s = s + " " + cas.posX() + " " + cas.posY();
-                        }
-                        s = s + " 1010\n";
+
                     } else if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif) {
                         s = s + "5 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPortee() + " " + this.getGrille()[i][j].getEnnemi().isAgro() + "\n";
-                        for (Case cas : this.getGrille()[i][j].getEnnemi().getProchain_deplacement()) {
-                            s = s + " " + cas.posX() + " " + cas.posY();
-                        }
-                        s = s + " 1010\n";
                     }
                 }
             }

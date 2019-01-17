@@ -92,6 +92,14 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             if(jeu.recommencer){
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
+                for (int i=0;i<15;i++){
+                    for(int j=0;j<13;j++){
+                        if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
+                            pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
+                            nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
+                        }
+                    }
+                }
                 f.delete();
                 try {
                     fwr = new FileWriter(frecommencer);
@@ -131,6 +139,14 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+            for (int i=0;i<15;i++){
+                for(int j=0;j<13;j++){
+                    if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
+                        pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
+                        nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
+                    }
                 }
             }
 

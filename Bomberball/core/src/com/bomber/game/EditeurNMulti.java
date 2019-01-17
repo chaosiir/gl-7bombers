@@ -218,7 +218,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 }
                 if (cptPerso!=4 || !different){
 
-                    jeu.map.suppActor();
+
                     jeu.removeActor(jeu.map);
                     jeu.map=null;
                     game.editeurNMulti.removeActor(jeu);
@@ -229,7 +229,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 else{
 
 
-                    jeu.map.suppActor();
+
                     jeu.removeActor(jeu.map);
                     jeu.map=null;
                     game.editeurNMulti.removeActor(jeu);
@@ -243,7 +243,7 @@ public class EditeurNMulti extends Etat implements Screen {
         charger.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.editeurNMulti.removeActor(jeu);

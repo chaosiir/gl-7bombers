@@ -117,7 +117,7 @@ public class MenuPause extends Etat implements Screen {
         reprendreButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.menuPause.removeActor(jeu);
@@ -143,6 +143,10 @@ public class MenuPause extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 f.delete();
                 source.delete();
+
+                jeu.porteeBombe=-1;
+                jeu.nbDeplaP=-1;
+                jeu.nbBombe=-1;
 
                 jeu.removeActor(jeu.map);
                 game.menuPause.removeActor(jeu);

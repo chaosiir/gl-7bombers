@@ -112,7 +112,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         game.choixMapMultiE.removeActor(back);
                         game.choixMapMultiE.removeActor(scrollPane);
                         game.choixMapMultiE.removeActor(table);
-                        map.suppActor();
+
                         jeu.removeActor(map);
                         map=null;
                         game.choixMapMultiE.removeActor(jeu);
@@ -135,7 +135,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 game.choixMapMultiE.removeActor(back);
                 game.choixMapMultiE.removeActor(scrollPane);
                 game.choixMapMultiE.removeActor(table);
-                map.suppActor();
+
                 jeu.removeActor(map);
                 map=null;
                 game.choixMapMultiE.removeActor(jeu);

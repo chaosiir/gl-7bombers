@@ -550,7 +550,6 @@ public class EditeurNSolo extends Etat implements Screen {
                     }
                     else if(en instanceof EnnemiActif || en instanceof EnnemiActifAggressif){
                         en.miseAjour();
-                        //System.out.println(en.prochain_deplacement.size());
                         LinkedList<Case> caca = en.getProchain_deplacement();
                         for (Case cas : caca) {
                             int xc = cas.posX();
@@ -1025,7 +1024,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
+            /*else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
                 Case c = (Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
                     c.getEnnemi().prochain_deplacement.clear();
@@ -1079,7 +1078,7 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                     }
                 }
-            }
+            }*/
 
             }else if(hitActor.getParent() instanceof Case){
                 Case c = (Case) hitActor.getParent();
@@ -1088,6 +1087,20 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    if(!cache){
+                        if(c.getEnnemi()!=null){
+                            if(c.getEnnemi() instanceof EnnemiPassif || c.getEnnemi() instanceof EnnemiPassifAgressif){
+                                for(Case cas: c.getEnnemi().getChemin()){
+                                    cas.getBackground().setColor(255,255,255,1);
+                                }
+                            }
+                            else if(c.getEnnemi() instanceof EnnemiActif || c.getEnnemi() instanceof EnnemiActifAggressif){
+                                for (Case cas: c.getEnnemi().getProchain_deplacement()){
+                                    cas.getBackground().setColor(255,255,255,1);
+                                }
+                            }
+                        }
+                    }
                     c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -1135,10 +1148,6 @@ public class EditeurNSolo extends Etat implements Screen {
                             c.setEnnemi(null);
                             EnnemiActif ea=new EnnemiActif(true,c,5);
                             c.setEnnemi(ea);
-                        }
-                        else if(selectionne.getName().equals("Epa")){
-                            c.setEnnemi(null);
-                            c.setEnnemi(new EnnemiPassifAgressif(true,c,5,5,false));
                         }
                         else if(selectionne.getName().equals("Eaa")){
                             c.setEnnemi(null);
