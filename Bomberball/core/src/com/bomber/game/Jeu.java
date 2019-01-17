@@ -44,7 +44,6 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
                         Gdx.app.exit();//si c'est escape on quitte le jeu
                     return true;
                 }
-                System.out.println(etat.toString());
                 return etat.keyDown( event, keycode);//sinon on l'envoi à l'etat
             }
 
