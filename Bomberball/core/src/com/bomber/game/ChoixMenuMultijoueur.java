@@ -8,12 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ChoixMenuMultijoueur
+ * Elle affiche les paramètres que le joueur peut choisir pour lancer une partie multijoueur et le moyen de lancer cette partie
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMenuMultijoueur extends Etat implements Screen {
-    @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
-    }
+
 
     Bomberball game;
     private Skin skin;
@@ -39,8 +41,13 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -65,6 +72,11 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         lancerP.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.choixMenuMultijoueur.removeActor(back);
+                game.choixMenuMultijoueur.removeActor(table);
+
+                game.choixMenuMultijoueur.removeActor(jeu);
+
                 jeu.setEtat(game.multijoueur);
                 game.setScreen(game.multijoueur);
             }
@@ -74,8 +86,32 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                game.choixMenuMultijoueur.removeActor(jeu.findActor("Map"));
+                game.choixMenuMultijoueur.removeActor(back);
+                game.choixMenuMultijoueur.removeActor(table);
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.choixMenuMultijoueur.removeActor(jeu);
+
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
+            }
+        });
+
+        choixmap.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.choixMenuMultijoueur.removeActor(back);
+                game.choixMenuMultijoueur.removeActor(table);
+
+
+                jeu.removeActor(jeu.map);
+                game.choixMenuMultijoueur.removeActor(jeu);
+
+                jeu.setEtat(game.choixMapMultiJ);
+                game.setScreen(game.choixMapMultiJ);
             }
         });
 
@@ -104,8 +140,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
         back.setName("Arrière plan: menu multijoueur principal");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
 
     }
@@ -132,6 +168,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -141,12 +178,16 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        return false;
+    }
+    @Override
+    public boolean mouseMoved( int x, int y) {
         return false;
     }
 }

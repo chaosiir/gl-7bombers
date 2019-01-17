@@ -2,6 +2,7 @@ package com.bomber.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -11,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapSoloJ
+ * Elle affiche des maps solo que le joueur a déjà créé et sur lesquelles il veut jouer
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapSoloJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -43,8 +49,13 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         super(jeu);
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -95,12 +106,19 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 int i=list.getSelectedIndex();
                 if (i!=-1){
                     File f1;
-                    File f2;
                     File directory = new File (".");
                     try {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
-                        jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
-                        jeu.removeActor(jeu.findActor("YOLO"));
+                        map.suppActor();
+                        jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
+                        game.choixMapSoloJ.removeActor(map);
+                        game.choixMapSoloJ.removeActor(back);
+                        game.choixMapSoloJ.removeActor(scrollPane);
+                        game.choixMapSoloJ.removeActor(table);
+                        map.suppActor();
+                        jeu.removeActor(map);
+                        map=null;
+                        game.choixMapSoloJ.removeActor(jeu);
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
 
@@ -114,9 +132,17 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.choixMapSoloJ.removeActor(back);
+                game.choixMapSoloJ.removeActor(scrollPane);
+                game.choixMapSoloJ.removeActor(table);
+                if(map!=null){
+                    map.suppActor();
+                }
+                game.choixMapSoloJ.removeActor(map);
+                map=null;
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
-                jeu.removeActor(jeu.findActor("YOLO"));
+
             }
         });
 
@@ -129,10 +155,25 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-                    map.setName("YOLO");
                     map.setScale(0.8f);
+                    for (int i=0;i<15;i++){
+                        for (int j=0;j<13;j++){
+                            if(map.getGrille()[i][j].getBonus()!=null){
+
+
+                                Bonus b=map.getGrille()[i][j].getBonus();
+                                map.getGrille()[i][j].setBonus(null);
+                                map.getGrille()[i][j].setBonus(b);
+                                map.getGrille()[i][j].getBonus().setScale(0.5f);
+                            }
+                            if(map.getGrille()[i][j].getPersonnage()!=null){
+                                Personnage personnage=map.getGrille()[i][j].getPersonnage();
+                                map.getGrille()[i][j].setPersonnage(personnage);
+                            }
+                        }
+                    }
                     jeu.addActor(map);
 
                 } catch (IOException e) {
@@ -146,15 +187,17 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         table.add(retour);
 
 
-        jeu.addActor(back);
-        jeu.addActor(scrollPane);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(scrollPane);
+        this.addActor(table);
+        this.addActor(jeu);
 
 
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
     }
 
@@ -175,6 +218,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
+        jeu.removeActor(map);
 
     }
 
@@ -184,17 +229,17 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 }

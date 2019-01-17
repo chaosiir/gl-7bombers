@@ -1,5 +1,7 @@
 package com.bomber.game;
 
+import java.io.Serializable;
+
 public class BonusExplo extends Bonus {
     public BonusExplo(Case C) {
         super(C,Bomberball.multiTexture[8]);

@@ -1,17 +1,30 @@
 package com.bomber.game;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class EnnemiActif extends Ennemis {
+
+    public EnnemiActif(boolean vivant, Case c, int pm) {
+        super(Bomberball.multiTexture[16], vivant, c, pm);
+        setAnimationdroite();
+
+    }
 
 
     /* fonction renvoyant la liste des cases non occupées par un mur ou un autre ennemi autour de la case donnée*/
     public LinkedList<Case> voisinAccessibles(Case caseC) {
         Map m = caseC.getMap();
         Case[][] grille = m.getGrille();
+
         int a = caseC.posX();
         int b = caseC.posY();
+        //System.out.println(a + " " + b);
         LinkedList<Case> voisin = new LinkedList<Case>();
 
         if (caseLibre(grille[a - 1][b])) {
@@ -40,7 +53,7 @@ public class EnnemiActif extends Ennemis {
         LinkedList<Case> visites = new LinkedList<Case>();
         visites.add(cChemin);
 
-        return cheminMaxAux(visites, pmMax, pmMax - 1);
+        return cheminMaxAux(visites, pmMax, pmMax);
     }
 
 
@@ -61,7 +74,7 @@ public class EnnemiActif extends Ennemis {
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    if (visites.size() == (pmMax - pmRestants)) {
+                    if (visites.size() == (pmMax - pmRestants+1)) {
                         visites.add(a);
                     } else {
                         visites.set(pmMax - pmRestants, a);
@@ -76,11 +89,77 @@ public class EnnemiActif extends Ennemis {
         }
     }
 
+    @Override
+    public void setAnimationgauche() {
+        this.removeAction(animation);
+        animation = new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + (int) (time * 6) % 4 + "inv"))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
+
+    public void setAnimationdefaite() {
+        this.removeAction(animation);
+        animation = new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int) (time * 5) % 2) == 0) ? "" : "inv")))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
+
+    @Override
+    public int getPortee() {
+        return 0;
+    }
+
+    @Override
+    public LinkedList<Case> getChemin() {
+        return null;
+    }
+
+    @Override
+    public void setAnimationdroite() {
+        this.removeAction(animation);
+        animation = new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + (int) (time * 6) % 4))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+
+    }
+
     public void miseAjour() {
         int i = 0;
         Case suivante;
         LinkedList<Case> cheminProvisoire = cheminMax(pm, c);
-        if (cheminProvisoire != null) {
+        System.out.println(cheminProvisoire.size());
+
+        if (!cheminProvisoire.isEmpty()) {
             suivante = cheminProvisoire.get(0);
             while (i < pm && caseLibre(suivante)) {
                 prochain_deplacement.add(suivante);
@@ -91,4 +170,10 @@ public class EnnemiActif extends Ennemis {
             prochain_deplacement = new LinkedList<Case>();
         }
     }
+
+    @Override
+    public boolean isAgro() {
+        return false;
+    }
+
 }

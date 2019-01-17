@@ -7,14 +7,14 @@ import java.io.Serializable;
 
 public class Bonus extends Image  {
     Case c;
-
     public Bonus(Case C){
             c=C;
     }
     protected Bonus(Case C,Texture t){
         super(t);
         this.setName("bonus");
-        this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        this.setBounds(Bomberball.taillecase/4,Bomberball.taillecase/4,Bomberball.taillecase,Bomberball.taillecase);
+        this.setScale(0.5f);
         c=C;
     }
 
