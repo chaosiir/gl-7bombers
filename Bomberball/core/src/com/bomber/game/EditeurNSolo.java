@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -378,24 +379,53 @@ public class EditeurNSolo extends Etat implements Screen {
 
     @Override
     public boolean keyDown( int keycode) {
+
         if(Input.Keys.A==keycode){
             for (int i =1;i<map.getGrille().length-1;i++) {
                 for (int j = 1; j < map.getGrille()[1].length-1; j++) {
                     if (map.getGrille()[i][j].getEnnemi() != null) {
                         map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
-                        }
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j])){
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i-1][j])) {
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i - 1][j]);
                             map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i - 1][j]);
                         }
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
-                        }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
+
                     }
                 }
             }
+            this.addAction(new Action() {
+                int i=1;
+                int j=0;
+                @Override
+                public boolean act(float delta) {
+                    if(target.getActions().size==1) {
+                        j++;
+                        if (j > map.getGrille()[1].length - 1) {
+                            i++;
+                            j = 1;
+                        }
+                        if (i > map.getGrille().length - 1) {
+                            return true;
+                        }
+                        if (map.getGrille()[i][j].getEnnemi() != null) {
+                            map.getGrille()[i][j].getEnnemi().deplacer();
+                            target.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    return time > 1.5f;
+                                }
+                            });
+                        }
+                    }
+
+
+                    return false;
+                }
+            });
         }
         if(Input.Keys.D==keycode){
             for (int i =1;i<map.getGrille().length-1;i++) {
@@ -404,11 +434,47 @@ public class EditeurNSolo extends Etat implements Screen {
                         map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
                         if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
                             map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+2][j]);
                         }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
+
                     }
                 }
             }
+            this.addAction(new Action() {
+                int i=1;
+                int j=0;
+                @Override
+                public boolean act(float delta) {
+                    if(target.getActions().size==1) {
+                        j++;
+                        if (j > map.getGrille()[1].length - 1) {
+                            i++;
+                            j = 1;
+                        }
+                        if (i > map.getGrille().length - 1) {
+                            return true;
+                        }
+                        if (map.getGrille()[i][j].getEnnemi() != null) {
+                            map.getGrille()[i][j].getEnnemi().deplacer();
+                            target.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    return time > 1.5f;
+                                }
+                            });
+                        }
+                    }
+
+
+                    return false;
+                }
+            });
+
         }
         if(Input.Keys.W==keycode){
             for (int i =1;i<map.getGrille().length-1;i++) {
@@ -417,24 +483,92 @@ public class EditeurNSolo extends Etat implements Screen {
                         map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
                         if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
                             map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
                         }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
                     }
                 }
             }
+            this.addAction(new Action() {
+                int i=1;
+                int j=0;
+                @Override
+                public boolean act(float delta) {
+                    if(target.getActions().size==1) {
+                        j++;
+                        if (j > map.getGrille()[1].length - 1) {
+                            i++;
+                            j = 1;
+                        }
+                        if (i > map.getGrille().length - 1) {
+                            return true;
+                        }
+                        if (map.getGrille()[i][j].getEnnemi() != null) {
+                            map.getGrille()[i][j].getEnnemi().deplacer();
+                            target.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    return time > 1.5f;
+                                }
+                            });
+                        }
+                    }
+
+
+                    return false;
+                }
+            });
         }
         if(Input.Keys.S==keycode){
             for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
+                for (int j = 1; j < map.getGrille()[1].length - 1; j++) {
                     if (map.getGrille()[i][j].getEnnemi() != null) {
                         map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j-1])){
+                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j - 1])) {
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j - 1]);
+                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
                             map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j-1]);
+
                         }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
                     }
                 }
             }
+            this.addAction(new Action() {
+                int i=1;
+                int j=0;
+                @Override
+                public boolean act(float delta) {
+                    if(target.getActions().size==1) {
+                        j++;
+                        if (j > map.getGrille()[1].length - 1) {
+                            i++;
+                            j = 1;
+                        }
+                        if (i > map.getGrille().length - 1) {
+                            return true;
+                        }
+                        if (map.getGrille()[i][j].getEnnemi() != null) {
+                            map.getGrille()[i][j].getEnnemi().deplacer();
+                            target.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    return time > 1.5f;
+                                }
+                            });
+                        }
+                    }
+
+
+                    return false;
+                }
+            });
+
         }
         if(Input.Keys.E==keycode){
             for (int i =1;i<map.getGrille().length;i++){
@@ -459,6 +593,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
             }
         }
+
         if(Input.Keys.Z==keycode){
             for (int i =1;i<map.getGrille().length;i++){
                 for (int j =1;j<map.getGrille()[1].length;j++){
