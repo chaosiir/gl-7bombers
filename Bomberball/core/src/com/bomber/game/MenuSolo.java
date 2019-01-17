@@ -64,6 +64,9 @@ public class MenuSolo extends Etat implements Screen {
         demarrerpartie.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.jeuSolo);
                 game.setScreen(game.jeuSolo);
             }
@@ -71,6 +74,9 @@ public class MenuSolo extends Etat implements Screen {
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.choixMapSoloJ);
                 game.setScreen(game.choixMapSoloJ);
             }
@@ -79,6 +85,9 @@ public class MenuSolo extends Etat implements Screen {
         parametre.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.parametreSolo);
                 game.setScreen(game.parametreSolo);
             }
@@ -87,6 +96,9 @@ public class MenuSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.map=null;
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
@@ -129,6 +141,8 @@ public class MenuSolo extends Etat implements Screen {
     @Override
     public void hide() {
         Bomberball.stg.clear();
+        jeu.removeActor(jeu.map);
+        Bomberball.input.removeProcessor(this);
 
     }
 

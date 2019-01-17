@@ -67,6 +67,11 @@ public class ChoixEditeurN extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.choixEditeurN.removeActor(back);
                 game.choixEditeurN.removeActor(table);
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.choixEditeurN.removeActor(jeu);
+                Bomberball.input.removeProcessor(game.choixEditeurN);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -76,6 +81,11 @@ public class ChoixEditeurN extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.choixEditeurN.removeActor(back);
                 game.choixEditeurN.removeActor(table);
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.choixEditeurN.removeActor(jeu);
+                Bomberball.input.removeProcessor(game.choixEditeurN);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
@@ -86,6 +96,11 @@ public class ChoixEditeurN extends Etat implements Screen {
                 jeu.setEtat(game.menuPrincipalBis);
                 game.choixEditeurN.removeActor(table);
                 game.choixEditeurN.removeActor(back);
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.choixEditeurN.removeActor(jeu);
+                Bomberball.input.removeProcessor(game.choixEditeurN);
                 game.setScreen(game.menuPrincipalBis);
             }
         });

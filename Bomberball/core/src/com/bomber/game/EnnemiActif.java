@@ -24,7 +24,7 @@ public class EnnemiActif extends Ennemis {
 
         int a = caseC.posX();
         int b = caseC.posY();
-        System.out.println(a + " " + b);
+        //System.out.println(a + " " + b);
         LinkedList<Case> voisin = new LinkedList<Case>();
 
         if (caseLibre(grille[a - 1][b])) {
@@ -53,7 +53,7 @@ public class EnnemiActif extends Ennemis {
         LinkedList<Case> visites = new LinkedList<Case>();
         visites.add(cChemin);
 
-        return cheminMaxAux(visites, pmMax, pmMax - 1);
+        return cheminMaxAux(visites, pmMax, pmMax);
     }
 
 
@@ -68,13 +68,13 @@ public class EnnemiActif extends Ennemis {
         } else {
             LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
 
-            LinkedList<Case> cheminProvisoire;
+            LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
 
 
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    if (visites.size() == (pmMax - pmRestants)) {
+                    if (visites.size() == (pmMax - pmRestants+1)) {
                         visites.add(a);
                     } else {
                         visites.set(pmMax - pmRestants, a);
@@ -157,6 +157,8 @@ public class EnnemiActif extends Ennemis {
         int i = 0;
         Case suivante;
         LinkedList<Case> cheminProvisoire = cheminMax(pm, c);
+        System.out.println(cheminProvisoire.size());
+
         if (!cheminProvisoire.isEmpty()) {
             suivante = cheminProvisoire.get(0);
             while (i < pm && caseLibre(suivante)) {

@@ -47,8 +47,8 @@ public class ErreurEditeurM extends Etat implements Screen {
         back.setName("Je suis ton arrière plan");
 
 
-        explication=new Label("Il doit y avoir 4 joueurs",skin);
-        explication.setBounds(xmax/2-300,ymax/2-explication.getWidth()/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
+        explication=new Label("Il doit y avoir 4 joueurs différents",skin);
+        explication.setBounds(xmax/2-300,ymax/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
         explication.setWrap(true);
 
 
@@ -58,6 +58,10 @@ public class ErreurEditeurM extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map.suppActor();
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.erreurEditeurM.removeActor(jeu);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }

@@ -115,6 +115,10 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                         game.choixMapSoloJ.removeActor(back);
                         game.choixMapSoloJ.removeActor(scrollPane);
                         game.choixMapSoloJ.removeActor(table);
+                        map.suppActor();
+                        jeu.removeActor(map);
+                        map=null;
+                        game.choixMapSoloJ.removeActor(jeu);
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
 
@@ -131,8 +135,11 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 game.choixMapSoloJ.removeActor(back);
                 game.choixMapSoloJ.removeActor(scrollPane);
                 game.choixMapSoloJ.removeActor(table);
+                if(map!=null){
+                    map.suppActor();
+                }
                 game.choixMapSoloJ.removeActor(map);
-                jeu.map=null;
+                map=null;
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
 

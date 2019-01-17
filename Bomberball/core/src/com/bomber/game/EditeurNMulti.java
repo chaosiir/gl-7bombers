@@ -80,7 +80,7 @@ public class EditeurNMulti extends Etat implements Screen {
         Bomberball.input.addProcessor(this);
         if(f.exists()){
             String text=Bomberball.loadFile(f);
-            map=Map.mapFromString(text);
+            map=Map.mapFromStringN(text);
         }
         else{
             map=Map.generatePvp(20,5);
@@ -180,6 +180,11 @@ public class EditeurNMulti extends Etat implements Screen {
                 if(f.exists()){
                     f.delete();
                 }
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.editeurNMulti.removeActor(jeu);
+
+
                 jeu.setEtat(game.choixEditeurN);
                 game.setScreen(game.choixEditeurN);
             }
@@ -190,24 +195,45 @@ public class EditeurNMulti extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     fw = new FileWriter(f);
-                    fw.write(map.mapToText());
+                    fw.write(map.mapToTextN());
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                int tabid[]=new int[4];
                 int cptPerso=0;
                 for(int i=0;i<15;i++){
                     for(int j=0;j<13;j++){
                         if(map.getGrille()[i][j].getPersonnage()!=null){
                             cptPerso++;
+                            tabid[map.getGrille()[i][j].getPersonnage().getId()]=1;
                         }
                     }
                 }
-                if (cptPerso!=4){
+                Boolean different=true;
+                for(int i=0;i<4;i++){
+                    if(tabid[i]==0){
+                       different=false;
+                    }
+                }
+                if (cptPerso!=4 || !different){
+
+                    jeu.map.suppActor();
+                    jeu.removeActor(jeu.map);
+                    jeu.map=null;
+                    game.editeurNMulti.removeActor(jeu);
+
                     jeu.setEtat(game.erreurEditeurM);
                     game.setScreen(game.erreurEditeurM);
                 }
                 else{
+
+
+                    jeu.map.suppActor();
+                    jeu.removeActor(jeu.map);
+                    jeu.map=null;
+                    game.editeurNMulti.removeActor(jeu);
+
                     jeu.setEtat(game.validerEditeurMulti);
                     game.setScreen(game.validerEditeurMulti);
                 }
@@ -217,6 +243,12 @@ public class EditeurNMulti extends Etat implements Screen {
         charger.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map.suppActor();
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.editeurNMulti.removeActor(jeu);
+
+
                 jeu.setEtat(game.choixMapMultiE);
                 game.setScreen(game.choixMapMultiE);
             }

@@ -87,7 +87,6 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
 
         if(f.exists()){
-            jeu.map.suppActor();
             jeu.removeActor(jeu.map);
             jeu.map=null;
             if(jeu.recommencer){
@@ -103,7 +102,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 }
             }
             else{
-                jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+                jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
                 f.delete();
                 pm=jeu.pmtmp1; //Remise à jour des valeurs de pm et du nb de bombes restantes
                 jeu.pmtmp1=-1;
@@ -223,8 +222,13 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map.suppActor();
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
+                bombaaaagh.jeuSolo.removeActor(jeu);
+                Bomberball.input.removeProcessor(bombaaaagh.jeuSolo);
+                frecommencer.delete();
+
 
                 jeu.setEtat(bombaaaagh.menuSolo);
                 bombaaaagh.setScreen(bombaaaagh.menuSolo);
@@ -248,6 +252,14 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         this.addActor(retour);
         jeu.addActor(jeu.map);
         this.addActor(jeu);
+        jeu.pmtmp1=-1;
+        jeu.pmtmp2=-1;
+        jeu.pmtmp3=-1;
+        jeu.pmtmp4=-1;
+        jeu.nbtmp1=-1;
+        jeu.nbtmp2=-1;
+        jeu.nbtmp3=-1;
+        jeu.nbtmp4=-1;
 
 
     }
@@ -335,8 +347,13 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                                 public boolean act(float delta) {
                                     time += delta;
                                     if (time > 4) {
+
+                                        jeu.map.suppActor();
                                         jeu.removeActor(jeu.map);
-                                        jeu.map = null;
+                                        jeu.map=null;
+                                        bombaaaagh.jeuSolo.removeActor(jeu);
+
+
                                         bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
                                         jeu.setEtat(bombaaaagh.defaite);
                                         bombaaaagh.setScreen(bombaaaagh.defaite);
@@ -353,9 +370,13 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                                 public boolean act(float delta) {
                                     time += delta;
                                     if (time > 3) {
-                                        jeu.removeActor(jeu.map);
-                                        jeu.map = null;
+
                                         bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.map.suppActor();
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map=null;
+                                        bombaaaagh.jeuSolo.removeActor(jeu);
+
                                         jeu.setEtat(bombaaaagh.defaite);
                                         bombaaaagh.setScreen(bombaaaagh.defaite);
                                         return true;
@@ -382,20 +403,23 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         if (keycode == Input.Keys.ESCAPE) {
             try {
                 fw = new FileWriter(f);
-                fw.write(jeu.map.mapToTextP());
+                fw.write(jeu.map.mapToTextNP());
                 if(joueur.getC().getBombe()!=null){
-                    fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 19 "+joueur.getId()+" "+pm+" "+nb+" "+joueur.getPm()+" "+joueur.isVivant()+" "+joueur.getTaille()+" "+joueur.getNbBombe()+" "+joueur.isPoussee()+"\n");
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
                 }
                 else{
-                    fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 1212 "+" "+joueur.getId()+" "+pm+" "+nb+" "+joueur.getPm()+" "+joueur.isVivant()+" "+joueur.getTaille()+" "+joueur.getNbBombe()+" "+joueur.isPoussee()+"\n");
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
                 }
-
-                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 9999 "+joueur.getId()+"\n");
+                fw.write("111 "); //Symbole de fin pour la fin de la mise à jour des personnages
+                fw.write(""+joueur.getId());
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            jeu.map.suppActor();
+            jeu.removeActor(jeu.map);
+            jeu.map=null;
+            bombaaaagh.jeuSolo.removeActor(jeu);
             bombaaaagh.menuPause.setEtatAnterieur(this);
             jeu.setEtat(bombaaaagh.menuPause);
             bombaaaagh.setScreen(bombaaaagh.menuPause);

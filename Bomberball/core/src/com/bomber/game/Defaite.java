@@ -69,9 +69,15 @@ public class Defaite extends Etat implements Screen {
         ok.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map = null;
+
                 game.defaite.removeActor(jeu.findActor("Map"));
                 frecommencer.delete();
+
+                jeu.map.suppActor();
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.defaite.removeActor(jeu);
+
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
@@ -82,9 +88,13 @@ public class Defaite extends Etat implements Screen {
         rejouer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map = null;
                 game.defaite.removeActor(jeu.findActor("Map"));
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(frecommencer));
+
+                jeu.map.suppActor();
+                jeu.removeActor(jeu.map);
+                game.defaite.removeActor(jeu);
+
                 jeu.setEtat(game.jeuSolo);
                 game.setScreen(game.jeuSolo);
                 game.jeuSolo.pm=((Personnage)jeu.findActor("Personnage")).getPm();

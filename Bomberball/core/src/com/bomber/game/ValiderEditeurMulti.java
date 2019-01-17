@@ -103,6 +103,12 @@ public class ValiderEditeurMulti extends Etat implements Screen {
                         e.printStackTrace();
                     }
                     f.renameTo(fi);
+
+                    jeu.map.suppActor();
+                    jeu.removeActor(jeu.map);
+                    jeu.map=null;
+                    game.validerEditeurMulti.removeActor(jeu);
+
                     jeu.setEtat(game.menuPrincipalBis);
                     game.setScreen(game.menuPrincipalBis);
                 }
@@ -113,6 +119,12 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map.suppActor();
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.validerEditeurMulti.removeActor(jeu);
+
+
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
@@ -121,6 +133,12 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         abandonner.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                jeu.map.suppActor();
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.validerEditeurMulti.removeActor(jeu);
+
                 f.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);

@@ -121,9 +121,6 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         back.setName("Je suis ton arrière plan");
 
         if(f.exists()){
-            jeu.map.suppActor();
-            jeu.removeActor(jeu.map);
-            jeu.map=null;
             if(jeu.recommencer){
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
@@ -131,17 +128,18 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 f.delete();
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             else{
-                jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+                jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
                 f.delete();
                 switch (tour){
-                    case 0: if(jeu.pmtmp1!=-1){
+                    case 0:
+                        if(jeu.pmtmp1!=-1){
                         pm=jeu.pmtmp1;
                         nbmvt1.setText(""+pm);
                         jeu.pmtmp1=-1;
@@ -155,7 +153,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                             poussee1=new Label("X",skin);
                         }
                         break;
-                    case 1: if(jeu.pmtmp2!=-1){
+                    case 1:
+                        if(jeu.pmtmp2!=-1){
                         pm=jeu.pmtmp2;
                         nbmvt2.setText(""+pm);
                         jeu.pmtmp2=-1;
@@ -169,7 +168,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                             poussee2=new Label("X",skin);
                         }
                         break;
-                    case 2: if(jeu.pmtmp3!=-1){
+                    case 2:
+                        if(jeu.pmtmp3!=-1){
                         pm=jeu.pmtmp3;
                         nbmvt3.setText(""+pm);
                         jeu.pmtmp3=-1;
@@ -183,14 +183,12 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                             poussee3=new Label("X",skin);
                         }
                         break;
-                    case 3: if(jeu.pmtmp4!=-1){
+                    case 3:
+                        if(jeu.pmtmp4!=-1){
                         pm=jeu.pmtmp4;
                         nbmvt4.setText(""+pm);
                         jeu.pmtmp4=-1;
                     }
-
-
-
                         if(jeu.nbtmp4!=-1){
                             nb=jeu.nbtmp4;
                             nbBombe4.setText(""+nb);
@@ -214,7 +212,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 jeu.nbBonus=-1;
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -224,7 +222,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                 jeu.map=Map.generatePvp(65,5);
                 try {
                     fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToText());
+                    fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -234,7 +232,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         else{
             try {
                 fwr = new FileWriter(frecommencer);
-                fwr.write(jeu.map.mapToText());
+                fwr.write(jeu.map.mapToTextN());
                 fwr.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -489,6 +487,15 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         jeu.addActor(jeu.map);
         this.addActor(jeu);
 
+        jeu.pmtmp1=-1;
+        jeu.pmtmp2=-1;
+        jeu.pmtmp3=-1;
+        jeu.pmtmp4=-1;
+        jeu.nbtmp1=-1;
+        jeu.nbtmp2=-1;
+        jeu.nbtmp3=-1;
+        jeu.nbtmp4=-1;
+
     }
 
 
@@ -645,6 +652,12 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                                     for(int i=0;i<4;i++){
                                         jeu.removeActor(joueurs[i]);
                                     }
+
+                                    jeu.map.suppActor();
+                                    jeu.removeActor(jeu.map);
+                                    jeu.map=null;
+                                    game.multijoueur.removeActor(jeu);
+
                                     jeu.setEtat(game.victoire);
                                     game.setScreen(game.victoire);
                                     return true;
@@ -683,17 +696,27 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         if(keycode==Input.Keys.ESCAPE){
             try {
                 fw = new FileWriter(f);
-                fw.write(jeu.map.mapToTextP());
+                fw.write(jeu.map.mapToTextNP());
                 for(int i=0;i<4;i++){
-                    fw.write(joueurs[i].getC().posX()+" "+joueurs[i].getC().posY()+" 1212 "+joueurs[i].getId()+" "+pm+" "+nb+" "+joueurs[i].getPm()+" "+joueurs[i].isVivant()+" "+joueurs[i].getTaille()+" "+joueurs[i].getNbBombe()+" "+joueurs[i].isPoussee()+"\n");
-
+                    if(joueurs[i].getC().getBombe()!=null){
+                        fw.write(joueurs[i].getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
+                    }
+                    else{
+                        fw.write(joueurs[i].getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
+                    }
                 }
-                fw.write("0 0 9999 "+tour+"\n");
+                fw.write("111 "); //Symbole de fin pour la fin de la mise à jour des personnages
+                fw.write(""+tour);
 
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            jeu.map.suppActor();
+            jeu.removeActor(jeu.map);
+            jeu.map=null;
+            game.multijoueur.removeActor(jeu);
 
             game.menuPause.setEtatAnterieur(game.multijoueur);
             jeu.setEtat(game.menuPause);

@@ -161,6 +161,8 @@ public class ParametreSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
             }

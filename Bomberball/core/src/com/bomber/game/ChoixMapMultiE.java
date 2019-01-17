@@ -112,6 +112,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         game.choixMapMultiE.removeActor(back);
                         game.choixMapMultiE.removeActor(scrollPane);
                         game.choixMapMultiE.removeActor(table);
+                        map.suppActor();
+                        jeu.removeActor(map);
+                        map=null;
+                        game.choixMapMultiE.removeActor(jeu);
+                        Bomberball.input.removeProcessor(game.choixMapMultiE);
                         jeu.setEtat(game.editeurNMulti);
                         game.setScreen(game.editeurNMulti);
 
@@ -130,6 +135,10 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 game.choixMapMultiE.removeActor(back);
                 game.choixMapMultiE.removeActor(scrollPane);
                 game.choixMapMultiE.removeActor(table);
+                map.suppActor();
+                jeu.removeActor(map);
+                map=null;
+                game.choixMapMultiE.removeActor(jeu);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
@@ -144,7 +153,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
                     jeu.addActor(map);

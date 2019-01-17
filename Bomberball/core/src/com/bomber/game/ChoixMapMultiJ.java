@@ -106,11 +106,15 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                     File directory = new File (".");
                     try {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
-                        jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
+                        jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         game.choixMapMultiJ.removeActor(jeu.findActor("YOLO"));
                         game.choixMapMultiJ.removeActor(back);
                         game.choixMapMultiJ.removeActor(scrollPane);
                         game.choixMapMultiJ.removeActor(table);
+                        map.suppActor();
+                        jeu.removeActor(map);
+                        map=null;
+                        game.choixMapMultiJ.removeActor(jeu);
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);
 
@@ -128,6 +132,10 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                 game.choixMapMultiJ.removeActor(back);
                 game.choixMapMultiJ.removeActor(scrollPane);
                 game.choixMapMultiJ.removeActor(table);
+
+                jeu.removeActor(map);
+                map=null;
+                game.choixMapMultiJ.removeActor(jeu);
                 jeu.setEtat(game.choixMenuMultijoueur);
                 game.setScreen(game.choixMenuMultijoueur);
 
@@ -143,7 +151,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setName("YOLO");
                     map.setScale(0.8f);
