@@ -60,7 +60,7 @@ public class MenuPause extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
     @Override
@@ -73,6 +73,7 @@ public class MenuPause extends Etat implements Screen {
     }
     @Override
     public void hide() {
+        Bomberball.stg.clear();
         // called when current screen changes from this to a different screen
     }
     @Override
@@ -86,11 +87,11 @@ public class MenuPause extends Etat implements Screen {
         // never called automatically
     }
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return true;
     }
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
@@ -98,6 +99,8 @@ public class MenuPause extends Etat implements Screen {
      * Méthode appelée pour afficher la fenêtre
      */
     public void show(){
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -152,7 +155,7 @@ public class MenuPause extends Etat implements Screen {
         table.row();
 
         back.setName("Arrière plan: menu principal");
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
     }
 }

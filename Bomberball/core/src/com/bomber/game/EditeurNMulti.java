@@ -75,6 +75,9 @@ public class EditeurNMulti extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.input.addProcessor(this);
         if(f.exists()){
             String text=Bomberball.loadFile(f);
             map=Map.mapFromString(text);
@@ -223,26 +226,26 @@ public class EditeurNMulti extends Etat implements Screen {
 
 
 
-        jeu.addActor(back);
-        jeu.addActor(floor);
-        jeu.addActor(perso1);
-        jeu.addActor(perso2);
-        jeu.addActor(perso3);
-        jeu.addActor(perso4);
-        jeu.addActor(murd);
-        jeu.addActor(muri);
-        jeu.addActor(bonusB);
-        jeu.addActor(bonusE);
-        jeu.addActor(bonusM);
-        jeu.addActor(bonusP);
-        jeu.addActor(select);
-        jeu.addActor(selectionne);
-        jeu.addActor(instruction1);
-        jeu.addActor(instruction2);
-        jeu.addActor(retour);
-        jeu.addActor(valider);
-        jeu.addActor(charger);
-        jeu.addActor(map);
+        this.addActor(back);
+        this.addActor(floor);
+        this.addActor(perso1);
+        this.addActor(perso2);
+        this.addActor(perso3);
+        this.addActor(perso4);
+        this.addActor(murd);
+        this.addActor(muri);
+        this.addActor(bonusB);
+        this.addActor(bonusE);
+        this.addActor(bonusM);
+        this.addActor(bonusP);
+        this.addActor(select);
+        this.addActor(selectionne);
+        this.addActor(instruction1);
+        this.addActor(instruction2);
+        this.addActor(retour);
+        this.addActor(valider);
+        this.addActor(charger);
+        this.addActor(map);
 
 
 
@@ -254,7 +257,7 @@ public class EditeurNMulti extends Etat implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-        stg.draw();
+
     }
 
     @Override
@@ -274,7 +277,8 @@ public class EditeurNMulti extends Etat implements Screen {
 
     @Override
     public void hide() {
-
+    Bomberball.stg.clear();
+    Bomberball.input.removeProcessor(this);
     }
 
     @Override
@@ -283,13 +287,14 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        Actor hitActor= jeu.getStage().hit(x,y,true); //Retourne référence de l'acteur touché
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
+        System.out.println(hitActor==null);
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if (hitActor.getName()!=null) {
             if (hitActor.getName().equals("murd")) {
@@ -748,7 +753,7 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

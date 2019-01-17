@@ -1,44 +1,19 @@
 package com.bomber.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
 public class EnnemiPassif extends Ennemis {
-    @Override
-    public LinkedList<Case> getProchain_deplacement() {
-        return super.getProchain_deplacement();
-    }
 
-    @Override
-    public int getPortee() {
-        return 0;
-    }
 
-    @Override
-    public Case getC() {
-        return super.getC();
-    }
-
-    @Override
-    public boolean isVivant() {
-        return super.isVivant();
-    }
-
-    @Override
-    public int getPm() {
-        return super.getPm();
-    }
-
-    @Override
-    public boolean isAgro() {
-        return false;
-    }
-
-    public EnnemiPassif(boolean vivant, Case c, int pm) {
+    public EnnemiPassif(boolean vivant,Case c,int pm) {
         super(Bomberball.multiTexture[17],vivant,c,pm);
         this.chemin=new LinkedList<Case>();
+        setAnimationdroite();
     }
 
     public LinkedList<Case> getChemin() {
@@ -66,4 +41,67 @@ public class EnnemiPassif extends Ennemis {
         }
     }
 
+    @Override
+    public boolean isAgro() {
+        return false;
+    }
+
+    @Override
+    public void setAnimationdroite() {
+        this.removeAction(animation);
+        animation=new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + (int) (time * 1) % 4))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
+
+    public void setAnimationdefaite() {
+        this.removeAction(animation);
+        animation = new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + 0 + ((((int)(time * 5) % 2) == 0) ? "" : "inv")))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
+
+    @Override
+    public int getPortee() {
+        return 0;
+    }
+
+    @Override
+
+    public void setAnimationgauche() {
+        this.removeAction(animation);
+        animation=new Action() {
+            float time = 0;
+
+            @Override
+            public boolean act(float delta) {
+                time += delta;
+
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + (int) (time * 1) % 4+"inv"))));
+
+                return false;
+            }
+        };
+        this.addAction(animation);
+    }
 }

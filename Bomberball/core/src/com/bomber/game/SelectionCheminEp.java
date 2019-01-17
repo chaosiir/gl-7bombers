@@ -70,8 +70,11 @@ public class SelectionCheminEp extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.input.addProcessor(this);
         String text=Bomberball.loadFile(f);
-        map=Map.mapFromString(text);
+        map=Map.mapFromStringN(text);
         map.setName("map");
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
@@ -119,6 +122,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                     ennemi_passif=null;
                 }
                 compteur=0;
+                jeu.removeActor(jeu.map);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -129,12 +133,13 @@ public class SelectionCheminEp extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     fw = new FileWriter(f);
-                    fw.write(map.mapToText());
+                    fw.write(map.mapToTextN());
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 compteur=0;
+                jeu.removeActor(jeu.map);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -148,9 +153,10 @@ public class SelectionCheminEp extends Etat implements Screen {
         table.add(valider).padBottom(30);
         table.add(retour).padBottom(30);
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
         jeu.addActor(map);
+        this.addActor(jeu);
 
 
 
@@ -164,7 +170,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-        stg.draw();
+
     }
 
     @Override
@@ -184,6 +190,9 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     @Override
     public void hide() {
+    Bomberball.stg.clear();
+    jeu.removeActor(jeu.map);
+    Bomberball.input.removeProcessor(this);
 
     }
 
@@ -193,13 +202,18 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        Actor hitActor= jeu.getStage().hit(x,y,true);
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown( int x, int y, int pointer, int button) {
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);
         if(hitActor.getParent() instanceof Case && hitActor.getName()==null){
             Case c=(Case) hitActor.getParent();
             int xc=c.posX();
@@ -417,8 +431,5 @@ public class SelectionCheminEp extends Etat implements Screen {
         return false;
     }
 
-    @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
-    }
+
 }

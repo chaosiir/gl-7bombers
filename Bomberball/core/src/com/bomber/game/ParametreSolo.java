@@ -52,6 +52,8 @@ public class ParametreSolo extends Etat implements Screen {
      */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -153,8 +155,8 @@ public class ParametreSolo extends Etat implements Screen {
 
         back.setName("Arrière plan: parametre solo");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
         retour.addListener(new ClickListener(){
             @Override
@@ -166,7 +168,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 
@@ -192,6 +194,7 @@ public class ParametreSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -201,12 +204,12 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 }
