@@ -16,7 +16,12 @@ import com.badlogic.gdx.utils.Align;
 
 
 import java.awt.*;
-
+/**
+ * Classe ErreurEditeurS
+ * Elle affiche un message d'erreur si le joueur a réalisé une map solo invalide
+ * @author Paul-Louis Renard
+ *
+ */
 public class ErreurEditeurS extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -29,8 +34,13 @@ public class ErreurEditeurS extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax=Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -59,11 +69,12 @@ public class ErreurEditeurS extends Etat implements Screen {
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(explication);
-        jeu.addActor(ok);
+        this.addActor(back);
+        this.addActor(explication);
+        this.addActor(ok);
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -87,6 +98,7 @@ public class ErreurEditeurS extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -96,17 +108,17 @@ public class ErreurEditeurS extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown( int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved( int x, int y) {
         return false;
     }
 }

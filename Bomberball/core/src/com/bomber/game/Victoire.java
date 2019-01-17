@@ -11,7 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
+/**
+ * Classe Victoire
+ * Elle affiche un message avec un bouton ok puis retourne sur le menu principal
+ * @author Pascal Ferrari
+ *
+ */
 public class Victoire extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -19,16 +27,28 @@ public class Victoire extends Etat implements Screen {
     Skin skin;
     TextButton ok;
     String txt;
+    File frecommencer;
 
     public Victoire(Bomberball game,Jeu jeu,String st){
         super(jeu);
         this.game=game;
         txt=st;
+        File directory = new File (".");
+        try {
+            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
+
+        } catch (IOException e) {
+
+        }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -53,14 +73,15 @@ public class Victoire extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map=null;
                 jeu.removeActor(jeu.findActor("Map"));
+                frecommencer.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(explication);
-        jeu.addActor(ok);
+        this.addActor(back);
+        this.addActor(explication);
+        this.addActor(ok);
     }
 
     @Override
@@ -85,7 +106,7 @@ public class Victoire extends Etat implements Screen {
 
     @Override
     public void hide() {
-
+        Bomberball.stg.clear();
     }
 
     @Override
@@ -94,17 +115,17 @@ public class Victoire extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

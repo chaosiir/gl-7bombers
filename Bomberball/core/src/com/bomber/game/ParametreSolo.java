@@ -10,7 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ParametreSolo
+ * Elle affiche les paramètres modifiables par le joueur lorsqu'il joue en mode solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class ParametreSolo extends Etat implements Screen {
     Bomberball game;
     private Skin skin;
@@ -28,11 +33,13 @@ public class ParametreSolo extends Etat implements Screen {
     private TextButton moyen;
     private TextButton difficile;
 
-    private Slider nbBonusS;
-    private Slider nbEnnemisS;
-    private Slider porteeBombeS;
-    private Slider nbDeplaEnnemisS;
-    private Slider nbBombeS;
+    private TextField nbBonusT;
+    private TextField nbEnnemisT;
+    private TextField porteeBombeT;
+    private TextField nbDeplaEnnemisT;
+    private TextField nbBombeT;
+
+
 
 
     public ParametreSolo(Bomberball game,Jeu jeu){
@@ -40,8 +47,13 @@ public class ParametreSolo extends Etat implements Screen {
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -59,16 +71,18 @@ public class ParametreSolo extends Etat implements Screen {
         moyen = new TextButton("Moyen",skin);
         difficile= new TextButton("Difficile",skin);
 
-        nbBonusS= new Slider(0f,20f,1f,false,skin);
-        nbEnnemisS =  new Slider(0f,20f,1f,false,skin);
-        porteeBombeS=  new Slider(0f,20f,1f,false,skin);
-        nbDeplaEnnemisS =  new Slider(0f,20f,1f,false,skin);
-        nbBombeS= new Slider(0f,20f,1f,false,skin);
+        nbBonusT= new TextField("5",skin);
+        nbEnnemisT= new TextField("2",skin);
+        porteeBombeT = new TextField("2",skin);
+        nbDeplaEnnemisT = new TextField("3",skin);
+        nbBombeT= new TextField("1",skin);
 
-        nbBonusS.addListener(new ChangeListener(){
+
+
+        /*nbBonusT.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int x=(int) nbBonusS.getValue();
+                int x=(int) nbBonusT.getText();
                 jeu.nbBonus=x;
 
 
@@ -95,7 +109,7 @@ public class ParametreSolo extends Etat implements Screen {
         nbDeplaEnnemisS.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int x=(int) nbEnnemisS.getValue();
+                int x=(int) nbDeplaEnnemisS.getValue();
                 jeu.nbEnnemis=x;
 
 
@@ -108,7 +122,7 @@ public class ParametreSolo extends Etat implements Screen {
                 int x=(int) nbBombeS.getValue();
                 jeu.nbBombe=x;
             }
-        });
+        });*/
 
 
 
@@ -126,23 +140,23 @@ public class ParametreSolo extends Etat implements Screen {
         table.add(difficile);
         table.row();
         table.add(nbBonus).padBottom(30);
-        table.add(nbBonusS);
+        table.add(nbBonusT);
         table.row();
         table.add(nbEnnemis).padBottom(30);
-        table.add(nbEnnemisS);
+        table.add(nbEnnemisT);
         table.row();
         table.add(porteeBombe).padBottom(30);
-        table.add(porteeBombeS);
+        table.add(porteeBombeT);
         table.row();
         table.add(nbDeplaEnnemis).padBottom(30);
-        table.add(nbDeplaEnnemisS);
+        table.add(nbDeplaEnnemisT);
         table.row();
         table.add(retour).padBottom(30);
 
         back.setName("Arrière plan: parametre solo");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
         retour.addListener(new ClickListener(){
             @Override
@@ -154,7 +168,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 
@@ -180,6 +194,7 @@ public class ParametreSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -189,12 +204,12 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 }

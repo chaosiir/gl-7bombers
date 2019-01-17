@@ -5,13 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.io.Serializable;
 
-public class Bombe extends Image  {
+public class Bombe extends Image {
     int taille; //taille de l'explosion
     Case c;
 
     public Bombe(int taille, Case c) {
         super(Bomberball.multiTexture[5]);
         this.taille = taille;
+        this.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
 
         this.setName("bombe");
         this.c = c;

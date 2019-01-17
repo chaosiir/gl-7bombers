@@ -11,16 +11,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe MenuSolo
+ * Elle affiche le menu spécifique au mode solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class MenuSolo extends Etat implements Screen {
     private Bomberball game;
     private Skin skin;
     private Image back;
     private Table table;
     private TextButton demarrerpartie;
+    private TextButton campagne;
     private  TextButton choixmap;
     private  TextButton parametre;
     private  TextButton retour;
+
 
 
     public MenuSolo(Bomberball game,Jeu jeu){
@@ -29,9 +36,13 @@ public class MenuSolo extends Etat implements Screen {
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
-
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -45,6 +56,7 @@ public class MenuSolo extends Etat implements Screen {
         table.setPosition(0, Gdx.graphics.getHeight());
 
         demarrerpartie = new TextButton("Demarrer une partie",skin);
+        campagne = new TextButton("campagne",skin);
         choixmap = new TextButton("Choix d'une map personnalisee",skin);
         parametre = new TextButton("Parametre",skin);
         retour= new TextButton("Retour",skin);
@@ -84,21 +96,16 @@ public class MenuSolo extends Etat implements Screen {
         table.padTop(30);
 
         table.add(demarrerpartie);
+        table.add(campagne);
         table.add(choixmap);
         table.add(parametre);
         table.add(retour);
 
         back.setName("Arrière plan: menu solo principal");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
     }
-
-    @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
@@ -121,6 +128,7 @@ public class MenuSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -130,12 +138,17 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean keyDown( int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 }

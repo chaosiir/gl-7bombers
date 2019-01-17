@@ -12,7 +12,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapMultiJ
+ * Elle affiche des maps multijoueurs que le joueur a déjà créé et sur lesquelles il veut jouer
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapMultiJ extends Etat implements Screen {
     Bomberball game;
     List<String> list;
@@ -40,9 +45,13 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -98,7 +107,10 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                     try {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromString(Bomberball.loadFile(f1));
-                        jeu.removeActor(jeu.findActor("YOLO"));
+                        game.choixMapMultiJ.removeActor(jeu.findActor("YOLO"));
+                        game.choixMapMultiJ.removeActor(back);
+                        game.choixMapMultiJ.removeActor(scrollPane);
+                        game.choixMapMultiJ.removeActor(table);
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);
 
@@ -112,7 +124,10 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.removeActor(jeu.findActor("YOLO"));
+                game.choixMapMultiJ.removeActor(jeu.findActor("YOLO"));
+                game.choixMapMultiJ.removeActor(back);
+                game.choixMapMultiJ.removeActor(scrollPane);
+                game.choixMapMultiJ.removeActor(table);
                 jeu.setEtat(game.choixMenuMultijoueur);
                 game.setScreen(game.choixMenuMultijoueur);
 
@@ -155,9 +170,10 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         table.add(retour);
 
 
-        jeu.addActor(back);
-        jeu.addActor(scrollPane);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(scrollPane);
+        this.addActor(table);
+        this.addActor(jeu);
     }
 
     @Override
@@ -182,6 +198,8 @@ public class ChoixMapMultiJ extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
+        jeu.removeActor(map);
 
     }
 
@@ -191,17 +209,17 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

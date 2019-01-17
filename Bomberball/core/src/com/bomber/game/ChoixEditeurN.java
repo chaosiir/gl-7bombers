@@ -12,7 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe ChoixEditeur
+ * Elle affiche l'écran pour choisir si le joueur veut éditer une map solo ou multijoueur
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixEditeurN extends Etat implements Screen {
     private Image back;
     private Skin skin;
@@ -24,13 +29,23 @@ public class ChoixEditeurN extends Etat implements Screen {
 
     Bomberball game;
 
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixEditeurN(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -50,6 +65,8 @@ public class ChoixEditeurN extends Etat implements Screen {
         soloButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.choixEditeurN.removeActor(back);
+                game.choixEditeurN.removeActor(table);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -57,6 +74,8 @@ public class ChoixEditeurN extends Etat implements Screen {
         multiButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.choixEditeurN.removeActor(back);
+                game.choixEditeurN.removeActor(table);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
@@ -65,8 +84,8 @@ public class ChoixEditeurN extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.setEtat(game.menuPrincipalBis);
-                jeu.removeActor(table);
-                jeu.removeActor(back);
+                game.choixEditeurN.removeActor(table);
+                game.choixEditeurN.removeActor(back);
                 game.setScreen(game.menuPrincipalBis);
             }
         });
@@ -82,19 +101,9 @@ public class ChoixEditeurN extends Etat implements Screen {
         table.add(retour);
         back.setName("Arrière plan: choix EditeurN");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
-    }
-
-    @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
     }
 
     @Override
@@ -114,6 +123,7 @@ public class ChoixEditeurN extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -123,12 +133,23 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+    }
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
         return false;
     }
 }

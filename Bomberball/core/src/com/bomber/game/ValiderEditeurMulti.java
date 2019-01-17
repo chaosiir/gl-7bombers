@@ -15,7 +15,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe ValiderEditeurMulti
+ * Elle permet de sauvegarder sa carte multijoueur qu'il a créé
+ * @author Paul-Louis Renard
+ *
+ */
 public class ValiderEditeurMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -41,9 +46,13 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -63,10 +72,9 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         retour=new TextButton("retour",skin);
         abandonner=new TextButton("abandonner",skin);
 
-        inputui=new TextField("Nom",skin);
-
+        inputui=new TextField("Encore une map Bomberball",skin);
         table=new Table(); //Tableau
-        table.setWidth(Bomberball.stg.getWidth());
+        table.setWidth(Gdx.graphics.getWidth());
         table.align(Align.center); // Middle of the screen start at the top
         table.setPosition(0, Gdx.graphics.getHeight()/2);
 
@@ -119,8 +127,8 @@ public class ValiderEditeurMulti extends Etat implements Screen {
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
     }
 
@@ -146,6 +154,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -155,17 +164,17 @@ public class ValiderEditeurMulti extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }
