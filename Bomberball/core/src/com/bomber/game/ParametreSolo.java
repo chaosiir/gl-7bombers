@@ -42,6 +42,9 @@ public class ParametreSolo extends Etat implements Screen {
     private Textfield nbDeplaJoueurT;
     private TextField nbBombeT;
 
+    public TextField getNbBonusT() {
+        return nbBonusT;
+    }
 
     public Textfield getNbBombeT() {
         return nbBombeT;

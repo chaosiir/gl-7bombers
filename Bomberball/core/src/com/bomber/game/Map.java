@@ -355,6 +355,11 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         if (nbInDestru > 40) {
             nbInDestru = 40;
         }
+        try{
+            if (Bomberball.parametreSolo.getNbBonusT().getText().parseInt()!=-1){
+                bonus=Bomberball.parametreSolo.getNbBonusT().getText().parseInt();
+            }
+        }catch(NumberFormatException e){}
         if (bonus > nbDestru) {
             bonus = nbDestru;
         }
