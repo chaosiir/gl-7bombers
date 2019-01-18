@@ -20,6 +20,12 @@ import java.io.IOException;
 
 import static com.bomber.game.Bomberball.stg;
 
+/**
+ * Classe EditeurNMulti
+ * Elle affiche l'éditeur de niveau pour des maps multijoueurs
+ * @author Paul-Louis Renard
+ *
+ */
 public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -51,6 +57,7 @@ public class EditeurNMulti extends Etat implements Screen {
     File f;
     FileWriter fw;
 
+
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -63,11 +70,17 @@ public class EditeurNMulti extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.input.addProcessor(this);
         if(f.exists()){
             String text=Bomberball.loadFile(f);
-            map=Map.mapFromString(text);
+            map=Map.mapFromStringN(text);
         }
         else{
             map=Map.generatePvp(20,5);
@@ -167,6 +180,11 @@ public class EditeurNMulti extends Etat implements Screen {
                 if(f.exists()){
                     f.delete();
                 }
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.editeurNMulti.removeActor(jeu);
+
+
                 jeu.setEtat(game.choixEditeurN);
                 game.setScreen(game.choixEditeurN);
             }
@@ -177,24 +195,45 @@ public class EditeurNMulti extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     fw = new FileWriter(f);
-                    fw.write(map.mapToText());
+                    fw.write(map.mapToTextN());
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                int tabid[]=new int[4];
                 int cptPerso=0;
                 for(int i=0;i<15;i++){
                     for(int j=0;j<13;j++){
                         if(map.getGrille()[i][j].getPersonnage()!=null){
                             cptPerso++;
+                            tabid[map.getGrille()[i][j].getPersonnage().getId()]=1;
                         }
                     }
                 }
-                if (cptPerso!=4){
+                Boolean different=true;
+                for(int i=0;i<4;i++){
+                    if(tabid[i]==0){
+                       different=false;
+                    }
+                }
+                if (cptPerso!=4 || !different){
+
+
+                    jeu.removeActor(jeu.map);
+                    jeu.map=null;
+                    game.editeurNMulti.removeActor(jeu);
+
                     jeu.setEtat(game.erreurEditeurM);
                     game.setScreen(game.erreurEditeurM);
                 }
                 else{
+
+
+
+                    jeu.removeActor(jeu.map);
+                    jeu.map=null;
+                    game.editeurNMulti.removeActor(jeu);
+
                     jeu.setEtat(game.validerEditeurMulti);
                     game.setScreen(game.validerEditeurMulti);
                 }
@@ -204,6 +243,12 @@ public class EditeurNMulti extends Etat implements Screen {
         charger.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.editeurNMulti.removeActor(jeu);
+
+
                 jeu.setEtat(game.choixMapMultiE);
                 game.setScreen(game.choixMapMultiE);
             }
@@ -213,26 +258,26 @@ public class EditeurNMulti extends Etat implements Screen {
 
 
 
-        jeu.addActor(back);
-        jeu.addActor(floor);
-        jeu.addActor(perso1);
-        jeu.addActor(perso2);
-        jeu.addActor(perso3);
-        jeu.addActor(perso4);
-        jeu.addActor(murd);
-        jeu.addActor(muri);
-        jeu.addActor(bonusB);
-        jeu.addActor(bonusE);
-        jeu.addActor(bonusM);
-        jeu.addActor(bonusP);
-        jeu.addActor(select);
-        jeu.addActor(selectionne);
-        jeu.addActor(instruction1);
-        jeu.addActor(instruction2);
-        jeu.addActor(retour);
-        jeu.addActor(valider);
-        jeu.addActor(charger);
-        jeu.addActor(map);
+        this.addActor(back);
+        this.addActor(floor);
+        this.addActor(perso1);
+        this.addActor(perso2);
+        this.addActor(perso3);
+        this.addActor(perso4);
+        this.addActor(murd);
+        this.addActor(muri);
+        this.addActor(bonusB);
+        this.addActor(bonusE);
+        this.addActor(bonusM);
+        this.addActor(bonusP);
+        this.addActor(select);
+        this.addActor(selectionne);
+        this.addActor(instruction1);
+        this.addActor(instruction2);
+        this.addActor(retour);
+        this.addActor(valider);
+        this.addActor(charger);
+        this.addActor(map);
 
 
 
@@ -244,7 +289,7 @@ public class EditeurNMulti extends Etat implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-        stg.draw();
+
     }
 
     @Override
@@ -264,7 +309,8 @@ public class EditeurNMulti extends Etat implements Screen {
 
     @Override
     public void hide() {
-
+    Bomberball.stg.clear();
+    Bomberball.input.removeProcessor(this);
     }
 
     @Override
@@ -273,13 +319,14 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        Actor hitActor= jeu.getStage().hit(x,y,true); //Retourne référence de l'acteur touché
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
+        System.out.println(hitActor==null);
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if (hitActor.getName()!=null) {
             if (hitActor.getName().equals("murd")) {
@@ -738,7 +785,7 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

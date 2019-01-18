@@ -2,6 +2,8 @@ package com.bomber.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import java.io.Serializable;
+
 public class MurD extends Mur {
 
     public MurD(){

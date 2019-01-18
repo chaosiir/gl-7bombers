@@ -11,7 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
+/**
+ * Classe MenuSolo
+ * Elle affiche le menu spécifique au mode solo
+ * @author Paul-Louis Renard
+ *
+ */
 public class MenuSolo extends Etat implements Screen {
     private Bomberball game;
     private Skin skin;
@@ -24,15 +29,20 @@ public class MenuSolo extends Etat implements Screen {
     private  TextButton retour;
 
 
+
     public MenuSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game = game;
 
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
-
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -54,6 +64,9 @@ public class MenuSolo extends Etat implements Screen {
         demarrerpartie.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.jeuSolo);
                 game.setScreen(game.jeuSolo);
             }
@@ -61,6 +74,9 @@ public class MenuSolo extends Etat implements Screen {
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.choixMapSoloJ);
                 game.setScreen(game.choixMapSoloJ);
             }
@@ -69,6 +85,9 @@ public class MenuSolo extends Etat implements Screen {
         parametre.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.parametreSolo);
                 game.setScreen(game.parametreSolo);
             }
@@ -77,6 +96,9 @@ public class MenuSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.map=null;
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
@@ -93,15 +115,9 @@ public class MenuSolo extends Etat implements Screen {
 
         back.setName("Arrière plan: menu solo principal");
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
     }
-
-    @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
@@ -124,6 +140,9 @@ public class MenuSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
+        jeu.removeActor(jeu.map);
+        Bomberball.input.removeProcessor(this);
 
     }
 
@@ -133,12 +152,17 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean keyDown( int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 }

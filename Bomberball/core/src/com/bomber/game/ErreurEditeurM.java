@@ -11,22 +11,30 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.awt.*;
-
+/**
+ * Classe ErreurEditeurM
+ * Elle affiche un message d'erreur si le joueur a réalisé une map multijoueur invalide
+ * @author Paul-Louis Renard
+ *
+ */
 public class ErreurEditeurM extends Etat implements Screen {
     Bomberball game;
     Image back;
     Label explication;
     Skin skin;
     TextButton ok;
-
     public ErreurEditeurM(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -39,7 +47,7 @@ public class ErreurEditeurM extends Etat implements Screen {
         back.setName("Je suis ton arrière plan");
 
 
-        explication=new Label("Il doit y avoir 4 joueurs",skin);
+        explication=new Label("Il doit y avoir 4 joueurs différents",skin);
         explication.setBounds(xmax/2-300,ymax/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
         explication.setWrap(true);
 
@@ -50,14 +58,17 @@ public class ErreurEditeurM extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.erreurEditeurM.removeActor(jeu);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(explication);
-        jeu.addActor(ok);
+        this.addActor(back);
+        this.addActor(explication);
+        this.addActor(ok);
     }
 
     @Override
@@ -82,6 +93,7 @@ public class ErreurEditeurM extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -91,17 +103,17 @@ public class ErreurEditeurM extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
 }

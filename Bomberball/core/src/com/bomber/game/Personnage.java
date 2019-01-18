@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.io.Serializable;
 
-public class Personnage extends Image  {
+public class Personnage extends Image {
 
     private boolean vivant;
     private Case c;
@@ -92,6 +92,9 @@ public class Personnage extends Image  {
 
     public void setVivant(boolean vivant) {
         this.vivant = vivant;
+        if(!vivant){
+            c.setPersonnage(null);
+        }
     }
 
     public boolean poserBombe() {
@@ -119,7 +122,6 @@ public class Personnage extends Image  {
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
             c.removeActor(this);
-            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()][c.posY()+1].setPersonnage((Personnage) this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action();}
@@ -154,7 +156,7 @@ public class Personnage extends Image  {
                 Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee-1]);
                 b.setY(-(taillepoussee-1)*Bomberball.taillecase);
                 MoveToAction move=new MoveToAction();
-                move.setPosition(0,0);
+                move.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
                 move.setDuration(taillepoussee*0.2f);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
@@ -190,7 +192,6 @@ public class Personnage extends Image  {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
                         c.removeActor(target);
-                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
                         c.getMap().getGrille()[c.posX()][c.posY()-1].setPersonnage((Personnage) target);
                         c=tmp;
                         if(c.getBonus()!=null){c.getBonus().action();}
@@ -255,7 +256,6 @@ public class Personnage extends Image  {
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
             c.setPersonnage(null);
             c.removeActor(this);
-            c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
             c.getMap().getGrille()[c.posX()+1][c.posY()].setPersonnage(this);
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action();}
@@ -288,7 +288,7 @@ public class Personnage extends Image  {
                 Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()+taillepoussee-1][c.posY()]);
                 b.setX(-(taillepoussee-1)*Bomberball.taillecase);
                 MoveToAction move=new MoveToAction();
-                move.setPosition(0,0);
+                move.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
                 move.setDuration(taillepoussee*0.2f);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
@@ -320,7 +320,6 @@ public class Personnage extends Image  {
                     if(time>0.5) {
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
-                        c.getMap().getGrille()[c.posX()][c.posY()].setPersonnage(null);
                         c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
                         c.removeActor(target);
                         c=tmp;

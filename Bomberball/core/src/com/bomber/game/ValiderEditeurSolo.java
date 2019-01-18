@@ -15,7 +15,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe ValiderEditeurSolo
+ * Elle permet de sauvegarder sa carte solo qu'il a créé
+ * @author Paul-Louis Renard
+ *
+ */
 public class ValiderEditeurSolo extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -27,7 +32,6 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     TextField inputui;
     Table table;
     File f;
-
     public ValiderEditeurSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -40,9 +44,13 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         }
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -62,7 +70,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         retour=new TextButton("retour",skin);
         abandonner=new TextButton("abandonner",skin);
 
-        inputui=new TextField("Nom",skin);
+        inputui=new TextField("Encore une map Bomberball",skin);
 
         table=new Table(); //Tableau
         table.setWidth(Bomberball.stg.getWidth());
@@ -96,6 +104,12 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    jeu.removeActor(jeu.map);
+                    jeu.map=null;
+                    game.validerEditeurSolo.removeActor(jeu);
+
+
                     f.renameTo(fi);
                     jeu.setEtat(game.menuPrincipalBis);
                     game.setScreen(game.menuPrincipalBis);
@@ -107,6 +121,12 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.validerEditeurSolo.removeActor(jeu);
+
+
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -115,14 +135,19 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         abandonner.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.validerEditeurSolo.removeActor(jeu);
+
                 f.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
         });
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
 
     }
 
@@ -148,6 +173,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
 
     @Override
     public void hide() {
+        Bomberball.stg.clear();
 
     }
 
@@ -157,17 +183,17 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown( int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved( int x, int y) {
         return false;
     }
 }

@@ -21,8 +21,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static com.bomber.game.Bomberball.ennemis;
 import static com.bomber.game.Bomberball.stg;
-
+/**
+ * Classe SelectionCheminEp
+ * Elle permet au joueur de placer un ennemi passif sur la carte dans l'éditeur de niveau
+ * @author Paul-Louis Renard
+ *
+ */
 public class SelectionCheminEp extends Etat implements Screen {
     Bomberball game;
 
@@ -39,6 +45,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     int compteur=0;
 
     Map map;
+
 
     Skin skin;
 
@@ -58,11 +65,16 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     }
 
-
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.input.addProcessor(this);
         String text=Bomberball.loadFile(f);
-        map=Map.mapFromString(text);
+        map=Map.mapFromStringN(text);
         map.setName("map");
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
@@ -110,6 +122,12 @@ public class SelectionCheminEp extends Etat implements Screen {
                     ennemi_passif=null;
                 }
                 compteur=0;
+
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.parametreSolo.removeActor(jeu);
+
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -120,12 +138,18 @@ public class SelectionCheminEp extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     fw = new FileWriter(f);
-                    fw.write(map.mapToText());
+                    fw.write(map.mapToTextN());
                     fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 compteur=0;
+
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.selectionCheminEp.removeActor(jeu);
+
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -139,9 +163,10 @@ public class SelectionCheminEp extends Etat implements Screen {
         table.add(valider).padBottom(30);
         table.add(retour).padBottom(30);
 
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
         jeu.addActor(map);
+        this.addActor(jeu);
 
 
 
@@ -155,7 +180,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
-        stg.draw();
+
     }
 
     @Override
@@ -175,6 +200,9 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     @Override
     public void hide() {
+    Bomberball.stg.clear();
+    jeu.removeActor(jeu.map);
+    Bomberball.input.removeProcessor(this);
 
     }
 
@@ -184,13 +212,18 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        Actor hitActor= jeu.getStage().hit(x,y,true);
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown( int x, int y, int pointer, int button) {
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);
         if(hitActor.getParent() instanceof Case && hitActor.getName()==null){
             Case c=(Case) hitActor.getParent();
             int xc=c.posX();
@@ -199,55 +232,56 @@ public class SelectionCheminEp extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif=new EnnemiPassif(true,c,5,null);
+                    ennemi_passif=new EnnemiPassif(true,c,5);
                     ennemi_passif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif);
-                    ennemi_passif.prochain_deplacement.add(c);
+                    System.out.println(ennemi_passif==null);
+                    ennemi_passif.getChemin().add(c);
                 }
                 else if(compteur==1){
                     if(c.getMap().getGrille()[xc+1][yc].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(c.getMap().getGrille()[xc-1][yc].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(c.getMap().getGrille()[xc][yc+1].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(c.getMap().getGrille()[xc][yc-1].getEnnemi()!=null){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                 }
                 else if(compteur>1){
-                    Case CaseC=ennemi_passif.prochain_deplacement.getLast();
+                    Case CaseC=ennemi_passif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     if(xc==xactuel+1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(xc==xactuel-1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(xc==xactuel && yc==yactuel+1){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                     else if(xc==xactuel && yc==yactuel-1){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
 
@@ -259,11 +293,11 @@ public class SelectionCheminEp extends Etat implements Screen {
         else if(hitActor.getName()!=null){
             if(hitActor.getName().equals("Ennemis")){
                 if(button==Input.Buttons.RIGHT){
-                    for(Case c: ennemi_passif.prochain_deplacement){
+                    for(Case c: ennemi_passif.getChemin()){
                         c.setMarque(null);
                     }
                     compteur=0;
-                    ennemi_passif.prochain_deplacement.clear();
+                    ennemi_passif.getChemin().clear();
                     ennemi_passif=null;
                     Case c=(Case) hitActor.getParent();
                     c.setEnnemi(null);
@@ -278,15 +312,15 @@ public class SelectionCheminEp extends Etat implements Screen {
             else if(hitActor.getName().equals("red")){
                 Case c=(Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif.prochain_deplacement.getLast()!=c){
-                        ennemi_passif.prochain_deplacement.getLast().setMarque(null);
+                    while(ennemi_passif.getChemin().getLast()!=c){
+                        ennemi_passif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                        ennemi_passif.prochain_deplacement.getLast().addActor(background);
-                        ennemi_passif.prochain_deplacement.removeLast();
+                        ennemi_passif.getChemin().getLast().addActor(background);
+                        ennemi_passif.getChemin().removeLast();
                         compteur--;
                     }
-                    ennemi_passif.prochain_deplacement.removeLast();
+                    ennemi_passif.getChemin().removeLast();
                     compteur--;
                     c.setMarque(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
@@ -301,15 +335,15 @@ public class SelectionCheminEp extends Etat implements Screen {
                 int xc=c.posX();
                 int yc=c.posY();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif.prochain_deplacement.getLast()!=c){
-                        ennemi_passif.prochain_deplacement.getLast().setMarque(null);
+                    while(ennemi_passif.getChemin().getLast()!=c){
+                        ennemi_passif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                        ennemi_passif.prochain_deplacement.getLast().addActor(background);
-                        ennemi_passif.prochain_deplacement.removeLast();
+                        ennemi_passif.getChemin().getLast().addActor(background);
+                        ennemi_passif.getChemin().removeLast();
                         compteur--;
                     }
-                    ennemi_passif.prochain_deplacement.removeLast();
+                    ennemi_passif.getChemin().removeLast();
                     compteur--;
                     c.setMarque(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
@@ -318,31 +352,31 @@ public class SelectionCheminEp extends Etat implements Screen {
                     return true;
                 }
                 else if(button==Input.Buttons.LEFT){
-                    Case CaseC=ennemi_passif.prochain_deplacement.getLast();
+                    Case CaseC=ennemi_passif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     Personnage p=c.getPersonnage();
                     if(xc==xactuel+1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel-1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel+1){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel-1){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
@@ -354,15 +388,15 @@ public class SelectionCheminEp extends Etat implements Screen {
                 int xc=c.posX();
                 int yc=c.posY();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif.prochain_deplacement.getLast()!=c){
-                        ennemi_passif.prochain_deplacement.getLast().setMarque(null);
+                    while(ennemi_passif.getChemin().getLast()!=c){
+                        ennemi_passif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                        ennemi_passif.prochain_deplacement.getLast().addActor(background);
-                        ennemi_passif.prochain_deplacement.removeLast();
+                        ennemi_passif.getChemin().getLast().addActor(background);
+                        ennemi_passif.getChemin().removeLast();
                         compteur--;
                     }
-                    ennemi_passif.prochain_deplacement.removeLast();
+                    ennemi_passif.getChemin().removeLast();
                     compteur--;
                     c.setMarque(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
@@ -371,31 +405,31 @@ public class SelectionCheminEp extends Etat implements Screen {
                     return true;
                 }
                 else if(button==Input.Buttons.LEFT){
-                    Case CaseC=ennemi_passif.prochain_deplacement.getLast();
+                    Case CaseC=ennemi_passif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     Personnage p=c.getPersonnage();
                     if(xc==xactuel+1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel-1 && yactuel==yc){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel+1){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
                     else if(xc==xactuel && yc==yactuel-1){
                         compteur++;
-                        ennemi_passif.prochain_deplacement.add(c);
+                        ennemi_passif.getChemin().add(c);
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                         c.setPersonnage(p);
                     }
@@ -407,8 +441,5 @@ public class SelectionCheminEp extends Etat implements Screen {
         return false;
     }
 
-    @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
-        return false;
-    }
+
 }

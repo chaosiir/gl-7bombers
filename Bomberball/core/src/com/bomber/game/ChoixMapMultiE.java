@@ -11,7 +11,12 @@ import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * Classe ChoixMapMultiE
+ * Elle affiche des maps que le joueur a déjà créé en multijoueur et qu'il veut remodifié
+ * @author Paul-Louis Renard
+ *
+ */
 public class ChoixMapMultiE extends Etat implements Screen {
 
     Bomberball game;
@@ -23,7 +28,6 @@ public class ChoixMapMultiE extends Etat implements Screen {
     TextButton retour;
     Table table;
     ScrollPane scrollPane;
-
     Map map;
 
     File f;
@@ -40,8 +44,13 @@ public class ChoixMapMultiE extends Etat implements Screen {
         }
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -98,7 +107,16 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         Bomberball.copier(f1,f2);
+                        table.removeActor(valider);
+                        table.removeActor(retour);
+                        game.choixMapMultiE.removeActor(back);
+                        game.choixMapMultiE.removeActor(scrollPane);
+                        game.choixMapMultiE.removeActor(table);
 
+                        jeu.removeActor(map);
+                        map=null;
+                        game.choixMapMultiE.removeActor(jeu);
+                        Bomberball.input.removeProcessor(game.choixMapMultiE);
                         jeu.setEtat(game.editeurNMulti);
                         game.setScreen(game.editeurNMulti);
 
@@ -112,6 +130,15 @@ public class ChoixMapMultiE extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                table.removeActor(valider);
+                table.removeActor(retour);
+                game.choixMapMultiE.removeActor(back);
+                game.choixMapMultiE.removeActor(scrollPane);
+                game.choixMapMultiE.removeActor(table);
+
+                jeu.removeActor(map);
+                map=null;
+                game.choixMapMultiE.removeActor(jeu);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
@@ -126,7 +153,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
                     jeu.addActor(map);
@@ -142,11 +169,13 @@ public class ChoixMapMultiE extends Etat implements Screen {
         table.add(retour);
 
 
-        jeu.addActor(back);
-        jeu.addActor(scrollPane);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(scrollPane);
+        this.addActor(table);
+        this.addActor(jeu);
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -170,7 +199,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
     @Override
     public void hide() {
-
+    Bomberball.stg.clear();
+    jeu.removeActor(map);
     }
 
     @Override
@@ -179,20 +209,17 @@ public class ChoixMapMultiE extends Etat implements Screen {
     }
 
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return false;
     }
 
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
-
-
-
 }

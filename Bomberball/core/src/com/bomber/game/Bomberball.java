@@ -28,7 +28,7 @@ public class Bomberball extends Game {
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
 	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
 	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
-
+	static InputMultiplexer input=new InputMultiplexer();
 
 	MenuPrincipalBis menuPrincipalBis;
     MenuPause menuPause;
@@ -55,8 +55,7 @@ public class Bomberball extends Game {
 
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;
-	public static Texture[] multiTexture = new Texture[26];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
-
+	public static Texture[] multiTexture = new Texture[25];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 	@Override
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
@@ -89,11 +88,10 @@ public class Bomberball extends Game {
 		multiTexture[23]= new Texture("ghost2.png");
 		multiTexture[24]= new Texture("bat2.png");
 		stg = new Stage(new ScreenViewport());//definition du stage qui prend un point de vu  => voir tuto scene2D
-		Gdx.input.setInputProcessor(stg);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
+		Gdx.input.setInputProcessor(input);//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
 		jeu = new Jeu();
 		jeu.setName("jeu");
-		stg.addActor(jeu);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
-		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
+
 
 
 		menuPrincipalBis = new MenuPrincipalBis(this, jeu);
@@ -116,8 +114,14 @@ public class Bomberball extends Game {
 		choixMapMultiJ = new ChoixMapMultiJ(this,jeu);
 		selectionCheminEp = new SelectionCheminEp(this,jeu);
 		selectionCheminEpa = new SelectionCheminEpa(this,jeu);
+
+
+
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
+		stg.addActor(menuPrincipalBis);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
+		stg.setKeyboardFocus(stg.getActors().first());//le stage defini que le premier acteur (le jeu) recupere les inputs
+		input.addProcessor(stg);
 
 	}
 
@@ -137,6 +141,7 @@ public class Bomberball extends Game {
 	@Override
 	public void dispose() {//quand la fenetre est fermé on lance cette fonction
 		int i;
+		//System.out.println(stg.getActors().first()==jeu);
 		for (i = 0; i < multiTexture.length; i++) {
 			multiTexture[i].dispose();//pour chaque texture on la detruit pour eviter les fuites memoire =>voir tuto Texture
 		}

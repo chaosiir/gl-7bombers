@@ -19,7 +19,12 @@ import com.badlogic.gdx.utils.Align;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Classe MenuPause
+ * Elle affiche le menu pause dans le mode solo et multijoueur
+ * @author Théo Loïs, Paul-Louis Renard
+ *
+ */
 public class MenuPause extends Etat implements Screen {
 
 
@@ -34,6 +39,7 @@ public class MenuPause extends Etat implements Screen {
     File f;
     File source;
     Bomberball game; // Note it's "MyGame" not "Game"
+
 
     // constructor to keep a reference to the main Game class
     public MenuPause(Bomberball game,Jeu jeu){
@@ -54,7 +60,7 @@ public class MenuPause extends Etat implements Screen {
     }
 
     @Override
-    public boolean mouseMoved(InputEvent event, float x, float y) {
+    public boolean mouseMoved(int x, int y) {
         return false;
     }
     @Override
@@ -67,6 +73,7 @@ public class MenuPause extends Etat implements Screen {
     }
     @Override
     public void hide() {
+        Bomberball.stg.clear();
         // called when current screen changes from this to a different screen
     }
     @Override
@@ -80,15 +87,20 @@ public class MenuPause extends Etat implements Screen {
         // never called automatically
     }
     @Override
-    public boolean keyDown(InputEvent event, int keycode) {
+    public boolean keyDown( int keycode) {
         return true;
     }
     @Override
-    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+    public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     public void show(){
+        Bomberball.stg.addActor(this);
+        Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -105,6 +117,10 @@ public class MenuPause extends Etat implements Screen {
         reprendreButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.menuPause.removeActor(jeu);
                 jeu.setEtat(etatAnterieur);
                 game.setScreen((Screen)etatAnterieur);
             }
@@ -115,6 +131,8 @@ public class MenuPause extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 source.renameTo(f);
                 jeu.recommencer=true;
+                jeu.removeActor(jeu.map);
+                game.menuPause.removeActor(jeu);
                 jeu.setEtat(etatAnterieur);
                 game.setScreen((Screen)etatAnterieur);
             }
@@ -123,9 +141,15 @@ public class MenuPause extends Etat implements Screen {
         quitterButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map=null;
                 f.delete();
                 source.delete();
+
+                jeu.porteeBombe=-1;
+                jeu.nbDeplaP=-1;
+                jeu.nbBombe=-1;
+
+                jeu.removeActor(jeu.map);
+                game.menuPause.removeActor(jeu);
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
@@ -143,7 +167,7 @@ public class MenuPause extends Etat implements Screen {
         table.row();
 
         back.setName("Arrière plan: menu principal");
-        jeu.addActor(back);
-        jeu.addActor(table);
+        this.addActor(back);
+        this.addActor(table);
     }
 }
