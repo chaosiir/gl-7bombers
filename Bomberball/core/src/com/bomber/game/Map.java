@@ -274,7 +274,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
         }
 
-        int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
+        int tmp[][] = new int[lignes * colonnes][lignes * colonnes]; //tmp indique s'il existe un chemin entre deux sommets
         int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
         for (i = 0; i < lignes; i++) {
             for (j = 0; j < colonnes; j++) {
@@ -300,12 +300,11 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 }
             }
         }
-        //Cas particulier pour la matrice d'existence
 
         //Ici la matrice d'existence est faite.
+
         int a = yd + colonnes * xd; //Valeur des sommets dans la matrice d'existence
         int b = ya + colonnes * xa;
-        //System.out.println("a="+a+" b="+b+" xa="+xa+" ya="+ya+" xd="+xd+" yd="+yd);
 
 
         int k;
@@ -329,6 +328,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         } else {
             return false;
         }
+
 
 
     }

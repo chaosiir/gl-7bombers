@@ -1146,12 +1146,12 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("Ea")){
                             c.setEnnemi(null);
-                            EnnemiActif ea=new EnnemiActif(true,c,5);
+                            EnnemiActif ea=new EnnemiActif(true,c,3);
                             c.setEnnemi(ea);
                         }
                         else if(selectionne.getName().equals("Eaa")){
                             c.setEnnemi(null);
-                            EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,5,5,false);
+                            EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,3,5,false);
                             c.setEnnemi(eaa);
                         }
 
