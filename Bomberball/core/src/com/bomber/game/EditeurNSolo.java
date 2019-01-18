@@ -28,8 +28,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
 
+import static com.badlogic.gdx.graphics.g2d.ParticleEmitter.SpriteMode.random;
 import static com.bomber.game.Bomberball.loadFile;
 import static com.bomber.game.Bomberball.stg;
+import static java.lang.Math.random;
+
 /**
  * Classe EditeurNSolo
  * Elle affiche l'éditeur de niveau pour des maps solo
@@ -384,11 +387,34 @@ public class EditeurNSolo extends Etat implements Screen {
             for (int i =1;i<map.getGrille().length-1;i++) {
                 for (int j = 1; j < map.getGrille()[1].length-1; j++) {
                     if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i-1][j])) {
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i - 1][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i - 1][j]);
+                        Ennemis en=map.getGrille()[i][j].getEnnemi();
+                        en.getProchain_deplacement().clear();
+                        int pox=i;
+                        int poy=j;
+                        for (int k=0;k<10;k++){
+                            switch ((((int)(random()*4))%4)){
+                                case 0:
+                                    System.out.println("haut");
+                                    poy--;
+                                    en.getProchain_deplacement().add(map.getGrille()[pox][poy]);
+                                    break;
+                                case 1:
+                                    System.out.println("bas");
+                                    poy++;
+                                    en.getProchain_deplacement().add(map.getGrille()[pox][poy]);
+                                    break;
+                                case 2:
+                                    System.out.println("gauche");
+                                    pox--;
+                                    en.getProchain_deplacement().add(map.getGrille()[pox][poy]);
+                                    break;
+                                case 3:
+                                    System.out.println("haut");
+                                    pox++;
+                                    en.getProchain_deplacement().add(map.getGrille()[pox][poy]);
+                                    break;
+                            }
+
                         }
 
                     }
@@ -427,149 +453,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
             });
         }
-        if(Input.Keys.D==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+2][j]);
-                        }
 
-                    }
-                }
-            }
-            this.addAction(new Action() {
-                int i=1;
-                int j=0;
-                @Override
-                public boolean act(float delta) {
-                    if(target.getActions().size==1) {
-                        j++;
-                        if (j > map.getGrille()[1].length - 1) {
-                            i++;
-                            j = 1;
-                        }
-                        if (i > map.getGrille().length - 1) {
-                            return true;
-                        }
-                        if (map.getGrille()[i][j].getEnnemi() != null) {
-                            map.getGrille()[i][j].getEnnemi().deplacer();
-                            target.addAction(new Action() {
-                                float time = 0;
-
-                                @Override
-                                public boolean act(float delta) {
-                                    time += delta;
-                                    return time > 1.5f;
-                                }
-                            });
-                        }
-                    }
-
-
-                    return false;
-                }
-            });
-
-        }
-        if(Input.Keys.W==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
-                        }
-                    }
-                }
-            }
-            this.addAction(new Action() {
-                int i=1;
-                int j=0;
-                @Override
-                public boolean act(float delta) {
-                    if(target.getActions().size==1) {
-                        j++;
-                        if (j > map.getGrille()[1].length - 1) {
-                            i++;
-                            j = 1;
-                        }
-                        if (i > map.getGrille().length - 1) {
-                            return true;
-                        }
-                        if (map.getGrille()[i][j].getEnnemi() != null) {
-                            map.getGrille()[i][j].getEnnemi().deplacer();
-                            target.addAction(new Action() {
-                                float time = 0;
-
-                                @Override
-                                public boolean act(float delta) {
-                                    time += delta;
-                                    return time > 1.5f;
-                                }
-                            });
-                        }
-                    }
-
-
-                    return false;
-                }
-            });
-        }
-        if(Input.Keys.S==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length - 1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j - 1])) {
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j - 1]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j-1]);
-
-                        }
-                    }
-                }
-            }
-            this.addAction(new Action() {
-                int i=1;
-                int j=0;
-                @Override
-                public boolean act(float delta) {
-                    if(target.getActions().size==1) {
-                        j++;
-                        if (j > map.getGrille()[1].length - 1) {
-                            i++;
-                            j = 1;
-                        }
-                        if (i > map.getGrille().length - 1) {
-                            return true;
-                        }
-                        if (map.getGrille()[i][j].getEnnemi() != null) {
-                            map.getGrille()[i][j].getEnnemi().deplacer();
-                            target.addAction(new Action() {
-                                float time = 0;
-
-                                @Override
-                                public boolean act(float delta) {
-                                    time += delta;
-                                    return time > 1.5f;
-                                }
-                            });
-                        }
-                    }
-
-
-                    return false;
-                }
-            });
-
-        }
         if(Input.Keys.E==keycode){
             for (int i =1;i<map.getGrille().length;i++){
                 for (int j =1;j<map.getGrille()[1].length;j++){
@@ -623,7 +507,7 @@ public class EditeurNSolo extends Etat implements Screen {
             }
             if(cache) {
                 for (Ennemis en : liste) {
-                    int choix=(int)(Math.random()*32);
+                    int choix=(int)(random()*32);
 
                     if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
                         LinkedList<Case> caca = en.getChemin();

@@ -103,6 +103,7 @@ public abstract int getPortee();
             }
             actuel=prochaine;
             i--;
+
         }
         this.addAction(seq);
     }
@@ -118,16 +119,14 @@ public abstract int getPortee();
         else return false;
     }
     public Action deplacementdroite(){
-        final Case df=prochaine;
-        System.out.println("fonction"+prochaine.posX()+" "+prochaine.posY());
+        final Case proch=prochaine;
         SequenceAction seq=new SequenceAction();
         seq.addAction(new Action() {
             @Override
             public boolean act(float delta) {
                 ((Ennemis) target).setAnimationdroite();
                 c.setEnnemi(null);
-                System.out.println("action"+prochaine.posX()+" "+prochaine.posY());
-                c=df;
+                c= proch;
                 c.setEnnemi((Ennemis) target);
                 target.setX(-Bomberball.taillecase);
 
@@ -142,6 +141,7 @@ public abstract int getPortee();
 
     }
     public Action deplacementgauche(){
+        final Case proch=prochaine;
         SequenceAction seq=new SequenceAction();
         seq.addAction(new Action() {
             @Override
@@ -159,7 +159,7 @@ public abstract int getPortee();
             public boolean act(float delta) {
                 target.setX(0);
                 c.setEnnemi(null);
-                c=prochaine;
+                c=proch;
                 c.setEnnemi((Ennemis) target);
                 return true;
             }
@@ -169,13 +169,14 @@ public abstract int getPortee();
 
     public Action deplacementhaut(){
         SequenceAction seq=new SequenceAction();
+        final Case proch=prochaine;
         seq.addAction(new Action() {
             @Override
             public boolean act(float delta) {
                 c.setEnnemi(null);
                 ((Ennemis) target).setAnimationdroite();
                 target.setY(-Bomberball.taillecase);
-                c=prochaine;
+                c=proch;
                 c.setEnnemi((Ennemis) target);
                 return true;
             }
@@ -189,6 +190,7 @@ public abstract int getPortee();
     }
     public Action deplacementbas(){
         SequenceAction seq=new SequenceAction();
+        final Case proch=prochaine;
         seq.addAction(new Action() {
             @Override
             public boolean act(float delta) {
@@ -205,7 +207,7 @@ public abstract int getPortee();
             public boolean act(float delta) {
                 c.setEnnemi(null);
                 target.setY(0);
-                c=prochaine;
+                c=proch;
                 c.setEnnemi((Ennemis) target);
 
 
