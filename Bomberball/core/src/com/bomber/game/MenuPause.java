@@ -117,6 +117,10 @@ public class MenuPause extends Etat implements Screen {
         reprendreButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.menuPause.removeActor(jeu);
                 jeu.setEtat(etatAnterieur);
                 game.setScreen((Screen)etatAnterieur);
             }
@@ -127,6 +131,8 @@ public class MenuPause extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 source.renameTo(f);
                 jeu.recommencer=true;
+                jeu.removeActor(jeu.map);
+                game.menuPause.removeActor(jeu);
                 jeu.setEtat(etatAnterieur);
                 game.setScreen((Screen)etatAnterieur);
             }
@@ -135,9 +141,17 @@ public class MenuPause extends Etat implements Screen {
         quitterButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map=null;
                 f.delete();
                 source.delete();
+
+                jeu.porteeBombe=-1;
+                jeu.nbDeplaP=-1;
+                jeu.nbBombe=-1;
+                jeu.nbEnnemis=-1;
+                jeu.nbDeplaEnnemis=-1;
+
+                jeu.removeActor(jeu.map);
+                game.menuPause.removeActor(jeu);
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }

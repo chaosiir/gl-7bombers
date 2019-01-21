@@ -71,8 +71,9 @@ public class Victoire extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(jeu.map);
                 jeu.map=null;
-                jeu.removeActor(jeu.findActor("Map"));
+                game.victoire.removeActor(jeu);
                 frecommencer.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);

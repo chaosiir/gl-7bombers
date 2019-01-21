@@ -277,26 +277,260 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     public void miseAjour() {
-        boolean poursuivre = detection();
-        if (poursuivre && verifAgro()) {
-            cheminMin();
-            agro = true;
-        } else {
-            int i = 0;
-            Case suivante = c;
-            LinkedList<Case> cheminProvisoire = cheminMax(pm, suivante);
-            if (cheminProvisoire != null) {
-                suivante = cheminProvisoire.get(0);
-                while (i < pm && caseLibre(suivante)) {
-                    prochain_deplacement.add(suivante);
-                    i = i + 1;
-                    suivante = cheminProvisoire.get(i);
+     prochain_deplacement.clear();
+     prochain_deplacement=recherchecheminmaxPL();
+
+    }
+    public LinkedList<Case> recherchecheminmaxPL() {
+        Map map = this.getC().getMap();
+        int lignes = 15;
+        int colonnes = 13;
+        int xc = this.getC().posX();
+        int yc = this.getC().posY();
+        int h=0; //Si on ne trouve pas un personnage a une portée maximum, on diminue
+        Boolean personnage=false;
+        int xp=0,yp=0; //On stocke les coordonnées du personnages s'il est détecté
+
+        int i, j;
+        int[][] trad = new int[15][13];
+        for (i = 0; i < 15; i++) {
+            for (j = 0; j < 13; j++) {
+                if (map.getGrille()[i][j].getMur() != null) { //On ne peut pas passer s'il y a un mur
+                    trad[i][j] = 1;
+                } else if (map.getGrille()[i][j].getEnnemi() != null && map.getGrille()[i][j].posX() != c.posX() && map.getGrille()[i][j].posY() != c.posY()) {
+                    trad[i][j] = 1;
+                } else if (map.getGrille()[i][j].getPorte() != null) {
+                    trad[i][j] = 1;
+                } else {
+                    trad[i][j] = 0;
                 }
-            } else {
-                prochain_deplacement = new LinkedList<Case>();
             }
-            agro = false;
+        }
+
+        int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        for (i = 0; i < lignes; i++) {
+            for (j = 0; j < colonnes; j++) {
+                if (j > 0 && j < colonnes - 1) {
+                    if (trad[i][j] != 1 && trad[i][j - 1] != 1) {
+                        exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
+                        exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
+                    }
+                    if (trad[i][j] != 1 && trad[i][j + 1] != -1) {
+                        exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
+                        exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
+                    }
+                }
+                if (i > 0 && i < lignes - 1) {
+                    if (trad[i][j] != 1 && trad[i - 1][j] != 1) {
+                        exist[j + colonnes * i][j + colonnes * (i - 1)] = 1;
+                        exist[j + colonnes * (i - 1)][j + colonnes * i] = 1;
+                    }
+                    if (trad[i][j] != 1 && trad[i + 1][j] != 1) {
+                        exist[j + colonnes * i][j + colonnes * (i + 1)] = 1;
+                        exist[j + colonnes * (i + 1)][j + colonnes * i] = 1;
+                    }
+                }
+            }
+        }
+
+        /** Utilisation de Warshall pour pouvoir vérifier l'existence**/
+        int k;
+        for (i = 0; i < colonnes * lignes; i++) {
+            for (j = 0; j < colonnes * lignes; j++) {
+                tmp[i][j] = exist[i][j];
+            }
+        }
+        for (k = 0; k < colonnes * lignes; k++) {
+            for (i = 0; i < colonnes * lignes; i++) {
+                for (j = 0; j < colonnes * lignes; j++) {
+                    if (tmp[i][k] == 1 && tmp[k][j] == 1) {
+                        tmp[i][j] = 1;
+                    }
+                }
+            }
+        }
+
+        while (!personnage && h < portee) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+            int var = -(portee - h);
+            while (var <= (portee - h) && !personnage) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
+
+                if(var>=0){
+                    if ((xc + (portee - h - var)) >= 0 && (xc + (portee - h - var)) <= 14) { //Vérification que ces cases existent dans une map
+                        if (yc + var >= 0 && yc + var <= 12) {
+                            if (map.getGrille()[xc + (portee - h - var)][yc + var].getPersonnage()!=null) {
+                                personnage = true;
+                                xp = xc + (portee - h) - var;
+                                yp = yc + var;
+                            }
+                        }
+                    }
+                }
+                if(var<0){
+                    if ((xc + var) >= 0 && (xc+var) <= 14) { //Vérification que ces cases existent dans une map
+                        if ((yc - (var+portee-h)) >= 0 && (yc - (var+portee-h)) <= 12) {
+                            if (map.getGrille()[xc + var][yc - (var+portee-h)].getPersonnage()!=null) {
+                                personnage = true;
+                                xp = xc + var;
+                                yp = yc - (var+portee-h);
+                            }
+                        }
+                    }
+                }
+
+                var++;
+            }
+            h++;
+        }
+
+        /** Si le personnage est repéré **/
+        if(personnage){
+            this.setAgro(true);
+
+            int N = Graphe.ALPHA_NOTDEF ;
+            int existdij[][] = new int[13 * 15][13 * 15];
+
+            for (i = 0; i < 13 * 15; i++) {
+                for (j = 0; j < 13 * 15; j++) {
+                    if (exist[i][j] == 1) {
+                        existdij[i][j] = 1;
+                    } else {
+                        existdij[i][j] = N;
+                    }
+                }
+            }
+
+            Graphe graphe=new Graphe(existdij);
+            Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
+            LinkedList<Integer> disol=dijkstra.afficheChemin(yp+colonnes*xp);
+
+            int pmrestant=pm;
+
+            while(!disol.isEmpty() && pmrestant>0){
+                pmrestant--;
+                int casis=disol.removeFirst();
+                prochain_deplacement.addFirst(map.getGrille()[casis/colonnes][casis%colonnes]);
+            }
+
+            return prochain_deplacement;
 
         }
+
+        /** Si le personnage n'est pas repéré **/
+        else{
+            this.setAgro(false);
+
+            int xa = -1, ya = -1; //Stockage de la case finale
+
+
+
+
+            /** On teste s'il existe un chemin avant de le chercher**/
+            int l = 0; //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
+            Boolean trouve = false;
+            while (!trouve && l < pm) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+                k = -(pm - l);
+                while (k <= (pm - l) && !trouve) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
+
+                    if(k>=0){
+                        if ((xc + (pm - l - k)) >= 0 && (xc + (pm - l - k)) <= 14) { //Vérification que ces cases existent dans une map
+                            if (yc + k >= 0 && yc + k <= 12) {
+                                if (tmp[yc + colonnes * xc][yc + k + colonnes * (xc + (pm - l) - k)] == 1 || tmp[yc + k + colonnes * (xc + (pm - l) - k)][yc + colonnes * xc] == 1) {
+                                    trouve = true;
+                                    xa = xc + (pm - l) - k;
+                                    ya = yc + k;
+                                }
+                            }
+                        }
+                    }
+                    if(k<0){
+                        if ((xc + k) >= 0 && (xc+k) <= 14) { //Vérification que ces cases existent dans une map
+                            if ((yc - (k+pm-l)) >= 0 && (yc - (k+pm-l)) <= 12) {
+                                if (tmp[yc + colonnes * xc][(yc - (k+pm-l)) + colonnes * (xc + k)] == 1 || tmp[(yc - (k+pm-l))+ colonnes * (xc + k)][yc + colonnes * xc] == 1) {
+                                    trouve = true;
+                                    xa = xc + k;
+                                    ya = yc - (k+pm-l);
+                                }
+                            }
+                        }
+                    }
+
+                    k++;
+                }
+                l++;
+            }
+
+            if (!trouve) {
+                prochain_deplacement.clear();
+                return prochain_deplacement;
+            }
+
+            /** Implémentation de Dijkstra pour avoir le chemin**/
+
+            else {
+                int N = Graphe.ALPHA_NOTDEF ;
+                int existdij[][] = new int[13 * 15][13 * 15];
+
+                for (i = 0; i < 13 * 15; i++) {
+                    for (j = 0; j < 13 * 15; j++) {
+                        if (exist[i][j] == 1) {
+                            existdij[i][j] = 1;
+                        } else {
+                            existdij[i][j] = N;
+                        }
+                    }
+                }
+
+                Graphe graphe=new Graphe(existdij);
+                Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
+                LinkedList<Integer> disol=dijkstra.afficheChemin(ya+colonnes*xa);
+
+                for(int f: disol){
+                    prochain_deplacement.addFirst(map.getGrille()[f/colonnes][f%colonnes]);
+                }
+                return prochain_deplacement;
+
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

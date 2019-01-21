@@ -24,7 +24,7 @@ public class EnnemiActif extends Ennemis {
 
         int a = caseC.posX();
         int b = caseC.posY();
-        System.out.println(a + " " + b);
+        //System.out.println(a + " " + b);
         LinkedList<Case> voisin = new LinkedList<Case>();
 
         if (caseLibre(grille[a - 1][b])) {
@@ -53,7 +53,7 @@ public class EnnemiActif extends Ennemis {
         LinkedList<Case> visites = new LinkedList<Case>();
         visites.add(cChemin);
 
-        return cheminMaxAux(visites, pmMax, pmMax - 1);
+        return cheminMaxAux(visites, pmMax, pmMax);
     }
 
 
@@ -68,13 +68,13 @@ public class EnnemiActif extends Ennemis {
         } else {
             LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
 
-            LinkedList<Case> cheminProvisoire;
+            LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
 
 
             // sinon on parcours les cases voisines non visitées
             for (Case a : voisins) {
                 if (!visites.contains(a)) {
-                    if (visites.size() == (pmMax - pmRestants)) {
+                    if (visites.size() == (pmMax - pmRestants+1)) {
                         visites.add(a);
                     } else {
                         visites.set(pmMax - pmRestants, a);
@@ -154,18 +154,10 @@ public class EnnemiActif extends Ennemis {
     }
 
     public void miseAjour() {
-        int i = 0;
-        Case suivante;
-        LinkedList<Case> cheminProvisoire = cheminMax(pm, c);
-        if (!cheminProvisoire.isEmpty()) {
-            suivante = cheminProvisoire.get(0);
-            while (i < pm && caseLibre(suivante)) {
-                prochain_deplacement.add(suivante);
-                i = i + 1;
-                suivante = cheminProvisoire.get(i);
-            }
-        } else {
-            prochain_deplacement = new LinkedList<Case>();
+        prochain_deplacement.clear();
+        recherchecheminmaxPL();
+        while(prochain_deplacement.size()!=pm+1){ //Il contient au moins la case où il se trouve
+            prochain_deplacement.removeLast();
         }
     }
 
@@ -173,5 +165,203 @@ public class EnnemiActif extends Ennemis {
     public boolean isAgro() {
         return false;
     }
+
+
+    /** Partie Paul-Louis pour la résolution du chemin des ennemis **/
+
+    public void recherchecheminmaxPL() {
+        Map map = this.getC().getMap();
+        int lignes = 15;
+        int colonnes = 13;
+        int xc = this.getC().posX();
+        int yc = this.getC().posY();
+        int i, j;
+        int[][] trad = new int[15][13];
+        for (i = 0; i < 15; i++) {
+            for (j = 0; j < 13; j++) {
+                if (map.getGrille()[i][j].getMur() != null) { //On ne peut pas passer s'il y a un mur
+                    trad[i][j] = 1;
+                } else if (map.getGrille()[i][j].getEnnemi() != null && map.getGrille()[i][j].posX() != c.posX() && map.getGrille()[i][j].posY() != c.posY()) {
+                    trad[i][j] = 1;
+                } else if (map.getGrille()[i][j].getPorte() != null) {
+                    trad[i][j] = 1;
+                } else {
+                    trad[i][j] = 0;
+                }
+            }
+        }
+
+        int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        for (i = 0; i < lignes; i++) {
+            for (j = 0; j < colonnes; j++) {
+                if (j > 0 && j < colonnes - 1) {
+                    if (trad[i][j] != 1 && trad[i][j - 1] != 1) {
+                        exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
+                        exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
+                    }
+                    if (trad[i][j] != 1 && trad[i][j + 1] != -1) {
+                        exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
+                        exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
+                    }
+                }
+                if (i > 0 && i < lignes - 1) {
+                    if (trad[i][j] != 1 && trad[i - 1][j] != 1) {
+                        exist[j + colonnes * i][j + colonnes * (i - 1)] = 1;
+                        exist[j + colonnes * (i - 1)][j + colonnes * i] = 1;
+                    }
+                    if (trad[i][j] != 1 && trad[i + 1][j] != 1) {
+                        exist[j + colonnes * i][j + colonnes * (i + 1)] = 1;
+                        exist[j + colonnes * (i + 1)][j + colonnes * i] = 1;
+                    }
+                }
+            }
+        }
+
+        /** Utilisation de Warshall pour pouvoir vérifier l'existence**/
+        int k;
+        for (i = 0; i < colonnes * lignes; i++) {
+            for (j = 0; j < colonnes * lignes; j++) {
+                tmp[i][j] = exist[i][j];
+            }
+        }
+        for (k = 0; k < colonnes * lignes; k++) {
+            for (i = 0; i < colonnes * lignes; i++) {
+                for (j = 0; j < colonnes * lignes; j++) {
+                    if (tmp[i][k] == 1 && tmp[k][j] == 1) {
+                        tmp[i][j] = 1;
+                    }
+                }
+            }
+        }
+
+        int xa = -1, ya = -1; //Stockage de la case finale
+        int[] predecesseur = new int[13 * 15];
+
+
+
+        /** On teste s'il existe un chemin avant de le chercher**/
+        int l = 0; //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
+        Boolean trouve = false;
+        while (!trouve && l < pm) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+            k = -(pm - l);
+            while (k <= (pm - l) && !trouve) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
+
+                if(k>=0){
+                    if ((xc + (pm - l - k)) >= 0 && (xc + (pm - l - k)) <= 14) { //Vérification que ces cases existent dans une map
+                        if (yc + k >= 0 && yc + k <= 12) {
+                            if (tmp[yc + colonnes * xc][yc + k + colonnes * (xc + (pm - l) - k)] == 1 || tmp[yc + k + colonnes * (xc + (pm - l) - k)][yc + colonnes * xc] == 1) {
+                                trouve = true;
+                                xa = xc + (pm - l) - k;
+                                ya = yc + k;
+                            }
+                        }
+                    }
+                }
+                if(k<0){
+                    if ((xc + k) >= 0 && (xc+k) <= 14) { //Vérification que ces cases existent dans une map
+                        if ((yc - (k+pm-l)) >= 0 && (yc - (k+pm-l)) <= 12) {
+                            if (tmp[yc + colonnes * xc][(yc - (k+pm-l)) + colonnes * (xc + k)] == 1 || tmp[(yc - (k+pm-l))+ colonnes * (xc + k)][yc + colonnes * xc] == 1) {
+                                trouve = true;
+                                xa = xc + k;
+                                ya = yc - (k+pm-l);
+                            }
+                        }
+                    }
+                }
+
+                k++;
+            }
+            l++;
+        }
+
+        if (!trouve) {
+            prochain_deplacement.clear();
+        }
+
+        /** Implémentation de Dijkstra pour avoir le chemin**/
+
+        else {
+            int N = Graphe.ALPHA_NOTDEF ;
+            int existdij[][] = new int[13 * 15][13 * 15];
+
+            for (i = 0; i < 13 * 15; i++) {
+                for (j = 0; j < 13 * 15; j++) {
+                     if (exist[i][j] == 1) {
+                        existdij[i][j] = 1;
+                    } else {
+                        existdij[i][j] = N;
+                    }
+                }
+            }
+
+            Graphe graphe=new Graphe(existdij);
+            Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
+            LinkedList<Integer> disol=dijkstra.afficheChemin(ya+colonnes*xa);
+
+            for(int f: disol){
+                prochain_deplacement.addFirst(map.getGrille()[f/colonnes][f%colonnes]);
+            }
+
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

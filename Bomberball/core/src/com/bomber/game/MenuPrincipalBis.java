@@ -100,6 +100,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.nbJoueur=4;
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);

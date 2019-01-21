@@ -24,6 +24,7 @@ public class Defaite extends Etat implements Screen {
     TextButton rejouer;
     String txt;
     File frecommencer;
+    File f;
 
 
     public Defaite(Bomberball game, Jeu jeu, String st) {
@@ -33,6 +34,7 @@ public class Defaite extends Etat implements Screen {
 
         File directory = new File (".");
         try {
+            f=new File(directory.getCanonicalPath()+"/SaveTempo/tmp.txt");
             frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
         } catch (IOException e) {
@@ -69,9 +71,15 @@ public class Defaite extends Etat implements Screen {
         ok.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map = null;
-                game.defaite.removeActor(jeu.findActor("Map"));
+
                 frecommencer.delete();
+                f.delete();
+
+
+                jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.defaite.removeActor(jeu);
+
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
@@ -82,9 +90,13 @@ public class Defaite extends Etat implements Screen {
         rejouer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map = null;
                 game.defaite.removeActor(jeu.findActor("Map"));
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(frecommencer));
+
+
+                jeu.removeActor(jeu.map);
+                game.defaite.removeActor(jeu);
+
                 jeu.setEtat(game.jeuSolo);
                 game.setScreen(game.jeuSolo);
                 game.jeuSolo.pm=((Personnage)jeu.findActor("Personnage")).getPm();

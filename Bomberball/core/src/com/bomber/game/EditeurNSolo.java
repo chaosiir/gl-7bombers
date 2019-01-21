@@ -248,6 +248,9 @@ public class EditeurNSolo extends Etat implements Screen {
                 if(f.exists()){
                     f.delete();
                 }
+                map.suppActor();
+                game.editeurNSolo.removeActor(map);
+
                 jeu.setEtat(game.choixEditeurN);
                 game.setScreen(game.choixEditeurN);
             }
@@ -280,10 +283,15 @@ public class EditeurNSolo extends Etat implements Screen {
                     }
                 }
                 if (cptPerso!=1 || cptPorte!=1){
+                    map.suppActor();
+                    game.editeurNMulti.removeActor(map);
                     jeu.setEtat(game.erreurEditeurS);
                     game.setScreen(game.erreurEditeurS);
                 }
                 else{
+                    map.suppActor();
+                    game.editeurNSolo.removeActor(map);
+
                     jeu.setEtat(game.validerEditeurSolo);
                     game.setScreen(game.validerEditeurSolo);
                 }
@@ -293,6 +301,9 @@ public class EditeurNSolo extends Etat implements Screen {
         charger.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                map.suppActor();
+                game.editeurNSolo.removeActor(map);
+
                 jeu.setEtat(game.choixMapSoloE);
                 game.setScreen(game.choixMapSoloE);
             }
@@ -499,21 +510,21 @@ public class EditeurNSolo extends Etat implements Screen {
                                 if(cas.getEnnemi() instanceof EnnemiPassif){
                                     EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
-                                    //map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
                                 }
                                 else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
                                     EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(Color.WHITE);
-                                    //map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
                                 }
                                 else if(cas.getEnnemi() instanceof  EnnemiActif){
                                     EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
-                                  //  map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
                                 }
@@ -537,6 +548,54 @@ public class EditeurNSolo extends Etat implements Screen {
                             }
                         }
                     }
+                    else if(en instanceof EnnemiActif || en instanceof EnnemiActifAggressif){
+                        en.miseAjour();
+                        LinkedList<Case> caca = en.getProchain_deplacement();
+                        for (Case cas : caca) {
+                            int xc = cas.posX();
+                            int yc = cas.posY();
+                            if (cas.getEnnemi() != null) {
+                                if(cas.getEnnemi() instanceof EnnemiPassif){
+                                    EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                    EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                    EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                    map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                    EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+                                    // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                                }
+
+                            } else if (cas.getPersonnage() != null) {
+                                Personnage personnage = cas.getPersonnage();
+                                map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                                map.getGrille()[xc][yc].setPersonnage(null);
+                                map.getGrille()[xc][yc].setPersonnage(personnage);
+                            } else {
+                                map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
+                                // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
+                            }
+                        }
+                    }
 
                 }
                 cache=false;
@@ -548,33 +607,32 @@ public class EditeurNSolo extends Etat implements Screen {
                         for(Case cas: caca){
                             int xc=cas.posX();
                             int yc=cas.posY();
-                            System.out.println("Ennemi n "+en.getC().posX()+" "+ en.getC().posY()+" xc="+xc+" yc="+yc);
+
                             if(cas.getEnnemi()!=null){
                                 if(cas.getEnnemi() instanceof EnnemiPassif){
                                     EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
-                                  //  map.getGrille()[xc][yc].setMarque(null);
+
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
                                 }
                                 else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
                                     EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
-                                 //   map.getGrille()[xc][yc].setMarque(null);
+
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
                                 }
                                 else if(cas.getEnnemi() instanceof  EnnemiActif){
                                     EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
-                                //    map.getGrille()[xc][yc].setMarque(null);
+
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
                                 }
                                 else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
                                     EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
                                     map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
-                                  //  map.getGrille()[xc][yc].setMarque(null);
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
                                 }
@@ -583,12 +641,60 @@ public class EditeurNSolo extends Etat implements Screen {
                                 Personnage personnage=cas.getPersonnage();
                                 map.getGrille()[xc][yc].setPersonnage(null);
                                 map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
-                             //   map.getGrille()[xc][yc].setMarque(null);
+
                                 map.getGrille()[xc][yc].setPersonnage(personnage);
                             }
                             else{
                                 map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
-                               // map.getGrille()[xc][yc].setMarque(null);
+
+                            }
+                        }
+                    }
+                    else if(en instanceof EnnemiActif || en instanceof EnnemiActifAggressif){
+                        en.miseAjour();
+                        LinkedList<Case> caca = en.getProchain_deplacement();
+                        for (Case cas : caca) {
+                            int xc = cas.posX();
+                            int yc = cas.posY();
+                            if (cas.getEnnemi() != null) {
+                                if(cas.getEnnemi() instanceof EnnemiPassif){
+                                    EnnemiPassif ennemi_passif = (EnnemiPassif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif);
+                                }
+                                else if(cas.getEnnemi() instanceof EnnemiPassifAgressif){
+                                    EnnemiPassifAgressif ennemi_passif_aggressif = (EnnemiPassifAgressif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_passif_aggressif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActif){
+                                    EnnemiActif ennemi_actif = (EnnemiActif) cas.getEnnemi();
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif);
+                                }
+                                else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
+                                    map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+                                    EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
+
+                                    map.getGrille()[xc][yc].setEnnemi(null);
+                                    map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
+                                }
+
+                            } else if (cas.getPersonnage() != null) {
+                                Personnage personnage = cas.getPersonnage();
+                                map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+
+                                map.getGrille()[xc][yc].setPersonnage(null);
+                                map.getGrille()[xc][yc].setPersonnage(personnage);
+                            } else {
+                                map.getGrille()[xc][yc].getBackground().setColor(255,255,255,1);
+
                             }
                         }
                     }
@@ -647,6 +753,8 @@ public class EditeurNSolo extends Etat implements Screen {
                     e.printStackTrace();
                 }
                 this.removeActor(map);
+                map.suppActor();
+                game.editeurNSolo.removeActor(map);
                 jeu.setEtat(game.selectionCheminEp);
                 game.setScreen(game.selectionCheminEp);
 
@@ -667,6 +775,8 @@ public class EditeurNSolo extends Etat implements Screen {
                     e.printStackTrace();
                 }
                 this.removeActor(map);
+                map.suppActor();
+                game.editeurNSolo.removeActor(map);
                 jeu.setEtat(game.selectionCheminEpa);
                 game.setScreen(game.selectionCheminEpa);
             }
@@ -914,7 +1024,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
+            /*else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
                 Case c = (Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
                     c.getEnnemi().prochain_deplacement.clear();
@@ -968,7 +1078,7 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                     }
                 }
-            }
+            }*/
 
             }else if(hitActor.getParent() instanceof Case){
                 Case c = (Case) hitActor.getParent();
@@ -977,6 +1087,20 @@ public class EditeurNSolo extends Etat implements Screen {
                     c.setPorte(null);
                     c.setPersonnage(null);
                     c.setBonus(null);
+                    if(!cache){
+                        if(c.getEnnemi()!=null){
+                            if(c.getEnnemi() instanceof EnnemiPassif || c.getEnnemi() instanceof EnnemiPassifAgressif){
+                                for(Case cas: c.getEnnemi().getChemin()){
+                                    cas.getBackground().setColor(255,255,255,1);
+                                }
+                            }
+                            else if(c.getEnnemi() instanceof EnnemiActif || c.getEnnemi() instanceof EnnemiActifAggressif){
+                                for (Case cas: c.getEnnemi().getProchain_deplacement()){
+                                    cas.getBackground().setColor(255,255,255,1);
+                                }
+                            }
+                        }
+                    }
                     c.setEnnemi(null);
                     Image background=new Image(Bomberball.multiTexture[0]);
                     background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -1022,16 +1146,12 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                         else if(selectionne.getName().equals("Ea")){
                             c.setEnnemi(null);
-                            EnnemiActif ea=new EnnemiActif(true,c,5);
+                            EnnemiActif ea=new EnnemiActif(true,c,3);
                             c.setEnnemi(ea);
-                        }
-                        else if(selectionne.getName().equals("Epa")){
-                            c.setEnnemi(null);
-                            c.setEnnemi(new EnnemiPassifAgressif(true,c,5,5,false));
                         }
                         else if(selectionne.getName().equals("Eaa")){
                             c.setEnnemi(null);
-                            EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,5,5,false);
+                            EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,3,5,false);
                             c.setEnnemi(eaa);
                         }
 
