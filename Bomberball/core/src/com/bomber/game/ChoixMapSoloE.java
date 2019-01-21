@@ -113,6 +113,10 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         game.choixMapSoloE.removeActor(back);
                         game.choixMapSoloE.removeActor(scrollPane);
                         game.choixMapSoloE.removeActor(table);
+                        map.suppActor();
+                        jeu.removeActor(map);
+                        map=null;
+                        game.choixMapSoloE.removeActor(jeu);
                         jeu.setEtat(game.editeurNSolo);
                         game.setScreen(game.editeurNSolo);
 
@@ -129,6 +133,10 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 game.choixMapSoloE.removeActor(back);
                 game.choixMapSoloE.removeActor(scrollPane);
                 game.choixMapSoloE.removeActor(table);
+                map.suppActor();
+                jeu.removeActor(map);
+                map=null;
+                game.choixMapSoloE.removeActor(jeu);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -143,7 +151,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 try {
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromString(text);
+                    map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
                     for (int i=0;i<15;i++){

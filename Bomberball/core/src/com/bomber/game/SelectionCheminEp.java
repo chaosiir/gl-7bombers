@@ -122,7 +122,13 @@ public class SelectionCheminEp extends Etat implements Screen {
                     ennemi_passif=null;
                 }
                 compteur=0;
+
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.parametreSolo.removeActor(jeu);
+
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -139,7 +145,13 @@ public class SelectionCheminEp extends Etat implements Screen {
                     e.printStackTrace();
                 }
                 compteur=0;
+
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
+                jeu.map=null;
+                game.selectionCheminEp.removeActor(jeu);
+
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }

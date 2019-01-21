@@ -90,12 +90,19 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
 
         if(f.exists()){
-            jeu.map.suppActor();
             jeu.removeActor(jeu.map);
             jeu.map=null;
             if(jeu.recommencer){
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
+                for (int i=0;i<15;i++){
+                    for(int j=0;j<13;j++){
+                        if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
+                            pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
+                            nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
+                        }
+                    }
+                }
                 f.delete();
                 try {
                     fwr = new FileWriter(frecommencer);
@@ -106,7 +113,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 }
             }
             else{
-                jeu.map=Map.mapFromStringP(Bomberball.loadFile(f),this.jeu);
+                jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
                 f.delete();
                 pm=jeu.pmtmp1; //Remise à jour des valeurs de pm et du nb de bombes restantes
                 jeu.pmtmp1=-1;
@@ -116,6 +123,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
         }
         else if(jeu.map==null){
+            //Ligne à ajouter pour la modification du nombre d'ennemis sur la carte
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
                 jeu.nbBonus=-1;
@@ -135,6 +143,21 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+            for (int i=0;i<15;i++){
+                for(int j=0;j<13;j++){
+                    if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
+                        if(jeu.nbBombe!=-1){
+                            jeu.map.getGrille()[i][j].getPersonnage().setNbBombe(jeu.nbBombe);
+                        }
+                        if(jeu.nbDeplaP!=-1){
+                            jeu.map.getGrille()[i][j].getPersonnage().setPm(jeu.nbDeplaP);
+                        }
+
+                        pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
+                        nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
+                    }
                 }
             }
 
@@ -170,6 +193,15 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
         personnage=jeu.map.findActor("Personnage");
 
+        if(jeu.porteeBombe!=-1){
+            personnage.setTaille(jeu.porteeBombe);
+        }
+        if(jeu.nbBombe!=-1){
+            personnage.setNbBombe(jeu.nbBombe);
+        }
+        if(jeu.nbDeplaP!=-1){
+            personnage.setPm(jeu.nbDeplaP);
+        }
 
 
 
@@ -226,8 +258,17 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.map.suppActor();
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
+                bombaaaagh.jeuSolo.removeActor(jeu);
+                Bomberball.input.removeProcessor(bombaaaagh.jeuSolo);
+                frecommencer.delete();
+
+                jeu.nbDeplaP=-1;
+                jeu.porteeBombe=-1;
+                jeu.nbBombe=-1;
+
 
                 jeu.setEtat(bombaaaagh.menuSolo);
                 bombaaaagh.setScreen(bombaaaagh.menuSolo);
@@ -241,6 +282,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 }
             }
         }
+
 
 
 
@@ -258,6 +300,14 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         this.addActor(retour);
         jeu.addActor(jeu.map);
         this.addActor(jeu);
+        jeu.pmtmp1=-1;
+        jeu.pmtmp2=-1;
+        jeu.pmtmp3=-1;
+        jeu.pmtmp4=-1;
+        jeu.nbtmp1=-1;
+        jeu.nbtmp2=-1;
+        jeu.nbtmp3=-1;
+        jeu.nbtmp4=-1;
 
 
     }
@@ -358,9 +408,54 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                                     bombaaaagh.setScreen(bombaaaagh.defaite);
                                     return true;
                                 }
-                                return false;
                             }
-                        });
+                        }
+                        if (ennemis) {
+                            jeu.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    if (time > 4) {
+
+                                        jeu.map.suppActor();
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map=null;
+                                        bombaaaagh.jeuSolo.removeActor(jeu);
+
+
+                                        bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.setEtat(bombaaaagh.defaite);
+                                        bombaaaagh.setScreen(bombaaaagh.defaite);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+                        } else {
+                            jeu.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    if (time > 3) {
+
+                                        bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.map.suppActor();
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map=null;
+                                        bombaaaagh.jeuSolo.removeActor(jeu);
+
+                                        jeu.setEtat(bombaaaagh.defaite);
+                                        bombaaaagh.setScreen(bombaaaagh.defaite);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -368,20 +463,23 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         if (keycode == Input.Keys.ESCAPE) {
             try {
                 fw = new FileWriter(f);
-                fw.write(jeu.map.mapToTextP());
+                fw.write(jeu.map.mapToTextNP());
                 if(joueur.getC().getBombe()!=null){
-                    fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 19 "+joueur.getId()+" "+pm+" "+nb+" "+joueur.getPm()+" "+joueur.isVivant()+" "+joueur.getTaille()+" "+joueur.getNbBombe()+" "+joueur.isPoussee()+"\n");
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
                 }
                 else{
-                    fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 1212 "+" "+joueur.getId()+" "+pm+" "+nb+" "+joueur.getPm()+" "+joueur.isVivant()+" "+joueur.getTaille()+" "+joueur.getNbBombe()+" "+joueur.isPoussee()+"\n");
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
                 }
-
-                fw.write(joueur.getC().posX()+" "+joueur.getC().posY()+" 9999 "+joueur.getId()+"\n");
+                fw.write("111 "); //Symbole de fin pour la fin de la mise à jour des personnages
+                fw.write(""+joueur.getId());
                 fw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            jeu.map.suppActor();
+            jeu.removeActor(jeu.map);
+            jeu.map=null;
+            bombaaaagh.jeuSolo.removeActor(jeu);
             bombaaaagh.menuPause.setEtatAnterieur(this);
             jeu.setEtat(bombaaaagh.menuPause);
             bombaaaagh.setScreen(bombaaaagh.menuPause);
