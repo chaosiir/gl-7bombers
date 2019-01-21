@@ -713,90 +713,192 @@ public class EditeurNSolo extends Etat implements Screen {
     public boolean touchDown(int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true); //Retourne référence de l'acteur touché
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
-        if (hitActor.getName()!=null) {
-            if (hitActor.getName().equals("murd")) {
-                selectionne.setDrawable(murd.getDrawable());
-                selectionne.setName("murdes");
-            } else if (hitActor.getName().equals("floor")) {
-                selectionne.setDrawable(floor.getDrawable());
-                selectionne.setName("sol");
-            } else if (hitActor.getName().equals("muri")) {
-                selectionne.setDrawable(muri.getDrawable());
-                selectionne.setName("murin");
-            } else if (hitActor.getName().equals("porte")) {
-                selectionne.setDrawable(porte.getDrawable());
-                selectionne.setName("p");
-            }
-            else if(hitActor.getName().equals("perso")){
-                selectionne.setDrawable(perso.getDrawable());
-                selectionne.setName("player");
-            }
-            else if(hitActor.getName().equals("bonusB")){
-                selectionne.setDrawable(bonusB.getDrawable());
-                selectionne.setName("bB");
-            }
-            else if(hitActor.getName().equals("bonusE")){
-                selectionne.setDrawable(bonusE.getDrawable());
-                selectionne.setName("bE");
-            }
-            else if(hitActor.getName().equals("bonusM")){
-                selectionne.setDrawable(bonusM.getDrawable());
-                selectionne.setName("bM");
-            }
-            else if(hitActor.getName().equals("ghost1")){
-                selectionne.setDrawable(ennemisPassif.getDrawable());
-                selectionne.setName("Ep");
-                try {
-                    fw = new FileWriter(f);
-                    fw.write(map.mapToTextN());
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if(Gdx.graphics.getHeight()-y>=Gdx.graphics.getHeight() || Gdx.graphics.getHeight()-y<=0){
+            return true;
+        }
+        else{
+            if (hitActor.getName()!=null) {
+                if (hitActor.getName().equals("murd")) {
+                    selectionne.setDrawable(murd.getDrawable());
+                    selectionne.setName("murdes");
+                } else if (hitActor.getName().equals("floor")) {
+                    selectionne.setDrawable(floor.getDrawable());
+                    selectionne.setName("sol");
+                } else if (hitActor.getName().equals("muri")) {
+                    selectionne.setDrawable(muri.getDrawable());
+                    selectionne.setName("murin");
+                } else if (hitActor.getName().equals("porte")) {
+                    selectionne.setDrawable(porte.getDrawable());
+                    selectionne.setName("p");
                 }
-                this.removeActor(map);
-                map.suppActor();
-                cache=false;
-                game.editeurNSolo.removeActor(map);
-                jeu.setEtat(game.selectionCheminEp);
-                game.setScreen(game.selectionCheminEp);
+                else if(hitActor.getName().equals("perso")){
+                    selectionne.setDrawable(perso.getDrawable());
+                    selectionne.setName("player");
+                }
+                else if(hitActor.getName().equals("bonusB")){
+                    selectionne.setDrawable(bonusB.getDrawable());
+                    selectionne.setName("bB");
+                }
+                else if(hitActor.getName().equals("bonusE")){
+                    selectionne.setDrawable(bonusE.getDrawable());
+                    selectionne.setName("bE");
+                }
+                else if(hitActor.getName().equals("bonusM")){
+                    selectionne.setDrawable(bonusM.getDrawable());
+                    selectionne.setName("bM");
+                }
+                else if(hitActor.getName().equals("ghost1")){
+                    selectionne.setDrawable(ennemisPassif.getDrawable());
+                    selectionne.setName("Ep");
+                    try {
+                        fw = new FileWriter(f);
+                        fw.write(map.mapToTextN());
+                        fw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    this.removeActor(map);
+                    map.suppActor();
+                    cache=false;
+                    game.editeurNSolo.removeActor(map);
+                    jeu.setEtat(game.selectionCheminEp);
+                    game.setScreen(game.selectionCheminEp);
 
 
-            }
-            else if(hitActor.getName().equals("imp1")){
-                selectionne.setDrawable(ennemisActif.getDrawable());
-                selectionne.setName("Ea");
-            }
-            else if(hitActor.getName().equals("ghost2")){
-                selectionne.setDrawable(ennemisPassifAgressif.getDrawable());
-                selectionne.setName("Epa");
-                try {
-                    fw = new FileWriter(f);
-                    fw.write(map.mapToTextN());
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-                this.removeActor(map);
-                map.suppActor();
-                cache=false;
-                game.editeurNSolo.removeActor(map);
-                jeu.setEtat(game.selectionCheminEpa);
-                game.setScreen(game.selectionCheminEpa);
-            }
-            else if(hitActor.getName().equals("imp2")){
-                selectionne.setDrawable(ennemisActifAgressif.getDrawable());
-                selectionne.setName("Eaa");
-            }
-            else if(hitActor.getName().equals("BonusP")){
-                selectionne.setDrawable(bonusP.getDrawable());
-                selectionne.setName("bP");
-            }
-            else if(hitActor.getName().equals("MurI")){
-                Case c = (Case) hitActor.getParent();
-                if(c.posX()==0 || c.posX()==14 || c.posY()==0 || c.posY()==12){
+                else if(hitActor.getName().equals("imp1")){
+                    selectionne.setDrawable(ennemisActif.getDrawable());
+                    selectionne.setName("Ea");
+                }
+                else if(hitActor.getName().equals("ghost2")){
+                    selectionne.setDrawable(ennemisPassifAgressif.getDrawable());
+                    selectionne.setName("Epa");
+                    try {
+                        fw = new FileWriter(f);
+                        fw.write(map.mapToTextN());
+                        fw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    this.removeActor(map);
+                    map.suppActor();
+                    cache=false;
+                    game.editeurNSolo.removeActor(map);
+                    jeu.setEtat(game.selectionCheminEpa);
+                    game.setScreen(game.selectionCheminEpa);
+                }
+                else if(hitActor.getName().equals("imp2")){
+                    selectionne.setDrawable(ennemisActifAgressif.getDrawable());
+                    selectionne.setName("Eaa");
+                }
+                else if(hitActor.getName().equals("BonusP")){
+                    selectionne.setDrawable(bonusP.getDrawable());
+                    selectionne.setName("bP");
+                }
+                else if(hitActor.getName().equals("MurI")){
+                    Case c = (Case) hitActor.getParent();
+                    if(c.posX()==0 || c.posX()==14 || c.posY()==0 || c.posY()==12){
+
+                    }
+                    else{
+                        if (button == Input.Buttons.RIGHT) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
+                            c.setBonus(null);
+                            c.setEnnemi(null);
+                            Image background=new Image(Bomberball.multiTexture[0]);
+                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                            c.addActor(background);
+                        } else if (button == Input.Buttons.LEFT) {
+                            if (selectionne.getDrawable() != null) {
+                                if (selectionne.getName().equals("murdes")) {
+                                    c.setMur(new MurD());
+                                } else if (selectionne.getName().equals("sol")) {
+                                    c.setMur(null);
+                                    c.setPorte(null);
+                                    c.setPersonnage(null);
+                                    c.setBonus(null);
+                                    c.setEnnemi(null);
+                                    Image background=new Image(Bomberball.multiTexture[0]);
+                                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                    c.addActor(background);
+                                } else if (selectionne.getName().equals("murin")) {
+                                    c.setMur(new MurI());
+                                } else if (selectionne.getName().equals("p")) {
+                                    c.setPorte(new Porte());
+                                }
+                                else if(selectionne.getName().equals("player")){
+                                    if(c.getMur()==null){
+                                        c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
 
                 }
-                else{
+                else if(hitActor.getName().equals("MurD")){
+                    Case c = (Case) hitActor.getParent();
+                    if (button == Input.Buttons.RIGHT) {
+                        c.setMur(null);
+                        c.setPorte(null);
+                        c.setPersonnage(null);
+                        c.setBonus(null);
+                        c.setEnnemi(null);
+                        Image background=new Image(Bomberball.multiTexture[0]);
+                        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                        c.addActor(background);
+                    } else if (button == Input.Buttons.LEFT) {
+                        if (selectionne.getDrawable() != null) {
+                            if (selectionne.getName().equals("murdes")) {
+                                c.setBonus(null);
+                                c.setMur(new MurD());
+                            } else if (selectionne.getName().equals("sol")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                Image background=new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                c.addActor(background);
+                            } else if (selectionne.getName().equals("murin")) {
+                                c.setBonus(null);
+                                c.setMur(new MurI());
+                            } else if (selectionne.getName().equals("p")) {
+                                c.setBonus(null);
+                                c.setPorte(new Porte());
+                            }
+                            else if(selectionne.getName().equals("player")){
+                                if(c.getMur()==null){
+                                    c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                                }
+
+                            }
+                            else if(selectionne.getName().equals("bB")){
+                                c.setBonus(new BonusBombe(c));
+                                c.getBonus().setScale(0.5f);
+                            }
+                            else if(selectionne.getName().equals("bM")){
+                                c.setBonus(new BonusMove(c));
+                                c.getBonus().setScale(0.5f);
+                            }
+                            else if(selectionne.getName().equals("bE")){
+                                c.setBonus(new BonusExplo(c));
+                                c.getBonus().setScale(0.5f);
+                            }
+                            else if(selectionne.getName().equals("bP")){
+                                c.setBonus(new BonusPousser(c));
+                                c.getBonus().setScale(0.5f);
+                            }
+                        }
+                    }
+
+                }
+                else if(hitActor.getName().equals("Porte")){
+                    Case c = (Case) hitActor.getParent();
                     if (button == Input.Buttons.RIGHT) {
                         c.setMur(null);
                         c.setPorte(null);
@@ -824,6 +926,41 @@ public class EditeurNSolo extends Etat implements Screen {
                             } else if (selectionne.getName().equals("p")) {
                                 c.setPorte(new Porte());
                             }
+                        }
+                    }
+
+                }
+                else if(hitActor.getName().equals("Personnage")){
+                    Case c = (Case) hitActor.getParent();
+                    System.out.println("x="+c.posX()+" y="+c.posY());
+                    if (button == Input.Buttons.RIGHT) {
+                        c.setMur(null);
+                        c.setPorte(null);
+                        c.setPersonnage(null);
+                        c.setBonus(null);
+                        c.setEnnemi(null);
+                        Image background=new Image(Bomberball.multiTexture[0]);
+                        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                        c.addActor(background);
+                    } else if (button == Input.Buttons.LEFT) {
+                        if (selectionne.getDrawable() != null) {
+                            if (selectionne.getName().equals("murdes")) {
+                                c.setMur(new MurD());
+                            } else if (selectionne.getName().equals("sol")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
+                                Image background=new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                c.addActor(background);
+                            } else if (selectionne.getName().equals("murin")) {
+                                Map m=c.getMap();
+                                c.setMur(new MurI());
+                            } else if (selectionne.getName().equals("p")) {
+                                c.setPorte(new Porte());
+                            }
                             else if(selectionne.getName().equals("player")){
                                 if(c.getMur()==null){
                                     c.setPersonnage(new Personnage(true,c,2,1,5,0));
@@ -832,201 +969,68 @@ public class EditeurNSolo extends Etat implements Screen {
                             }
                         }
                     }
+
                 }
-
-
-            }
-            else if(hitActor.getName().equals("MurD")){
-                Case c = (Case) hitActor.getParent();
-                if (button == Input.Buttons.RIGHT) {
-                    c.setMur(null);
-                    c.setPorte(null);
-                    c.setPersonnage(null);
-                    c.setBonus(null);
-                    c.setEnnemi(null);
-                    Image background=new Image(Bomberball.multiTexture[0]);
-                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                    c.addActor(background);
-                } else if (button == Input.Buttons.LEFT) {
-                    if (selectionne.getDrawable() != null) {
-                        if (selectionne.getName().equals("murdes")) {
-                            c.setBonus(null);
-                            c.setMur(new MurD());
-                        } else if (selectionne.getName().equals("sol")) {
-                            c.setMur(null);
-                            c.setPorte(null);
-                            c.setPersonnage(null);
-                            c.setBonus(null);
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-                        } else if (selectionne.getName().equals("murin")) {
-                            c.setBonus(null);
-                            c.setMur(new MurI());
-                        } else if (selectionne.getName().equals("p")) {
-                            c.setBonus(null);
-                            c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                else if(hitActor.getName().equals("bonus")){
+                    Case c = (Case) hitActor.getParent();
+                    if (button == Input.Buttons.RIGHT) {
+                        c.setMur(null);
+                        c.setPorte(null);
+                        c.setPersonnage(null);
+                        c.setBonus(null);
+                        c.setEnnemi(null);
+                        Image background=new Image(Bomberball.multiTexture[0]);
+                        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                        c.addActor(background);
+                    } else if (button == Input.Buttons.LEFT) {
+                        if (selectionne.getDrawable() != null) {
+                            if (selectionne.getName().equals("murdes")) {
+                                c.setBonus(null);
+                                c.setEnnemi(null);
+                                c.setMur(new MurD());
+                            } else if (selectionne.getName().equals("sol")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
+                                Image background=new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                c.addActor(background);
+                            } else if (selectionne.getName().equals("murin")) {
+                                c.setBonus(null);
+                                c.setEnnemi(null);
+                                c.setMur(new MurI());
+                            } else if (selectionne.getName().equals("p")) {
+                                c.setBonus(null);
+                                c.setEnnemi(null);
+                                c.setPorte(new Porte());
                             }
+                            else if(selectionne.getName().equals("player")){
+                                c.setBonus(null);
+                                c.setEnnemi(null);
+                                if(c.getMur()==null){
+                                    c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                                }
 
-                        }
-                        else if(selectionne.getName().equals("bB")){
-                            c.setBonus(new BonusBombe(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-                        else if(selectionne.getName().equals("bM")){
-                            c.setBonus(new BonusMove(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-                        else if(selectionne.getName().equals("bE")){
-                            c.setBonus(new BonusExplo(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-                        else if(selectionne.getName().equals("bP")){
-                            c.setBonus(new BonusPousser(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-                    }
-                }
-
-            }
-            else if(hitActor.getName().equals("Porte")){
-                Case c = (Case) hitActor.getParent();
-                if (button == Input.Buttons.RIGHT) {
-                    c.setMur(null);
-                    c.setPorte(null);
-                    c.setPersonnage(null);
-                    c.setBonus(null);
-                    c.setEnnemi(null);
-                    Image background=new Image(Bomberball.multiTexture[0]);
-                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                    c.addActor(background);
-                } else if (button == Input.Buttons.LEFT) {
-                    if (selectionne.getDrawable() != null) {
-                        if (selectionne.getName().equals("murdes")) {
-                            c.setMur(new MurD());
-                        } else if (selectionne.getName().equals("sol")) {
-                            c.setMur(null);
-                            c.setPorte(null);
-                            c.setPersonnage(null);
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-                        } else if (selectionne.getName().equals("murin")) {
-                            c.setMur(new MurI());
-                        } else if (selectionne.getName().equals("p")) {
-                            c.setPorte(new Porte());
-                        }
-                    }
-                }
-
-            }
-            else if(hitActor.getName().equals("Personnage")){
-                Case c = (Case) hitActor.getParent();
-                System.out.println("x="+c.posX()+" y="+c.posY());
-                if (button == Input.Buttons.RIGHT) {
-                    c.setMur(null);
-                    c.setPorte(null);
-                    c.setPersonnage(null);
-                    c.setBonus(null);
-                    c.setEnnemi(null);
-                    Image background=new Image(Bomberball.multiTexture[0]);
-                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                    c.addActor(background);
-                } else if (button == Input.Buttons.LEFT) {
-                    if (selectionne.getDrawable() != null) {
-                        if (selectionne.getName().equals("murdes")) {
-                            c.setMur(new MurD());
-                        } else if (selectionne.getName().equals("sol")) {
-                            c.setMur(null);
-                            c.setPorte(null);
-                            c.setPersonnage(null);
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-                        } else if (selectionne.getName().equals("murin")) {
-                            Map m=c.getMap();
-                            c.setMur(new MurI());
-                        } else if (selectionne.getName().equals("p")) {
-                            c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
+                            }
+                            else if(selectionne.getName().equals("bB")){
+                                c.setBonus(new BonusBombe(c));
+                                c.getBonus().setScale(0.5f);
+                            }
+                            else if(selectionne.getName().equals("bM")){
+                                c.setBonus(new BonusMove(c));
+                                c.getBonus().setScale(0.5f);
+                            }
+                            else if(selectionne.getName().equals("bE")){
+                                c.setBonus(new BonusExplo(c));
+                                c.getBonus().setScale(0.5f);
                             }
 
                         }
                     }
+
                 }
-
-            }
-            else if(hitActor.getName().equals("bonus")){
-                Case c = (Case) hitActor.getParent();
-                if (button == Input.Buttons.RIGHT) {
-                    c.setMur(null);
-                    c.setPorte(null);
-                    c.setPersonnage(null);
-                    c.setBonus(null);
-                    c.setEnnemi(null);
-                    Image background=new Image(Bomberball.multiTexture[0]);
-                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                    c.addActor(background);
-                } else if (button == Input.Buttons.LEFT) {
-                    if (selectionne.getDrawable() != null) {
-                        if (selectionne.getName().equals("murdes")) {
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            c.setMur(new MurD());
-                        } else if (selectionne.getName().equals("sol")) {
-                            c.setMur(null);
-                            c.setPorte(null);
-                            c.setPersonnage(null);
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-                        } else if (selectionne.getName().equals("murin")) {
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            c.setMur(new MurI());
-                        } else if (selectionne.getName().equals("p")) {
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            c.setBonus(null);
-                            c.setEnnemi(null);
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
-                            }
-
-                        }
-                        else if(selectionne.getName().equals("bB")){
-                            c.setBonus(new BonusBombe(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-                        else if(selectionne.getName().equals("bM")){
-                            c.setBonus(new BonusMove(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-                        else if(selectionne.getName().equals("bE")){
-                            c.setBonus(new BonusExplo(c));
-                            c.getBonus().setScale(0.5f);
-                        }
-
-                    }
-                }
-
-            }
             /*else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
                 Case c = (Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
@@ -1164,15 +1168,17 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
 
+            }
+
+
+
+
+
+            Gdx.app.log("HIT", hitActor.getName());
+
+            return true;
+
         }
-
-
-
-
-
-        Gdx.app.log("HIT", hitActor.getName());
-
-        return true;
 
     }
 

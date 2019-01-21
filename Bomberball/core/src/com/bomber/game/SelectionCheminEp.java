@@ -234,7 +234,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif=new EnnemiPassif(true,c,5);
+                    ennemi_passif=new EnnemiPassif(true,c,3);
                     ennemi_passif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif);
                     System.out.println(ennemi_passif==null);

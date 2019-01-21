@@ -128,11 +128,11 @@ public class Dijkstra {
 	public LinkedList<Integer> afficheChemin(int i){
 		int source = x0;
 		int antecedent = i;
+		System.out.println("DIJSKTRA");
 		LinkedList<Integer> lesNoeudsIntermediaires = new LinkedList<Integer>();
-		System.out.println("Valeur i="+i);
 		while (antecedent!=source){
 			lesNoeudsIntermediaires.add(antecedent);
-			System.out.println("Valeur Antecedent="+antecedent);
+			System.out.println("X="+antecedent/13+" Y="+antecedent%13);
 			antecedent = R[antecedent];
 			
 		}
