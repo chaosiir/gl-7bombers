@@ -147,6 +147,8 @@ public class MenuPause extends Etat implements Screen {
                 jeu.porteeBombe=-1;
                 jeu.nbDeplaP=-1;
                 jeu.nbBombe=-1;
+                jeu.nbEnnemis=-1;
+                jeu.nbDeplaEnnemis=-1;
 
                 jeu.removeActor(jeu.map);
                 game.menuPause.removeActor(jeu);

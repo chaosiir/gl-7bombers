@@ -123,7 +123,8 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
                 compteur=0;
 
-
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.parametreSolo.removeActor(jeu);
@@ -145,7 +146,8 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
                 compteur=0;
 
-
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEp.removeActor(jeu);

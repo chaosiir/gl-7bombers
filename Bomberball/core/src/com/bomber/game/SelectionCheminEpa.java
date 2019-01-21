@@ -110,7 +110,8 @@ public class SelectionCheminEpa extends Etat implements Screen {
                     ennemi_passif_aggressif=null;
                 }
                 compteur=0;
-
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEpa.removeActor(jeu);
@@ -132,6 +133,8 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 }
                 compteur=0;
 
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEpa.removeActor(jeu);
