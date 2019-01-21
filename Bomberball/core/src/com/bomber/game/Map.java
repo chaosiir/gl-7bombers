@@ -494,17 +494,6 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         }
     }
 
-    public void tourEnnemi() {
-        int i;
-        int j;
-        for (i = 0; i < 15; i++) {
-            for (j = 0; j < 13; j++) {
-                if (this.getGrille()[i][j].getEnnemi() != null) {
-                    this.getGrille()[i][j].getEnnemi().deplacer();
-                }
-            }
-        }
-    }
 
     /**
      * Méthode générant une map solo aléatoire

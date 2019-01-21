@@ -78,10 +78,12 @@ public abstract int getPortee();
 
     public void deplacer(){
          int i = pm;
-
-       // miseAjour();
+        this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
+        if (!prochain_deplacement.isEmpty()){
+            prochain_deplacement.removeFirst();
+        }
         while(!prochain_deplacement.isEmpty() && i>0){
              prochaine=prochain_deplacement.removeFirst();
             if(actuel.posX()!=prochaine.posX()){
