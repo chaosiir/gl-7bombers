@@ -451,10 +451,12 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         this.addAction(new Action() {
             Ennemis en=ennemis.get(0);
             int i=-1;
+            float time=0;
 
             @Override
             public boolean act(float delta) {
-                if (en.getActions().size==1) {
+                time+=delta;
+                if (time>1.5&&en.getActions().size==1) {
                     i++;
                     if (i == ennemis.size()) {
                         Bomberball.input.addProcessor((Solo) target);

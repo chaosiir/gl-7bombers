@@ -32,6 +32,7 @@ public class EnnemiPassif extends Ennemis {
 
     public void miseAjour() {
         prochain_deplacement.clear();
+        prochain_deplacement.add(c);
         Map map=this.getC().getMap();
         int m=0;
         int emplacementdeb=0;

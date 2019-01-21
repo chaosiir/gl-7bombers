@@ -488,11 +488,20 @@ public class EditeurNSolo extends Etat implements Screen {
             }
         }
 
+        if(Input.Keys.B==keycode){
+            for (int i =1;i<map.getGrille().length;i++){
+                for (int j =1;j<map.getGrille()[1].length;j++){
+                    if(map.getGrille()[i][j].getEnnemi()!=null){
+                        map.getGrille()[i][j].getEnnemi().teleportation(5,5);
+                    }
+                }
+            }
+        }
         if(Input.Keys.Z==keycode){
             for (int i =1;i<map.getGrille().length;i++){
                 for (int j =1;j<map.getGrille()[1].length;j++){
                     if(map.getGrille()[i][j].getEnnemi()!=null){
-                        map.getGrille()[i][j].getEnnemi().setAnimationdroite();
+                        map.getGrille()[i][j].getEnnemi().setAnimationdefaite();
                     }
                 }
             }

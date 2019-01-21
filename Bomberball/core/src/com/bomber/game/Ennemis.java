@@ -82,9 +82,14 @@ public abstract int getPortee();
         this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-        if (!prochain_deplacement.isEmpty()){
-            prochain_deplacement.removeFirst();
+        System.out.println(c.posX()+" "+c.posY());
+        for(Case cas :prochain_deplacement){
+            System.out.println(cas.posX()+" "+cas.posY());
         }
+        if (!prochain_deplacement.isEmpty()){
+            prochaine=prochain_deplacement.removeFirst();
+        }
+
         while(!prochain_deplacement.isEmpty() && i>0){
              prochaine=prochain_deplacement.removeFirst();
             if(actuel.posX()!=prochaine.posX()){
@@ -218,6 +223,32 @@ public abstract int getPortee();
             }
         });
         return seq;
+    }
+
+    public void teleportation(int x,int y){
+        SequenceAction seq=new SequenceAction();
+        final Case proch=prochaine;
+        final int a=x;
+        final int b=y;
+        MoveByAction mv=new MoveByAction();
+        mv.setAmount(0,Bomberball.taillecase);
+        mv.setDuration(0.3f);
+        seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                c.setEnnemi(null);
+                c=c.map.getGrille()[a][b];
+                c.setEnnemi((Ennemis) target);
+                return true;
+            }
+        });
+        MoveByAction action=new MoveByAction();
+        action.setAmount(0,-Bomberball.taillecase);
+        action.setDuration(0.3f);
+        seq.addAction(action);
+        this.addAction(seq);
+
     }
 
 }
