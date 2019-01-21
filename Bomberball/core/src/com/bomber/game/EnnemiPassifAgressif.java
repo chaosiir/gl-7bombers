@@ -93,9 +93,6 @@ public class EnnemiPassifAgressif extends Ennemis {
         int[][] t = traducteur();
         return map.verifSolo(t);
     }
-    public boolean getAgro(){
-        return agro;
-    }
 
 
     @Override

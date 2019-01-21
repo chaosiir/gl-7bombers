@@ -332,8 +332,6 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     }
 
 
-    }
-
 
     /**
      * Génére une map aléatoire sans s'occuper de sa validité
