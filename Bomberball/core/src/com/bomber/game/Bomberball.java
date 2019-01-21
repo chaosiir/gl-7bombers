@@ -114,6 +114,9 @@ public class Bomberball extends Game {
 		choixMapMultiJ = new ChoixMapMultiJ(this,jeu);
 		selectionCheminEp = new SelectionCheminEp(this,jeu);
 		selectionCheminEpa = new SelectionCheminEpa(this,jeu);
+
+
+
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
 		stg.addActor(menuPrincipalBis);// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor

@@ -34,9 +34,9 @@ pdown03
   index: -1
 pdown10
   rotate: false
-  xy: 5, 78
-  size: 30, 35
-  orig: 30, 35
+  xy: 2, 76
+  size: 35, 37
+  orig: 35, 37
   offset: 0, 0
   index: -1
 pdown11
