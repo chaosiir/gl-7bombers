@@ -120,6 +120,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
         }
         else if(jeu.map==null){
+            //Ligne à ajouter pour la modification du nombre d'ennemis sur la carte
             if(jeu.nbBonus!=-1){
                 jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
                 jeu.nbBonus=-1;
@@ -144,6 +145,13 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             for (int i=0;i<15;i++){
                 for(int j=0;j<13;j++){
                     if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
+                        if(jeu.nbBombe!=-1){
+                            jeu.map.getGrille()[i][j].getPersonnage().setNbBombe(jeu.nbBombe);
+                        }
+                        if(jeu.nbDeplaP!=-1){
+                            jeu.map.getGrille()[i][j].getPersonnage().setPm(jeu.nbDeplaP);
+                        }
+
                         pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
                         nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
                     }
@@ -181,6 +189,18 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         joueur.setPosition(0,Gdx.graphics.getHeight()-3*Bomberball.taillecase);
 
         personnage=jeu.map.findActor("Personnage");
+
+        if(jeu.porteeBombe!=-1){
+            personnage.setTaille(jeu.porteeBombe);
+        }
+        if(jeu.nbBombe!=-1){
+            personnage.setNbBombe(jeu.nbBombe);
+        }
+        if(jeu.nbDeplaP!=-1){
+            personnage.setPm(jeu.nbDeplaP);
+        }
+
+
 
 
 
@@ -244,6 +264,10 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 bombaaaagh.jeuSolo.removeActor(jeu);
                 Bomberball.input.removeProcessor(bombaaaagh.jeuSolo);
                 frecommencer.delete();
+
+                jeu.nbDeplaP=-1;
+                jeu.porteeBombe=-1;
+                jeu.nbBombe=-1;
 
 
                 jeu.setEtat(bombaaaagh.menuSolo);

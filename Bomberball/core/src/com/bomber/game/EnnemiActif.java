@@ -156,7 +156,7 @@ public class EnnemiActif extends Ennemis {
     public void miseAjour() {
         prochain_deplacement.clear();
         recherchecheminmaxPL();
-        while(prochain_deplacement.size()!=pm+1){ //Il contient au moins la case où il se trouve
+        while(prochain_deplacement.size()>pm+1){ //Il contient au moins la case où il se trouve
             prochain_deplacement.removeLast();
         }
     }

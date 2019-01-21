@@ -279,6 +279,10 @@ public class EnnemiActifAggressif extends Ennemis {
     public void miseAjour() {
      prochain_deplacement.clear();
      prochain_deplacement=recherchecheminmaxPL();
+     while(prochain_deplacement.size()>pm+1){ //Il contient au moins la case où il se trouve
+            prochain_deplacement.removeLast();
+     }
+
 
     }
     public LinkedList<Case> recherchecheminmaxPL() {

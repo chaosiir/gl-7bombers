@@ -551,6 +551,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     else if(en instanceof EnnemiActif || en instanceof EnnemiActifAggressif){
                         en.miseAjour();
                         LinkedList<Case> caca = en.getProchain_deplacement();
+                        System.out.println("Position ennemi: "+en.getC().posX()+" "+en.getC().posY()+" Premier case LKL: "+ caca.getFirst().posX()+" "+caca.getFirst().posY());
                         for (Case cas : caca) {
                             int xc = cas.posX();
                             int yc = cas.posY();
@@ -754,6 +755,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 this.removeActor(map);
                 map.suppActor();
+                cache=false;
                 game.editeurNSolo.removeActor(map);
                 jeu.setEtat(game.selectionCheminEp);
                 game.setScreen(game.selectionCheminEp);
@@ -776,6 +778,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 this.removeActor(map);
                 map.suppActor();
+                cache=false;
                 game.editeurNSolo.removeActor(map);
                 jeu.setEtat(game.selectionCheminEpa);
                 game.setScreen(game.selectionCheminEpa);

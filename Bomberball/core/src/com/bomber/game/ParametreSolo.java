@@ -156,7 +156,7 @@ public class ParametreSolo extends Etat implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 try{
-                    int x=Integer.parseInt(nbBombeT.getText());
+                    int x=Integer.parseInt(nbDeplaJT.getText());
                     jeu.nbDeplaP=x;
                 }
                 catch (NumberFormatException e){}
@@ -183,6 +183,9 @@ public class ParametreSolo extends Etat implements Screen {
         table.row();
         table.add(nbEnnemis).padBottom(30);
         table.add(nbEnnemisT);
+        table.row();
+        table.add(nbBombe).padBottom(30);
+        table.add(nbBombeT);
         table.row();
         table.add(porteeBombe).padBottom(30);
         table.add(porteeBombeT);

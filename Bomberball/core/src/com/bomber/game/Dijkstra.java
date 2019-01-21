@@ -129,8 +129,10 @@ public class Dijkstra {
 		int source = x0;
 		int antecedent = i;
 		LinkedList<Integer> lesNoeudsIntermediaires = new LinkedList<Integer>();
+		System.out.println("Valeur i="+i);
 		while (antecedent!=source){
 			lesNoeudsIntermediaires.add(antecedent);
+			System.out.println("Valeur Antecedent="+antecedent);
 			antecedent = R[antecedent];
 			
 		}

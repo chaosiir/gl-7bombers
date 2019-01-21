@@ -1362,7 +1362,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         s = s + "4 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm() + "\n";
 
                     } else if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif) {
-                        s = s + "5 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPortee() + " " + this.getGrille()[i][j].getEnnemi().isAgro() + "\n";
+                        s = s + "5 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm()+" "+ this.getGrille()[i][j].getEnnemi().getPortee() + " " + this.getGrille()[i][j].getEnnemi().isAgro() + "\n";
 
                     }
                 }
