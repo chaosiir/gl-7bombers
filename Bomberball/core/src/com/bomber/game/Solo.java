@@ -458,7 +458,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if (time>1.01&&en.getActions().size==1) {
+                if ((time>1.5 ||jeu.findActor("explo")==null)&&en.getActions().size==1) {
                     i++;
                     if (i == ennemis.size()) {
                         Bomberball.input.addProcessor((Solo) target);

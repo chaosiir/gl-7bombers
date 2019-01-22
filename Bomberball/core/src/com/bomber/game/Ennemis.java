@@ -89,7 +89,10 @@ public abstract int getPortee();
         if (!prochain_deplacement.isEmpty()){
             prochaine=prochain_deplacement.removeFirst();
         }
-
+        if(prochain_deplacement.size()==1){
+            Case tep=prochain_deplacement.removeFirst();
+            teleportation(tep.posX(),tep.posY());
+        }
         while(!prochain_deplacement.isEmpty() && i>0){
             prochaine=prochain_deplacement.removeFirst();
             if(prochaine.getEnnemi()!=null){
