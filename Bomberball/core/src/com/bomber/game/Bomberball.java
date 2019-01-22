@@ -52,6 +52,7 @@ public class Bomberball extends Game {
 	ChoixMapMultiJ choixMapMultiJ;
 	SelectionCheminEp selectionCheminEp;
 	SelectionCheminEpa selectionCheminEpa;
+	ChoixCampagne choixCampagne;
 
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;
@@ -114,6 +115,7 @@ public class Bomberball extends Game {
 		choixMapMultiJ = new ChoixMapMultiJ(this,jeu);
 		selectionCheminEp = new SelectionCheminEp(this,jeu);
 		selectionCheminEpa = new SelectionCheminEpa(this,jeu);
+		choixCampagne= new ChoixCampagne(this,jeu);
 
 
 

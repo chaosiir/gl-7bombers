@@ -93,7 +93,7 @@ public class Personnage extends Image {
     public void setVivant(boolean vivant) {
         this.vivant = vivant;
         if(!vivant){
-            c.setPersonnage(null);
+            this.setVisible(false);
         }
     }
 
