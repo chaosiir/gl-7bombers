@@ -129,6 +129,7 @@ public class MenuPause extends Etat implements Screen {
         recommencerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                f.delete();
                 source.renameTo(f);
                 jeu.recommencer=true;
                 jeu.removeActor(jeu.map);

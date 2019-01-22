@@ -315,10 +315,10 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
     @Override
     public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
-        Personnage joueur = jeu.map.findActor("Personnage");
+        Personnage joueur = personnage;
         if(jeu.findActor("explo")==null) {
 
-            if ((joueur != null) && (!joueur.hasActions())) {
+            if (joueur.isVivant() && (!joueur.hasActions())) {
                 boolean b = false;
                 if (keycode == Input.Keys.RIGHT) {
                     if (pm > 0) {
@@ -391,8 +391,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         }
 
                     }
-                    if (!joueur.isVivant()) {
-
+                    else {
                         for (Ennemis en : ennemis) {
                             if (en.isVivant()) {
                                 en.setAnimationdefaite();
@@ -415,8 +414,8 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                                 return false;
                             }
                         });
-
                     }
+
                 }
             }
         }
@@ -463,6 +462,32 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                     i++;
                     if (i == ennemis.size()) {
                         Bomberball.input.addProcessor((Solo) target);
+                        if (!personnage.isVivant()) {
+
+                            for (Ennemis en : ennemis) {
+                                if (en.isVivant()) {
+                                    en.setAnimationdefaite();
+                                }
+                            }
+                            jeu.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    if (time > 3) {
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map = null;
+                                        bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.setEtat(bombaaaagh.defaite);
+                                        bombaaaagh.setScreen(bombaaaagh.defaite);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+
+                        }
                         return true;
                     }
                     en = ennemis.get(i);

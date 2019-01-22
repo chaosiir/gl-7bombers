@@ -304,7 +304,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                     if(jeu.nbBombe!=-1){
                         p.setNbBombe(jeu.nbBombe);
                     }
-                    joueurs[a]=p;
+                    joueurs[p.getId()]=p;
                     a++;
                     switch (p.getId()){
                         case 0:  personnage1=p; break;

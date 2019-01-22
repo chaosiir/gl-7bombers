@@ -82,7 +82,7 @@ public abstract int getPortee();
         this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-        System.out.println(c.posX()+" "+c.posY());
+        System.out.println("debut"+c.posX()+" "+c.posY());
         for(Case cas :prochain_deplacement){
             System.out.println(cas.posX()+" "+cas.posY());
         }
