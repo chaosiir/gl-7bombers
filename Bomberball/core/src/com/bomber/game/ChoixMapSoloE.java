@@ -26,6 +26,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     TextButton valider;
     TextButton retour;
+    TextButton supprimer;
     Table table;
     ScrollPane scrollPane;
 
@@ -67,8 +68,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
         scrollPane = new ScrollPane(list, skin);
         scrollPane.setBounds(0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()*4/5);
         scrollPane.setSmoothScrolling(false);
-        scrollPane.setPosition(0,
-                Gdx.graphics.getHeight()  - scrollPane.getHeight() );
+        scrollPane.setPosition(0, Gdx.graphics.getHeight()  - scrollPane.getHeight() );
         scrollPane.setTransform(true);
         scrollPane.setScrollingDisabled(true,false);
         scrollPane.setForceScroll(false,false);
@@ -91,6 +91,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
         valider=new TextButton("Valider",skin);
         retour=new TextButton("retour",skin);
+        supprimer = new TextButton("supprimer",skin);
 
 
 
@@ -113,7 +114,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         game.choixMapSoloE.removeActor(back);
                         game.choixMapSoloE.removeActor(scrollPane);
                         game.choixMapSoloE.removeActor(table);
-                        map.suppActor();
+                        //map.suppActor();
                         jeu.removeActor(map);
                         map=null;
                         game.choixMapSoloE.removeActor(jeu);
@@ -133,12 +134,28 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 game.choixMapSoloE.removeActor(back);
                 game.choixMapSoloE.removeActor(scrollPane);
                 game.choixMapSoloE.removeActor(table);
-                map.suppActor();
                 jeu.removeActor(map);
                 map=null;
                 game.choixMapSoloE.removeActor(jeu);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
+            }
+        });
+
+        supprimer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String s=list.getSelected();
+                if(s!=null){
+                    File f1;
+                    File directory = new File (".");
+                    try{
+                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
+                        f1.delete();
+                    }
+                    catch (IOException e){}
+
+                }
             }
         });
 
@@ -175,6 +192,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
         table.add(valider);
         table.add(retour);
+        table.add(supprimer);
 
 
         this.addActor(back);
