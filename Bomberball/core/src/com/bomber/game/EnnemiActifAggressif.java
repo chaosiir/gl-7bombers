@@ -278,7 +278,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
     public void miseAjour() {
         prochain_deplacement.clear();
-        prochain_deplacement = recherchecheminmaxPL();
+        recherchecheminmaxPL();
         while (prochain_deplacement.size() > pm + 1) { //Il contient au moins la case où il se trouve
             prochain_deplacement.removeLast();
         }
@@ -286,7 +286,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
     }
 
-    public LinkedList<Case> recherchecheminmaxPL() {
+    public void recherchecheminmaxPL() {
         Map map = this.getC().getMap();
         int lignes = 15;
         int colonnes = 13;
@@ -440,12 +440,11 @@ public class EnnemiActifAggressif extends Ennemis {
                     prochain_deplacement.addFirst(map.getGrille()[casis / colonnes][casis % colonnes]);
                 }
 
-                return prochain_deplacement;
+
             }
             else{
                 prochain_deplacement.clear();
                 prochain_deplacement.add(c);
-                return prochain_deplacement;
             }
 
 
@@ -512,7 +511,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
             if (!trouve) {
                 prochain_deplacement.clear();
-                return prochain_deplacement;
+                prochain_deplacement.add(c);
             }
 
             /** Implémentation de Dijkstra pour avoir le chemin**/
@@ -538,7 +537,6 @@ public class EnnemiActifAggressif extends Ennemis {
                 for (int f : disol) {
                     prochain_deplacement.addFirst(map.getGrille()[f / colonnes][f % colonnes]);
                 }
-                return prochain_deplacement;
 
 
             }
