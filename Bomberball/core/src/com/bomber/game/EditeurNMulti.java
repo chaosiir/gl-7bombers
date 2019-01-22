@@ -171,7 +171,7 @@ public class EditeurNMulti extends Etat implements Screen {
         valider.setName("Valider");
 
         charger = new TextButton("Charger une carte",skin);
-        charger.setBounds(0,ymax-11*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
+        charger.setBounds(0,ymax-11*Bomberball.taillecase,charger.getWidth(),charger.getHeight());
         charger.setName("Charger");
 
         retour.addListener(new ClickListener(){

@@ -76,10 +76,10 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         trois = new TextButton("3",skin,"toggle");
         quatre= new TextButton("4",skin,"toggle");
 
-        nbJ.add(quatre);
+
         nbJ.add(deux);
         nbJ.add(trois);
-
+        nbJ.add(quatre);
 
         choixmap = new TextButton("Choix de la map",skin);
         lancerP = new TextButton("Lancer la partie",skin);
@@ -209,15 +209,18 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
 
         table=new Table(); //Tableau
+        //table.setDebug(true);
         table.setWidth(Bomberball.stg.getWidth());
         table.align(Align.center | Align.topLeft);
         table.setPosition(0, Gdx.graphics.getHeight());
 
         table.add(nbjoueur).padBottom(30);
-
-        table.add(deux);
-        table.add(trois);
-        table.add(quatre);
+        HorizontalGroup h=new HorizontalGroup();
+        h.space(20);
+        h.addActor(deux);
+        h.addActor(trois);
+        h.addActor(quatre);
+        table.add(h);
         table.row();
         table.add(nbBonus).padBottom(30);
         table.add(nbBonusS);

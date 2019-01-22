@@ -94,7 +94,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
 
         indication = new Label("Clic gauche pour indiquer \n le chemin de votre ennemi passif",skin);
         indication.setName("Indication");
-        indication1= new Label("Clic droit pour enlever \n la case du chemin de votre ennemi passif",skin);
+        indication1= new Label("Clic droit pour enlever  la case\n du chemin de votre ennemi passif",skin);
         indication1.setName("Indication1");
 
         valider = new TextButton("Valider la trajectoire",skin);

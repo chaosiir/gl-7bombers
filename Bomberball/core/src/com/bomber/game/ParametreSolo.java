@@ -174,9 +174,9 @@ public class ParametreSolo extends Etat implements Screen {
         table.setPosition(0, Gdx.graphics.getHeight());
 
         table.add(difficulte).padBottom(30);
-        table.add(facile);
-        table.add(moyen);
-        table.add(difficile);
+        table.add(facile).uniform();
+        table.add(moyen).uniform();
+        table.add(difficile).uniform();
         table.row();
         table.add(nbBonus).padBottom(30);
         table.add(nbBonusT);
