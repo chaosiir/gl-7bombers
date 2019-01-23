@@ -79,11 +79,14 @@ public class ValiderEditeurSolo extends Etat implements Screen {
 
         table.add(explication).padBottom(30);
         table.row();
-        table.add(inputui).padBottom(30);
+        table.add(inputui).padBottom(50).width(500);
         table.row();
-        table.add(valider);
-        table.add(retour);
-        table.add(abandonner);
+        HorizontalGroup h=new HorizontalGroup();
+        h.space(30);
+        h.addActor(valider);
+        h.addActor(retour);
+        h.addActor(abandonner);
+        table.add(h);
 
 
         valider.addListener(new ClickListener(){
@@ -108,8 +111,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                     jeu.removeActor(jeu.map);
                     jeu.map=null;
                     game.validerEditeurSolo.removeActor(jeu);
-
-
+                    fi.delete();
                     f.renameTo(fi);
                     jeu.setEtat(game.menuPrincipalBis);
                     game.setScreen(game.menuPrincipalBis);

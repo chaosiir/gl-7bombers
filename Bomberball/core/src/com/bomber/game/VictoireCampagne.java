@@ -42,7 +42,7 @@ public class VictoireCampagne extends Etat implements Screen {
         File directory = new File (".");
         try {
             recupniv= new File(directory.getCanonicalPath()+"/Campagne/");
-            f=new File(directory.getCanonicalPath()+"/Campagne/tmp.txt");
+            f=new File(directory.getCanonicalPath()+"/SaveTempo/tmp.txt");
             frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
             niveau = new File(directory.getCanonicalPath()+"/Campagne/niveau.txt"); //Récupérer l'avancement du joueur
             nivplayertmp=new File(directory.getCanonicalPath()+"/Campagne/niveautmp.txt");
@@ -115,7 +115,7 @@ public class VictoireCampagne extends Etat implements Screen {
 
         explication=new Label("Niveau reussi",skin);
 
-       explication.setBounds(xmax/2-300,Gdx.graphics.getHeight()/4,explication.getWidth(),explication.getHeight()); //Positionnement à la main
+       explication.setBounds(Gdx.graphics.getWidth()/2-200,Gdx.graphics.getHeight()/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
 
 
         continuer= new TextButton("Continuer",skin);
@@ -128,7 +128,7 @@ public class VictoireCampagne extends Etat implements Screen {
         continuer.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<3){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
                     try{
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
@@ -146,8 +146,8 @@ public class VictoireCampagne extends Etat implements Screen {
                 File directory = new File (".");
 
                 final File liste[]=recupniv.listFiles();
-                if(liste!=null && liste[niveaugag+1]!=null){
-                    jeu.map=Map.mapFromStringN(Bomberball.loadFile(liste[niveaugag+1]));
+                if(liste!=null && liste[niveaugag]!=null){
+                    jeu.map=Map.mapFromStringN(Bomberball.loadFile(liste[niveaugag]));
                 }
 
                 game.campagne.setMapactuel(niv);
@@ -159,8 +159,9 @@ public class VictoireCampagne extends Etat implements Screen {
         recommencer.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<3){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
                     try{
+                        fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
                         fw.close();
                     }
@@ -171,8 +172,9 @@ public class VictoireCampagne extends Etat implements Screen {
                 frecommencer.renameTo(f);
                 frecommencer.delete();
                 jeu.recommencer=true;
+                jeu.map=null;
                 jeu.removeActor(jeu.map);
-                game.menuPause.removeActor(jeu);
+                game.victoireCampagne.removeActor(jeu);
                 jeu.setEtat(game.campagne);
                 game.setScreen(game.campagne);
             }
@@ -181,8 +183,9 @@ public class VictoireCampagne extends Etat implements Screen {
         quitter.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<3){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
                     try{
+                        fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
                         fw.close();
                     }

@@ -303,9 +303,8 @@ public class EnnemiPassifAgressif extends Ennemis {
                 Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
                 LinkedList<Integer> disol = dijkstra.afficheChemin(yp + colonnes * xp);
 
+
                 int pmrestant = pm;
-
-
 
                 while (!disol.isEmpty()) {
                     pmrestant--;

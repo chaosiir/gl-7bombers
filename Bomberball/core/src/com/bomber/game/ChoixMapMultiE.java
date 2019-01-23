@@ -181,15 +181,25 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                         f1.delete();
                     }
-                    catch (IOException e){}
+                    catch (IOException e){     }
                     map.suppActor();
-                    map=null;
+                    map = null;
                     jeu.removeActor(map);
                 }
+                Array<String> tmp=new Array<String>();
+                final File liste[]=f.listFiles();
+                if(liste!=null && liste.length!=0){
+                    for(File fi: liste){
+                        if (!fi.getName().equals("tmp.txt")){
 
-                Array<String> recup=list.getItems();
-                list.clearItems();
-                list.setItems(recup);
+                            tmp.add(fi.getName().substring(0,fi.getName().length()-4));
+                        }
+
+
+
+                    }
+                }
+                list.setItems(tmp);
             }
         });
 
@@ -230,6 +240,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
     public void hide() {
     Bomberball.stg.clear();
     jeu.removeActor(map);
+    jeu.removeActor(jeu.findActor("Map"));
+
     }
 
     @Override

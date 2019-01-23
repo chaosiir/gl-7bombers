@@ -77,14 +77,16 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         table.setWidth(Gdx.graphics.getWidth());
         table.align(Align.center); // Middle of the screen start at the top
         table.setPosition(0, Gdx.graphics.getHeight()/2);
-
         table.add(explication).padBottom(30);
         table.row();
-        table.add(inputui).padBottom(30);
+        table.add(inputui).width(500).padBottom(50);
         table.row();
-        table.add(valider);
-        table.add(retour);
-        table.add(abandonner);
+        HorizontalGroup h=new HorizontalGroup();
+        h.space(30);
+        h.addActor(valider);
+        h.addActor(retour);
+        h.addActor(abandonner);
+        table.add(h);
 
 
         valider.addListener(new ClickListener(){
@@ -102,6 +104,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    fi.delete();
                     f.renameTo(fi);
 
 

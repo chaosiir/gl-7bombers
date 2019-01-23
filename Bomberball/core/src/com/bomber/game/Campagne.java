@@ -6,10 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.io.File;
@@ -49,6 +46,8 @@ public class Campagne extends Etat implements Screen {
     File frecommencer;
     FileWriter fw;
     FileWriter fwr;
+    Dialog dialog;
+    int u=0;
 
 
     private Bomberball game;
@@ -90,6 +89,7 @@ public class Campagne extends Etat implements Screen {
             this.removeActor(jeu);
             jeu.map=null;
             if(jeu.recommencer){
+                u=0;
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
                 for (int i=0;i<15;i++){
@@ -123,6 +123,15 @@ public class Campagne extends Etat implements Screen {
             //Rien
         }
         else{
+            u=0;
+            for (int i=0;i<15;i++){
+                for(int j=0;j<13;j++){
+                    if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
+                        pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
+                        nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
+                    }
+                }
+            }
             try {
                 fwr = new FileWriter(frecommencer);
                 fwr.write(jeu.map.mapToTextN());
@@ -194,6 +203,41 @@ public class Campagne extends Etat implements Screen {
         }
         if(jeu.nbDeplaP!=-1){
             personnage.setPm(jeu.nbDeplaP);
+        }
+
+        if(mapactuel==1 && u==0){
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Pour vous deplacer, appuyez sur les fleches directionnels ");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+
+        }
+
+        if(mapactuel==2 && u==0){
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Dans ce niveau, vous allez decouvrir les differents bonus");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,5*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+
+        }
+
+        if(mapactuel==3 && u==0){
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Dans ce niveau, vous allez decouvrir les differents types d'ennemis");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,5*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
         }
 
 
@@ -296,6 +340,10 @@ public class Campagne extends Etat implements Screen {
         this.addActor(retour);
         jeu.addActor(jeu.map);
         this.addActor(jeu);
+        if(dialog!=null){
+            this.addActor(dialog);
+        }
+
         jeu.pmtmp1=-1;
         jeu.pmtmp2=-1;
         jeu.pmtmp3=-1;
@@ -371,7 +419,7 @@ public class Campagne extends Etat implements Screen {
                         jeu.removeActor(jeu.map);
                         jeu.map = null;
 
-                        if(mapactuel==3){
+                        if(mapactuel==5){
 
                             game.victoire=new Victoire(game,jeu,"Vous avez battu le jeu ! Bravo !");
                             game.campagne.removeActor(jeu);
@@ -453,6 +501,192 @@ public class Campagne extends Etat implements Screen {
             jeu.setEtat(game.menuPause);
             game.setScreen(game.menuPause);
         }
+
+        if(u==0 && mapactuel==1 && pm==2){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Appuyez sur ESPACE pour poser une bombe ");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==1 && mapactuel==1 && pm==0){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Vous n'avez plus de points de deplacement, appuyez sur ENTREE pour passer votre tour ");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==2 && mapactuel==1 && pm==4){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Votre objectif est d'atteindre la porte");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==3 && mapactuel==1 && pm==2){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Les blocs de briques sont destructibles contrairement aux blocs de metal");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==4 && mapactuel==1 && joueur.getC().getPorte()!=null){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Appuyez sur ENTREE pour passer au niveau suivant");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+            u=0;
+        }
+
+        if(u==0 && mapactuel==2 && joueur.getTaille()>2){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("La taille de l'explosion de votre bombe a augmente de 1");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==1 && mapactuel==2 && joueur.getPm()>5){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Le nombre de points de deplacement a augmente de 1");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==2 && mapactuel==2 && joueur.getNbBombe()>1){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Le nombre de bombe utilisable par tour a augmente de 1");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==3 && mapactuel==2 && joueur.isPoussee()){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Vous avez desormais la possibilite de pousser une bombe");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+            u=0;
+        }
+
+        if(u==0 && mapactuel==3 && pm==3){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("L'ennemi en bas a gauche est un ennemi passif qui suit un chemin predefini");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==1 && mapactuel==3 && pm==1){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("L'ennemi en bas a droite est un ennemi actif qui choisit le chemin le plus long");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==2 && mapactuel==3 && pm==4){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Les ennemis en haut a gauche sont des ennemis passifs-agressifs qui suivent un chemin predefini mais qui vous suivent s'ils vous reperent");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+        }
+
+        if(u==3 && mapactuel==3 && pm==2){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Les ennemis en haut a droite sont des ennemis actifs-agressifs qui choisissent le chemin le plus long mais qui vous suivent s'ils vous reperent");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+
+        }
+        if(u==4 && mapactuel==3 && personnage.getC().getPorte()!=null){
+            u++;
+            dialog = new Dialog("Tutoriel", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result "+obj);
+                }
+            };
+            dialog.text("Le tutoriel est fini ! Appuyez sur ENTREE pour terminer le niveau ");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.button("OK");
+            dialog.show(jeu.getStage());
+            u=0;
+        }
+
 
 
         return true;

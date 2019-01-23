@@ -372,6 +372,12 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         this.removeActor(this.findActor("bonus"));
 
     }
+    public boolean estVide(){
+        if(porte==null && personnage==null && mur==null && ennemi==null){
+            return true;
+        }
+        return false;
+    }
 
 
 }
