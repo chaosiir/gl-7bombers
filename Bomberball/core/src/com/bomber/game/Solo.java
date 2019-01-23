@@ -124,26 +124,48 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         }
         else if(jeu.map==null){
             //Ligne à ajouter pour la modification du nombre d'ennemis sur la carte
-            if(jeu.nbBonus!=-1){
-                jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
+            if(jeu.nbBonus!=-1 && jeu.nbBlocD!=-1){
+                jeu.map=Map.genererMapSolo(jeu.nbBlocD,10, jeu.nbBonus);
                 jeu.nbBonus=-1;
-                try {
-                    fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToTextN());
-                    fwr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                jeu.nbBlocD=-1;
+            }
+            else if(jeu.nbBonus!=-1 && jeu.nbBlocD==-1){
+                jeu.map=Map.genererMapSolo(40,10, jeu.nbBonus);
+                jeu.nbBonus=-1;
+            }
+            else if(jeu.nbBonus==-1 && jeu.nbBlocD!=-1){
+                jeu.map=Map.genererMapSolo(jeu.nbBlocD, 10,12);
+                jeu.nbBlocD=-1;
             }
             else{
-                jeu.map=Map.genererMapSolo(65,10,5);
-                try {
-                    fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToTextN());
-                    fwr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                jeu.map=Map.genererMapSolo(40,10,12);
+            }
+            if(jeu.nbEnnemis!=-1 && jeu.difficulte!=-1){
+                jeu.map.ajouterEnnemis(jeu.nbEnnemis,jeu.difficulte);
+                jeu.difficulte=-1;
+                jeu.nbEnnemis=-1;
+
+            }
+            else if(jeu.nbEnnemis!=-1 ){
+                jeu.map.ajouterEnnemis(jeu.nbEnnemis,2);
+                jeu.nbEnnemis=-1;
+
+            }
+            else if (jeu.difficulte!=-1){
+                jeu.map.ajouterEnnemis(0,jeu.difficulte);
+                jeu.difficulte=-1;
+
+            }
+            else {
+                jeu.map.ajouterEnnemis(0,2);
+            }
+
+            try {
+                fwr = new FileWriter(frecommencer);
+                fwr.write(jeu.map.mapToTextN());
+                fwr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             for (int i=0;i<15;i++){
                 for(int j=0;j<13;j++){

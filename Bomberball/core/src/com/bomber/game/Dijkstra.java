@@ -133,7 +133,11 @@ public class Dijkstra {
 		while (antecedent!=source){
 			lesNoeudsIntermediaires.add(antecedent);
 	//		System.out.println("X="+antecedent/13+" Y="+antecedent%13);
-			antecedent = R[antecedent];
+			try{antecedent = R[antecedent];}
+			catch (Exception e){
+				e.printStackTrace();
+				return lesNoeudsIntermediaires;
+			}
 			
 		}
 		lesNoeudsIntermediaires.add(source);

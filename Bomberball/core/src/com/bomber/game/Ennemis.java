@@ -82,14 +82,10 @@ public abstract int getPortee();
         this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-       // System.out.println(c.posX()+" "+c.posY());
-        //for(Case cas :prochain_deplacement){
-          //  System.out.println(cas.posX()+" "+cas.posY());
-        //}
         if (!prochain_deplacement.isEmpty()){
             prochaine=prochain_deplacement.removeFirst();
         }
-        if(prochain_deplacement.size()==1){
+        if(prochain_deplacement.size()==1 && !isAgro()){
             Case tep=prochain_deplacement.removeFirst();
             teleportation(tep.posX(),tep.posY());
         }

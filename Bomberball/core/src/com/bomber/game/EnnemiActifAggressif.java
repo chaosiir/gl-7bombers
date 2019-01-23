@@ -432,8 +432,6 @@ public class EnnemiActifAggressif extends Ennemis {
 
                 int pmrestant = pm;
 
-                prochain_deplacement.addFirst(c);
-
                 while (!disol.isEmpty()) {
                     pmrestant--;
                     int casis = disol.removeFirst();

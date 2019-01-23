@@ -104,6 +104,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    fi.delete();
                     f.renameTo(fi);
 
 

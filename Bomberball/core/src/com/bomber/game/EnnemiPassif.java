@@ -114,10 +114,7 @@ public class EnnemiPassif extends Ennemis {
 
 
         }
-        System.out.println("NOUVEAU DEPLACEMENT");
-        for(Case ca:prochain_deplacement){
-            System.out.println(""+ca.posX()+" "+ca.posY());
-        }
+
 
 
 
