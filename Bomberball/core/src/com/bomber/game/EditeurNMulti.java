@@ -57,7 +57,12 @@ public class EditeurNMulti extends Etat implements Screen {
     File f;
     FileWriter fw;
 
-
+    /**
+     * Classe EditeurNMulti
+     * Elle affiche l'éditeur de niveau pour des maps multijoueurs
+     * @author Paul-Louis Renard
+     *
+     */
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -324,6 +329,14 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean touchDown(int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
       //  System.out.println(hitActor==null);

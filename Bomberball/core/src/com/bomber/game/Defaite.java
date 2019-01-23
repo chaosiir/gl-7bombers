@@ -27,7 +27,12 @@ public class Defaite extends Etat implements Screen {
     File f;
     Etat precedent;
 
-
+    /**
+     * Générateur de la classe Defaite
+     * @param game
+     * @param jeu
+     * @param st
+     */
     public Defaite(Bomberball game, Jeu jeu, String st) {
         super(jeu);
         this.game = game;

@@ -33,7 +33,11 @@ public class ValiderEditeurMulti extends Etat implements Screen {
     Table table;
     File f;
     FileWriter fw;
-
+    /**
+     * Constructeur de la classe ValiderEditeurMulti
+     * @param game
+     * @param jeu
+     */
     public ValiderEditeurMulti(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;

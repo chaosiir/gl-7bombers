@@ -60,6 +60,9 @@ public class Bomberball extends Game {
 	public static TextureAtlas ennemis ;
 	public static Texture[] multiTexture = new Texture[25];//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
 	@Override
+	/**
+	 * Initialise les textures et les états du jeu à son lancement
+	 */
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
 		ennemis = new TextureAtlas(Gdx.files.internal("ennemis.atlas"));
@@ -135,6 +138,9 @@ public class Bomberball extends Game {
 
 
 	@Override
+	/**
+	 * Assure l'affichage en continu du jeu
+	 */
 	public void render() {//une fois l'application lancée la fonction render tourne en boucle et va afficher une image sur l'écran à
 		// chaque fin d'appel (appellé autant de fois qu'il ya d'image par seconde )
 
@@ -145,6 +151,9 @@ public class Bomberball extends Game {
 	}
 
 	@Override
+/**
+ * Supprime les données du jeu lorsque celui-ci est fermé
+ */
 	public void dispose() {//quand la fenetre est fermé on lance cette fonction
 		int i;
 		//System.out.println(stg.getActors().first()==jeu);
@@ -154,6 +163,9 @@ public class Bomberball extends Game {
 	}
 
 	@Override
+	/**
+	 * Gère le changement de taille de la fenêtre d'affichage
+	 */
 	public void resize(int width, int height) {//se lance quand la fenetre change de taille donc jamais car le jeu est bloqué en plein ecran
 		stg.getViewport().update(width,height);//on change le point de vu (surtout la taille de ce qu'on voit ) !! ne marche pas
 	}

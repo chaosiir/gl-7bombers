@@ -32,6 +32,12 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     TextField inputui;
     Table table;
     File f;
+
+    /**
+     * Constructeur de la classe ValiderEditeurSolo
+     * @param game
+     * @param jeu
+     */
     public ValiderEditeurSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
