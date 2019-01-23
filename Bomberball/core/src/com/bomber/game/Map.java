@@ -1588,13 +1588,13 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     s = s + "1 " + this.getGrille()[i][j].getPersonnage().isVivant() + " " + this.getGrille()[i][j].getPersonnage().getC().posX() + " " + this.getGrille()[i][j].getPersonnage().getC().posY() + " " + this.getGrille()[i][j].getPersonnage().getTaille() + " " + this.getGrille()[i][j].getPersonnage().getNbBombe() + " " + this.getGrille()[i][j].getPersonnage().getPm() + " " + this.getGrille()[i][j].getPersonnage().getId() + " "+this.getGrille()[i][j].getPersonnage().isPoussee()+"\n";
                 } else if (this.getGrille()[i][j].getEnnemi() != null) {
                     if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiPassif) {
-                        s = s + "2 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm();
+                        s = s + "2 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm()+" "+((EnnemiPassif) this.getGrille()[i][j].getEnnemi()).pos+" "+((EnnemiPassif) this.getGrille()[i][j].getEnnemi()).retour+"\n";
                         for (Case cas : this.getGrille()[i][j].getEnnemi().getChemin()) {
                             s = s + " " + cas.posX() + " " + cas.posY();
                         }
                         s = s + " 1010\n";
                     } else if (this.getGrille()[i][j].getEnnemi() instanceof EnnemiPassifAgressif) {
-                        s = s + "3 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm() + " " + this.getGrille()[i][j].getEnnemi().getPortee() + " " + this.getGrille()[i][j].getEnnemi().isAgro() + "\n";
+                        s = s + "3 " + this.getGrille()[i][j].getEnnemi().isVivant() + " " + this.getGrille()[i][j].getEnnemi().getC().posX() + " " + this.getGrille()[i][j].getEnnemi().getC().posY() + " " + this.getGrille()[i][j].getEnnemi().getPm() + " " + this.getGrille()[i][j].getEnnemi().getPortee() + " " + this.getGrille()[i][j].getEnnemi().isAgro() + " "+((EnnemiPassifAgressif) this.getGrille()[i][j].getEnnemi()).pos+" "+((EnnemiPassifAgressif) this.getGrille()[i][j].getEnnemi()).retour+"\n";
                         for (Case cas : this.getGrille()[i][j].getEnnemi().getChemin()) {
                             s = s + " " + cas.posX() + " " + cas.posY();
                         }
@@ -1711,12 +1711,16 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     personnages.add(personnage);
                     g[xc][yc].setPersonnage(personnage);
                     break;
-                case 2: //ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
+                case 2: //ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant1 = scan.nextBoolean();
                     int xc1 = scan.nextInt();
                     int yc1 = scan.nextInt();
                     int pm1 = scan.nextInt();
+                    int pos= scan.nextInt();
+                    boolean retour=scan.nextBoolean();
                     EnnemiPassif ennemiPassif = new EnnemiPassif(vivant1, g[xc1][yc1], pm1);
+                    ennemiPassif.pos=pos;
+                    ennemiPassif.retour=retour;
                     g[xc1][yc1].setEnnemi(ennemiPassif);
                     a = scan.nextInt();
                     while (a != 1010) {
@@ -1725,14 +1729,18 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 3: //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+                case 3: //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retouret une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant2 = scan.nextBoolean();
                     int xc2 = scan.nextInt();
                     int yc2 = scan.nextInt();
                     int pm2 = scan.nextInt();
                     int portee = scan.nextInt();
                     Boolean aggro = scan.nextBoolean();
+                    int posi=scan.nextInt();
+                    boolean retour1=scan.nextBoolean();
                     EnnemiPassifAgressif ennemiPassifAgressif = new EnnemiPassifAgressif(vivant2, g[xc2][yc2], pm2, portee, aggro);
+                    ennemiPassifAgressif.pos=posi;
+                    ennemiPassifAgressif.retour=retour1;
                     g[xc2][yc2].setEnnemi(ennemiPassifAgressif);
                     a = scan.nextInt();
                     while (a != 1010) {

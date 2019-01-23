@@ -10,7 +10,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ChoixCampagne extends Etat implements Screen {
     Bomberball game;
@@ -19,10 +21,16 @@ public class ChoixCampagne extends Etat implements Screen {
     List<String> list;
     ScrollPane scrollPane;
     File f;
+    File nivplayer;
+    FileWriter fw;
+    int niveauactuel=1;
 
     TextButton valider;
     TextButton retour;
+    TextButton réinitialiserProg;
     Table table;
+
+    Scanner scan;
 
     Map map;
 
@@ -33,6 +41,7 @@ public class ChoixCampagne extends Etat implements Screen {
         File directory = new File (".");
         try {
             f = new File(directory.getCanonicalPath() + "/Campagne/");
+            nivplayer= new File(directory.getCanonicalPath()+"/Campagne/niveau.txt");
 
         } catch (IOException e) {
 
@@ -64,6 +73,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
+
         list=new List<String>(skin);
         list.getSelection().setMultiple(false);
         list.setBounds(0,0,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -78,12 +88,20 @@ public class ChoixCampagne extends Etat implements Screen {
         scrollPane.setForceScroll(false,false);
         scrollPane.layout();
 
+        try{
+            scan=new Scanner(nivplayer);
+            niveauactuel=scan.nextInt();
+        }
+        catch (IOException e){
+        }
+
+        int i=0;
         Array<String> tmp=new Array<String>();
         final File liste[]=f.listFiles();
-        if(liste!=null && liste.length!=0){
+        if(liste!=null && liste.length!=0 &&i<niveauactuel){
             for(File fi: liste){
-                if (!fi.getName().equals("tmp.txt")){
-
+                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt")){
+                    i++;
                     tmp.add(fi.getName().substring(0,fi.getName().length()-4));
                 }
 
@@ -93,8 +111,9 @@ public class ChoixCampagne extends Etat implements Screen {
         }
         list.setItems(tmp);
 
-        valider=new TextButton("Valider",skin);
+        valider=new TextButton("Acceder au niveau",skin);
         retour=new TextButton("retour",skin);
+        réinitialiserProg= new TextButton("Reinitialiser la progression",skin,"toggle");
 
 
 
@@ -111,21 +130,21 @@ public class ChoixCampagne extends Etat implements Screen {
                     File f2;
                     File directory = new File (".");
                     try {
-                        f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
+                        f2 = new File(directory.getCanonicalPath() + "/Campagne/tmp.txt");
+                        f1=new File(directory.getCanonicalPath()+"/Campagne/"+list.getItems().get(i)+".txt");
                         Bomberball.copier(f1,f2);
                         table.removeActor(valider);
                         table.removeActor(retour);
-                        game.choixMapMultiE.removeActor(back);
-                        game.choixMapMultiE.removeActor(scrollPane);
-                        game.choixMapMultiE.removeActor(table);
+                        game.choixCampagne.removeActor(back);
+                        game.choixCampagne.removeActor(scrollPane);
+                        game.choixCampagne.removeActor(table);
 
                         jeu.removeActor(map);
                         map=null;
-                        game.choixMapMultiE.removeActor(jeu);
-                        Bomberball.input.removeProcessor(game.choixMapMultiE);
-                        jeu.setEtat(game.editeurNMulti);
-                        game.setScreen(game.editeurNMulti);
+                        game.choixCampagne.removeActor(jeu);
+                        Bomberball.input.removeProcessor(game.choixCampagne);
+                      //  jeu.setEtat(game.editeurNMulti);
+                        //game.setScreen(game.editeurNMulti);
 
                     } catch (IOException e) {
 
@@ -139,15 +158,17 @@ public class ChoixCampagne extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 table.removeActor(valider);
                 table.removeActor(retour);
-                game.choixMapMultiE.removeActor(back);
-                game.choixMapMultiE.removeActor(scrollPane);
-                game.choixMapMultiE.removeActor(table);
+                game.choixCampagne.removeActor(back);
+                game.choixCampagne.removeActor(scrollPane);
+                game.choixCampagne.removeActor(table);
+
+
 
                 jeu.removeActor(map);
                 map=null;
-                game.choixMapMultiE.removeActor(jeu);
-                jeu.setEtat(game.editeurNMulti);
-                game.setScreen(game.editeurNMulti);
+                game.choixCampagne.removeActor(jeu);
+                jeu.setEtat(game.menuSolo);
+                game.setScreen(game.menuSolo);
             }
         });
 
@@ -158,7 +179,7 @@ public class ChoixCampagne extends Etat implements Screen {
                 File f1;
                 File directory = new File (".");
                 try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
+                    f1=new File(directory.getCanonicalPath()+"/Campagne/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -166,7 +187,21 @@ public class ChoixCampagne extends Etat implements Screen {
                     jeu.addActor(map);
 
                 } catch (IOException e) {
+                }
 
+            }
+        });
+
+        réinitialiserProg.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    fw=new FileWriter(nivplayer);
+                    fw.write("1");
+                    fw.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -174,6 +209,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
         table.add(valider);
         table.add(retour);
+        table.add(réinitialiserProg);
 
 
         this.addActor(back);

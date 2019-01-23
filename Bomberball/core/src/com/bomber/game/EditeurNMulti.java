@@ -326,7 +326,7 @@ public class EditeurNMulti extends Etat implements Screen {
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
-        System.out.println(hitActor==null);
+      //  System.out.println(hitActor==null);
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if (hitActor.getName()!=null) {
             if (hitActor.getName().equals("murd")) {
@@ -503,7 +503,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("MurD")){
                 Case c = (Case) hitActor.getParent();
-                System.out.println("x="+c.posX()+" y="+c.posY());
+               // System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -569,7 +569,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("Personnage")){
                 Case c = (Case) hitActor.getParent();
-                System.out.println("x="+c.posX()+" y="+c.posY());
+              //  System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -712,7 +712,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
         }else if(hitActor.getParent() instanceof Case){
             Case c = (Case) hitActor.getParent();
-            System.out.println("x="+c.posX()+" y="+c.posY());
+            //System.out.println("x="+c.posX()+" y="+c.posY());
             if (button == Input.Buttons.RIGHT) {
                 c.setMur(null);
                 c.setPorte(null);
