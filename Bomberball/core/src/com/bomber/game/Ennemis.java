@@ -95,7 +95,7 @@ public abstract int getPortee();
         }
         while(!prochain_deplacement.isEmpty() && i>0){
             prochaine=prochain_deplacement.removeFirst();
-            if(prochaine.getEnnemi()!=null){
+            if(prochaine.getEnnemi()!=null &&prochaine.getEnnemi()!=this){
                 break;
             }
             else{
@@ -118,9 +118,7 @@ public abstract int getPortee();
                 }
                 actuel=prochaine;
                 i--;
-                if(prochaine.getPersonnage()!=null){
-                    prochaine.getPersonnage().setVivant(false);
-                }
+
             }
 
 
@@ -144,6 +142,7 @@ public abstract int getPortee();
         seq.addAction(new Action() {
             @Override
             public boolean act(float delta) {
+
                 ((Ennemis) target).setAnimationdroite();
                 c.setEnnemi(null);
                 c= proch;
@@ -157,6 +156,15 @@ public abstract int getPortee();
         mv.setPosition(0,0);
         mv.setDuration(0.3f);
         seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
         return seq;
 
     }
@@ -181,6 +189,9 @@ public abstract int getPortee();
                 c.setEnnemi(null);
                 c=proch;
                 c.setEnnemi((Ennemis) target);
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
                 return true;
             }
         });
@@ -205,6 +216,15 @@ public abstract int getPortee();
         mv.setPosition(0,0);
         mv.setDuration(0.3f);
         seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
         return seq;
 
     }
@@ -229,7 +249,9 @@ public abstract int getPortee();
                 target.setY(0);
                 c=proch;
                 c.setEnnemi((Ennemis) target);
-
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
 
                 return true;
             }

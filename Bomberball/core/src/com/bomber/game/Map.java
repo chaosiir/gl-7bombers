@@ -2,8 +2,10 @@
 package com.bomber.game;
 
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 
 import java.io.Serializable;
@@ -1244,6 +1246,18 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return s;
     }*/
 
+    public void alertecontour(int indiceContour) {
+
+        for (int i = indiceContour; i <= 14 - indiceContour; i++) {
+            grille[i][indiceContour].getBackground().setColor(1,0,0,1);
+            grille[i][12-indiceContour].getBackground().setColor(1,0,0,1);
+
+        }
+        for (int i = indiceContour + 1; i <= 11 - indiceContour; i++) {
+          grille[indiceContour][i].getBackground().setColor(1,0,0,1);
+            grille[14-indiceContour][i].getBackground().setColor(1,0,0,1);
+        }
+    }
     public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
         ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>();
 
@@ -1259,6 +1273,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 grille[i][12 - indiceContour].getPersonnage().setVivant(false);
                 listePersosEcrases.add(grille[i][12 - indiceContour].getPersonnage());
             }
+
         }
 
         for (int i = indiceContour + 1; i <= 11 - indiceContour; i++) {
@@ -1273,6 +1288,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 grille[14 - indiceContour][i].getPersonnage().setVivant(false);
                 listePersosEcrases.add(grille[14 - indiceContour][i].getPersonnage());
             }
+
         }
 
         return listePersosEcrases;
