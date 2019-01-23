@@ -238,7 +238,7 @@ public class EditeurNSolo extends Etat implements Screen {
         valider.setName("Valider");
 
         charger = new TextButton("Charger une carte",skin);
-        charger.setBounds(0,ymax-12*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
+        charger.setBounds(0,ymax-12*Bomberball.taillecase,charger.getWidth(),charger.getHeight());
         charger.setName("Charger");
 
 

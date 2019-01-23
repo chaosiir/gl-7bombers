@@ -2,8 +2,10 @@
 package com.bomber.game;
 
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 
 import java.io.Serializable;
@@ -356,7 +358,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             nbInDestru = 40;
         }
         if (bonus > nbDestru) {
-            bonus = nbDestru;
+            bonus = nbDestru-1;
         }
         Case dest[] = new Case[nbDestru];
         int a = 0;
@@ -436,7 +438,6 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         }
         Map m = new Map();
         m.setGrille(grille);
-        m.getGrille()[1][1].setMur(null);
         int i;
         int j;
         for (i = 0; i < m.tailleX(); i++) {
@@ -452,6 +453,110 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
         return m;
     }
+
+    public void ajouterEnnemis(int nombre ,int difficulte) {
+        ArrayList<Case> tab = new ArrayList<Case>();
+        for (int i = 1; i < grille.length - 1; i++) {
+            for (int j = 1; j < grille[1].length - 1; j++) {
+                if (grille[i][j].estVide()) {
+                    tab.add(getGrille()[i][j]);
+                }
+            }
+        }
+        if (nombre == 0) {
+            switch (difficulte) {
+                case 1:
+                    nombre = 2 + (int) (Math.random() * 2);
+                    break;
+                case 2:
+                    nombre = 4 + (int) (Math.random() * 3);
+                    break;
+                case 3:
+                    nombre = 7 + (int) (Math.random() * 6);
+                    break;
+            }
+        }
+        for (int k = 0; k < nombre; k++) {
+            boolean ajoute = false;
+            ArrayList<Case> tabtemp = new ArrayList<Case>();
+            tabtemp.addAll(tab);
+            if (Math.random() < 0.3) {//ajout fantome
+                while (!tabtemp.isEmpty() && !ajoute) {
+                    Case potentiel = tabtemp.remove((int) (Math.random() * tabtemp.size()));
+                    if (grille[potentiel.posX()][potentiel.posY()].estVide() && (getGrille()[potentiel.posX() - 1][potentiel.posY()].estVide() || getGrille()[potentiel.posX()][potentiel.posY() - 1].estVide() ||
+                            getGrille()[potentiel.posX() + 1][potentiel.posY()].estVide() || getGrille()[potentiel.posX()][potentiel.posY() - 1].estVide())) {
+                        if (getGrille()[potentiel.posX() - 1][potentiel.posY() - 1].getPersonnage() == null && getGrille()[potentiel.posX() - 1][potentiel.posY()].getPersonnage() == null && getGrille()[potentiel.posX() - 1][potentiel.posY() + 1].getPersonnage() == null
+                                && getGrille()[potentiel.posX()][potentiel.posY() - 1].getPersonnage() == null && getGrille()[potentiel.posX()][potentiel.posY()].getPersonnage() == null && getGrille()[potentiel.posX()][potentiel.posY() + 1].getPersonnage() == null
+                                && getGrille()[potentiel.posX() + 1][potentiel.posY() - 1].getPersonnage() == null && getGrille()[potentiel.posX()][potentiel.posY() + 1].getPersonnage() == null && getGrille()[potentiel.posX() + 1][potentiel.posY() + 1].getPersonnage() == null) {
+                            Ennemis en;
+                            if (Math.random() < 0.25 * difficulte) {
+                                en = new EnnemiPassifAgressif(true, potentiel, (int) (2 + (difficulte - 1) * 1.5), ((difficulte == 3) ? 10 : 1 + difficulte * 2), false);
+                                potentiel.setEnnemi(en);
+                                potentiel.addActor(en);
+                            } else {
+                                en = new EnnemiPassif(true, potentiel, (int) (2 + (difficulte - 1) * 1.5));
+                                potentiel.setEnnemi(en);
+                                potentiel.addActor(en);
+                            }
+                            en.getChemin().add(potentiel);
+                            if (grille[potentiel.posX()][potentiel.posY()].estVide()) {
+                                int a = potentiel.posX() - 1;
+                                while (a > 0 && grille[a][potentiel.posY()].getMur() == null) {
+                                    en.getChemin().add(getGrille()[a][potentiel.posY()]);
+                                    a--;
+                                }
+                            } else if (getGrille()[potentiel.posX() + 1][potentiel.posY()].estVide()) {
+                                int a = potentiel.posX() + 1;
+                                while (a < 14 && grille[a][potentiel.posY()].getMur() == null) {
+                                    en.getChemin().add(getGrille()[a][potentiel.posY()]);
+                                    a++;
+                                }
+                            } else if (getGrille()[potentiel.posX()][potentiel.posY() - 1].estVide()) {
+                                int a = potentiel.posY() - 1;
+                                while (a > 0 && grille[potentiel.posX()][a].getMur() == null) {
+                                    en.getChemin().add(getGrille()[potentiel.posX()][a]);
+                                    a--;
+                                }
+                            } else if (getGrille()[potentiel.posX()][potentiel.posY() + 1].estVide()) {
+                                int a = potentiel.posY() + 1;
+                                while (a < 13 && grille[potentiel.posX()][a].getMur() == null) {
+                                    en.getChemin().add(getGrille()[potentiel.posX()][a]);
+                                    a++;
+                                }
+                            }
+                            ajoute = true;
+                            tab.remove(potentiel);
+                        }
+                    }
+                }
+            }
+            if (!ajoute) {//ajout bat
+                tabtemp.addAll(tab);
+                while (!tabtemp.isEmpty() && !ajoute) {
+                    Case potentiel = tabtemp.remove((int) (Math.random() * tabtemp.size()));
+
+                    if (getGrille()[potentiel.posX() - 1][potentiel.posY() - 1].getPersonnage() == null && getGrille()[potentiel.posX() - 1][potentiel.posY()].getPersonnage() == null && getGrille()[potentiel.posX() - 1][potentiel.posY() + 1].getPersonnage() == null
+                            && getGrille()[potentiel.posX()][potentiel.posY() - 1].getPersonnage() == null && getGrille()[potentiel.posX()][potentiel.posY()].getPersonnage() == null && getGrille()[potentiel.posX()][potentiel.posY() + 1].getPersonnage() == null
+                            && getGrille()[potentiel.posX() + 1][potentiel.posY() - 1].getPersonnage() == null && getGrille()[potentiel.posX()][potentiel.posY() + 1].getPersonnage() == null && getGrille()[potentiel.posX() + 1][potentiel.posY() + 1].getPersonnage() == null) {
+                        Ennemis en;
+                        if (Math.random() < 0.25 * difficulte) {
+                            en = new EnnemiActifAggressif(true, getGrille()[potentiel.posX()][potentiel.posY()], (int) (2 + (difficulte - 1) * 1.5), ((difficulte == 3) ? 10 : 1 + difficulte * 2), false);
+                            getGrille()[potentiel.posX()][potentiel.posY()].setEnnemi(en);
+                            getGrille()[potentiel.posX()][potentiel.posY()].addActor(en);
+                        } else {
+                            en = new EnnemiActif(true, getGrille()[potentiel.posX()][potentiel.posY()], (int) (2 + (difficulte - 1) * 1.5));
+                            getGrille()[potentiel.posX()][potentiel.posY()].setEnnemi(en);
+                            getGrille()[potentiel.posX()][potentiel.posY()].addActor(en);
+                        }
+                        ajoute = true;
+                    }
+                }
+
+            }
+        }
+    }
+
+
 
 
     /**
@@ -515,6 +620,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      */
     public static Map genererMapSolo(int nbDestru, int nbInDestru, int bonus) { //C'est la fonction à appeller pour avoir une map
         Map m = new Map();
+
         m = m.generatePve(nbDestru, nbInDestru, bonus);
         int t[][] = m.traducteur();
         boolean bool = true;
@@ -1244,6 +1350,18 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return s;
     }*/
 
+    public void alertecontour(int indiceContour) {
+
+        for (int i = indiceContour; i <= 14 - indiceContour; i++) {
+            grille[i][indiceContour].getBackground().setColor(1,0,0,1);
+            grille[i][12-indiceContour].getBackground().setColor(1,0,0,1);
+
+        }
+        for (int i = indiceContour + 1; i <= 11 - indiceContour; i++) {
+          grille[indiceContour][i].getBackground().setColor(1,0,0,1);
+            grille[14-indiceContour][i].getBackground().setColor(1,0,0,1);
+        }
+    }
     public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
         ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>();
 
@@ -1259,6 +1377,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 grille[i][12 - indiceContour].getPersonnage().setVivant(false);
                 listePersosEcrases.add(grille[i][12 - indiceContour].getPersonnage());
             }
+
         }
 
         for (int i = indiceContour + 1; i <= 11 - indiceContour; i++) {
@@ -1273,6 +1392,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                 grille[14 - indiceContour][i].getPersonnage().setVivant(false);
                 listePersosEcrases.add(grille[14 - indiceContour][i].getPersonnage());
             }
+
         }
 
         return listePersosEcrases;

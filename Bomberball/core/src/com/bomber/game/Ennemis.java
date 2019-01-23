@@ -85,10 +85,6 @@ public abstract int getPortee();
         this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-       // System.out.println(c.posX()+" "+c.posY());
-        //for(Case cas :prochain_deplacement){
-          //  System.out.println(cas.posX()+" "+cas.posY());
-        //}
         if (!prochain_deplacement.isEmpty()){
             prochaine=prochain_deplacement.removeFirst();
         }
@@ -97,7 +93,6 @@ public abstract int getPortee();
             prochaine=prochain_deplacement.removeFirst();
             teleportation(prochaine.posX(),prochaine.posY());
         }
-
         while(!prochain_deplacement.isEmpty() && i>0){
             prochaine=prochain_deplacement.removeFirst();
             if(prochaine.getEnnemi()!=null && prochaine.getEnnemi()!=this){
@@ -147,6 +142,7 @@ public abstract int getPortee();
         seq.addAction(new Action() {
             @Override
             public boolean act(float delta) {
+
                 ((Ennemis) target).setAnimationdroite();
                 c.setEnnemi(null);
                 c= proch;

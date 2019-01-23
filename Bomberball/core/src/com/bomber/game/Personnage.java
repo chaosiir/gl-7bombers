@@ -93,7 +93,7 @@ public class Personnage extends Image {
     public void setVivant(boolean vivant) {
         this.vivant = vivant;
         if(!vivant){
-            c.setPersonnage(null);
+          c.setPersonnage(null);
         }
     }
 
@@ -135,12 +135,12 @@ public class Personnage extends Image {
 
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+""+(int)(time*8)%4))));
 
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
             MoveByAction action=new MoveByAction();
             action.setAmount(0,Bomberball.taillecase);
-            action.setDuration(0.5f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -188,7 +188,7 @@ public class Personnage extends Image {
                 public boolean act(float delta) {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
-                    if(time>0.5) {
+                    if(time>0.35) {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
                         c.removeActor(target);
@@ -198,13 +198,13 @@ public class Personnage extends Image {
                         c.addActor(target);
                         setY(0);
                     }
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
 
             MoveByAction action=new MoveByAction();
             action.setAmount(0,-Bomberball.taillecase);
-            action.setDuration(0.45f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -218,7 +218,7 @@ public class Personnage extends Image {
                 Bombe b = c.getMap().getGrille()[c.posX()][c.posY() - 1].getBombe();
                 MoveToAction action1=new MoveToAction();
                 action1.setDuration(0.2f*taillepoussee);
-                action1.setPosition(0,-(taillepoussee-1)*Bomberball.taillecase);
+                action1.setPosition(Bomberball.taillecase/4,-(taillepoussee-1.25f)*Bomberball.taillecase);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
                 attente.setDuration(0.2f*taillepoussee);
@@ -267,13 +267,13 @@ public class Personnage extends Image {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+""+(int)(time*8)%4))));
 
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
             this.setX(getX()-Bomberball.taillecase);
             MoveByAction action=new MoveByAction();
             action.setAmount(Bomberball.taillecase,0);
-            action.setDuration(0.5f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -317,7 +317,7 @@ public class Personnage extends Image {
                 public boolean act(float delta) {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+""+(int)(time*8)%4))));
-                    if(time>0.5) {
+                    if(time>0.35) {
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
                         c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
@@ -327,12 +327,12 @@ public class Personnage extends Image {
                         c.addActor(target);
                         setX(0);
                     }
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
             MoveByAction action=new MoveByAction();
             action.setAmount(-Bomberball.taillecase,0);
-            action.setDuration(0.45f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/

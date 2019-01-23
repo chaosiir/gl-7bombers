@@ -19,7 +19,6 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
 
     int nbEnnemis=-1;
     int porteeBombe=-1;
-    int nbDeplaEnnemis=-1;
     int nbBombe=-1;
 
     int pmtmp1=-1;
