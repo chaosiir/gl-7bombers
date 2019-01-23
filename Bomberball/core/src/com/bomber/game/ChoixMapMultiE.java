@@ -26,6 +26,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
     TextButton valider;
     TextButton retour;
+    TextButton supprimer;
     Table table;
     ScrollPane scrollPane;
     Map map;
@@ -88,6 +89,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
         valider=new TextButton("Valider",skin);
         retour=new TextButton("retour",skin);
+        supprimer=new TextButton("supprimer",skin);
 
 
 
@@ -168,8 +170,32 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
+        supprimer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String s=list.getSelected();
+                if(s!=null){
+                    File f1;
+                    File directory = new File (".");
+                    try{
+                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
+                        f1.delete();
+                    }
+                    catch (IOException e){}
+                    map.suppActor();
+                    map=null;
+                    jeu.removeActor(map);
+                }
+
+                Array<String> recup=list.getItems();
+                list.clearItems();
+                list.setItems(recup);
+            }
+        });
+
         table.add(valider);
         table.add(retour);
+        table.add(supprimer);
 
 
         this.addActor(back);

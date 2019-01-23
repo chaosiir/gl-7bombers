@@ -13,6 +13,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
     private boolean agro = false;
 
+
     public int getPortee() {
         return portee;
     }

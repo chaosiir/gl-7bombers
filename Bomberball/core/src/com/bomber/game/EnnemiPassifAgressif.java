@@ -326,6 +326,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         else{
             if(isAgro()){
                 this.setAgro(false);
+                this.teleportation=true;
                 prochain_deplacement.addFirst(c);
                 if(chemin.get(pos).getEnnemi()==null && chemin.get(pos).getMur()==null){
                     prochain_deplacement.add(map.getGrille()[chemin.get(pos).posX()][chemin.get(pos).posY()]);

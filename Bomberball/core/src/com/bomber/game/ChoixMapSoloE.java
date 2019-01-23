@@ -159,8 +159,14 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         f1.delete();
                     }
                     catch (IOException e){}
-
+                    map.suppActor();
+                    map=null;
+                    jeu.removeActor(map);
                 }
+
+                Array<String> recup=list.getItems();
+                list.clearItems();
+                list.setItems(recup);
             }
         });
 

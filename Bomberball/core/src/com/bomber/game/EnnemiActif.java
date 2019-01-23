@@ -166,6 +166,11 @@ public class EnnemiActif extends Ennemis {
         return false;
     }
 
+    @Override
+    public void setPortee(int x) {
+//rien
+    }
+
 
     /** Partie Paul-Louis pour la résolution du chemin des ennemis **/
 

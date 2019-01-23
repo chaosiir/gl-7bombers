@@ -134,8 +134,33 @@ public class Campagne extends Etat implements Screen {
                 LinkedList<Ennemis> ennemis=new LinkedList<Ennemis>();
                 for(int i=0;i<15;i++){
                     for(int j=0;j<13;j++){
-
+                        if(jeu.map.getGrille()[i][j].getEnnemi()!=null){
+                            ennemis.add(jeu.map.getGrille()[i][j].getEnnemi());
+                        }
                     }
+                }
+                switch (jeu.difficulte){
+                    case 1:
+                        for(Ennemis en: ennemis){
+                            if(en instanceof EnnemiActifAggressif || en instanceof EnnemiPassifAgressif){
+                                en.setPortee(3);
+                            }
+                            en.setPm(1);
+                        } break;
+                    case 2:
+                        for(Ennemis en: ennemis){
+                            if(en instanceof EnnemiActifAggressif || en instanceof EnnemiPassifAgressif){
+                                en.setPortee(5);
+                            }
+                            en.setPm(3);
+                        } break;
+                    case 3:
+                        for(Ennemis en: ennemis){
+                            if(en instanceof EnnemiActifAggressif || en instanceof EnnemiPassifAgressif){
+                                en.setPortee(10);
+                            }
+                            en.setPm(5);
+                        } break;
                 }
             }
         }
