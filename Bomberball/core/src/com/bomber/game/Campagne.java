@@ -428,7 +428,7 @@ public class Campagne extends Etat implements Screen {
             jeu.map.suppActor();
             jeu.removeActor(jeu.map);
             jeu.map=null;
-            game.jeuSolo.removeActor(jeu);
+            game.campagne.removeActor(jeu);
             game.menuPause.setEtatAnterieur(this);
             jeu.setEtat(game.menuPause);
             game.setScreen(game.menuPause);

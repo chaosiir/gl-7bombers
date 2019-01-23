@@ -98,15 +98,13 @@ public class ChoixCampagne extends Etat implements Screen {
         int i=0;
         Array<String> tmp=new Array<String>();
         final File liste[]=f.listFiles();
-        if(liste!=null && liste.length!=0 &&i<niveauactuel){
+        if(liste!=null && liste.length!=0 ){
             for(File fi: liste){
-                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt")){
+                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt") && i<niveauactuel){
                     i++;
                     tmp.add(fi.getName().substring(0,fi.getName().length()-4));
                 }
-
-
-
+                
             }
         }
         list.setItems(tmp);
@@ -127,12 +125,10 @@ public class ChoixCampagne extends Etat implements Screen {
                 int i=list.getSelectedIndex();
                 if (i!=-1){
                     File f1;
-                    File f2;
                     File directory = new File (".");
                     try {
-                        f2 = new File(directory.getCanonicalPath() + "/Campagne/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/Campagne/"+list.getItems().get(i)+".txt");
-                        Bomberball.copier(f1,f2);
+                        jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         table.removeActor(valider);
                         table.removeActor(retour);
                         game.choixCampagne.removeActor(back);
@@ -143,8 +139,8 @@ public class ChoixCampagne extends Etat implements Screen {
                         map=null;
                         game.choixCampagne.removeActor(jeu);
                         Bomberball.input.removeProcessor(game.choixCampagne);
-                      //  jeu.setEtat(game.editeurNMulti);
-                        //game.setScreen(game.editeurNMulti);
+                       jeu.setEtat(game.campagne);
+                       game.setScreen(game.campagne);
 
                     } catch (IOException e) {
 

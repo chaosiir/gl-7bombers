@@ -1629,8 +1629,8 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * 12   Bombe qui n'est pas sur un joueur
      * A la toute fin, on initialise les ennemis et personnages
      *  1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm, id, poussee (case est formé des coordonnées x et y)
-     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
-     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+     * 2 pour ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
+     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
      * 4 pour ennemiActif suivi de vivant, c,pm
      * 5 pour ennemiActifAgressif suivi vivant, c, pm, portee, agro
      */
@@ -1729,7 +1729,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 3: //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retouret une suite de coordonnée de case (x,y) fin par 1010
+                case 3: //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retour et une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant2 = scan.nextBoolean();
                     int xc2 = scan.nextInt();
                     int yc2 = scan.nextInt();
