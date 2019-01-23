@@ -20,6 +20,7 @@ public abstract class Ennemis extends Image {
     protected int pm;//points de mouvement, 3 par defaut
     protected LinkedList<Case> prochain_deplacement;
     protected Action animation;
+    boolean teleportation=false;
 
     public LinkedList<Case> getProchain_deplacement() {
         return prochain_deplacement;
@@ -76,6 +77,8 @@ public abstract int getPortee();
 
     public abstract void miseAjour();
     public abstract boolean isAgro();
+    public abstract void setPortee(int x);
+
 
     public void deplacer(){
         int i = pm;
@@ -85,9 +88,10 @@ public abstract int getPortee();
         if (!prochain_deplacement.isEmpty()){
             prochaine=prochain_deplacement.removeFirst();
         }
-        if(prochain_deplacement.size()==1 && !isAgro()){
-            Case tep=prochain_deplacement.removeFirst();
-            teleportation(tep.posX(),tep.posY());
+
+        if(teleportation){
+            prochaine=prochain_deplacement.removeFirst();
+            teleportation(prochaine.posX(),prochaine.posY());
         }
         while(!prochain_deplacement.isEmpty() && i>0){
             prochaine=prochain_deplacement.removeFirst();
@@ -278,6 +282,7 @@ public abstract int getPortee();
         action.setDuration(0.3f);
         seq.addAction(action);
         this.addAction(seq);
+        teleportation=false;
 
     }
 }

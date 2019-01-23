@@ -25,6 +25,7 @@ public class Defaite extends Etat implements Screen {
     String txt;
     File frecommencer;
     File f;
+    Etat precedent;
 
 
     public Defaite(Bomberball game, Jeu jeu, String st) {
@@ -40,6 +41,10 @@ public class Defaite extends Etat implements Screen {
         } catch (IOException e) {
 
         }
+    }
+
+    public void setEtat(Etat e){
+        this.precedent=e;
     }
 
     /**
@@ -97,8 +102,8 @@ public class Defaite extends Etat implements Screen {
                 jeu.recommencer=true;
                 jeu.removeActor(jeu.map);
                 game.defaite.removeActor(jeu);
-                jeu.setEtat(game.jeuSolo);
-                game.setScreen(game.jeuSolo);
+                jeu.setEtat(precedent);
+                game.setScreen((Screen)precedent);
 
             }
         });

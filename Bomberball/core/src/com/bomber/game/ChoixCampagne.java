@@ -22,13 +22,22 @@ public class ChoixCampagne extends Etat implements Screen {
     ScrollPane scrollPane;
     File f;
     File nivplayer;
+    File nivplayertmp;
     FileWriter fw;
     int niveauactuel=1;
+
+    TextButton facile;
+    TextButton moyen;
+    TextButton difficile;
+    Label choixdifficulte;
+
+    ButtonGroup<TextButton> diffic;
 
     TextButton valider;
     TextButton retour;
     TextButton réinitialiserProg;
     Table table;
+
 
     Scanner scan;
 
@@ -42,6 +51,8 @@ public class ChoixCampagne extends Etat implements Screen {
         try {
             f = new File(directory.getCanonicalPath() + "/Campagne/");
             nivplayer= new File(directory.getCanonicalPath()+"/Campagne/niveau.txt");
+            nivplayertmp=new File(directory.getCanonicalPath()+"/Campagne/niveautmp.txt");
+
 
         } catch (IOException e) {
 
@@ -65,6 +76,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
     @Override
     public void show() {
+        Bomberball.copier(nivplayer,nivplayertmp);
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -72,6 +84,16 @@ public class ChoixCampagne extends Etat implements Screen {
         back.setName("Je suis ton arrière plan");
 
         skin=new Skin(Gdx.files.internal("uiskin.json"));
+
+        facile= new TextButton("Facile",skin,"toggle");
+        moyen = new TextButton("Moyen",skin,"toggle");
+        difficile= new TextButton("Difficile",skin,"toggle");
+        choixdifficulte = new Label("Choix de la difficulte: ",skin);
+
+        diffic =new ButtonGroup<TextButton>();
+        diffic.add(moyen);
+        diffic.add(facile);
+        diffic.add(difficile);
 
 
         list=new List<String>(skin);
@@ -89,11 +111,13 @@ public class ChoixCampagne extends Etat implements Screen {
         scrollPane.layout();
 
         try{
-            scan=new Scanner(nivplayer);
+            scan=new Scanner(nivplayertmp);
             niveauactuel=scan.nextInt();
         }
         catch (IOException e){
         }
+
+        nivplayertmp.delete();
 
         int i=0;
         Array<String> tmp=new Array<String>();
@@ -136,9 +160,13 @@ public class ChoixCampagne extends Etat implements Screen {
                         game.choixCampagne.removeActor(table);
 
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
                         game.choixCampagne.removeActor(jeu);
                         Bomberball.input.removeProcessor(game.choixCampagne);
+                        game.campagne.setMapactuel(i+1);
                        jeu.setEtat(game.campagne);
                        game.setScreen(game.campagne);
 
@@ -159,7 +187,7 @@ public class ChoixCampagne extends Etat implements Screen {
                 game.choixCampagne.removeActor(table);
 
 
-
+                jeu.difficulte=-1;
                 jeu.removeActor(map);
                 map=null;
                 game.choixCampagne.removeActor(jeu);
@@ -203,9 +231,36 @@ public class ChoixCampagne extends Etat implements Screen {
             }
         });
 
+        facile.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.difficulte=1;
+            }
+        });
+
+        moyen.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.difficulte=2;
+            }
+        });
+
+        difficile.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.difficulte=3;
+            }
+        });
+
+
         table.add(valider);
         table.add(retour);
         table.add(réinitialiserProg);
+        table.row();
+        table.add(choixdifficulte);
+        table.add(facile);
+        table.add(moyen);
+        table.add(difficile);
 
 
         this.addActor(back);

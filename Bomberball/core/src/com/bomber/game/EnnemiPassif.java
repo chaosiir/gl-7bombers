@@ -126,6 +126,11 @@ public class EnnemiPassif extends Ennemis {
     }
 
     @Override
+    public void setPortee(int x) {
+//rien
+    }
+
+    @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
         animation=new Action() {
