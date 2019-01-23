@@ -15,9 +15,9 @@ import java.util.LinkedList;
 
 public abstract class Ennemis extends Image {
     protected Case c;
-    protected Case prochaine;
     protected boolean vivant;
-    protected int pm;//points de mouvement, 5 par defaut
+    protected Case prochaine;
+    protected int pm;//points de mouvement, 3 par defaut
     protected LinkedList<Case> prochain_deplacement;
     protected Action animation;
 
@@ -78,39 +78,51 @@ public abstract int getPortee();
     public abstract boolean isAgro();
 
     public void deplacer(){
-         int i = pm;
+        int i = pm;
         this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-        System.out.println(c.posX()+" "+c.posY());
-        for(Case cas :prochain_deplacement){
-            System.out.println(cas.posX()+" "+cas.posY());
-        }
+       // System.out.println(c.posX()+" "+c.posY());
+        //for(Case cas :prochain_deplacement){
+          //  System.out.println(cas.posX()+" "+cas.posY());
+        //}
         if (!prochain_deplacement.isEmpty()){
             prochaine=prochain_deplacement.removeFirst();
         }
 
-        while(!prochain_deplacement.isEmpty() && i>0){
-             prochaine=prochain_deplacement.removeFirst();
-            if(actuel.posX()!=prochaine.posX()){
-                if(actuel.posX()<prochaine.posX()){
-                    seq.addAction(deplacementdroite());
-                }
-                else {
-                   seq.addAction(deplacementgauche());
-                }
-            }
-            if(actuel.posY()!=prochaine.posY()){
-                if(actuel.posY()<prochaine.posY()){
-                    seq.addAction(deplacementhaut());
-                }
-                else {
-                    seq.addAction(deplacementbas());
+        if(prochain_deplacement.size()==1){
+            prochaine=prochain_deplacement.removeFirst();
+            teleportation(prochaine.posX(),prochaine.posY());
+        }
 
-                }
+        while(!prochain_deplacement.isEmpty() && i>0){
+            prochaine=prochain_deplacement.removeFirst();
+            if(prochaine.getEnnemi()!=null && prochaine.getEnnemi()!=this){
+                break;
             }
-            actuel=prochaine;
-            i--;
+            else{
+                if(actuel.posX()!=prochaine.posX()){
+                    if(actuel.posX()<prochaine.posX()){
+                        seq.addAction(deplacementdroite());
+                    }
+                    else {
+                        seq.addAction(deplacementgauche());
+                    }
+                }
+                if(actuel.posY()!=prochaine.posY()){
+                    if(actuel.posY()<prochaine.posY()){
+                        seq.addAction(deplacementhaut());
+                    }
+                    else {
+                        seq.addAction(deplacementbas());
+
+                    }
+                }
+                actuel=prochaine;
+                i--;
+
+            }
+
 
         }
         this.addAction(seq);
@@ -145,6 +157,15 @@ public abstract int getPortee();
         mv.setPosition(0,0);
         mv.setDuration(0.3f);
         seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
         return seq;
 
     }
@@ -169,6 +190,9 @@ public abstract int getPortee();
                 c.setEnnemi(null);
                 c=proch;
                 c.setEnnemi((Ennemis) target);
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
                 return true;
             }
         });
@@ -193,6 +217,15 @@ public abstract int getPortee();
         mv.setPosition(0,0);
         mv.setDuration(0.3f);
         seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
         return seq;
 
     }
@@ -217,7 +250,9 @@ public abstract int getPortee();
                 target.setY(0);
                 c=proch;
                 c.setEnnemi((Ennemis) target);
-
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
 
                 return true;
             }
@@ -250,5 +285,4 @@ public abstract int getPortee();
         this.addAction(seq);
 
     }
-
 }

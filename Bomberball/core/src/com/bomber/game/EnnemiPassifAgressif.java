@@ -20,8 +20,10 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     // indice de la case en cours sur le chemin défini
     private int i = 0;
-
+    Boolean retour=false;
     private int portee;
+
+    int pos;
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
     dans un carré de taille 5x5 autour de l'ennemi*/
 
@@ -50,6 +52,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         this.agro = agro;
         this.chemin=new LinkedList<Case>();
         setAnimationdroite();
+        pos=0;
 
     }
 
@@ -230,128 +233,60 @@ public class EnnemiPassifAgressif extends Ennemis {
             int var = -(portee - h);
             while (var <= (portee - h) && !personnage) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
 
-                if(var>=0){
-                    if ((xc + (portee - h - var)) >= 0 && (xc + (portee - h - var)) <= 14) { //Vérification que ces cases existent dans une map
-                        if (yc + var >= 0 && yc + var <= 12) {
-                            if (map.getGrille()[xc + (portee - h - var)][yc + var].getPersonnage()!=null) {
-                                personnage = true;
-                                xp = xc + (portee - h) - var;
-                                yp = yc + var;
-                            }
+                int x1=xc+var;
+                int x2=xc-var;
+                int y1=yc+portee-h-var;
+                int y2=yc-(portee-h)+var;
+
+                if(x1<15 && x1>=0 && !personnage){
+                    if(y1>=0 && y1<12){
+                        if(map.getGrille()[x1][y1].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x1;
+                            yp=y1;
                         }
                     }
                 }
-                if(var<0){
-                    if ((xc + var) >= 0 && (xc+var) <= 14) { //Vérification que ces cases existent dans une map
-                        if ((yc - (var+portee-h)) >= 0 && (yc - (var+portee-h)) <= 12) {
-                            if (map.getGrille()[xc + var][yc - (var+portee-h)].getPersonnage()!=null) {
-                                personnage = true;
-                                xp = xc + var;
-                                yp = yc - (var+portee-h);
-                            }
+                if(x1<15 && x1>=0 && !personnage){
+                    if(y2>=0 && y2<12){
+                        if(map.getGrille()[x1][y2].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x1;
+                            yp=y2;
                         }
                     }
                 }
+                if(x2<15 && x2>=0 && !personnage){
+                    if(y1>=0 && y1<12){
+                        if(map.getGrille()[x2][y1].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x2;
+                            yp=y1;
+                        }
+                    }
+                }
+                if(x2<15 && x2>=0 && !personnage){
+                    if(y2>=0 && y2<12){
+                        if(map.getGrille()[x2][y2].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x2;
+                            yp=y2;
+                        }
+                    }
+                }
+
 
                 var++;
             }
             h++;
         }
 
-        if(personnage){
+        /** Si le personnage est repéré **/
+        if (personnage) {
             this.setAgro(true);
-            int N = Graphe.ALPHA_NOTDEF ;
-            int existdij[][] = new int[13 * 15][13 * 15];
 
-            for (i = 0; i < 13 * 15; i++) {
-                for (j = 0; j < 13 * 15; j++) {
-                    if (exist[i][j] == 1) {
-                        existdij[i][j] = 1;
-                    } else {
-                        existdij[i][j] = N;
-                    }
-                }
-            }
-
-            Graphe graphe=new Graphe(existdij);
-            Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
-            LinkedList<Integer> disol=dijkstra.afficheChemin(yp+colonnes*xp);
-
-            int pmrestant=pm;
-
-            while(!disol.isEmpty() && pmrestant>0){
-                pmrestant--;
-                int casis=disol.removeFirst();
-                prochain_deplacement.addFirst(map.getGrille()[casis/colonnes][casis%colonnes]);
-            }
-
-
-        }
-        else{
-            this.setAgro(false);
-            //test si on est encore sur le chemin
-            Boolean encoreSurChemin=false;
-
-            LinkedList<Case> tmpchemin=this.getChemin();
-            while (!tmpchemin.isEmpty() && !encoreSurChemin){
-                Case colo=tmpchemin.removeFirst();
-                if(colo.posX()==xc && colo.posY()==yc){
-                    encoreSurChemin=true;
-                }
-            }
-
-            if(encoreSurChemin){
-                int m=0;
-                int emplacementdeb=0;
-                for(Case cas: chemin){ //Trouver emplacement de l'ennemi sur son chemin
-                    if(cas.posX()==c.posX() && cas.posY()==c.posY()){
-                        emplacementdeb=m;
-                    }
-                    else {
-                        m++;
-                    }
-                }
-                int taillechemin=chemin.size();
-                int pmrestant=pm;
-                int pos=emplacementdeb;
-                while(pmrestant>0){
-                    if(pos<(taillechemin-1)){
-                        if(map.getGrille()[chemin.get(pos+1).posX()][chemin.get(pos+1).posY()].getMur()==null && map.getGrille()[chemin.get(pos+1).posX()][chemin.get(pos+1).posY()].getEnnemi()==null ){
-                            prochain_deplacement.add(chemin.get(pos+1));
-                            pos++;
-                            pmrestant--;
-                        }
-                        else{ //Si la prochaine case est occupée, on regarde si on peut reculer
-                            if(pos>0){ //Si on est pas déjà à la première case
-                                if(map.getGrille()[chemin.get(pos-1).posX()][chemin.get(pos-1).posY()].getMur()==null && map.getGrille()[chemin.get(pos-1).posX()][chemin.get(pos-1).posY()].getEnnemi()==null ){
-                                    prochain_deplacement.add(chemin.get(pos-1));
-                                    pos--;
-                                    pmrestant--;
-                                }
-                            }
-                            else{
-                                //On ne peut pas bouger donc on quitte sans utiliser tous les pm
-                                pmrestant=0;
-                            }
-                        }
-
-                    }
-                    else{ //On est arrivé au bout du chemin, on fait donc demi-tour si possible
-                        if(map.getGrille()[chemin.get(pos-1).posX()][chemin.get(pos-1).posY()].getMur()==null && map.getGrille()[chemin.get(pos-1).posX()][chemin.get(pos-1).posY()].getEnnemi()==null ){
-                            prochain_deplacement.add(chemin.get(pos-1));
-                            pos--;
-                            pmrestant--;
-                        }
-                        else{
-                            //On est au bout du chemin et on ne peut reculer donc on quitte sans utiliser tous les pm
-                            pmrestant=0;
-                        }
-                    }
-                }
-
-            }
-            else{ //Si l'ennemi n'est plus sur le chemin, il va essayer d'y retourner
-                int N = Graphe.ALPHA_NOTDEF ;
+            if(tmp[yc+colonnes*xc][yp+colonnes*xp]==1 || tmp[yp+colonnes*xp][yc+colonnes*xc]==1){
+                int N = Graphe.ALPHA_NOTDEF;
                 int existdij[][] = new int[13 * 15][13 * 15];
 
                 for (i = 0; i < 13 * 15; i++) {
@@ -364,30 +299,132 @@ public class EnnemiPassifAgressif extends Ennemis {
                     }
                 }
 
-                Graphe graphe=new Graphe(existdij);
-                Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
+                Graphe graphe = new Graphe(existdij);
+                Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
+                LinkedList<Integer> disol = dijkstra.afficheChemin(yp + colonnes * xp);
 
-                LinkedList<Integer> cheminchoisi=new LinkedList<Integer>();
+                int pmrestant = pm;
 
-                int mini=99999999;
+                prochain_deplacement.addFirst(c);
 
-                for(Case caca: this.getChemin()){
-                    LinkedList<Integer> chem=dijkstra.afficheChemin(caca.posY()+colonnes*caca.posX());
-                    if(chem.size()<mini){
-                        mini=chem.size();
-                        cheminchoisi=dijkstra.afficheChemin(caca.posY()+colonnes*caca.posX());
-                    }
+                while (!disol.isEmpty()) {
+                    pmrestant--;
+                    int casis = disol.removeFirst();
+                    prochain_deplacement.addFirst(map.getGrille()[casis / colonnes][casis % colonnes]);
                 }
-
-                for(int f: cheminchoisi){
-                    prochain_deplacement.addFirst(map.getGrille()[f/colonnes][f%colonnes]);
-                }
-
-
-
 
 
             }
+            else{
+                prochain_deplacement.clear();
+                prochain_deplacement.add(c);
+            }
+
+
+
+        }
+        else{
+            if(isAgro()){
+                this.setAgro(false);
+                prochain_deplacement.addFirst(c);
+                if(chemin.get(pos).getEnnemi()==null && chemin.get(pos).getMur()==null){
+                    prochain_deplacement.add(map.getGrille()[chemin.get(pos).posX()][chemin.get(pos).posY()]);
+                }
+                else{
+                    int o=0;
+                    while(chemin.get(o).getEnnemi()!=null && chemin.get(o).getMur()!=null && o<chemin.size()){
+                        o++;
+                    }
+                    if(chemin.get(o).getEnnemi()!=null || chemin.get(o).getMur()!=null){
+                        prochain_deplacement.add(map.getGrille()[chemin.get(o).posX()][chemin.get(o).posY()]);
+                        pos=o;
+                    }
+                }
+            }
+            else{
+                prochain_deplacement.clear();
+                prochain_deplacement.add(c);
+                int pmrestant=pm;
+                Boolean ok=false;
+                if(chemin.size()!=1){
+                    if(pos==0){
+                        Case casap=chemin.get(1);
+                        if(map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null){
+                            ok=true;
+                        }
+                        else{
+                            ok=false;
+                        }
+                    }
+                    else if(pos==chemin.size()-1){
+                        Case casav=chemin.get(chemin.size()-2);
+                        if (map.getGrille()[casav.posX()][casav.posY()].getMur()==null && map.getGrille()[casav.posX()][casav.posY()].getEnnemi()==null){
+                            ok=true;
+                        }
+                        else{
+                            ok=false;
+                        }
+                    }
+                    else{
+                        Case casap=chemin.get(pos+1);
+                        Case casav=chemin.get(pos-1);
+                        if((map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null) || (map.getGrille()[casav.posX()][casav.posY()].getMur()==null && map.getGrille()[casav.posX()][casav.posY()].getEnnemi()==null) ){
+                            ok=true;
+
+                        }
+                        else{
+                            ok=false;
+                        }
+                    }
+
+                }
+                while(pmrestant>0 && ok){
+
+                    if(pos==(chemin.size()-1)){ //Si on est au bout du chemin, on retourne en arrière
+                        retour=true;
+                    }
+
+                    if(pos==0){ //Si on est au début, on ne va pas retourner
+                        retour=false;
+
+                    }
+                    //Dans le cas général et pas dans ces cas particuliers
+                    if(retour){
+                        //System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS RETOUR");
+                        Case aCase=chemin.get(pos-1);
+                        // System.out.println("Case "+aCase.posX()+" "+aCase.posY());
+                        if(map.getGrille()[aCase.posX()][aCase.posY()].getMur()==null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ){
+
+                            pmrestant--;
+                            prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                            pos--;
+                        }
+                        else{
+
+                            retour=false;
+                        }
+                    }
+                    else {
+                        // System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS NON RETOUR");
+                        Case aCase = chemin.get(pos + 1);
+                        if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ) {
+                            pmrestant--;
+                            prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                            pos++;
+                        } else {
+                            retour = true;
+
+                        }
+                    }
+
+
+
+
+                }
+            }
+
+
+
 
         }
     }

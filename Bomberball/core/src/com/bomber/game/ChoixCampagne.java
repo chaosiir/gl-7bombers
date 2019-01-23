@@ -12,45 +12,57 @@ import com.badlogic.gdx.utils.Array;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-/**
- * Classe ChoixMapSoloE
- * Elle affiche des maps solo que le joueur a déjà créé et qu'il veut remodifié
- * @author Paul-Louis Renard
- *
- */
-public class ChoixMapSoloE extends Etat implements Screen {
+import java.util.Scanner;
+
+public class ChoixCampagne extends Etat implements Screen {
     Bomberball game;
-    List<String> list;
     Image back;
     Skin skin;
+    List<String> list;
+    ScrollPane scrollPane;
+    File f;
+    File nivplayer;
+    FileWriter fw;
+    int niveauactuel=1;
 
     TextButton valider;
     TextButton retour;
-    TextButton supprimer;
+    TextButton réinitialiserProg;
     Table table;
-    ScrollPane scrollPane;
+
+    Scanner scan;
 
     Map map;
 
 
-    File f;
-
-
-    public ChoixMapSoloE(Bomberball game,Jeu jeu){
+    public ChoixCampagne(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
         File directory = new File (".");
         try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/");
+            f = new File(directory.getCanonicalPath() + "/Campagne/");
+            nivplayer= new File(directory.getCanonicalPath()+"/Campagne/niveau.txt");
 
         } catch (IOException e) {
 
         }
     }
 
-    /**
-     * Méthode appelée pour afficher la fenêtre
-     */
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
     @Override
     public void show() {
         Bomberball.stg.addActor(this);
@@ -61,6 +73,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
+
         list=new List<String>(skin);
         list.getSelection().setMultiple(false);
         list.setBounds(0,0,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -68,30 +81,37 @@ public class ChoixMapSoloE extends Etat implements Screen {
         scrollPane = new ScrollPane(list, skin);
         scrollPane.setBounds(0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()*4/5);
         scrollPane.setSmoothScrolling(false);
-        scrollPane.setPosition(0, Gdx.graphics.getHeight()  - scrollPane.getHeight() );
+        scrollPane.setPosition(0,
+                Gdx.graphics.getHeight()  - scrollPane.getHeight() );
         scrollPane.setTransform(true);
         scrollPane.setScrollingDisabled(true,false);
         scrollPane.setForceScroll(false,false);
         scrollPane.layout();
 
+        try{
+            scan=new Scanner(nivplayer);
+            niveauactuel=scan.nextInt();
+        }
+        catch (IOException e){
+        }
+
+        int i=0;
         Array<String> tmp=new Array<String>();
         final File liste[]=f.listFiles();
-        if(liste!=null && liste.length!=0){
+        if(liste!=null && liste.length!=0 ){
             for(File fi: liste){
-                if (!fi.getName().equals("tmp.txt")){
-
+                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt") && i<niveauactuel){
+                    i++;
                     tmp.add(fi.getName().substring(0,fi.getName().length()-4));
                 }
-
-
-
+                
             }
         }
         list.setItems(tmp);
 
-        valider=new TextButton("Valider",skin);
+        valider=new TextButton("Acceder au niveau",skin);
         retour=new TextButton("retour",skin);
-        supprimer = new TextButton("supprimer",skin);
+        réinitialiserProg= new TextButton("Reinitialiser la progression",skin,"toggle");
 
 
 
@@ -105,21 +125,22 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 int i=list.getSelectedIndex();
                 if (i!=-1){
                     File f1;
-                    File f2;
                     File directory = new File (".");
                     try {
-                        f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
-                        Bomberball.copier(f1,f2);
-                        game.choixMapSoloE.removeActor(back);
-                        game.choixMapSoloE.removeActor(scrollPane);
-                        game.choixMapSoloE.removeActor(table);
-                        //map.suppActor();
+                        f1=new File(directory.getCanonicalPath()+"/Campagne/"+list.getItems().get(i)+".txt");
+                        jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
+                        table.removeActor(valider);
+                        table.removeActor(retour);
+                        game.choixCampagne.removeActor(back);
+                        game.choixCampagne.removeActor(scrollPane);
+                        game.choixCampagne.removeActor(table);
+
                         jeu.removeActor(map);
                         map=null;
-                        game.choixMapSoloE.removeActor(jeu);
-                        jeu.setEtat(game.editeurNSolo);
-                        game.setScreen(game.editeurNSolo);
+                        game.choixCampagne.removeActor(jeu);
+                        Bomberball.input.removeProcessor(game.choixCampagne);
+                       jeu.setEtat(game.campagne);
+                       game.setScreen(game.campagne);
 
                     } catch (IOException e) {
 
@@ -131,31 +152,19 @@ public class ChoixMapSoloE extends Etat implements Screen {
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.choixMapSoloE.removeActor(back);
-                game.choixMapSoloE.removeActor(scrollPane);
-                game.choixMapSoloE.removeActor(table);
+                table.removeActor(valider);
+                table.removeActor(retour);
+                game.choixCampagne.removeActor(back);
+                game.choixCampagne.removeActor(scrollPane);
+                game.choixCampagne.removeActor(table);
+
+
+
                 jeu.removeActor(map);
                 map=null;
-                game.choixMapSoloE.removeActor(jeu);
-                jeu.setEtat(game.editeurNSolo);
-                game.setScreen(game.editeurNSolo);
-            }
-        });
-
-        supprimer.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                String s=list.getSelected();
-                if(s!=null){
-                    File f1;
-                    File directory = new File (".");
-                    try{
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
-                        f1.delete();
-                    }
-                    catch (IOException e){}
-
-                }
+                game.choixCampagne.removeActor(jeu);
+                jeu.setEtat(game.menuSolo);
+                game.setScreen(game.menuSolo);
             }
         });
 
@@ -166,25 +175,29 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 File f1;
                 File directory = new File (".");
                 try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
+                    f1=new File(directory.getCanonicalPath()+"/Campagne/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
-                    for (int i=0;i<15;i++){
-                        for (int j=0;j<13;j++){
-                            if(map.getGrille()[i][j].getBonus()!=null){
-                                Bonus b=map.getGrille()[i][j].getBonus();
-                                map.getGrille()[i][j].setBonus(null);
-                                map.getGrille()[i][j].setBonus(b);
-                                map.getGrille()[i][j].getBonus().setScale(0.5f);
-                            }
-                        }
-                    }
                     jeu.addActor(map);
 
                 } catch (IOException e) {
+                }
 
+            }
+        });
+
+        réinitialiserProg.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    fw=new FileWriter(nivplayer);
+                    fw.write("1");
+                    fw.close();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -192,15 +205,13 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
         table.add(valider);
         table.add(retour);
-        table.add(supprimer);
+        table.add(réinitialiserProg);
 
 
         this.addActor(back);
         this.addActor(scrollPane);
         this.addActor(table);
         this.addActor(jeu);
-
-
 
     }
 
@@ -226,28 +237,11 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     @Override
     public void hide() {
-        Bomberball.stg.clear();
-        jeu.removeActor(map);
 
     }
 
     @Override
     public void dispose() {
 
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int x, int y) {
-        return false;
     }
 }

@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Classe Solo
@@ -33,9 +32,9 @@ import java.util.Iterator;
 public class Solo extends Etat implements Screen  {//etat multijoueur
     int pm=5;
     int nb=1;
-    ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();
     Image back;
 
+    ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();
     Image joueur;
     Image bombe;
     Image mouvement;
@@ -91,6 +90,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
         if(f.exists()){
             jeu.removeActor(jeu.map);
+            this.removeActor(jeu);
             jeu.map=null;
             if(jeu.recommencer){
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
@@ -205,6 +205,9 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
 
 
+
+
+
         mouvement = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
         mouvement.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         mouvement.setHeight(2*Bomberball.taillecase);
@@ -274,6 +277,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 bombaaaagh.setScreen(bombaaaagh.menuSolo);
             }
         });
+
         ennemis.clear();
         for (int i=1;i<jeu.map.getGrille().length-1;i++){
             for (int j=1;j<jeu.map.getGrille()[0].length-1;j++){
@@ -282,8 +286,6 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 }
             }
         }
-
-
 
 
         this.addActor(back);
@@ -315,7 +317,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
     @Override
     public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = jeu.map.findActor("Personnage");
-        if (jeu.findActor("explo") == null) {
+        if(jeu.findActor("explo")==null) {
 
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b = false;
@@ -324,7 +326,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         b = joueur.deplacerDroite();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
-                        nbmvt.setText("" + pm);
+                        nbmvt.setText(""+pm);
                         this.addActor(nbmvt);
 
                     }
@@ -335,7 +337,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         b = joueur.deplacerGauche();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
-                        nbmvt.setText("" + pm);
+                        nbmvt.setText(""+pm);
                         this.addActor(nbmvt);
                     }
                 }
@@ -344,7 +346,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         b = joueur.deplacerBas();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
-                        nbmvt.setText("" + pm);
+                        nbmvt.setText(""+pm);
                         this.addActor(nbmvt);
                     }
                 }
@@ -353,7 +355,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         b = joueur.deplacerHaut();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
-                        nbmvt.setText("" + pm);
+                        nbmvt.setText(""+pm);
                         this.addActor(nbmvt);
                     }
                 }
@@ -361,7 +363,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                     if (nb > 0) {
                         b = joueur.poserBombe();
                         nb = ((b) ? nb - 1 : nb);
-                        nbBombe.setText("" + nb);
+                        nbBombe.setText(""+nb);
                     }
                 }
                 if (keycode == Input.Keys.ENTER) {
@@ -390,7 +392,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         }
 
                     }
-                    if (!joueur.isVivant()) {
+                   else {
 
                         for (Ennemis en : ennemis) {
                             if (en.isVivant()) {
@@ -423,27 +425,31 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             try {
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextNP());
-                if (joueur.getC().getBombe() != null) {
-                    fw.write(joueur.getId() + " " + pm + " " + nb + " 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
-                } else {
-                    fw.write(joueur.getId() + " " + pm + " " + nb + " 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
+                if(joueur.getC().getBombe()!=null){
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
                 }
+                else{
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
+                }
+
                 fw.write("111 "); //Symbole de fin pour la fin de la mise à jour des personnages
-                fw.write("" + joueur.getId());
+                fw.write(""+joueur.getId());
                 fw.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
             jeu.map.suppActor();
             jeu.removeActor(jeu.map);
-            jeu.map = null;
+            jeu.map=null;
             bombaaaagh.jeuSolo.removeActor(jeu);
             bombaaaagh.menuPause.setEtatAnterieur(this);
             jeu.setEtat(bombaaaagh.menuPause);
             bombaaaagh.setScreen(bombaaaagh.menuPause);
         }
-        return false;
 
+
+        return true;
     }
 
     public void tourEnnemi() {
@@ -456,10 +462,35 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if (time>1.5&&en.getActions().size==1) {
+                if (time>1.01&&en.getActions().size==1) {
                     i++;
                     if (i == ennemis.size()) {
                         Bomberball.input.addProcessor((Solo) target);
+                        if(!personnage.isVivant()){
+                            for (Ennemis en : ennemis) {
+                                if (en.isVivant()) {
+                                    en.setAnimationdefaite();
+                                }
+                            }
+                            jeu.addAction(new Action() {
+                                float time = 0;
+
+                                @Override
+                                public boolean act(float delta) {
+                                    time += delta;
+                                    if (time > 3) {
+                                        jeu.removeActor(jeu.map);
+                                        jeu.map = null;
+                                        bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                        jeu.setEtat(bombaaaagh.defaite);
+                                        bombaaaagh.setScreen(bombaaaagh.defaite);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
+                        }
+
                         return true;
                     }
                     en = ennemis.get(i);

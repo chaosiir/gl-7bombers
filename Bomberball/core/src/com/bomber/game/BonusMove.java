@@ -10,7 +10,7 @@ public class BonusMove extends Bonus {
     @Override
     public void action(){
         c.getPersonnage().setPm(c.getPersonnage().getPm()+1);
-        System.out.println("Mise à jour "+c.getPersonnage().getPm());
+       // System.out.println("Mise à jour "+c.getPersonnage().getPm());
         c.suppBonus();
     }
 }
