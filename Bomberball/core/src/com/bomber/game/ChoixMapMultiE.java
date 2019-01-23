@@ -114,6 +114,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         game.choixMapMultiE.removeActor(table);
 
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
                         game.choixMapMultiE.removeActor(jeu);
                         Bomberball.input.removeProcessor(game.choixMapMultiE);

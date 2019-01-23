@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Campagne extends Etat implements Screen {
     int pm=5;
@@ -34,6 +35,8 @@ public class Campagne extends Etat implements Screen {
     Label porteExplo;
     Label poussee;
 
+    int mapactuel; //Niveau actuel
+
     TextButton retour;
 
     Personnage personnage;
@@ -47,13 +50,14 @@ public class Campagne extends Etat implements Screen {
     FileWriter fw;
     FileWriter fwr;
 
+
     private Bomberball game;
     public Campagne(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
         File directory = new File (".");
         try {
-            f = new File(directory.getCanonicalPath() + "/Campagne/tmp.txt");
+            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
             frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
         } catch (IOException e) {
@@ -62,11 +66,16 @@ public class Campagne extends Etat implements Screen {
 
     }
 
+    public void setMapactuel(int e){
+        this.mapactuel=e;
+    }
+
     /**
      * Méthode appelée pour afficher la fenêtre
      */
     @Override
     public void show() {
+        System.out.println(mapactuel);
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         Bomberball.input.addProcessor(this);
@@ -111,44 +120,7 @@ public class Campagne extends Etat implements Screen {
 
         }
         else if(jeu.map==null){
-            //Ligne à ajouter pour la modification du nombre d'ennemis sur la carte
-            if(jeu.nbBonus!=-1){
-                jeu.map=Map.genererMapSolo(65,10,jeu.nbBonus);
-                jeu.nbBonus=-1;
-                try {
-                    fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToTextN());
-                    fwr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                jeu.map=Map.genererMapSolo(65,10,5);
-                try {
-                    fwr = new FileWriter(frecommencer);
-                    fwr.write(jeu.map.mapToTextN());
-                    fwr.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            for (int i=0;i<15;i++){
-                for(int j=0;j<13;j++){
-                    if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
-                        if(jeu.nbBombe!=-1){
-                            jeu.map.getGrille()[i][j].getPersonnage().setNbBombe(jeu.nbBombe);
-                        }
-                        if(jeu.nbDeplaP!=-1){
-                            jeu.map.getGrille()[i][j].getPersonnage().setPm(jeu.nbDeplaP);
-                        }
-
-                        pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
-                        nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
-                    }
-                }
-            }
-
+            //Rien
         }
         else{
             try {
@@ -157,6 +129,14 @@ public class Campagne extends Etat implements Screen {
                 fwr.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            if(jeu.difficulte!=-1){
+                LinkedList<Ennemis> ennemis=new LinkedList<Ennemis>();
+                for(int i=0;i<15;i++){
+                    for(int j=0;j<13;j++){
+
+                    }
+                }
             }
         }
 
@@ -253,9 +233,10 @@ public class Campagne extends Etat implements Screen {
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.jeuSolo.removeActor(jeu);
-                Bomberball.input.removeProcessor(game.jeuSolo);
+                Bomberball.input.removeProcessor(game.campagne);
                 frecommencer.delete();
 
+                jeu.difficulte=-1;
                 jeu.nbDeplaP=-1;
                 jeu.porteeBombe=-1;
                 jeu.nbBombe=-1;
@@ -364,9 +345,21 @@ public class Campagne extends Etat implements Screen {
                         jeu.removeActor(joueur);
                         jeu.removeActor(jeu.map);
                         jeu.map = null;
-                        game.victoire = new Victoire(game, jeu, "                           Victoire");
-                        jeu.setEtat(game.victoire);
-                        game.setScreen(game.victoire);
+
+                        if(mapactuel==3){
+
+                            game.victoire=new Victoire(game,jeu,"Vous avez battu le jeu ! Bravo !");
+                            game.campagne.removeActor(jeu);
+                            jeu.setEtat(game.victoire);
+                            game.setScreen(game.victoire);
+                        }
+                        else{
+                            game.victoireCampagne.setNiveaugag(mapactuel);
+                            game.campagne.removeActor(jeu);
+                            jeu.setEtat(game.victoireCampagne);
+                            game.setScreen(game.victoireCampagne);
+                        }
+
                     }
                     pm = joueur.getPm();
                     nb = joueur.getNbBombe();
@@ -397,6 +390,8 @@ public class Campagne extends Etat implements Screen {
                                     jeu.removeActor(jeu.map);
                                     jeu.map = null;
                                     game.defaite = new Defaite(game, jeu, "gdjdj");
+                                    game.defaite.setEtat(game.campagne);
+                                    game.campagne.removeActor(jeu);
                                     jeu.setEtat(game.defaite);
                                     game.setScreen(game.defaite);
                                     return true;
@@ -451,7 +446,7 @@ public class Campagne extends Etat implements Screen {
                 if (time>1.01&&en.getActions().size==1) {
                     i++;
                     if (i == ennemis.size()) {
-                        Bomberball.input.addProcessor((Solo) target);
+                        Bomberball.input.addProcessor((Campagne) target);
                         return true;
                     }
                     en = ennemis.get(i);

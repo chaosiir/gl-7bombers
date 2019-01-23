@@ -376,6 +376,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         jeu.removeActor(joueur);
                         jeu.removeActor(jeu.map);
                         jeu.map = null;
+                        bombaaaagh.jeuSolo.removeActor(jeu);
                         bombaaaagh.victoire = new Victoire(bombaaaagh, jeu, "                           Victoire");
                         jeu.setEtat(bombaaaagh.victoire);
                         bombaaaagh.setScreen(bombaaaagh.victoire);
@@ -409,6 +410,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                                     jeu.removeActor(jeu.map);
                                     jeu.map = null;
                                     bombaaaagh.defaite = new Defaite(bombaaaagh, jeu, "gdjdj");
+                                    bombaaaagh.defaite.setEtat(bombaaaagh.jeuSolo);
                                     jeu.setEtat(bombaaaagh.defaite);
                                     bombaaaagh.setScreen(bombaaaagh.defaite);
                                     return true;

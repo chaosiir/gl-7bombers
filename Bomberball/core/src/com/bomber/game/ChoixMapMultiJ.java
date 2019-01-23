@@ -112,7 +112,12 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                         game.choixMapMultiJ.removeActor(scrollPane);
                         game.choixMapMultiJ.removeActor(table);
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
+
+                        Bomberball.input.removeProcessor(game.choixMapMultiJ);
                         game.choixMapMultiJ.removeActor(jeu);
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);

@@ -54,6 +54,7 @@ public class Bomberball extends Game {
 	SelectionCheminEpa selectionCheminEpa;
 	ChoixCampagne choixCampagne;
 	Campagne campagne;
+	VictoireCampagne victoireCampagne;
 
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;
@@ -118,6 +119,7 @@ public class Bomberball extends Game {
 		selectionCheminEpa = new SelectionCheminEpa(this,jeu);
 		choixCampagne= new ChoixCampagne(this,jeu);
 		campagne = new Campagne(this,jeu);
+		victoireCampagne = new VictoireCampagne(this,jeu);
 
 
 
