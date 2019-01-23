@@ -114,6 +114,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         Bomberball.stg.setKeyboardFocus(this);
         Bomberball.input.addProcessor(this);
         jeu.removeActor(jeu.map);
+        jeu.removeActor(jeu.findActor("Map"));
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );

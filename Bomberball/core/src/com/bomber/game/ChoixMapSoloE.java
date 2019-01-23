@@ -151,22 +151,32 @@ public class ChoixMapSoloE extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String s=list.getSelected();
-                if(s!=null){
+                if(s!=null) {
                     File f1;
-                    File directory = new File (".");
-                    try{
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
+                    File directory = new File(".");
+                    try {
+                        f1 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/" + s + ".txt");
                         f1.delete();
+                    } catch (IOException e) {
                     }
-                    catch (IOException e){}
                     map.suppActor();
-                    map=null;
+                    map = null;
                     jeu.removeActor(map);
                 }
+                Array<String> tmp=new Array<String>();
+                final File liste[]=f.listFiles();
+                if(liste!=null && liste.length!=0){
+                    for(File fi: liste){
+                        if (!fi.getName().equals("tmp.txt")){
 
-                Array<String> recup=list.getItems();
-                list.clearItems();
-                list.setItems(recup);
+                            tmp.add(fi.getName().substring(0,fi.getName().length()-4));
+                        }
+
+
+
+                    }
+                }
+                list.setItems(tmp);
             }
         });
 
@@ -239,6 +249,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
     public void hide() {
         Bomberball.stg.clear();
         jeu.removeActor(map);
+        jeu.removeActor(jeu.findActor("Map"));
 
     }
 

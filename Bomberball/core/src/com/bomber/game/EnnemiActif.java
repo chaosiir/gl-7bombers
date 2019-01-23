@@ -223,8 +223,6 @@ public class EnnemiActif extends Ennemis {
             }
         }
 
-        System.out.println(exist[yc+colonnes*(xc+2)][yc+1+colonnes*(xc+2)]);
-
         /** Utilisation de Warshall pour pouvoir vérifier l'existence**/
         int k;
         for (i = 0; i < colonnes * lignes; i++) {
@@ -241,7 +239,6 @@ public class EnnemiActif extends Ennemis {
                 }
             }
         }
-        System.out.println(tmp[yc+colonnes*xc][yc+1+colonnes*(xc+2)]);
 
 
 
