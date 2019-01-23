@@ -13,6 +13,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
     private boolean agro = false;
 
+
     public int getPortee() {
         return portee;
     }
@@ -321,7 +322,7 @@ public class EnnemiActifAggressif extends Ennemis {
                         exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
                         exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
                     }
-                    if (trad[i][j] != 1 && trad[i][j + 1] != -1) {
+                    if (trad[i][j] != 1 && trad[i][j + 1] != 1) {
                         exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
                         exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
                     }
@@ -366,7 +367,7 @@ public class EnnemiActifAggressif extends Ennemis {
                 int y2=yc-(portee-h)+var;
 
                 if(x1<15 && x1>=0 && !personnage){
-                    if(y1>=0 && y1<12){
+                    if(y1>=0 && y1<13){
                         if(map.getGrille()[x1][y1].getPersonnage()!=null){
                             personnage=true;
                             xp=x1;
@@ -375,7 +376,7 @@ public class EnnemiActifAggressif extends Ennemis {
                     }
                 }
                 if(x1<15 && x1>=0 && !personnage){
-                    if(y2>=0 && y2<12){
+                    if(y2>=0 && y2<13){
                         if(map.getGrille()[x1][y2].getPersonnage()!=null){
                             personnage=true;
                             xp=x1;
@@ -384,7 +385,7 @@ public class EnnemiActifAggressif extends Ennemis {
                     }
                 }
                 if(x2<15 && x2>=0 && !personnage){
-                    if(y1>=0 && y1<12){
+                    if(y1>=0 && y1<13){
                         if(map.getGrille()[x2][y1].getPersonnage()!=null){
                             personnage=true;
                             xp=x2;
@@ -393,7 +394,7 @@ public class EnnemiActifAggressif extends Ennemis {
                     }
                 }
                 if(x2<15 && x2>=0 && !personnage){
-                    if(y2>=0 && y2<12){
+                    if(y2>=0 && y2<13){
                         if(map.getGrille()[x2][y2].getPersonnage()!=null){
                             personnage=true;
                             xp=x2;
@@ -432,7 +433,6 @@ public class EnnemiActifAggressif extends Ennemis {
 
                 int pmrestant = pm;
 
-                prochain_deplacement.addFirst(c);
 
                 while (!disol.isEmpty()) {
                     pmrestant--;
@@ -469,7 +469,7 @@ public class EnnemiActifAggressif extends Ennemis {
                     int y1=yc+pm-l-k;
                     int y2=yc-(pm-l)+k;
                     if(x1<15 && x1>=0 && !trouve){
-                        if(y1>=0 && y1<12){
+                        if(y1>=0 && y1<13){
                             if(tmp[yc+colonnes*xc][y1+colonnes*x1]==1 || tmp[y1+colonnes*x1][yc+colonnes*xc]==1){
                                 trouve=true;
                                 xa=x1;
@@ -478,7 +478,7 @@ public class EnnemiActifAggressif extends Ennemis {
                         }
                     }
                     if(x1<15 && x1>=0 && !trouve){
-                        if(y2>=0 && y2<12){
+                        if(y2>=0 && y2<13){
                             if(tmp[yc+colonnes*xc][y2+colonnes*x1]==1 || tmp[y2+colonnes*x1][yc+colonnes*xc]==1){
                                 trouve=true;
                                 xa=x1;
@@ -487,7 +487,7 @@ public class EnnemiActifAggressif extends Ennemis {
                         }
                     }
                     if(x2<15 && x2>=0 && !trouve){
-                        if(y1>=0 && y1<12){
+                        if(y1>=0 && y1<13){
                             if(tmp[yc+colonnes*xc][y1+colonnes*x2]==1 || tmp[y1+colonnes*x2][yc+colonnes*xc]==1){
                                 trouve=true;
                                 xa=x2;
@@ -496,7 +496,7 @@ public class EnnemiActifAggressif extends Ennemis {
                         }
                     }
                     if(x2<15 && x2  >=0 && !trouve){
-                        if(y2>=0 && y2<12){
+                        if(y2>=0 && y2<13){
                             if(tmp[yc+colonnes*xc][y2+colonnes*x2]==1 || tmp[y2+colonnes*x2][yc+colonnes*xc]==1){
                                 trouve=true;
                                 xa=x2;

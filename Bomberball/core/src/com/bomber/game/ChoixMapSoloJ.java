@@ -116,7 +116,12 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                         game.choixMapSoloJ.removeActor(scrollPane);
                         game.choixMapSoloJ.removeActor(table);
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
+
+                        Bomberball.input.removeProcessor(game.choixMapSoloJ);
                         game.choixMapSoloJ.removeActor(jeu);
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);

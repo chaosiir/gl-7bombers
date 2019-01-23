@@ -194,7 +194,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                         exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
                         exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
                     }
-                    if (trad[i][j] != 1 && trad[i][j + 1] != -1) {
+                    if (trad[i][j] != 1 && trad[i][j + 1] != 1) {
                         exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
                         exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
                     }
@@ -239,7 +239,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                 int y2=yc-(portee-h)+var;
 
                 if(x1<15 && x1>=0 && !personnage){
-                    if(y1>=0 && y1<12){
+                    if(y1>=0 && y1<13){
                         if(map.getGrille()[x1][y1].getPersonnage()!=null){
                             personnage=true;
                             xp=x1;
@@ -248,7 +248,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                     }
                 }
                 if(x1<15 && x1>=0 && !personnage){
-                    if(y2>=0 && y2<12){
+                    if(y2>=0 && y2<13){
                         if(map.getGrille()[x1][y2].getPersonnage()!=null){
                             personnage=true;
                             xp=x1;
@@ -257,7 +257,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                     }
                 }
                 if(x2<15 && x2>=0 && !personnage){
-                    if(y1>=0 && y1<12){
+                    if(y1>=0 && y1<13){
                         if(map.getGrille()[x2][y1].getPersonnage()!=null){
                             personnage=true;
                             xp=x2;
@@ -266,7 +266,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                     }
                 }
                 if(x2<15 && x2>=0 && !personnage){
-                    if(y2>=0 && y2<12){
+                    if(y2>=0 && y2<13){
                         if(map.getGrille()[x2][y2].getPersonnage()!=null){
                             personnage=true;
                             xp=x2;
@@ -305,7 +305,7 @@ public class EnnemiPassifAgressif extends Ennemis {
 
                 int pmrestant = pm;
 
-                prochain_deplacement.addFirst(c);
+
 
                 while (!disol.isEmpty()) {
                     pmrestant--;
@@ -326,6 +326,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         else{
             if(isAgro()){
                 this.setAgro(false);
+                this.teleportation=true;
                 prochain_deplacement.addFirst(c);
                 if(chemin.get(pos).getEnnemi()==null && chemin.get(pos).getMur()==null){
                     prochain_deplacement.add(map.getGrille()[chemin.get(pos).posX()][chemin.get(pos).posY()]);
