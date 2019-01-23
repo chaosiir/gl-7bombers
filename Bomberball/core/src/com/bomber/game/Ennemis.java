@@ -82,10 +82,10 @@ public abstract int getPortee();
         this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-        System.out.println("debut"+c.posX()+" "+c.posY());
-        for(Case cas :prochain_deplacement){
-            System.out.println(cas.posX()+" "+cas.posY());
-        }
+       // System.out.println(c.posX()+" "+c.posY());
+        //for(Case cas :prochain_deplacement){
+          //  System.out.println(cas.posX()+" "+cas.posY());
+        //}
         if (!prochain_deplacement.isEmpty()){
             prochaine=prochain_deplacement.removeFirst();
         }
@@ -95,7 +95,7 @@ public abstract int getPortee();
         }
         while(!prochain_deplacement.isEmpty() && i>0){
             prochaine=prochain_deplacement.removeFirst();
-            if(prochaine.getEnnemi()!=null &&prochaine.getEnnemi()!=this){
+            if(prochaine.getEnnemi()!=null && prochaine.getEnnemi()!=this){
                 break;
             }
             else{

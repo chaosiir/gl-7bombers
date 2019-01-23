@@ -71,6 +71,16 @@ public class MenuSolo extends Etat implements Screen {
                 game.setScreen(game.jeuSolo);
             }
         });
+        campagne.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
+                jeu.setEtat(game.choixCampagne);
+                game.setScreen(game.choixCampagne);
+            }
+        });
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

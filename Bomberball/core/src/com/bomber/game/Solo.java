@@ -90,6 +90,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
 
         if(f.exists()){
             jeu.removeActor(jeu.map);
+            this.removeActor(jeu);
             jeu.map=null;
             if(jeu.recommencer){
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
@@ -429,9 +430,11 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                 else{
                     fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
                 }
+
                 fw.write("111 "); //Symbole de fin pour la fin de la mise à jour des personnages
                 fw.write(""+joueur.getId());
                 fw.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

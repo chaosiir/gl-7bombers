@@ -20,8 +20,10 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     // indice de la case en cours sur le chemin défini
     private int i = 0;
-
+    Boolean retour=false;
     private int portee;
+
+    int pos;
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
     dans un carré de taille 5x5 autour de l'ennemi*/
 
@@ -50,6 +52,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         this.agro = agro;
         this.chemin=new LinkedList<Case>();
         setAnimationdroite();
+        pos=0;
 
     }
 
@@ -324,95 +327,97 @@ public class EnnemiPassifAgressif extends Ennemis {
             if(isAgro()){
                 this.setAgro(false);
                 prochain_deplacement.addFirst(c);
-                for(Case cas: this.getChemin()){
-                    if(map.getGrille()[cas.posX()][cas.posY()].getPersonnage()==null && map.getGrille()[cas.posX()][cas.posY()].getMur()==null){
-                        prochain_deplacement.add(map.getGrille()[cas.posX()][cas.posY()]);
+                if(chemin.get(pos).getEnnemi()==null && chemin.get(pos).getMur()==null){
+                    prochain_deplacement.add(map.getGrille()[chemin.get(pos).posX()][chemin.get(pos).posY()]);
+                }
+                else{
+                    int o=0;
+                    while(chemin.get(o).getEnnemi()!=null && chemin.get(o).getMur()!=null && o<chemin.size()){
+                        o++;
+                    }
+                    if(chemin.get(o).getEnnemi()!=null || chemin.get(o).getMur()!=null){
+                        prochain_deplacement.add(map.getGrille()[chemin.get(o).posX()][chemin.get(o).posY()]);
+                        pos=o;
                     }
                 }
             }
             else{
-                int xa = 0, ya = 0; //Stockage de la case finale
-
-
-                /** On teste s'il existe un chemin avant de le chercher**/
-                int l = 0; //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
-                Boolean trouve = false;
-                while (!trouve && l < pm) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
-                    k = 0;
-                    while (k <= (pm - l) && !trouve) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
-                        int x1=xc+k;
-                        int x2=xc-k;
-                        int y1=yc+pm-l-k;
-                        int y2=yc-(pm-l)+k;
-                        if(x1<15 && x1>=0 && !trouve){
-                            if(y1>=0 && y1<12){
-                                if(tmp[yc+colonnes*xc][y1+colonnes*x1]==1 || tmp[y1+colonnes*x1][yc+colonnes*xc]==1){
-                                    trouve=true;
-                                    xa=x1;
-                                    ya=y1;
-                                }
-                            }
+                prochain_deplacement.clear();
+                prochain_deplacement.add(c);
+                int pmrestant=pm;
+                Boolean ok=false;
+                if(chemin.size()!=1){
+                    if(pos==0){
+                        Case casap=chemin.get(1);
+                        if(map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null){
+                            ok=true;
                         }
-                        if(x1<15 && x1>=0 && !trouve){
-                            if(y2>=0 && y2<12){
-                                if(tmp[yc+colonnes*xc][y2+colonnes*x1]==1 || tmp[y2+colonnes*x1][yc+colonnes*xc]==1){
-                                    trouve=true;
-                                    xa=x1;
-                                    ya=y2;
-                                }
-                            }
+                        else{
+                            ok=false;
                         }
-                        if(x2<15 && x2>=0 && !trouve){
-                            if(y1>=0 && y1<12){
-                                if(tmp[yc+colonnes*xc][y1+colonnes*x2]==1 || tmp[y1+colonnes*x2][yc+colonnes*xc]==1){
-                                    trouve=true;
-                                    xa=x2;
-                                    ya=y1;
-                                }
-                            }
-                        }
-                        if(x2<15 && x2  >=0 && !trouve){
-                            if(y2>=0 && y2<12){
-                                if(tmp[yc+colonnes*xc][y2+colonnes*x2]==1 || tmp[y2+colonnes*x2][yc+colonnes*xc]==1){
-                                    trouve=true;
-                                    xa=x2;
-                                    ya=y2;
-                                }
-                            }
-                        }
-                        k++;
                     }
-                    l++;
+                    else if(pos==chemin.size()-1){
+                        Case casav=chemin.get(chemin.size()-2);
+                        if (map.getGrille()[casav.posX()][casav.posY()].getMur()==null && map.getGrille()[casav.posX()][casav.posY()].getEnnemi()==null){
+                            ok=true;
+                        }
+                        else{
+                            ok=false;
+                        }
+                    }
+                    else{
+                        Case casap=chemin.get(pos+1);
+                        Case casav=chemin.get(pos-1);
+                        if((map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null) || (map.getGrille()[casav.posX()][casav.posY()].getMur()==null && map.getGrille()[casav.posX()][casav.posY()].getEnnemi()==null) ){
+                            ok=true;
+
+                        }
+                        else{
+                            ok=false;
+                        }
+                    }
+
                 }
+                while(pmrestant>0 && ok){
 
-                if (!trouve) {
-                    prochain_deplacement.clear();
-                    prochain_deplacement.add(c);
-                }
+                    if(pos==(chemin.size()-1)){ //Si on est au bout du chemin, on retourne en arrière
+                        retour=true;
+                    }
 
-                /** Implémentation de Dijkstra pour avoir le chemin**/
+                    if(pos==0){ //Si on est au début, on ne va pas retourner
+                        retour=false;
 
-                else {
-                    int N = Graphe.ALPHA_NOTDEF;
-                    int existdij[][] = new int[13 * 15][13 * 15];
+                    }
+                    //Dans le cas général et pas dans ces cas particuliers
+                    if(retour){
+                        //System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS RETOUR");
+                        Case aCase=chemin.get(pos-1);
+                        // System.out.println("Case "+aCase.posX()+" "+aCase.posY());
+                        if(map.getGrille()[aCase.posX()][aCase.posY()].getMur()==null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ){
 
-                    for (i = 0; i < 13 * 15; i++) {
-                        for (j = 0; j < 13 * 15; j++) {
-                            if (exist[i][j] == 1) {
-                                existdij[i][j] = 1;
-                            } else {
-                                existdij[i][j] = N;
-                            }
+                            pmrestant--;
+                            prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                            pos--;
+                        }
+                        else{
+
+                            retour=false;
+                        }
+                    }
+                    else {
+                        // System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS NON RETOUR");
+                        Case aCase = chemin.get(pos + 1);
+                        if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ) {
+                            pmrestant--;
+                            prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                            pos++;
+                        } else {
+                            retour = true;
+
                         }
                     }
 
-                    Graphe graphe = new Graphe(existdij);
-                    Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
-                    LinkedList<Integer> disol = dijkstra.afficheChemin(ya + colonnes * xa);
-                    prochain_deplacement.addFirst(c);
-                    for (int f : disol) {
-                        prochain_deplacement.addFirst(map.getGrille()[f / colonnes][f % colonnes]);
-                    }
+
 
 
                 }

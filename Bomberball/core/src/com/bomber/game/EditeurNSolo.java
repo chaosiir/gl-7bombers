@@ -284,7 +284,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 if (cptPerso!=1 || cptPorte!=1){
                     map.suppActor();
-                    game.editeurNMulti.removeActor(map);
+                    game.editeurNSolo.removeActor(map);
                     jeu.setEtat(game.erreurEditeurS);
                     game.setScreen(game.erreurEditeurS);
                 }
@@ -551,7 +551,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     else if(en instanceof EnnemiActif || en instanceof EnnemiActifAggressif){
                         en.miseAjour();
                         LinkedList<Case> caca = en.getProchain_deplacement();
-                        System.out.println("Position ennemi: "+en.getC().posX()+" "+en.getC().posY()+" Premier case LKL: "+ caca.getFirst().posX()+" "+caca.getFirst().posY());
+                       // System.out.println("Position ennemi: "+en.getC().posX()+" "+en.getC().posY()+" Premier case LKL: "+ caca.getFirst().posX()+" "+caca.getFirst().posY());
                         for (Case cas : caca) {
                             int xc = cas.posX();
                             int yc = cas.posY();
@@ -761,6 +761,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     map.suppActor();
                     cache=false;
                     game.editeurNSolo.removeActor(map);
+                    game.editeurNSolo.removeActor(jeu);
                     jeu.setEtat(game.selectionCheminEp);
                     game.setScreen(game.selectionCheminEp);
 
@@ -783,6 +784,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     this.removeActor(map);
                     map.suppActor();
                     cache=false;
+                    game.editeurNSolo.removeActor(jeu);
                     game.editeurNSolo.removeActor(map);
                     jeu.setEtat(game.selectionCheminEpa);
                     game.setScreen(game.selectionCheminEpa);
@@ -932,7 +934,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 else if(hitActor.getName().equals("Personnage")){
                     Case c = (Case) hitActor.getParent();
-                    System.out.println("x="+c.posX()+" y="+c.posY());
+                //    System.out.println("x="+c.posX()+" y="+c.posY());
                     if (button == Input.Buttons.RIGHT) {
                         c.setMur(null);
                         c.setPorte(null);

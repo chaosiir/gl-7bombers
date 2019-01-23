@@ -213,7 +213,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,3,5,false);
+                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,3,4,false);
                     ennemi_passif_aggressif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif_aggressif);
                     ennemi_passif_aggressif.getChemin().add(c);
