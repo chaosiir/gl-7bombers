@@ -124,13 +124,20 @@ public class ChoixCampagne extends Etat implements Screen {
         final File liste[]=f.listFiles();
         if(liste!=null && liste.length!=0 ){
             for(File fi: liste){
-                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt") && i<niveauactuel){
+                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt")){
                     i++;
                     tmp.add(fi.getName().substring(0,fi.getName().length()-4));
                 }
                 
             }
         }
+
+        tmp.sort();
+
+        while(tmp.size!=niveauactuel){
+            tmp.removeIndex(tmp.size-1);
+        }
+
         list.setItems(tmp);
 
         valider=new TextButton("Acceder au niveau",skin);
@@ -227,6 +234,31 @@ public class ChoixCampagne extends Etat implements Screen {
                 catch (IOException e) {
                     e.printStackTrace();
                 }
+                map.suppActor();
+                map = null;
+                jeu.removeActor(map);
+                Array<String> tmp=new Array<String>();
+                File liste1[]=f.listFiles();
+                if(liste1!=null && liste1.length!=0){
+                    for(File fi: liste1){
+                        if (!fi.getName().equals("niveau.txt")){
+
+                            tmp.add(fi.getName().substring(0,fi.getName().length()-4));
+                        }
+
+
+
+                    }
+                }
+                tmp.sort();
+
+                while(tmp.size!=1){
+                    tmp.removeIndex(tmp.size-1);
+                }
+
+                list.setItems(tmp);
+                map = null;
+                jeu.removeActor(map);
 
             }
         });
