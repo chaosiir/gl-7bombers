@@ -82,4 +82,13 @@ public class Bombe extends Image {
         });
         this.c.suppBombe();
     }
+
+    public static void main(String[] args){
+        Bombe B=new Bombe( 5,new Case());
+        try{
+            B.explosion();
+        }catch (Exception e){
+            System.out.println("fail explosion")
+        }
+    }
 }

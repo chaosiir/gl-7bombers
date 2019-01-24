@@ -561,7 +561,26 @@ public class Personnage extends Image {
     }
 
 
+   /* public static void main(String[] args){
+        Personnage P=new Personnage(true,new Case(),1,1,1,1);
+        Map M=new Map();
+        P.getC().setMap(M);
 
+// Test de poserBombe
+        try {
+            P.poserBombe();
+        }catch (Exception e){
+            System.out.println("fail poserBombe");
+        }
+        if (P.getC().getBombe()==null){
+            System.out.println("fail poserBombe");
+        }
 
-
+// Test de deplacerHaut
+        try {
+            P.deplacerHaut();
+        }catch (Exception e){
+            System.out.println("fail deplacerHaut");
+        }
+    }*/
 }
