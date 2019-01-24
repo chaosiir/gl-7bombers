@@ -46,6 +46,7 @@ public class MenuSolo extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /*Creation de l'arriere-plan*/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         // called when this screen is set as the screen with game.setScreen();
@@ -66,55 +67,72 @@ public class MenuSolo extends Etat implements Screen {
         parametre = new TextButton("Parametre",skin);
         retour= new TextButton("Retour",skin);
 
+        /*Creation du bouton de demarrage d'une partie solo*/
         demarrerpartie.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu solo
                 Bomberball.stg.clear();
                 jeu.removeActor(jeu.map);
                 Bomberball.input.removeProcessor(game.menuSolo);
+                //On passe au mode solo
                 jeu.setEtat(game.jeuSolo);
                 game.setScreen(game.jeuSolo);
             }
         });
+
+        /*Creation du bouton du mode campagne*/
         campagne.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu solo
                 Bomberball.stg.clear();
                 jeu.removeActor(jeu.map);
                 Bomberball.input.removeProcessor(game.menuSolo);
+                //On passe au menu de selection de maps de la campagne
                 jeu.setEtat(game.choixCampagne);
                 game.setScreen(game.choixCampagne);
             }
         });
+
+        /*Creation du bouton permettant d'acceder au menu de selection des maps editees*/
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu solo
                 Bomberball.stg.clear();
                 jeu.removeActor(jeu.map);
                 Bomberball.input.removeProcessor(game.menuSolo);
+                //On passe au menu de selection de maps editees
                 jeu.setEtat(game.choixMapSoloJ);
                 game.setScreen(game.choixMapSoloJ);
             }
         });
 
+        /*Creation du bouton pearmettant d'acceder au menu des parametres*/
         parametre.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu solo
                 Bomberball.stg.clear();
                 jeu.removeActor(jeu.map);
                 Bomberball.input.removeProcessor(game.menuSolo);
+                //On passe au menu des parametres
                 jeu.setEtat(game.parametreSolo);
                 game.setScreen(game.parametreSolo);
             }
         });
 
+        /*Creation du bouton de retour au menu principal*/
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu solo
                 Bomberball.stg.clear();
                 jeu.removeActor(jeu.map);
                 Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.map=null;
+                //On passe au menu principal
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }

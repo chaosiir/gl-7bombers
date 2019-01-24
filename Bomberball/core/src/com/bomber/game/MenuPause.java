@@ -106,6 +106,7 @@ public class MenuPause extends Etat implements Screen {
      * Méthode appelée pour afficher la fenêtre
      */
     public void show(){
+        /*Creation de l'arriere-plan*/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -121,34 +122,42 @@ public class MenuPause extends Etat implements Screen {
         recommencerButton = new TextButton("Recommencer la partie",skin);
         quitterButton = new TextButton("Quitter la partie",skin);
 
+        /*Creation du bouton de reprise de la partie*/
         reprendreButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                //On quitte le menu pause
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.menuPause.removeActor(jeu);
+                //On repasse dans l'etat du jeu tel qu'il etait avant le passage en pause
                 jeu.setEtat(etatAnterieur);
                 game.setScreen((Screen)etatAnterieur);
             }
         });
 
+        /*Creation du bouton de reinitialisation de la partie*/
         recommencerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On reinitialise la partie en cours
                 f.delete();
                 source.renameTo(f);
                 jeu.recommencer=true;
+                //On quitte le menu pause
                 jeu.removeActor(jeu.map);
                 game.menuPause.removeActor(jeu);
+                //On reprend la partie
                 jeu.setEtat(etatAnterieur);
                 game.setScreen((Screen)etatAnterieur);
             }
         });
 
+        /*Creatio du bouton de retour au menu*/
         quitterButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On reinitialise toutes les donnees relatives a la partie en cours
                 f.delete();
                 source.delete();
 
@@ -156,14 +165,16 @@ public class MenuPause extends Etat implements Screen {
                 jeu.nbDeplaP=-1;
                 jeu.nbBombe=-1;
                 jeu.nbEnnemis=-1;
-
+                //On quitte le menu pause
                 jeu.removeActor(jeu.map);
                 game.menuPause.removeActor(jeu);
+                //On repasse au menu principal
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
         });
 
+        /*Agencement du bouton sur l'ecran*/
         table.padTop(30); //Espace de 30 entre le premier texte et le haut
 
         table.add(reprendreButton).padBottom(30);

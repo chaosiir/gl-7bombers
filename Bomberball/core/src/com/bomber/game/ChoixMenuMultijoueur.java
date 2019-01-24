@@ -90,12 +90,15 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         nbDeplac = new TextField("5",skin);
         nbBombeT= new TextField("1",skin);
 
+        /*Creation du bouton de lancement de la partie*/
         lancerP.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //Quitte le menu multijoueur
                 game.choixMenuMultijoueur.removeActor(back);
                 game.choixMenuMultijoueur.removeActor(table);
 
+                //Recupere les parametres changes par le joueur
                 try{
                     int nbBD=Integer.parseInt(nbBlocDT.getText());
                     if(nbBD>=0){
@@ -144,17 +147,17 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
 
 
-
+                //Passage au mode multijoueur
                 jeu.setEtat(game.multijoueur);
                 game.setScreen(game.multijoueur);
             }
         });
 
-
+        /*Creation du bouton de retour au menu principal*/
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                //Quitte le menu multijoueur
                 game.choixMenuMultijoueur.removeActor(jeu.findActor("Map"));
                 game.choixMenuMultijoueur.removeActor(back);
                 game.choixMenuMultijoueur.removeActor(table);
@@ -165,14 +168,17 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
                 jeu.nbJoueur=4;
 
+                //Passage au menu principal
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
             }
         });
 
+        /*Creation du bouton d'acces au menu de choix des maps multijoueurs*/
         choixmap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //Quitte le menu multijoueur
                 game.choixMenuMultijoueur.removeActor(back);
                 game.choixMenuMultijoueur.removeActor(table);
 
@@ -180,11 +186,13 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
                 jeu.removeActor(jeu.map);
                 game.choixMenuMultijoueur.removeActor(jeu);
 
+                //Passage au menu de selection des maps multijoueurs
                 jeu.setEtat(game.choixMapMultiJ);
                 game.setScreen(game.choixMapMultiJ);
             }
         });
 
+        /*Creation des boutons de selection du nombre de joueur*/
         deux.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -206,7 +214,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
             }
         });
 
-
+        /*Creation du menu de selection des parametres*/
         table=new Table(); //Tableau
         //table.setDebug(true);
         table.setWidth(Bomberball.stg.getWidth());

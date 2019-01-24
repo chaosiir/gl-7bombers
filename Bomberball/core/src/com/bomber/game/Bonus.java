@@ -6,13 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import java.io.Serializable;
 
 public class Bonus extends Image  {
-    com.bomber.game.Case c;
+    Case c;
 
     /**
      * Constructeur de la classe Bonus
      * @return un bonus sur la case C
      */
-    public Bonus(com.bomber.game.Case C){
+    public Bonus(Case C){
         c=C;
     }
 
@@ -22,16 +22,12 @@ public class Bonus extends Image  {
      * @param t
      * @return un bonus sur la case C avec la texture t
      */
-    protected Bonus(com.bomber.game.Case C, Texture t){
+    protected Bonus(Case C,Texture t){
         super(t);
         this.setName("bonus");
-        this.setBounds(com.bomber.game.Bomberball.taillecase/4,Bomberball.taillecase/4,Bomberball.taillecase,Bomberball.taillecase);
+        this.setBounds(Bomberball.taillecase/4,Bomberball.taillecase/4,Bomberball.taillecase,Bomberball.taillecase);
         this.setScale(0.5f);
         c=C;
-    }
-
-    public com.bomber.game.Case getC() {
-        return c;
     }
 
     public void action(){

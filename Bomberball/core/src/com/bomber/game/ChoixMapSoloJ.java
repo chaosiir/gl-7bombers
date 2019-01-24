@@ -59,6 +59,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /*Creation de l'arriere-plan*/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -105,6 +106,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         table.setWidth(Bomberball.stg.getWidth());
         table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom); //Positionnement à la main
 
+        /*Creation du bouton de validation du choix de map*/
         valider.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -113,6 +115,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                     File f1;
                     File directory = new File (".");
                     try {
+                        //La map chargee pour la prochaine partie devient celle actuellement selectionnee dans le menu
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
 
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
@@ -125,7 +128,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                             map.suppActor();
                         }
                         map=null;
-
+                        //On quitte le menu de selection pour revenir au menu solo
                         Bomberball.input.removeProcessor(game.choixMapSoloJ);
                         game.choixMapSoloJ.removeActor(jeu);
                         jeu.setEtat(game.menuSolo);
@@ -138,23 +141,28 @@ public class ChoixMapSoloJ extends Etat implements Screen {
             }
         });
 
+        /*Creation du bouton de retour au menu solo*/
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu de selection de maps solo
                 game.choixMapSoloJ.removeActor(back);
                 game.choixMapSoloJ.removeActor(scrollPane);
                 game.choixMapSoloJ.removeActor(table);
                 if(map!=null){
                     map.suppActor();
                 }
+
                 game.choixMapSoloJ.removeActor(map);
                 map=null;
+                //On repasse dans le menu solo
                 jeu.setEtat(game.menuSolo);
                 game.setScreen(game.menuSolo);
 
             }
         });
 
+        /*Creation de l'espace de selection des maps*/
         list.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -162,6 +170,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 File f1;
                 File directory = new File (".");
                 try {
+                    //On recupere le fichier texte associee au nom de map selectionnee et on le convertit en image avant de l'afficher
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
@@ -183,6 +192,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                             }
                         }
                     }
+
                     jeu.addActor(map);
 
                 } catch (IOException e) {

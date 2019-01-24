@@ -198,8 +198,9 @@ public class Personnage extends Image {
     public boolean deplacerHaut(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        //Le deplacement n'a lieu que si la case visee est libre
         if (caseVideHaut()){
-
+            /*Changement de case*/
             Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()+1]);
             c.setPersonnage(null);
             c.removeActor(this);
@@ -207,6 +208,8 @@ public class Personnage extends Image {
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action();}
             c.addActor(this);
+            /*Fin de changement de case*/
+            /*Debut de l'animation*/
             setY(-Bomberball.taillecase);
             this.addAction(new Action() {
                 float time=0;
@@ -263,9 +266,9 @@ public class Personnage extends Image {
     public boolean deplacerBas(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        //Le deplacement n'a lieu que si la case visee est libre
         if (this.caseVideBas()){
-
-
+            /*Debut de l'animation*/
             this.addAction(new Action() {
                 float time=0;
                 @Override
@@ -273,6 +276,7 @@ public class Personnage extends Image {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
                     if(time>0.35) {
+                        /*Changement de case*/
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
                         c.removeActor(target);
@@ -281,11 +285,11 @@ public class Personnage extends Image {
                         if(c.getBonus()!=null){c.getBonus().action();}
                         c.addActor(target);
                         setY(0);
+                        /*Fin du changement du case*/
                     }
                     return time>0.35;
                 }
             });
-
             MoveByAction action=new MoveByAction();
             action.setAmount(0,-Bomberball.taillecase);
             action.setDuration(0.35f);
@@ -339,7 +343,9 @@ public class Personnage extends Image {
     public boolean deplacerDroite(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        //Le deplacement n'a lieu que si la case visee est libre
         if (caseVideDroite()){
+            /*Changement de case*/
             Case tmp = (c.getMap().getGrille()[c.posX()+1][c.posY()]);
             c.setPersonnage(null);
             c.removeActor(this);
@@ -347,6 +353,8 @@ public class Personnage extends Image {
             c=tmp;
             if(c.getBonus()!=null){c.getBonus().action();}
             c.addActor(this);
+            /*Fin du changement de case*/
+            /*Debut de l'animation*/
             this.addAction(new Action() {
                 float time=0;
                 @Override
@@ -399,8 +407,9 @@ public class Personnage extends Image {
     public boolean deplacerGauche(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+        //Le deplacement n'a lieu que si la case visee est libre
         if (caseVideGauche()){
-
+            /*Debut de l'animation*/
             this.addAction(new Action() {
                 float time=0;
                 @Override
@@ -408,6 +417,7 @@ public class Personnage extends Image {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+""+(int)(time*8)%4))));
                     if(time>0.35) {
+                        /*Changement de case*/
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
                         c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
@@ -415,6 +425,7 @@ public class Personnage extends Image {
                         c=tmp;
                         if(c.getBonus()!=null){c.getBonus().action();}
                         c.addActor(target);
+                        /*Fin de changement de case*/
                         setX(0);
                     }
                     return time>0.35;
@@ -561,26 +572,7 @@ public class Personnage extends Image {
     }
 
 
-   /* public static void main(String[] args){
-        Personnage P=new Personnage(true,new Case(),1,1,1,1);
-        Map M=new Map();
-        P.getC().setMap(M);
 
-// Test de poserBombe
-        try {
-            P.poserBombe();
-        }catch (Exception e){
-            System.out.println("fail poserBombe");
-        }
-        if (P.getC().getBombe()==null){
-            System.out.println("fail poserBombe");
-        }
 
-// Test de deplacerHaut
-        try {
-            P.deplacerHaut();
-        }catch (Exception e){
-            System.out.println("fail deplacerHaut");
-        }
-    }*/
+
 }

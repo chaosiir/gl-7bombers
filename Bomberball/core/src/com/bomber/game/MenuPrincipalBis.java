@@ -73,6 +73,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
      */
         @Override
         public void show() {
+            /*Creation de l'arriere-plan*/
             Bomberball.stg.addActor(this);
             Bomberball.stg.setKeyboardFocus(this);
             // called when this screen is set as the screen with game.setScreen();
@@ -92,34 +93,47 @@ public class MenuPrincipalBis extends Etat implements Screen {
             editeurButton = new TextButton("Mode Editeur de niveau",skin);
             quitButton = new TextButton("Quitter le jeu",skin);
 
+            /*Creation du bouton d'acces au menu solo*/
             soloButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    //On quitte le menu principal
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
+                    //On passe au menu solo
                     jeu.setEtat(game.menuSolo);
                     game.setScreen(game.menuSolo);
                 }
             });
+
+            /*Creation du bouton d'acces au menu multijoueur*/
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     jeu.nbJoueur=4;
+                    //On quitte le menu principal
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
+                    //On passe au menu multijoueur
                     jeu.setEtat(game.choixMenuMultijoueur);
                     game.setScreen(game.choixMenuMultijoueur);
                 }
             });
+
+            /*Creation du bouton d'acces au editeurs solo et multi*/
             editeurButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    //On quitte le menu principal
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
+                    //On passe au menu de selection entre l'editeur multi et solo
                     jeu.setEtat(game.choixEditeurN);
                     game.setScreen(game.choixEditeurN);
                 }
             });
+
+            /*Creation du bouton permettant de quitter l'application*/
             quitButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -127,6 +141,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
                 }
             });
 
+            /*Agencement des boutons sur l'ecran*/
             table.padTop(30); //Espace de 30 entre le premier texte et le haut
 
             table.add(soloButton).padBottom(30); //Espace de 30 entre les 2 boutons

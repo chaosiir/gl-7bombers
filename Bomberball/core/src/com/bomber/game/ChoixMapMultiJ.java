@@ -54,6 +54,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /*Creation de l'arriere-plan*/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -99,7 +100,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         table=new Table(); //Tableau
         table.setWidth(Bomberball.stg.getWidth());
         table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom); //Positionnement à la main
-
+        /*Creation du bouton de validation du choix de map*/
         valider.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -109,6 +110,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                     File f2;
                     File directory = new File (".");
                     try {
+                        //La map chargee pour la prochaine partie devient celle actuellement selectionnee dans le menu
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         game.choixMapMultiJ.removeActor(jeu.findActor("YOLO"));
@@ -120,7 +122,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                             map.suppActor();
                         }
                         map=null;
-
+                        //On quitte le menu de selection pour revenir au menu multijoueur
                         Bomberball.input.removeProcessor(game.choixMapMultiJ);
                         game.choixMapMultiJ.removeActor(jeu);
                         jeu.setEtat(game.choixMenuMultijoueur);
@@ -132,15 +134,16 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                 }
             }
         });
-
+        /*Creation du bouton de retour au menu solo*/
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu de selection de maps solo
                 game.choixMapMultiJ.removeActor(jeu.findActor("YOLO"));
                 game.choixMapMultiJ.removeActor(back);
                 game.choixMapMultiJ.removeActor(scrollPane);
                 game.choixMapMultiJ.removeActor(table);
-
+                //On repasse au menu multijoueur
                 jeu.removeActor(map);
                 map=null;
                 game.choixMapMultiJ.removeActor(jeu);
@@ -149,7 +152,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
 
             }
         });
-
+        /*Creation de l'espace de selection des maps*/
         list.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -157,6 +160,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                 File f1;
                 File directory = new File (".");
                 try {
+                    //On recupere le fichier texte associee au nom de map selectionnee et on le convertit en image avant de l'afficher
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);

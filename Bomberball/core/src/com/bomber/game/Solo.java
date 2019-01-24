@@ -29,7 +29,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Solo extends com.bomber.game.Etat implements Screen  {//etat multijoueur
+public class Solo extends Etat implements Screen  {//etat multijoueur
     int pm=5;
     int nb=1;
     Image back;

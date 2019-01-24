@@ -54,6 +54,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /*Creation de l'arriere-plan*/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -101,6 +102,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
         table.setWidth(Bomberball.stg.getWidth());
         table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom); //Positionnement à la main
 
+        /*Creation du bouton de validation de la map choisie*/
         valider.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -110,6 +112,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     File f2;
                     File directory = new File (".");
                     try {
+                        //La map dans l'editeur devient celle actuellement selectionnee dans le menu
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
                         f2.delete();
@@ -125,6 +128,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
                             map.suppActor();
                         }
                         map=null;
+
+                        //On quitte le menu de choix pour revenir a l'editeur
                         game.choixMapMultiE.removeActor(jeu);
                         Bomberball.input.removeProcessor(game.choixMapMultiE);
                         jeu.setEtat(game.editeurNMulti);
@@ -137,9 +142,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
+        /*Creation du bouton de retour a l'editeur multijoueur*/
         retour.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le menu de selection de map
                 table.removeActor(valider);
                 table.removeActor(retour);
                 game.choixMapMultiE.removeActor(back);
@@ -148,12 +155,15 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
                 jeu.removeActor(map);
                 map=null;
+
+                //On repasse dans l'editeur multi
                 game.choixMapMultiE.removeActor(jeu);
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
         });
 
+        /*Creation de l'espace de selection des maps*/
         list.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -161,6 +171,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 File f1;
                 File directory = new File (".");
                 try {
+                    //On recupere le fichier texte associee au nom de map selectionnee et on le convertit en image avant de l'afficher
                     f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
@@ -175,9 +186,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
+        /*Creation du bouton de suppression d'une map en memoire*/
         supprimer.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //La map selectionnee est supprimee des maps sauvegardees
                 String s=list.getSelected();
                 if(s!=null){
                     File f1;
