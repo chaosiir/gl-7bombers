@@ -48,12 +48,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/");
+            f =Gdx.files.internal( "./SaveMapPerso/Mapsolo/").file();
 
-        } catch (IOException e) {
-
-        }
     }
 
     public ChoixMapSoloJ(Jeu jeu) {
@@ -118,8 +114,8 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 if (i!=-1){
                     File f1;
                     File directory = new File (".");
-                    try {
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
+
+                        f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt").file();
 
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         game.choixMapSoloJ.removeActor(map);
@@ -137,9 +133,6 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
 
-                    } catch (IOException e) {
-
-                    }
                 }
             }
         });
@@ -167,8 +160,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
-                try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
+                    f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -191,9 +183,6 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                     }
                     jeu.addActor(map);
 
-                } catch (IOException e) {
-
-                }
 
             }
         });

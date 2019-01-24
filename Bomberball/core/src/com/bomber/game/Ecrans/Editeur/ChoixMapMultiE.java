@@ -45,12 +45,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/");
 
-        } catch (IOException e) {
+        f =Gdx.files.internal("./SaveMapPerso/MapMulti/").file();
 
-        }
     }
 
     /**
@@ -113,9 +110,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     File f1;
                     File f2;
                     File directory = new File (".");
-                    try {
-                        f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
+                        f2 = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();
+                        f1=Gdx.files.internal("./SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt").file();
                         Bomberball.copier(f1,f2);
                         table.removeActor(valider);
                         table.removeActor(retour);
@@ -133,9 +129,6 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         jeu.setEtat(game.editeurNMulti);
                         game.setScreen(game.editeurNMulti);
 
-                    } catch (IOException e) {
-
-                    }
                 }
             }
         });
@@ -163,17 +156,14 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
-                try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
+
+                    f1=Gdx.files.internal("./SaveMapPerso/MapMulti/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
                     jeu.addActor(map);
 
-                } catch (IOException e) {
-
-                }
 
             }
         });
@@ -185,11 +175,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
                 if(s!=null){
                     File f1;
                     File directory = new File (".");
-                    try{
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
+
+                        f1=Gdx.files.internal("./SaveMapPerso/MapMulti/"+s+".txt").file();
                         f1.delete();
-                    }
-                    catch (IOException e){     }
+
+
                     map.suppActor();
                     map = null;
                     jeu.removeActor(map);

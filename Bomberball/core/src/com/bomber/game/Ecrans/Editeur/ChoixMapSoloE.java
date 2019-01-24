@@ -48,12 +48,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/");
-
-        } catch (IOException e) {
-
-        }
+        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/").file();//new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
     }
 
     /**
@@ -115,9 +110,8 @@ public class ChoixMapSoloE extends Etat implements Screen {
                     File f1;
                     File f2;
                     File directory = new File (".");
-                    try {
-                        f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt");
+                        f2 =  Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
+                        f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt").file();
                         Bomberball.copier(f1,f2);
                         game.choixMapSoloE.removeActor(back);
                         game.choixMapSoloE.removeActor(scrollPane);
@@ -134,9 +128,6 @@ public class ChoixMapSoloE extends Etat implements Screen {
                         jeu.setEtat(game.editeurNSolo);
                         game.setScreen(game.editeurNSolo);
 
-                    } catch (IOException e) {
-
-                    }
                 }
             }
         });
@@ -162,11 +153,8 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 if(s!=null) {
                     File f1;
                     File directory = new File(".");
-                    try {
-                        f1 = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/" + s + ".txt");
-                        f1.delete();
-                    } catch (IOException e) {
-                    }
+                    f1 = Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
+                    f1.delete();
                     map.suppActor();
                     map = null;
                     jeu.removeActor(map);
@@ -194,8 +182,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
-                try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/Mapsolo/"+s+".txt");
+                    f1= Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -212,9 +199,6 @@ public class ChoixMapSoloE extends Etat implements Screen {
                     }
                     jeu.addActor(map);
 
-                } catch (IOException e) {
-
-                }
 
             }
         });

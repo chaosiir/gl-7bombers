@@ -46,12 +46,8 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/");
+            f = Gdx.files.internal( "./SaveMapPerso/MapMulti/").file();
 
-        } catch (IOException e) {
-
-        }
     }
 
     /**
@@ -113,8 +109,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                     File f1;
                     File f2;
                     File directory = new File (".");
-                    try {
-                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
+                        f1=Gdx.files.internal("./SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt").file();
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         game.choixMapMultiJ.removeActor(jeu.findActor("YOLO"));
                         game.choixMapMultiJ.removeActor(back);
@@ -131,9 +126,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);
 
-                    } catch (IOException e) {
 
-                    }
                 }
             }
         });
@@ -161,8 +154,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
-                try {
-                    f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
+                    f1=Gdx.files.internal("./SaveMapPerso/MapMulti/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
@@ -180,9 +172,6 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                     }
                     jeu.addActor(map);
 
-                } catch (IOException e) {
-
-                }
 
             }
         });

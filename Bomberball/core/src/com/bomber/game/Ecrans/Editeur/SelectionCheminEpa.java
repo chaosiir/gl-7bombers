@@ -52,12 +52,10 @@ public class SelectionCheminEpa extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
 
-        } catch (IOException e) {
+            f =Gdx.files.internal( "./SaveMapPerso/Mapsolo/tmp.txt").file();
 
-        }
+
     }
 
     /**

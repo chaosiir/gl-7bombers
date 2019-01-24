@@ -71,7 +71,6 @@ public class Bomberball extends Game {
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
 		ennemis = new TextureAtlas(Gdx.files.internal("ennemis.atlas"));
 
-
 		multiTexture[0] = new Texture("thefloorislava.png");//creation des différentes texture que l'on va chercher dans le fichier assets
 		multiTexture[1] = new Texture("murD.png");//=>voir Tuto Texture et Sprite
 		multiTexture[2] = new Texture("murI.png");

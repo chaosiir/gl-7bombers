@@ -44,18 +44,14 @@ public class VictoireCampagne extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            recupniv= new File(directory.getCanonicalPath()+"/Campagne/");
-            f=new File(directory.getCanonicalPath()+"/SaveTempo/tmp.txt");
-            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
-            niveau = new File(directory.getCanonicalPath()+"/Campagne/niveau.txt"); //Récupérer l'avancement du joueur
-            nivplayertmp=new File(directory.getCanonicalPath()+"/Campagne/niveautmp.txt");
+
+            recupniv=Gdx.files.internal("./Campagne/").file();
+            f=Gdx.files.internal("./SaveTempo/tmp.txt").file();
+            frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
+            niveau = Gdx.files.internal("./Campagne/niveau.txt").file();//Récupérer l'avancement du joueur
+            nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
 
 
-
-        } catch (IOException e) {
-
-        }
     }
 
     public void setNiveaugag(int x){

@@ -52,15 +52,11 @@ public class ChoixCampagne extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/Campagne/");
-            nivplayer= new File(directory.getCanonicalPath()+"/Campagne/niveau.txt");
-            nivplayertmp=new File(directory.getCanonicalPath()+"/Campagne/niveautmp.txt");
+            f = Gdx.files.internal("./Campagne/").file();
+            nivplayer= Gdx.files.internal("./Campagne/niveau.txt").file();
+            nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
 
 
-        } catch (IOException e) {
-
-        }
     }
 
     @Override
@@ -161,8 +157,8 @@ public class ChoixCampagne extends Etat implements Screen {
                 if (i!=-1){
                     File f1;
                     File directory = new File (".");
-                    try {
-                        f1=new File(directory.getCanonicalPath()+"/Campagne/"+list.getItems().get(i)+".txt");
+
+                        f1=Gdx.files.internal("./Campagne/"+list.getItems().get(i)+".txt").file();
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         table.removeActor(valider);
                         table.removeActor(retour);
@@ -181,9 +177,6 @@ public class ChoixCampagne extends Etat implements Screen {
                        jeu.setEtat(game.campagne);
                        game.setScreen(game.campagne);
 
-                    } catch (IOException e) {
-
-                    }
                 }
             }
         });
@@ -213,16 +206,14 @@ public class ChoixCampagne extends Etat implements Screen {
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
-                try {
-                    f1=new File(directory.getCanonicalPath()+"/Campagne/"+s+".txt");
+
+                    f1=Gdx.files.internal("./Campagne/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
                     jeu.addActor(map);
 
-                } catch (IOException e) {
-                }
 
             }
         });

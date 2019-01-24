@@ -45,12 +45,10 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
 
-        } catch (IOException e) {
+            f = Gdx.files.internal( "./SaveMapPerso/MapMulti/tmp.txt").file();
 
-        }
+
     }
 
     /**
@@ -106,11 +104,7 @@ public class ValiderEditeurMulti extends Etat implements Screen {
                 else{
                     File directory = new File (".");
                     File fi= null;
-                    try {
-                        fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/"+nom+".txt");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        fi = Gdx.files.internal( "./SaveMapPerso/MapMulti/"+nom+".txt").file();
                     fi.delete();
                     f.renameTo(fi);
 

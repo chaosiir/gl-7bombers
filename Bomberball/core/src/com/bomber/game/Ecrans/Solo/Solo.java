@@ -72,13 +72,9 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         super(jeu);
         this.bombaaaagh=bombaaaagh;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
-            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
+            f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
+            frecommencer =Gdx.files.internal("./SaveTempo/debut.txt").file();
 
-        } catch (IOException e) {
-
-        }
 
     }
 

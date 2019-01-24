@@ -44,12 +44,8 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
+            f = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
 
-        } catch (IOException e) {
-
-        }
     }
 
     /**
@@ -110,11 +106,8 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                 else{
                     File directory = new File (".");
                     File fi= null;
-                    try {
-                        fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/"+nom+".txt");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+                        fi = Gdx.files.internal( "./SaveMapPerso/Mapsolo/"+nom+".txt").file();
 
                     jeu.removeActor(jeu.map);
                     jeu.map=null;

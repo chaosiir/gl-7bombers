@@ -48,13 +48,9 @@ public class MenuPause extends Etat implements Screen {
         super(jeu);
         this.game = game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
-            source = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
+            f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
+            source =Gdx.files.internal("./SaveTempo/debut.txt").file();
 
-        } catch (IOException e) {
-
-        }
     }
     /**
      * Modificateur de l'état antérieur à l'appui sur le bouton pause

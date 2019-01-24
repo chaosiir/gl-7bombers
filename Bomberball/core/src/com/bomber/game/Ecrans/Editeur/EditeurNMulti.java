@@ -73,12 +73,8 @@ public class EditeurNMulti extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
+        f = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();//new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
 
-        } catch (IOException e) {
-
-        }
     }
 
     /**

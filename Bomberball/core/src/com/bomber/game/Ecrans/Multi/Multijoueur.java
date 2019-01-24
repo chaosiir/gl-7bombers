@@ -102,13 +102,11 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveTempo/tmp.txt");
-            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
 
-        } catch (IOException e) {
+            f = Gdx.files.internal( "./SaveTempo/tmp.txt").file();
+            frecommencer = Gdx.files.internal( "./SaveTempo/debut.txt").file();
 
-        }
+
 
     }
 

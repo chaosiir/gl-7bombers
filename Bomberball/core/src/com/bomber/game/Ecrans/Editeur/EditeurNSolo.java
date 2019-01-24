@@ -85,12 +85,9 @@ public class EditeurNSolo extends Etat implements Screen {
         super(jeu);
         this.game=game;
         File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
+        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();//new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
 
-        } catch (IOException e) {
 
-        }
 
     }
 

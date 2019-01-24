@@ -42,12 +42,8 @@ public class Victoire extends Etat implements Screen {
         this.game=game;
         txt=st;
         File directory = new File (".");
-        try {
-            frecommencer = new File(directory.getCanonicalPath() + "/SaveTempo/debut.txt");
+            frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
 
-        } catch (IOException e) {
-
-        }
     }
 
     /**
