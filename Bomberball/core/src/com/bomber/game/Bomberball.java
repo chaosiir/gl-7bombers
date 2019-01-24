@@ -1,24 +1,27 @@
 package com.bomber.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.bomber.game.Ecrans.Campagne.Campagne;
+import com.bomber.game.Ecrans.Campagne.ChoixCampagne;
+import com.bomber.game.Ecrans.Campagne.VictoireCampagne;
+import com.bomber.game.Ecrans.Editeur.*;
+import com.bomber.game.Ecrans.MenuPause;
+import com.bomber.game.Ecrans.MenuPrincipalBis;
+import com.bomber.game.Ecrans.Multi.ChoixMapMultiJ;
+import com.bomber.game.Ecrans.Multi.ChoixMenuMultijoueur;
+import com.bomber.game.Ecrans.Multi.Multijoueur;
+import com.bomber.game.Ecrans.Solo.*;
+import com.bomber.game.Ecrans.Victoire;
 
 import java.awt.*;
 import java.io.*;
-import java.nio.channels.FileChannel;
 
 //classe de l'application
 public class Bomberball extends Game {
@@ -28,33 +31,33 @@ public class Bomberball extends Game {
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
 	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
 	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
-	static InputMultiplexer input=new InputMultiplexer();
+	public static InputMultiplexer input=new InputMultiplexer();
 
-	MenuPrincipalBis menuPrincipalBis;
-    MenuPause menuPause;
-	MenuSolo menuSolo;
-	ParametreSolo parametreSolo;
-	ChoixEditeurN choixEditeurN;
-    ChoixMenuMultijoueur choixMenuMultijoueur;
-    EditeurNSolo editeurNSolo;
-    Solo jeuSolo;
-    Defaite defaite;
-    EditeurNMulti editeurNMulti;
-    ErreurEditeurS erreurEditeurS;
-    ValiderEditeurSolo validerEditeurSolo;
-    ErreurEditeurM erreurEditeurM;
-    ValiderEditeurMulti validerEditeurMulti;
-    ChoixMapSoloE choixMapSoloE;
-    ChoixMapMultiE choixMapMultiE;
-    ChoixMapSoloJ choixMapSoloJ;
-	Multijoueur multijoueur;
-	Victoire victoire;
-	ChoixMapMultiJ choixMapMultiJ;
-	SelectionCheminEp selectionCheminEp;
-	SelectionCheminEpa selectionCheminEpa;
-	ChoixCampagne choixCampagne;
-	Campagne campagne;
-	VictoireCampagne victoireCampagne;
+	public MenuPrincipalBis menuPrincipalBis;
+    public MenuPause menuPause;
+	public MenuSolo menuSolo;
+	public ParametreSolo parametreSolo;
+	public ChoixEditeurN choixEditeurN;
+    public ChoixMenuMultijoueur choixMenuMultijoueur;
+    public EditeurNSolo editeurNSolo;
+    public Solo jeuSolo;
+    public Defaite defaite;
+    public EditeurNMulti editeurNMulti;
+    public ErreurEditeurS erreurEditeurS;
+    public ValiderEditeurSolo validerEditeurSolo;
+    public ErreurEditeurM erreurEditeurM;
+    public ValiderEditeurMulti validerEditeurMulti;
+    public ChoixMapSoloE choixMapSoloE;
+    public ChoixMapMultiE choixMapMultiE;
+    public ChoixMapSoloJ choixMapSoloJ;
+	public Multijoueur multijoueur;
+	public Victoire victoire;
+	public ChoixMapMultiJ choixMapMultiJ;
+	public SelectionCheminEp selectionCheminEp;
+	public SelectionCheminEpa selectionCheminEpa;
+	public ChoixCampagne choixCampagne;
+	public Campagne campagne;
+	public VictoireCampagne victoireCampagne;
 
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;

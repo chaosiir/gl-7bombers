@@ -1,44 +1,39 @@
 package com.bomber.game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.bomber.game.Ecrans.Etat;
+import com.bomber.game.MapetObjet.Map;
 
 
 public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi les menus comme acteur/layer
-    Map map;//la map du jeu
+    public Map map;//la map du jeu
     Etat etat;//etat du jeu c'est lui qui prend les inputs et fait l'affichage
-    int nbBonus=-1;
-    int nbBlocD=-1;
-    int nbDeplaP=-1;
-    int difficulte=-1;
+    public int nbBonus=-1;
+    public int nbBlocD=-1;
+    public int nbDeplaP=-1;
+    public int difficulte=-1;
 
-    int nbEnnemis=-1;
-    int porteeBombe=-1;
-    int nbBombe=-1;
+    public int nbEnnemis=-1;
+    public int porteeBombe=-1;
+    public int nbBombe=-1;
 
-    int pmtmp1=-1;
-    int pmtmp2=-1;
-    int pmtmp3=-1;
-    int pmtmp4=-1;
+    public int pmtmp1=-1;
+    public int pmtmp2=-1;
+    public int pmtmp3=-1;
+    public int pmtmp4=-1;
 
-    int nbtmp1=-1;
-    int nbtmp2=-1;
-    int nbtmp3=-1;
-    int nbtmp4=-1;
+    public int nbtmp1=-1;
+    public int nbtmp2=-1;
+    public int nbtmp3=-1;
+    public int nbtmp4=-1;
 
-    int nbJoueur=4;
+    public int nbJoueur=4;
 
-    boolean recommencer=false;
+    public boolean recommencer=false;
 
-    boolean poussee1=false;
-    boolean poussee2=false;
-    boolean poussee3=false;
-    boolean poussee4=false;
+    public boolean poussee1=false;
+    public boolean poussee2=false;
+    public boolean poussee3=false;
+    public boolean poussee4=false;
 
 
 
