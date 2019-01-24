@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class Map extends Group {//meme chose map est un group d'acteur (les cases)
     private int mat[][];
-    private Case[][] grille;
+    private com.bomber.game.Case[][] grille;
     private int x;      //dimensions de la map, typiquement 15x13
     private int y;
 
@@ -29,10 +29,10 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     public Map() {
         super();
         setName("Map");
-        this.setPosition(Bomberball.taillecase * 2.5f, Bomberball.taillecase / 2);//on definit sa position dans la fenetre tout les acteurs
+        this.setPosition(com.bomber.game.Bomberball.taillecase * 2.5f, com.bomber.game.Bomberball.taillecase / 2);//on definit sa position dans la fenetre tout les acteurs
         // appartenant à ce groupe auront une position relative à celle-ci => voir tuto Acteur/group
         //la taillecase est defini dans bomberball par rapport à la taille de l'ecran
-        grille = new Case[15][13];
+        grille = new com.bomber.game.Case[15][13];
         x = 15;
         y = 13;
     }
@@ -59,7 +59,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return grille;
     }
 
-    public void setGrille(Case[][] grille) {
+    public void setGrille(com.bomber.game.Case[][] grille) {
         this.grille = grille;
     }
 
