@@ -112,6 +112,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     File directory = new File (".");
                         f2 = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();
                         f1=Gdx.files.internal("./SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt").file();
+                        f2.delete();
                         Bomberball.copier(f1,f2);
                         table.removeActor(valider);
                         table.removeActor(retour);

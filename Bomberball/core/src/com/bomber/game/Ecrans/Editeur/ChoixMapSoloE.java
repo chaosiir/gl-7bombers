@@ -112,6 +112,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
                     File directory = new File (".");
                         f2 =  Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
                         f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt").file();
+                       f2.delete();
                         Bomberball.copier(f1,f2);
                         game.choixMapSoloE.removeActor(back);
                         game.choixMapSoloE.removeActor(scrollPane);

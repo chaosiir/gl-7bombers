@@ -114,6 +114,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                     game.validerEditeurSolo.removeActor(jeu);
                     fi.delete();
                     f.renameTo(fi);
+                    f.delete();
                     jeu.setEtat(game.menuPrincipalBis);
                     game.setScreen(game.menuPrincipalBis);
                 }
