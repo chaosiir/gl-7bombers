@@ -6,14 +6,14 @@ package com.bomber.game.Ecrans;
     import com.badlogic.gdx.graphics.GL20;
     import com.badlogic.gdx.graphics.Texture;
     import com.badlogic.gdx.scenes.scene2d.InputEvent;
-    import com.badlogic.gdx.scenes.scene2d.ui.Image;
-    import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-    import com.badlogic.gdx.scenes.scene2d.ui.Table;
-    import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+    import com.badlogic.gdx.scenes.scene2d.ui.*;
     import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
     import com.badlogic.gdx.utils.Align;
     import com.bomber.game.Bomberball;
     import com.bomber.game.Jeu;
+
+    import java.io.File;
+    import java.io.IOException;
 
 /**
  * Classe MenuPrincipalBis

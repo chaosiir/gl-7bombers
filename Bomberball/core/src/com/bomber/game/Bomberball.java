@@ -32,7 +32,7 @@ public class Bomberball extends Game {
 	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
 	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
 	public static InputMultiplexer input=new InputMultiplexer();
-
+	public String addresse=new File(".").getPath();
 	public MenuPrincipalBis menuPrincipalBis;
     public MenuPause menuPause;
 	public MenuSolo menuSolo;
@@ -67,6 +67,7 @@ public class Bomberball extends Game {
 	 * Initialise les textures et les états du jeu à son lancement
 	 */
 	public void create() {//fonction lancée une seule fois au démarrage de l'application pour créer toutes les variables nécessaires
+		System.out.println(addresse);
 		perso = new TextureAtlas(Gdx.files.internal("perso.atlas"));
 		ennemis = new TextureAtlas(Gdx.files.internal("ennemis.atlas"));
 
