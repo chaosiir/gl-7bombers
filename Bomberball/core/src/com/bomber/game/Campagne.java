@@ -502,7 +502,7 @@ public class Campagne extends Etat implements Screen {
             game.setScreen(game.menuPause);
         }
 
-        if(u==0 && mapactuel==1 && pm==2){
+        if(u==0 && mapactuel==1 && pm==2 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -515,7 +515,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==1 && mapactuel==1 && pm==0){
+        if(u==1 && mapactuel==1 && pm==0 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -528,7 +528,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==2 && mapactuel==1 && pm==4){
+        if(u==2 && mapactuel==1 && pm==4 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -541,7 +541,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==3 && mapactuel==1 && pm==2){
+        if(u==3 && mapactuel==1 && pm==2 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -554,7 +554,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==4 && mapactuel==1 && joueur.getC().getPorte()!=null){
+        if(u==4 && mapactuel==1 && joueur.getC().getPorte()!=null && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -568,7 +568,7 @@ public class Campagne extends Etat implements Screen {
 
         }
 
-        if(u==0 && mapactuel==2 && joueur.getTaille()>2){
+        if(u==0 && mapactuel==2 && joueur.getTaille()>2 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -581,7 +581,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==1 && mapactuel==2 && joueur.getPm()>5){
+        if(u==1 && mapactuel==2 && joueur.getPm()>5 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -594,7 +594,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==2 && mapactuel==2 && joueur.getNbBombe()>1){
+        if(u==2 && mapactuel==2 && joueur.getNbBombe()>1 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -607,7 +607,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==3 && mapactuel==2 && joueur.isPoussee()){
+        if(u==3 && mapactuel==2 && joueur.isPoussee() && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -621,7 +621,7 @@ public class Campagne extends Etat implements Screen {
 
         }
 
-        if(u==0 && mapactuel==3 && pm==3){
+        if(u==0 && mapactuel==3 && pm==3 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -634,7 +634,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==1 && mapactuel==3 && pm==1){
+        if(u==1 && mapactuel==3 && pm==1 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -647,7 +647,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==2 && mapactuel==3 && pm==4){
+        if(u==2 && mapactuel==3 && pm==4 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -660,7 +660,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
         }
 
-        if(u==3 && mapactuel==3 && pm==2){
+        if(u==3 && mapactuel==3 && pm==2 && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
@@ -673,7 +673,7 @@ public class Campagne extends Etat implements Screen {
             dialog.show(jeu.getStage());
 
         }
-        if(u==4 && mapactuel==3 && personnage.getC().getPorte()!=null){
+        if(u==4 && mapactuel==3 && personnage.getC().getPorte()!=null && personnage.isVivant()){
             u++;
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {

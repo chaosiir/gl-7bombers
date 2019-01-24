@@ -933,6 +933,11 @@ public class EditeurNSolo extends Etat implements Screen {
                     } else if (button == Input.Buttons.LEFT) {
                         if (selectionne.getDrawable() != null) {
                             if (selectionne.getName().equals("murdes")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
                                 c.setMur(new MurD());
                             } else if (selectionne.getName().equals("sol")) {
                                 c.setMur(null);
@@ -944,6 +949,11 @@ public class EditeurNSolo extends Etat implements Screen {
                                 background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                                 c.addActor(background);
                             } else if (selectionne.getName().equals("murin")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
                                 c.setMur(new MurI());
                             } else if (selectionne.getName().equals("p")) {
                                 c.setPorte(new Porte());

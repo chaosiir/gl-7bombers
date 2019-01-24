@@ -112,6 +112,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     try {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
+                        f2.delete();
                         Bomberball.copier(f1,f2);
                         table.removeActor(valider);
                         table.removeActor(retour);

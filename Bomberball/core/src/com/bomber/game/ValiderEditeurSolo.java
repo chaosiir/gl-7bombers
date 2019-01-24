@@ -107,20 +107,21 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                 }
                 else{
                     File directory = new File (".");
-                    File fi= null;
                     try {
-                        fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/"+nom+".txt");
+                        File fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/"+nom+".txt");
+                        jeu.removeActor(jeu.map);
+                        jeu.map=null;
+                        game.validerEditeurSolo.removeActor(jeu);
+                        fi.delete();
+                        f.renameTo(fi);
+                        f.delete();
+                        jeu.setEtat(game.menuPrincipalBis);
+                        game.setScreen(game.menuPrincipalBis);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    jeu.removeActor(jeu.map);
-                    jeu.map=null;
-                    game.validerEditeurSolo.removeActor(jeu);
-                    fi.delete();
-                    f.renameTo(fi);
-                    jeu.setEtat(game.menuPrincipalBis);
-                    game.setScreen(game.menuPrincipalBis);
+
                 }
 
             }
