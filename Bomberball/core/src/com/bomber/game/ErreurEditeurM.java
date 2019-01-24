@@ -38,6 +38,7 @@ public class ErreurEditeurM extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /*Creation de l'arriere-plan*/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -51,7 +52,7 @@ public class ErreurEditeurM extends Etat implements Screen {
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
 
-
+        /*Affichage du message d'erreur*/
         explication=new Label("Il doit y avoir 4 joueurs differents",skin);
         explication.setBounds(xmax/2-300,ymax/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
         explication.setWrap(true);
@@ -60,12 +61,15 @@ public class ErreurEditeurM extends Etat implements Screen {
         ok= new TextButton("ok",skin);
         ok.setBounds(xmax/2-50,ymax/2-Bomberball.taillecase,ok.getWidth(),ok.getHeight()); //Positionnement à la main
 
+        /*Creation du bouton de retour a l'editeur*/
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //On quitte le mode erreur
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.erreurEditeurM.removeActor(jeu);
+                //On retourne au mode editeur
                 jeu.setEtat(game.editeurNMulti);
                 game.setScreen(game.editeurNMulti);
             }
