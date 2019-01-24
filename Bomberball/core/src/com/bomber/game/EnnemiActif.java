@@ -156,7 +156,7 @@ public class EnnemiActif extends Ennemis {
     public void miseAjour() {
         prochain_deplacement.clear();
         recherchecheminmaxPL();
-        while(prochain_deplacement.size()!=pm+1){ //Il contient au moins la case où il se trouve
+        while(prochain_deplacement.size()>pm+1){ //Il contient au moins la case où il se trouve
             prochain_deplacement.removeLast();
         }
     }
@@ -164,6 +164,11 @@ public class EnnemiActif extends Ennemis {
     @Override
     public boolean isAgro() {
         return false;
+    }
+
+    @Override
+    public void setPortee(int x) {
+//rien
     }
 
 
@@ -200,7 +205,7 @@ public class EnnemiActif extends Ennemis {
                         exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
                         exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
                     }
-                    if (trad[i][j] != 1 && trad[i][j + 1] != -1) {
+                    if (trad[i][j] != 1 && trad[i][j + 1] != 1) {
                         exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
                         exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
                     }
@@ -235,6 +240,8 @@ public class EnnemiActif extends Ennemis {
             }
         }
 
+
+
         int xa = -1, ya = -1; //Stockage de la case finale
         int[] predecesseur = new int[13 * 15];
 
@@ -244,32 +251,48 @@ public class EnnemiActif extends Ennemis {
         int l = 0; //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
         Boolean trouve = false;
         while (!trouve && l < pm) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
-            k = -(pm - l);
+            k = 0;
             while (k <= (pm - l) && !trouve) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
-
-                if(k>=0){
-                    if ((xc + (pm - l - k)) >= 0 && (xc + (pm - l - k)) <= 14) { //Vérification que ces cases existent dans une map
-                        if (yc + k >= 0 && yc + k <= 12) {
-                            if (tmp[yc + colonnes * xc][yc + k + colonnes * (xc + (pm - l) - k)] == 1 || tmp[yc + k + colonnes * (xc + (pm - l) - k)][yc + colonnes * xc] == 1) {
-                                trouve = true;
-                                xa = xc + (pm - l) - k;
-                                ya = yc + k;
-                            }
+                int x1=xc+k;
+                int x2=xc-k;
+                int y1=yc+pm-l-k;
+                int y2=yc-(pm-l)+k;
+                if(x1<15 && x1>=0 && !trouve){
+                    if(y1>=0 && y1<13){
+                        if(tmp[yc+colonnes*xc][y1+colonnes*x1]==1 || tmp[y1+colonnes*x1][yc+colonnes*xc]==1){
+                            trouve=true;
+                            xa=x1;
+                            ya=y1;
                         }
                     }
                 }
-                if(k<0){
-                    if ((xc + k) >= 0 && (xc+k) <= 14) { //Vérification que ces cases existent dans une map
-                        if ((yc - (k+pm-l)) >= 0 && (yc - (k+pm-l)) <= 12) {
-                            if (tmp[yc + colonnes * xc][(yc - (k+pm-l)) + colonnes * (xc + k)] == 1 || tmp[(yc - (k+pm-l))+ colonnes * (xc + k)][yc + colonnes * xc] == 1) {
-                                trouve = true;
-                                xa = xc + k;
-                                ya = yc - (k+pm-l);
-                            }
+                if(x1<15 && x1>=0 && !trouve){
+                    if(y2>=0 && y2<13){
+                        if(tmp[yc+colonnes*xc][y2+colonnes*x1]==1 || tmp[y2+colonnes*x1][yc+colonnes*xc]==1){
+                            trouve=true;
+                            xa=x1;
+                            ya=y2;
                         }
                     }
                 }
-
+                if(x2<15 && x2>=0 && !trouve){
+                    if(y1>=0 && y1<13){
+                        if(tmp[yc+colonnes*xc][y1+colonnes*x2]==1 || tmp[y1+colonnes*x2][yc+colonnes*xc]==1){
+                            trouve=true;
+                            xa=x2;
+                            ya=y1;
+                        }
+                    }
+                }
+                if(x2<15 && x2  >=0 && !trouve){
+                    if(y2>=0 && y2<13){
+                        if(tmp[yc+colonnes*xc][y2+colonnes*x2]==1 || tmp[y2+colonnes*x2][yc+colonnes*xc]==1){
+                            trouve=true;
+                            xa=x2;
+                            ya=y2;
+                        }
+                    }
+                }
                 k++;
             }
             l++;

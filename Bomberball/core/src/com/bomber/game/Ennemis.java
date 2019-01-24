@@ -16,21 +16,40 @@ import java.util.LinkedList;
 public abstract class Ennemis extends Image {
     protected Case c;
     protected boolean vivant;
-    protected int pm;//points de mouvement, 5 par defaut
+    protected Case prochaine;
+    protected int pm;//points de mouvement, 3 par defaut
     protected LinkedList<Case> prochain_deplacement;
     protected Action animation;
+    boolean teleportation=false;
 
+    /**
+     * Accesseur du chemin de l'ennemi
+     * @return une LinkedList<Case>
+     */
     public LinkedList<Case> getProchain_deplacement() {
         return prochain_deplacement;
     }
 
+
     public abstract void setAnimationgauche();
     public abstract void setAnimationdroite();
     public abstract void setAnimationdefaite();
+    /**
+     * Modificateur du chemin de l'ennemi
+     * @param chemin
+     */
+
     public void setProchain_deplacement(LinkedList<Case> chemin) {
         this.prochain_deplacement = chemin;
     }
 
+    /**
+     * Constucteur de la classe Ennemis
+     * @param t texture de l'ennemi
+     * @param vivant état de l'ennemi
+     * @param c case où l'ennemi apparait
+     * @param pm nombre de déplacement de l'ennemi
+     */
     public Ennemis(Texture t,boolean vivant, Case c, int pm){
         super(t);
         this.c=c;
@@ -75,124 +94,219 @@ public abstract int getPortee();
 
     public abstract void miseAjour();
     public abstract boolean isAgro();
+    public abstract void setPortee(int x);
 
+    /**
+     * Déplace l'ennemi de son nombre de mouvement sur son chemin
+     */
     public void deplacer(){
         int i = pm;
-       // miseAjour();
+        this.miseAjour();
         SequenceAction seq=new SequenceAction();
         Case actuel=c;
-        while(!prochain_deplacement.isEmpty() && i>0){
-            final Case prochaine=prochain_deplacement.removeFirst();
-            if(actuel.posX()!=prochaine.posX()){
-                if(actuel.posX()<prochaine.posX()){
-                    seq.addAction(new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                            c.setEnnemi(null);
-                            c.removeActor(target);
-                            prochaine.setEnnemi((Ennemis) target);
-                            c=prochaine;
-                            target.setX(-Bomberball.taillecase);
-                            ((Ennemis) target).setAnimationdroite();
-                            return true;
-                        }
-                    });
-                    MoveToAction mv= new MoveToAction();
-                    mv.setPosition(0,0);
-                    mv.setDuration(0.3f);
-                    seq.addAction(mv);
-                }
-                else {
-                    seq.addAction(new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                            ((Ennemis) target).setAnimationgauche();
-                            return true;
-                        }
-                    });
-                    MoveByAction action=new MoveByAction();
-                    action.setAmount(-Bomberball.taillecase,0);
-                    action.setDuration(0.3f);
-                    seq.addAction(action);
-                    seq.addAction(new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                                c.setEnnemi(null);
-                                prochaine.setEnnemi((Ennemis) target);
-                                c.removeActor(target);
-                                c=prochaine;
-                                c.addActor(target);
-                                target.setX(0);
-                            return true;
-                        }
-                    });
-                }
-            }
-            if(actuel.posY()!=prochaine.posY()){
-                if(actuel.posY()<prochaine.posY()){
-                    seq.addAction(new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                            c.setEnnemi(null);
-                            c.removeActor(target);
-                            prochaine.setEnnemi((Ennemis) target);
-                            c=prochaine;
-                            c.addActor(target);
-                            target.setY(-Bomberball.taillecase);
-                            ((Ennemis) target).setAnimationdroite();
-                            return true;
-                        }
-                    });
-                    MoveToAction mv=new MoveToAction();
-                    mv.setPosition(0,0);
-                    mv.setDuration(0.3f);
-                    seq.addAction(mv);
-                }
-                else {
-                    seq.addAction(new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                            ((Ennemis) target).setAnimationgauche();
-                            return true;
-                        }
-                    });
-                    MoveByAction action=new MoveByAction();
-                    action.setAmount(0,-Bomberball.taillecase);
-                    action.setDuration(0.3f);
-                    seq.addAction(action);
-                    seq.addAction(new Action() {
-                        @Override
-                        public boolean act(float delta) {
-                                c.setEnnemi(null);
-                                c.setPersonnage(null);
-                                c.removeActor(target);
-                                prochaine.setEnnemi((Ennemis) target);
-                                c=prochaine;
-                                c.addActor(target);
-                                target.setY(0);
-                            return true;
-                        }
-                    });
+        if (!prochain_deplacement.isEmpty()){
+            prochaine=prochain_deplacement.removeFirst();
+        }
 
-                }
+        if(teleportation){
+            prochaine=prochain_deplacement.removeFirst();
+            teleportation(prochaine.posX(),prochaine.posY());
+        }
+        while(!prochain_deplacement.isEmpty() && i>0){
+            prochaine=prochain_deplacement.removeFirst();
+            if(prochaine.getEnnemi()!=null && prochaine.getEnnemi()!=this){
+                break;
             }
-            actuel=prochaine;
-            i--;
+            else{
+                if(actuel.posX()!=prochaine.posX()){
+                    if(actuel.posX()<prochaine.posX()){
+                        seq.addAction(deplacementdroite());
+                    }
+                    else {
+                        seq.addAction(deplacementgauche());
+                    }
+                }
+                if(actuel.posY()!=prochaine.posY()){
+                    if(actuel.posY()<prochaine.posY()){
+                        seq.addAction(deplacementhaut());
+                    }
+                    else {
+                        seq.addAction(deplacementbas());
+
+                    }
+                }
+                actuel=prochaine;
+                i--;
+
+            }
+
 
         }
-        addAction(seq);
-
+        this.addAction(seq);
     }
 
 
-    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
+    /**
+     * Vérifie si une case est vide
+     * @param caseC
+     * @return true si la case est libre
+     */
     public boolean caseLibre(Case caseC){
-        Map m=caseC.getMap();
         Mur mur=caseC.getMur();
         Ennemis ennemi=caseC.getEnnemi();
-        if ((ennemi!=this)&&(mur==null)){
+        if ((ennemi==this||ennemi==null)&&(mur==null)){
             return true;
         }
         else return false;
+    }
+
+    public Action deplacementdroite(){
+        final Case proch=prochaine;
+        SequenceAction seq=new SequenceAction();
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+
+                ((Ennemis) target).setAnimationdroite();
+                c.setEnnemi(null);
+                c= proch;
+                c.setEnnemi((Ennemis) target);
+                target.setX(-Bomberball.taillecase);
+
+                return true;
+            }
+        });
+        MoveToAction mv= new MoveToAction();
+        mv.setPosition(0,0);
+        mv.setDuration(0.3f);
+        seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
+        return seq;
+
+    }
+    public Action deplacementgauche(){
+        final Case proch=prochaine;
+        SequenceAction seq=new SequenceAction();
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                ((Ennemis) target).setAnimationgauche();
+                return true;
+            }
+        });
+        MoveByAction action=new MoveByAction();
+        action.setAmount(-Bomberball.taillecase,0);
+        action.setDuration(0.3f);
+        seq.addAction(action);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                target.setX(0);
+                c.setEnnemi(null);
+                c=proch;
+                c.setEnnemi((Ennemis) target);
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
+        return seq;
+    }
+
+    public Action deplacementhaut(){
+        SequenceAction seq=new SequenceAction();
+        final Case proch=prochaine;
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                c.setEnnemi(null);
+                ((Ennemis) target).setAnimationdroite();
+                target.setY(-Bomberball.taillecase);
+                c=proch;
+                c.setEnnemi((Ennemis) target);
+                return true;
+            }
+        });
+        MoveToAction mv=new MoveToAction();
+        mv.setPosition(0,0);
+        mv.setDuration(0.3f);
+        seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+                return true;
+            }
+        });
+        return seq;
+
+    }
+    public Action deplacementbas(){
+        SequenceAction seq=new SequenceAction();
+        final Case proch=prochaine;
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                ((Ennemis) target).setAnimationgauche();
+                return true;
+            }
+        });
+        MoveByAction action=new MoveByAction();
+        action.setAmount(0,-Bomberball.taillecase);
+        action.setDuration(0.3f);
+        seq.addAction(action);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                c.setEnnemi(null);
+                target.setY(0);
+                c=proch;
+                c.setEnnemi((Ennemis) target);
+                if(c.getPersonnage()!=null){
+                    c.getPersonnage().setVivant(false);
+                }
+
+                return true;
+            }
+        });
+        return seq;
+    }
+
+    public void teleportation(int x,int y){
+        SequenceAction seq=new SequenceAction();
+        final Case proch=prochaine;
+        final int a=x;
+        final int b=y;
+        MoveByAction mv=new MoveByAction();
+        mv.setAmount(0,Bomberball.taillecase);
+        mv.setDuration(0.3f);
+        seq.addAction(mv);
+        seq.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                c.setEnnemi(null);
+                c=c.map.getGrille()[a][b];
+                c.setEnnemi((Ennemis) target);
+                return true;
+            }
+        });
+        MoveByAction action=new MoveByAction();
+        action.setAmount(0,-Bomberball.taillecase);
+        action.setDuration(0.3f);
+        seq.addAction(action);
+        this.addAction(seq);
+        teleportation=false;
+
     }
 }

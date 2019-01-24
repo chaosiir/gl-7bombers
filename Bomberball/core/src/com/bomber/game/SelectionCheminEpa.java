@@ -94,7 +94,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
 
         indication = new Label("Clic gauche pour indiquer \n le chemin de votre ennemi passif",skin);
         indication.setName("Indication");
-        indication1= new Label("Clic droit pour enlever \n la case du chemin de votre ennemi passif",skin);
+        indication1= new Label("Clic droit pour enlever  la case\n du chemin de votre ennemi passif",skin);
         indication1.setName("Indication1");
 
         valider = new TextButton("Valider la trajectoire",skin);
@@ -110,7 +110,8 @@ public class SelectionCheminEpa extends Etat implements Screen {
                     ennemi_passif_aggressif=null;
                 }
                 compteur=0;
-
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEpa.removeActor(jeu);
@@ -132,6 +133,8 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 }
                 compteur=0;
 
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEpa.removeActor(jeu);
@@ -210,7 +213,7 @@ public class SelectionCheminEpa extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,5,5,false);
+                    ennemi_passif_aggressif=new EnnemiPassifAgressif(true,c,3,4,false);
                     ennemi_passif_aggressif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif_aggressif);
                     ennemi_passif_aggressif.getChemin().add(c);

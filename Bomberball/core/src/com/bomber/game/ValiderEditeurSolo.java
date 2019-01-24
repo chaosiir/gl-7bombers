@@ -32,6 +32,12 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     TextField inputui;
     Table table;
     File f;
+
+    /**
+     * Constructeur de la classe ValiderEditeurSolo
+     * @param game
+     * @param jeu
+     */
     public ValiderEditeurSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -79,11 +85,14 @@ public class ValiderEditeurSolo extends Etat implements Screen {
 
         table.add(explication).padBottom(30);
         table.row();
-        table.add(inputui).padBottom(30);
+        table.add(inputui).padBottom(50).width(500);
         table.row();
-        table.add(valider);
-        table.add(retour);
-        table.add(abandonner);
+        HorizontalGroup h=new HorizontalGroup();
+        h.space(30);
+        h.addActor(valider);
+        h.addActor(retour);
+        h.addActor(abandonner);
+        table.add(h);
 
 
         valider.addListener(new ClickListener(){
@@ -98,21 +107,21 @@ public class ValiderEditeurSolo extends Etat implements Screen {
                 }
                 else{
                     File directory = new File (".");
-                    File fi= null;
                     try {
-                        fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/"+nom+".txt");
+                        File fi = new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/"+nom+".txt");
+                        jeu.removeActor(jeu.map);
+                        jeu.map=null;
+                        game.validerEditeurSolo.removeActor(jeu);
+                        fi.delete();
+                        f.renameTo(fi);
+                        f.delete();
+                        jeu.setEtat(game.menuPrincipalBis);
+                        game.setScreen(game.menuPrincipalBis);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    jeu.removeActor(jeu.map);
-                    jeu.map=null;
-                    game.validerEditeurSolo.removeActor(jeu);
 
-
-                    f.renameTo(fi);
-                    jeu.setEtat(game.menuPrincipalBis);
-                    game.setScreen(game.menuPrincipalBis);
                 }
 
             }

@@ -30,6 +30,11 @@ public class MenuSolo extends Etat implements Screen {
 
 
 
+    /**
+     * Constructeur de la classe MenuSolo
+     * @param game
+     * @param jeu
+     */
     public MenuSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game = game;
@@ -69,6 +74,16 @@ public class MenuSolo extends Etat implements Screen {
                 Bomberball.input.removeProcessor(game.menuSolo);
                 jeu.setEtat(game.jeuSolo);
                 game.setScreen(game.jeuSolo);
+            }
+        });
+        campagne.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Bomberball.stg.clear();
+                jeu.removeActor(jeu.map);
+                Bomberball.input.removeProcessor(game.menuSolo);
+                jeu.setEtat(game.choixCampagne);
+                game.setScreen(game.choixCampagne);
             }
         });
         choixmap.addListener(new ClickListener(){

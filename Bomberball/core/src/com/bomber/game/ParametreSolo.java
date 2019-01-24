@@ -23,11 +23,11 @@ public class ParametreSolo extends Etat implements Screen {
     private Table table;
     private Label difficulte;
     private Label nbBonus;
-    private Label nbEnnemis;
     private Label nbBombe;
+    private Label nbEnnemis;
     private Label porteeBombe;
-    private Label nbDeplaEnnemis;
     private Label nbDeplaJ;
+    private Label nbBlocD;
 
     private TextButton retour;
     private TextButton facile;
@@ -39,14 +39,18 @@ public class ParametreSolo extends Etat implements Screen {
     private TextField nbBonusT;
     private TextField nbEnnemisT;
     private TextField porteeBombeT;
-    private TextField nbDeplaEnnemisT;
     private TextField nbBombeT;
     private TextField nbDeplaJT;
+    private TextField nbBlocDT;
 
 
 
 
-
+    /**
+     * Constructeur de la classe ParametreSolo
+     * @param game
+     * @param jeu
+     */
     public ParametreSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -68,9 +72,9 @@ public class ParametreSolo extends Etat implements Screen {
         nbBonus=new Label("Nombre de bonus :",skin);
         nbEnnemis= new Label("Nombre d'ennemis :",skin);
         porteeBombe= new Label("Portee d'une bombe :",skin);
-        nbDeplaEnnemis = new Label("Nombre de deplacement des ennemis :",skin);
         nbBombe= new Label("Nombre de Bombes :", skin);
         nbDeplaJ= new Label("Nombre de deplacement du joueur :",skin);
+        nbBlocD=new Label("Nombre de bloc destructible :",skin);
 
         retour= new TextButton("Retour",skin);
         facile= new TextButton("Facile",skin,"toggle");
@@ -85,23 +89,55 @@ public class ParametreSolo extends Etat implements Screen {
         nbBonusT= new TextField("5",skin);
         nbEnnemisT= new TextField("2",skin);
         porteeBombeT = new TextField("2",skin);
-        nbDeplaEnnemisT = new TextField("3",skin);
         nbBombeT= new TextField("1",skin);
         nbDeplaJT= new TextField("5",skin);
+        nbBlocDT = new TextField("40",skin);
 
 
-
+        facile.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.difficulte=1;
+            }
+        });
+        moyen.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.difficulte=2;
+            }
+        });
+        difficile.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.difficulte=3;
+            }
+        });
         nbBonusT.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                try{
-                    int x=Integer.parseInt(nbBonusT.getText());
-                    jeu.nbBonus=x;
+                try {
+                    int x = Integer.parseInt(nbBonusT.getText());
+                    if (x >= 0) {
+                        jeu.nbBonus = x;
+                    }
                 }
                 catch (NumberFormatException e){}
 
 
 
+            }
+        });
+        nbBlocDT.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                try{
+                    int nbBD=Integer.parseInt(nbBlocDT.getText());
+                    if(nbBD>=0){
+                        jeu.nbBlocD=nbBD;
+                    }
+                }
+                catch (NumberFormatException e){
+                }
             }
         });
         nbEnnemisT.addListener(new ChangeListener(){
@@ -128,18 +164,7 @@ public class ParametreSolo extends Etat implements Screen {
 
             }
         });
-        nbDeplaEnnemisT.addListener(new ChangeListener(){
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                try{
-                    int x=Integer.parseInt(nbDeplaEnnemisT.getText());
-                    jeu.nbDeplaEnnemis=x;
 
-                }
-                catch (NumberFormatException e){}
-
-            }
-        });
 
         nbBombeT.addListener(new ChangeListener() {
             @Override
@@ -156,7 +181,7 @@ public class ParametreSolo extends Etat implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 try{
-                    int x=Integer.parseInt(nbBombeT.getText());
+                    int x=Integer.parseInt(nbDeplaJT.getText());
                     jeu.nbDeplaP=x;
                 }
                 catch (NumberFormatException e){}
@@ -174,9 +199,12 @@ public class ParametreSolo extends Etat implements Screen {
         table.setPosition(0, Gdx.graphics.getHeight());
 
         table.add(difficulte).padBottom(30);
-        table.add(facile);
-        table.add(moyen);
-        table.add(difficile);
+        table.add(facile).uniform();
+        table.add(moyen).uniform();
+        table.add(difficile).uniform();
+        table.row();
+        table.add(nbBlocD).padBottom(30);
+        table.add(nbBlocDT);
         table.row();
         table.add(nbBonus).padBottom(30);
         table.add(nbBonusT);
@@ -184,11 +212,11 @@ public class ParametreSolo extends Etat implements Screen {
         table.add(nbEnnemis).padBottom(30);
         table.add(nbEnnemisT);
         table.row();
+        table.add(nbBombe).padBottom(30);
+        table.add(nbBombeT);
+        table.row();
         table.add(porteeBombe).padBottom(30);
         table.add(porteeBombeT);
-        table.row();
-        table.add(nbDeplaEnnemis).padBottom(30);
-        table.add(nbDeplaEnnemisT);
         table.row();
         table.add(nbDeplaJ).padBottom(30);
         table.add(nbDeplaJT);

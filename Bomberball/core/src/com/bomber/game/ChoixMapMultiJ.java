@@ -32,7 +32,11 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     Map map;
 
     File f;
-
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixMapMultiJ(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -112,7 +116,12 @@ public class ChoixMapMultiJ extends Etat implements Screen {
                         game.choixMapMultiJ.removeActor(scrollPane);
                         game.choixMapMultiJ.removeActor(table);
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
+
+                        Bomberball.input.removeProcessor(game.choixMapMultiJ);
                         game.choixMapMultiJ.removeActor(jeu);
                         jeu.setEtat(game.choixMenuMultijoueur);
                         game.setScreen(game.choixMenuMultijoueur);

@@ -25,8 +25,14 @@ public class Defaite extends Etat implements Screen {
     String txt;
     File frecommencer;
     File f;
+    Etat precedent;
 
-
+    /**
+     * Générateur de la classe Defaite
+     * @param game
+     * @param jeu
+     * @param st
+     */
     public Defaite(Bomberball game, Jeu jeu, String st) {
         super(jeu);
         this.game = game;
@@ -40,6 +46,10 @@ public class Defaite extends Etat implements Screen {
         } catch (IOException e) {
 
         }
+    }
+
+    public void setEtat(Etat e){
+        this.precedent=e;
     }
 
     /**
@@ -90,17 +100,16 @@ public class Defaite extends Etat implements Screen {
         rejouer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.defaite.removeActor(jeu.findActor("Map"));
-                jeu.map=Map.mapFromStringN(Bomberball.loadFile(frecommencer));
 
 
+                f.delete();
+                frecommencer.renameTo(f);
+                jeu.recommencer=true;
                 jeu.removeActor(jeu.map);
                 game.defaite.removeActor(jeu);
+                jeu.setEtat(precedent);
+                game.setScreen((Screen)precedent);
 
-                jeu.setEtat(game.jeuSolo);
-                game.setScreen(game.jeuSolo);
-                game.jeuSolo.pm=((Personnage)jeu.findActor("Personnage")).getPm();
-                game.jeuSolo.nb=((Personnage)jeu.findActor("Personnage")).getNbBombe();;
             }
         });
 

@@ -26,12 +26,17 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
     TextButton valider;
     TextButton retour;
+    TextButton supprimer;
     Table table;
     ScrollPane scrollPane;
     Map map;
 
     File f;
-
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixMapMultiE(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -88,6 +93,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
         valider=new TextButton("Valider",skin);
         retour=new TextButton("retour",skin);
+        supprimer=new TextButton("supprimer",skin);
 
 
 
@@ -106,6 +112,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     try {
                         f2 = new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
                         f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+list.getItems().get(i)+".txt");
+                        f2.delete();
                         Bomberball.copier(f1,f2);
                         table.removeActor(valider);
                         table.removeActor(retour);
@@ -114,6 +121,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
                         game.choixMapMultiE.removeActor(table);
 
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
                         game.choixMapMultiE.removeActor(jeu);
                         Bomberball.input.removeProcessor(game.choixMapMultiE);
@@ -165,8 +175,42 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
+        supprimer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String s=list.getSelected();
+                if(s!=null){
+                    File f1;
+                    File directory = new File (".");
+                    try{
+                        f1=new File(directory.getCanonicalPath()+"/SaveMapPerso/MapMulti/"+s+".txt");
+                        f1.delete();
+                    }
+                    catch (IOException e){     }
+                    map.suppActor();
+                    map = null;
+                    jeu.removeActor(map);
+                }
+                Array<String> tmp=new Array<String>();
+                final File liste[]=f.listFiles();
+                if(liste!=null && liste.length!=0){
+                    for(File fi: liste){
+                        if (!fi.getName().equals("tmp.txt")){
+
+                            tmp.add(fi.getName().substring(0,fi.getName().length()-4));
+                        }
+
+
+
+                    }
+                }
+                list.setItems(tmp);
+            }
+        });
+
         table.add(valider);
         table.add(retour);
+        table.add(supprimer);
 
 
         this.addActor(back);
@@ -201,6 +245,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
     public void hide() {
     Bomberball.stg.clear();
     jeu.removeActor(map);
+    jeu.removeActor(jeu.findActor("Map"));
+
     }
 
     @Override

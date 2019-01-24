@@ -13,6 +13,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
     private boolean agro = false;
 
+
     public int getPortee() {
         return portee;
     }
@@ -36,19 +37,19 @@ public class EnnemiActifAggressif extends Ennemis {
 
 
     public EnnemiActifAggressif(boolean vivant, Case c, int pm, int portee, boolean agro) {
-        super(Bomberball.multiTexture[24],vivant, c, pm);
+        super(Bomberball.multiTexture[24], vivant, c, pm);
         this.portee = portee;
         this.agro = agro;
         setAnimationdroite();
     }
 
-    public boolean getAgro(){
+    public boolean getAgro() {
         return agro;
     }
 
-    public LinkedList<Case> voisinAccessibles (Case caseC){
+    public LinkedList<Case> voisinAccessibles(Case caseC) {
 
-        Map m=caseC.getMap();
+        Map m = caseC.getMap();
         Case[][] grille = m.getGrille();
         int a = caseC.posX();
         int b = caseC.posY();
@@ -225,14 +226,14 @@ public class EnnemiActifAggressif extends Ennemis {
     @Override
     public void setAnimationgauche() {
         this.removeAction(animation);
-        animation=new Action() {
+        animation = new Action() {
             float time = 0;
 
             @Override
             public boolean act(float delta) {
                 time += delta;
 
-                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + ((agro)?"1":"0") + "" + (int) (time * ((agro)?12:6)) % 4+"inv"))));
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + ((agro) ? "1" : "0") + "" + (int) (time * ((agro) ? 12 : 6)) % 4 + "inv"))));
 
                 return false;
             }
@@ -243,14 +244,14 @@ public class EnnemiActifAggressif extends Ennemis {
     @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
-        animation=new Action() {
+        animation = new Action() {
             float time = 0;
 
             @Override
             public boolean act(float delta) {
                 time += delta;
 
-                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + ((agro)?"1":"0") + "" + (int) (time * ((agro)?12:6)) % 4))));
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + ((agro) ? "1" : "0") + "" + (int) (time * ((agro) ? 12 : 6)) % 4))));
 
                 return false;
             }
@@ -261,14 +262,14 @@ public class EnnemiActifAggressif extends Ennemis {
     @Override
     public void setAnimationdefaite() {
         this.removeAction(animation);
-        animation=new Action() {
+        animation = new Action() {
             float time = 0;
 
             @Override
             public boolean act(float delta) {
                 time += delta;
 
-                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" +0+ ((((int)(time * 5) % 2)==0)?"":"inv")))));
+                setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int) (time * 5) % 2) == 0) ? "" : "inv")))));
 
                 return false;
             }
@@ -277,19 +278,24 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     public void miseAjour() {
-     prochain_deplacement.clear();
-     prochain_deplacement=recherchecheminmaxPL();
+        prochain_deplacement.clear();
+        recherchecheminmaxPL();
+        while (prochain_deplacement.size() > pm + 1) { //Il contient au moins la case où il se trouve
+            prochain_deplacement.removeLast();
+        }
+
 
     }
-    public LinkedList<Case> recherchecheminmaxPL() {
+
+    public void recherchecheminmaxPL() {
         Map map = this.getC().getMap();
         int lignes = 15;
         int colonnes = 13;
         int xc = this.getC().posX();
         int yc = this.getC().posY();
-        int h=0; //Si on ne trouve pas un personnage a une portée maximum, on diminue
-        Boolean personnage=false;
-        int xp=0,yp=0; //On stocke les coordonnées du personnages s'il est détecté
+        int h = 0; //Si on ne trouve pas un personnage a une portée maximum, on diminue
+        Boolean personnage = false;
+        int xp = 0, yp = 0; //On stocke les coordonnées du personnages s'il est détecté
 
         int i, j;
         int[][] trad = new int[15][13];
@@ -316,7 +322,7 @@ public class EnnemiActifAggressif extends Ennemis {
                         exist[j + colonnes * i][j - 1 + colonnes * i] = 1;
                         exist[j - 1 + colonnes * i][j + colonnes * i] = 1;
                     }
-                    if (trad[i][j] != 1 && trad[i][j + 1] != -1) {
+                    if (trad[i][j] != 1 && trad[i][j + 1] != 1) {
                         exist[j + colonnes * i][j + 1 + colonnes * i] = 1;
                         exist[j + 1 + colonnes * i][j + colonnes * i] = 1;
                     }
@@ -355,28 +361,48 @@ public class EnnemiActifAggressif extends Ennemis {
             int var = -(portee - h);
             while (var <= (portee - h) && !personnage) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
 
-                if(var>=0){
-                    if ((xc + (portee - h - var)) >= 0 && (xc + (portee - h - var)) <= 14) { //Vérification que ces cases existent dans une map
-                        if (yc + var >= 0 && yc + var <= 12) {
-                            if (map.getGrille()[xc + (portee - h - var)][yc + var].getPersonnage()!=null) {
-                                personnage = true;
-                                xp = xc + (portee - h) - var;
-                                yp = yc + var;
-                            }
+                int x1=xc+var;
+                int x2=xc-var;
+                int y1=yc+portee-h-var;
+                int y2=yc-(portee-h)+var;
+
+                if(x1<15 && x1>=0 && !personnage){
+                    if(y1>=0 && y1<13){
+                        if(map.getGrille()[x1][y1].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x1;
+                            yp=y1;
                         }
                     }
                 }
-                if(var<0){
-                    if ((xc + var) >= 0 && (xc+var) <= 14) { //Vérification que ces cases existent dans une map
-                        if ((yc - (var+portee-h)) >= 0 && (yc - (var+portee-h)) <= 12) {
-                            if (map.getGrille()[xc + var][yc - (var+portee-h)].getPersonnage()!=null) {
-                                personnage = true;
-                                xp = xc + var;
-                                yp = yc - (var+portee-h);
-                            }
+                if(x1<15 && x1>=0 && !personnage){
+                    if(y2>=0 && y2<13){
+                        if(map.getGrille()[x1][y2].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x1;
+                            yp=y2;
                         }
                     }
                 }
+                if(x2<15 && x2>=0 && !personnage){
+                    if(y1>=0 && y1<13){
+                        if(map.getGrille()[x2][y1].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x2;
+                            yp=y1;
+                        }
+                    }
+                }
+                if(x2<15 && x2>=0 && !personnage){
+                    if(y2>=0 && y2<13){
+                        if(map.getGrille()[x2][y2].getPersonnage()!=null){
+                            personnage=true;
+                            xp=x2;
+                            yp=y2;
+                        }
+                    }
+                }
+
 
                 var++;
             }
@@ -384,91 +410,11 @@ public class EnnemiActifAggressif extends Ennemis {
         }
 
         /** Si le personnage est repéré **/
-        if(personnage){
+        if (personnage) {
             this.setAgro(true);
 
-            int N = Graphe.ALPHA_NOTDEF ;
-            int existdij[][] = new int[13 * 15][13 * 15];
-
-            for (i = 0; i < 13 * 15; i++) {
-                for (j = 0; j < 13 * 15; j++) {
-                    if (exist[i][j] == 1) {
-                        existdij[i][j] = 1;
-                    } else {
-                        existdij[i][j] = N;
-                    }
-                }
-            }
-
-            Graphe graphe=new Graphe(existdij);
-            Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
-            LinkedList<Integer> disol=dijkstra.afficheChemin(yp+colonnes*xp);
-
-            int pmrestant=pm;
-
-            while(!disol.isEmpty() && pmrestant>0){
-                pmrestant--;
-                int casis=disol.removeFirst();
-                prochain_deplacement.addFirst(map.getGrille()[casis/colonnes][casis%colonnes]);
-            }
-
-            return prochain_deplacement;
-
-        }
-
-        /** Si le personnage n'est pas repéré **/
-        else{
-            this.setAgro(false);
-
-            int xa = -1, ya = -1; //Stockage de la case finale
-
-
-
-
-            /** On teste s'il existe un chemin avant de le chercher**/
-            int l = 0; //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
-            Boolean trouve = false;
-            while (!trouve && l < pm) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
-                k = -(pm - l);
-                while (k <= (pm - l) && !trouve) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
-
-                    if(k>=0){
-                        if ((xc + (pm - l - k)) >= 0 && (xc + (pm - l - k)) <= 14) { //Vérification que ces cases existent dans une map
-                            if (yc + k >= 0 && yc + k <= 12) {
-                                if (tmp[yc + colonnes * xc][yc + k + colonnes * (xc + (pm - l) - k)] == 1 || tmp[yc + k + colonnes * (xc + (pm - l) - k)][yc + colonnes * xc] == 1) {
-                                    trouve = true;
-                                    xa = xc + (pm - l) - k;
-                                    ya = yc + k;
-                                }
-                            }
-                        }
-                    }
-                    if(k<0){
-                        if ((xc + k) >= 0 && (xc+k) <= 14) { //Vérification que ces cases existent dans une map
-                            if ((yc - (k+pm-l)) >= 0 && (yc - (k+pm-l)) <= 12) {
-                                if (tmp[yc + colonnes * xc][(yc - (k+pm-l)) + colonnes * (xc + k)] == 1 || tmp[(yc - (k+pm-l))+ colonnes * (xc + k)][yc + colonnes * xc] == 1) {
-                                    trouve = true;
-                                    xa = xc + k;
-                                    ya = yc - (k+pm-l);
-                                }
-                            }
-                        }
-                    }
-
-                    k++;
-                }
-                l++;
-            }
-
-            if (!trouve) {
-                prochain_deplacement.clear();
-                return prochain_deplacement;
-            }
-
-            /** Implémentation de Dijkstra pour avoir le chemin**/
-
-            else {
-                int N = Graphe.ALPHA_NOTDEF ;
+            if(tmp[yc+colonnes*xc][yp+colonnes*xp]==1 || tmp[yp+colonnes*xp][yc+colonnes*xc]==1){
+                int N = Graphe.ALPHA_NOTDEF;
                 int existdij[][] = new int[13 * 15][13 * 15];
 
                 for (i = 0; i < 13 * 15; i++) {
@@ -481,56 +427,121 @@ public class EnnemiActifAggressif extends Ennemis {
                     }
                 }
 
-                Graphe graphe=new Graphe(existdij);
-                Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
-                LinkedList<Integer> disol=dijkstra.afficheChemin(ya+colonnes*xa);
+                Graphe graphe = new Graphe(existdij);
+                Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
+                LinkedList<Integer> disol = dijkstra.afficheChemin(yp + colonnes * xp);
 
-                for(int f: disol){
-                    prochain_deplacement.addFirst(map.getGrille()[f/colonnes][f%colonnes]);
+                int pmrestant = pm;
+
+
+                while (!disol.isEmpty()) {
+                    pmrestant--;
+                    int casis = disol.removeFirst();
+                    prochain_deplacement.addFirst(map.getGrille()[casis / colonnes][casis % colonnes]);
                 }
-                return prochain_deplacement;
+
+
+            }
+            else{
+                prochain_deplacement.clear();
+                prochain_deplacement.add(c);
+            }
+
+
+
+        }
+
+        /** Si le personnage n'est pas repéré **/
+        else {
+            this.setAgro(false);
+
+            int xa = -1, ya = -1; //Stockage de la case finale
+
+
+            /** On teste s'il existe un chemin avant de le chercher**/
+            int l = 0; //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
+            Boolean trouve = false;
+            while (!trouve && l < pm) { //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+                k = 0;
+                while (k <= (pm - l) && !trouve) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
+                    int x1=xc+k;
+                    int x2=xc-k;
+                    int y1=yc+pm-l-k;
+                    int y2=yc-(pm-l)+k;
+                    if(x1<15 && x1>=0 && !trouve){
+                        if(y1>=0 && y1<13){
+                            if(tmp[yc+colonnes*xc][y1+colonnes*x1]==1 || tmp[y1+colonnes*x1][yc+colonnes*xc]==1){
+                                trouve=true;
+                                xa=x1;
+                                ya=y1;
+                            }
+                        }
+                    }
+                    if(x1<15 && x1>=0 && !trouve){
+                        if(y2>=0 && y2<13){
+                            if(tmp[yc+colonnes*xc][y2+colonnes*x1]==1 || tmp[y2+colonnes*x1][yc+colonnes*xc]==1){
+                                trouve=true;
+                                xa=x1;
+                                ya=y2;
+                            }
+                        }
+                    }
+                    if(x2<15 && x2>=0 && !trouve){
+                        if(y1>=0 && y1<13){
+                            if(tmp[yc+colonnes*xc][y1+colonnes*x2]==1 || tmp[y1+colonnes*x2][yc+colonnes*xc]==1){
+                                trouve=true;
+                                xa=x2;
+                                ya=y1;
+                            }
+                        }
+                    }
+                    if(x2<15 && x2  >=0 && !trouve){
+                        if(y2>=0 && y2<13){
+                            if(tmp[yc+colonnes*xc][y2+colonnes*x2]==1 || tmp[y2+colonnes*x2][yc+colonnes*xc]==1){
+                                trouve=true;
+                                xa=x2;
+                                ya=y2;
+                            }
+                        }
+                    }
+                    k++;
+                }
+                l++;
+            }
+
+            if (!trouve) {
+                prochain_deplacement.clear();
+                prochain_deplacement.add(c);
+            }
+
+            /** Implémentation de Dijkstra pour avoir le chemin**/
+
+            else {
+                int N = Graphe.ALPHA_NOTDEF;
+                int existdij[][] = new int[13 * 15][13 * 15];
+
+                for (i = 0; i < 13 * 15; i++) {
+                    for (j = 0; j < 13 * 15; j++) {
+                        if (exist[i][j] == 1) {
+                            existdij[i][j] = 1;
+                        } else {
+                            existdij[i][j] = N;
+                        }
+                    }
+                }
+
+                Graphe graphe = new Graphe(existdij);
+                Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
+                LinkedList<Integer> disol = dijkstra.afficheChemin(ya + colonnes * xa);
+                prochain_deplacement.addFirst(c);
+                for (int f : disol) {
+                    prochain_deplacement.addFirst(map.getGrille()[f / colonnes][f % colonnes]);
+                }
 
 
             }
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
 }

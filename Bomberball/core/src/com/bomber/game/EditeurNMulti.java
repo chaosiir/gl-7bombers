@@ -57,7 +57,12 @@ public class EditeurNMulti extends Etat implements Screen {
     File f;
     FileWriter fw;
 
-
+    /**
+     * Classe EditeurNMulti
+     * Elle affiche l'éditeur de niveau pour des maps multijoueurs
+     * @author Paul-Louis Renard
+     *
+     */
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -171,7 +176,7 @@ public class EditeurNMulti extends Etat implements Screen {
         valider.setName("Valider");
 
         charger = new TextButton("Charger une carte",skin);
-        charger.setBounds(0,ymax-11*Bomberball.taillecase,valider.getWidth(),valider.getHeight());
+        charger.setBounds(0,ymax-11*Bomberball.taillecase,charger.getWidth(),charger.getHeight());
         charger.setName("Charger");
 
         retour.addListener(new ClickListener(){
@@ -324,9 +329,17 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean touchDown(int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
-        System.out.println(hitActor==null);
+      //  System.out.println(hitActor==null);
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if (hitActor.getName()!=null) {
             if (hitActor.getName().equals("murd")) {
@@ -503,7 +516,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("MurD")){
                 Case c = (Case) hitActor.getParent();
-                System.out.println("x="+c.posX()+" y="+c.posY());
+               // System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -569,7 +582,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("Personnage")){
                 Case c = (Case) hitActor.getParent();
-                System.out.println("x="+c.posX()+" y="+c.posY());
+              //  System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -581,6 +594,9 @@ public class EditeurNMulti extends Etat implements Screen {
                 } else if (button == Input.Buttons.LEFT) {
                     if (selectionne.getDrawable() != null) {
                         if (selectionne.getName().equals("murdes")) {
+                            c.setMur(null);
+                            c.setPorte(null);
+                            c.setPersonnage(null);
                             c.setMur(new MurD());
                         } else if (selectionne.getName().equals("sol")) {
                             c.setMur(null);
@@ -712,7 +728,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
         }else if(hitActor.getParent() instanceof Case){
             Case c = (Case) hitActor.getParent();
-            System.out.println("x="+c.posX()+" y="+c.posY());
+            //System.out.println("x="+c.posX()+" y="+c.posY());
             if (button == Input.Buttons.RIGHT) {
                 c.setMur(null);
                 c.setPorte(null);
@@ -724,6 +740,10 @@ public class EditeurNMulti extends Etat implements Screen {
             } else if (button == Input.Buttons.LEFT) {
                 if (selectionne.getDrawable() != null) {
                     if (selectionne.getName().equals("murdes")) {
+                        c.setMur(null);
+                        c.setPorte(null);
+                        c.setPersonnage(null);
+                        c.setBonus(null);
                         c.setMur(new MurD());
                     } else if (selectionne.getName().equals("sol")) {
                         c.setMur(null);
@@ -734,10 +754,36 @@ public class EditeurNMulti extends Etat implements Screen {
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                         c.addActor(background);
                     } else if (selectionne.getName().equals("murin")) {
-                        Map m=c.getMap();
+                        c.setMur(null);
+                        c.setPorte(null);
+                        c.setPersonnage(null);
+                        c.setBonus(null);
+                        Map m=map;
                         c.setMur(new MurI());
                         int xp=c.posX();
                         int yp=c.posY();
+
+                        c.setMur(null);
+                        m.getGrille()[14-xp][yp].setMur(null);
+                        m.getGrille()[14-xp][12-yp].setMur(null);
+                        m.getGrille()[xp][12-yp].setMur(null);
+
+                        c.setPorte(null);
+                        m.getGrille()[14-xp][yp].setPorte(null);
+                        m.getGrille()[14-xp][12-yp].setPorte(null);
+                        m.getGrille()[xp][12-yp].setPorte(null);
+
+                        c.setPersonnage(null);
+                        m.getGrille()[14-xp][yp].setPersonnage(null);
+                        m.getGrille()[14-xp][12-yp].setPersonnage(null);
+                        m.getGrille()[xp][12-yp].setPersonnage(null);
+
+                        c.setBonus(null);
+                        m.getGrille()[14-xp][yp].setBonus(null);
+                        m.getGrille()[14-xp][12-yp].setBonus(null);
+                        m.getGrille()[xp][12-yp].setBonus(null);
+
+                        c.setMur(new MurI());
                         m.getGrille()[14-xp][yp].setMur(new MurI());
                         m.getGrille()[14-xp][12-yp].setMur(new MurI());
                         m.getGrille()[xp][12-yp].setMur(new MurI());

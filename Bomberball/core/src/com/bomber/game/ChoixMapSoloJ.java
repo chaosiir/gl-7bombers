@@ -32,7 +32,12 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     Map map;
 
     File f;
-
+    /**
+     * Constructeur de la classe ChoixMapSoloJ
+     * @param game
+     * @param jeu
+     * @return un menu ChoixMapSoloJ
+     */
     public ChoixMapSoloJ(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -116,7 +121,12 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                         game.choixMapSoloJ.removeActor(scrollPane);
                         game.choixMapSoloJ.removeActor(table);
                         jeu.removeActor(map);
+                        if(map!=null){
+                            map.suppActor();
+                        }
                         map=null;
+
+                        Bomberball.input.removeProcessor(game.choixMapSoloJ);
                         game.choixMapSoloJ.removeActor(jeu);
                         jeu.setEtat(game.menuSolo);
                         game.setScreen(game.menuSolo);
