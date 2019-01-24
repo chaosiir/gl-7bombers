@@ -478,5 +478,276 @@ public class Case extends Group  {// case est un group d'acteur  (bombe/mur /bon
         return false;
     }
 
+    public static void main(String[] args){
 
+        Case C;
+        Map M;
+
+        C=new Case();
+        M=new Map();
+        C.setMap(M);
+
+// Test de explosionHaute
+        C.setMur(new MurD());
+        try{
+            C.explosionHaute();
+        }catch (Exception e){
+            System.out.println("fail explosionHaute");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionHaute");
+        }
+        C.setMur(null);
+        C.setMur(new MurI());
+        try{
+            C.explosionHaute();
+        }catch (Exception e){
+            System.out.println("fail explosionHaute");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionHaute");
+        }
+        C.setMur(null);
+
+        C.setPersonnage(new Personnage(true,C,1,1,1,1));
+        try{
+            C.explosionHaute();
+        }catch (Exception e){
+            System.out.println("fail explosionHaute");
+        }
+        if (C.getPersonnage().iVivant()){
+            System.out.println("fail explosionHaute");
+        }
+        C.setPersonnage(null);
+
+        C.setEnnemi(new Ennemi(com.bomber.game.Bomberball.multiTexture[17],true,C,1));
+        try{
+            C.explosionHaute();
+        }catch (Exception e){
+            System.out.println("fail explosionHaute");
+        }
+        if (C.getEnnemi().isVivant()){
+            System.out.println("fail explosionHaute");
+        }
+        C.setEnnemi(null);
+
+// Test de explosionBasse
+        C.setMur(new MurD());
+        try{
+            C.explosionBasse();
+        }catch (Exception e){
+            System.out.println("fail explosionBasse");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionBasse");
+        }
+        C.setMur(null);
+
+        C.setMur(new MurI());
+        try{
+            C.explosionBasse();
+        }catch (Exception e){
+            System.out.println("fail explosionBasse");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionBasse");
+        }
+        C.setMur(null);
+
+        C.setPersonnage(new Personnage(true,C,1,1,1,1));
+        try{
+            C.explosionBasse();
+        }catch (Exception e){
+            System.out.println("fail explosionBasse");
+        }
+        if (C.getPersonnage().isVivant()){
+            System.out.println("fail explosionBasse");
+        }
+        C.setPersonnage(null);
+
+        C.setEnnemi(new Ennemi(com.bomber.game.Bomberball.multiTexture[17],true,C,1));
+        try{
+            C.explosionBasse();
+        }catch (Exception e){
+            System.out.println("fail explosionBasse");
+        }
+        if (C.getEnnemi().isVivant()){
+            System.out.println("fail explosionBasse");
+        }
+        C.setEnnemi(null);
+
+// Test de explosionDroite
+        C.setMur(new MurD());
+        try{
+            C.explosionDroite();
+        }catch (Exception e){
+            System.out.println("fail explosionDroite");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionDroite");
+        }
+        C.setMur(null);
+
+        C.setMur(new MurI());
+        try{
+            C.explosionDroite();
+        }catch (Exception e){
+            System.out.println("fail explosionDroite");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionDroite");
+        }
+        C.setMur(null);
+
+        C.setPersonnage(new Personnage(true,C,1,1,1,1));
+        try{
+            C.explosionDroite();
+        }catch (Exception e){
+            System.out.println("fail explosionDroite");
+        }
+        if (C.getPersonnage().isVivant()){
+            System.out.println("fail explosionDroite");
+        }
+        C.setPersonnage(null);
+
+        C.setEnnemi(new Ennemi(com.bomber.game.Bomberball.multiTexture[17],true,C,1));
+        try{
+            C.explosionDroite();
+        }catch (Exception e){
+            System.out.println("fail explosionDroite");
+        }
+        if (C.getEnnemi().isVivant()){
+            System.out.println("fail explosionDroite");
+        }
+        C.setEnnemi(null);
+
+// Test de explosionGauche
+        C.setMur(new MurD());
+        try{
+            C.explosionGauche();
+        }catch (Exception e){
+            System.out.println("fail explosionGauche");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionGauche");
+        }
+        C.setMur(null);
+
+        C.setMur(new MurI());
+        try{
+            C.explosionGauche();
+        }catch (Exception e){
+            System.out.println("fail explosionGauche");
+        }
+        if (C.getMur() is not null && C.getMur() instanceof (MurD)){
+            System.out.println("fail explosionGauche");
+        }
+        C.setMur(null);
+
+        C.setPersonnage(new Personnage(true,C,1,1,1,1));
+        try{
+            C.explosionGauche();
+        }catch (Exception e){
+            System.out.println("fail explosionGauche");
+        }
+        if (C.getPersonnage().isVivant()){
+            System.out.println("fail explosionGauche");
+        }
+        C.setPersonnage(null);
+
+        C.setEnnemi(new Ennemi(com.bomber.game.Bomberball.multiTexture[17],true,C,1));
+        try{
+            C.explosionGauche();
+        }catch (Exception e){
+            System.out.println("fail explosionGauche");
+        }
+        if (C.getEnnemi().isVivant()){
+            System.out.println("fail explosionGauche");
+        }
+        C.setEnnemi(null);
+
+// Test de suppBombe
+        C.setBombe(new Bombe(4,C));
+        try {
+            C.suppBombe();
+        }catch (Exception e){
+            System.out.println("fail suppBombe");
+        }
+        if (C.getBombe() is not null){
+            System.out.println("fail suppBombe");
+        }
+
+// Test de suppBonus
+        C.setBonus(new Bonus(C));
+        try {
+            C.suppBonus();
+        }catch (Exception e){
+            System.out.println("fail suppBonus");
+        }
+        if (C.getBombe() is not null){
+            System.out.println("fail suppBonus");
+        }
+
+// Test de estVide
+        C.setBonus(new Bonus(C));
+        try{
+            if (C.estVide()){
+                System.out.println("fail estVide");
+            }
+        }catch (Exception e){
+            System.out.println("fail estVide");
+        }
+        C.setBonus(null);
+
+        C.setBombe(new Bombe(4,C));
+        try{
+            if (C.estVide()){
+                System.out.println("fail estVide");
+            }
+        }catch (Exception e){
+            System.out.println("fail estVide");
+        }
+        C.setBombe(null);
+
+        C.setPersonnage(new Personnage(true,C,1,1,1,1));
+        try{
+            if (C.estVide()){
+                System.out.println("fail estVide");
+            }
+        }catch (Exception e){
+            System.out.println("fail estVide");
+        }
+        C.setPersonnage(null);
+
+        C.setEnnemi(new Ennemi(com.bomber.game.Bomberball.multiTexture[17],true,C,1));
+        try{
+            if (C.estVide()){
+                System.out.println("fail estVide")
+            }
+        }catch (Exception e){
+            System.out.println("fail estVide");
+        }
+        C.setPersonnage(null);
+
+        C.setMur(new MurD());
+        try{
+            if (C.estVide()){
+                System.out.println("fail estVide")
+            }
+        }catch (Exception e){
+            System.out.println("fail estVide");
+        }
+        C.setMur(null);
+
+        C.setMur(new MurI());
+        try{
+            if (C.estVide()){
+                System.out.println("fail estVide")
+            }
+        }catch (Exception e){
+            System.out.println("fail estVide");
+        }
+        C.setMur(null);
+
+    }
 }
