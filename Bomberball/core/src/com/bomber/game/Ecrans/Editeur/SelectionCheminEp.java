@@ -35,36 +35,25 @@ import java.io.IOException;
  */
 public class SelectionCheminEp extends Etat implements Screen {
     Bomberball game;
-
-    Image back;
-
-    Label indication;
-    Label indication1;
-    EnnemiPassif ennemi_passif;
-
-    TextButton valider;
-    TextButton retour;
-
-    Table table;
     int compteur=0;
-
+    EnnemiPassif ennemi_passif;
     Map map;
 
-
+    Image back;
+    Label indication;
+    Label indication1;
+    TextButton valider;
+    TextButton retour;
+    Table table;
     Skin skin;
 
     File f;
     FileWriter fw;
 
-    public SelectionCheminEp(Bomberball game,Jeu jeu){
+    public SelectionCheminEp(Bomberball game,Jeu jeu) {
         super(jeu);
-        this.game=game;
-        File directory = new File (".");
-
-            f = Gdx.files.internal( "./SaveMapPerso/Mapsolo/tmp.txt").file();
-
-
-
+        this.game = game;
+        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
     }
 
     /**
@@ -79,7 +68,6 @@ public class SelectionCheminEp extends Etat implements Screen {
         map=Map.mapFromStringN(text);
         map.setName("map");
         skin=new Skin(Gdx.files.internal("uiskin.json"));
-
         map.setPosition(7*Bomberball.taillecase,0);
 
 
@@ -176,13 +164,6 @@ public class SelectionCheminEp extends Etat implements Screen {
         jeu.addActor(map);
         this.addActor(jeu);
 
-
-
-
-
-
-
-
     }
 
     @Override
@@ -243,7 +224,6 @@ public class SelectionCheminEp extends Etat implements Screen {
                     ennemi_passif=new EnnemiPassif(true,c,3);
                     ennemi_passif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif);
-                    //System.out.println(ennemi_passif==null);
                     ennemi_passif.getChemin().add(c);
                 }
                 else if(compteur==1){
@@ -445,9 +425,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
             }
         }
-
         return false;
     }
-
 
 }

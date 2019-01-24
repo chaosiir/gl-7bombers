@@ -49,8 +49,6 @@ public class ErreurEditeurS extends Etat implements Screen {
         int xmax=Toolkit.getDefaultToolkit().getScreenSize().width;
         int ymax=Toolkit.getDefaultToolkit().getScreenSize().height;
 
-        //System.out.println("xmax="+xmax+" ymax="+ymax);
-
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");

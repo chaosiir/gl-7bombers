@@ -71,11 +71,8 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
         this.bombaaaagh=bombaaaagh;
-        File directory = new File (".");
-            f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
-            frecommencer =Gdx.files.internal("./SaveTempo/debut.txt").file();
-
-
+        f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
+        frecommencer =Gdx.files.internal("./SaveTempo/debut.txt").file();
     }
 
     /**
@@ -352,7 +349,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         if(jeu.findActor("explo")==null) {
 
             if (joueur.isVivant() && (!joueur.hasActions())) {
-                boolean b = false;
+                boolean b ;
                 if (keycode == Input.Keys.RIGHT) {
                     if (pm > 0) {
                         b = joueur.deplacerDroite();

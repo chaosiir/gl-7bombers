@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.bomber.game.Bomberball;
 
-import java.io.Serializable;
 
 public class Porte extends Image {
 

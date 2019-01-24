@@ -5,17 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.bomber.game.Bomberball;
 import com.bomber.game.MapetObjet.Case;
 
-public class Bonus extends Image  {
+public abstract class Bonus extends Image  {
     Case c;
-
-    /**
-     * Constructeur de la classe Bonus
-     * @return un bonus sur la case C
-     */
-    public Bonus(Case C){
-        c=C;
-    }
-
     /**
      *
      * @param C
@@ -30,12 +21,8 @@ public class Bonus extends Image  {
         c=C;
     }
 
-    public void action(){
-    }
+    public abstract void action();
 
-    public String identifier(){
-        return null;
-    }
 
 
 

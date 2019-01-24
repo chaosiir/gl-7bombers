@@ -25,7 +25,6 @@ public class EnnemiActif extends Ennemis {
 
         int a = caseC.posX();
         int b = caseC.posY();
-        //System.out.println(a + " " + b);
         LinkedList<Case> voisin = new LinkedList<Case>();
 
         if (caseLibre(grille[a - 1][b])) {
@@ -244,7 +243,6 @@ public class EnnemiActif extends Ennemis {
 
 
         int xa = -1, ya = -1; //Stockage de la case finale
-        int[] predecesseur = new int[13 * 15];
 
 
 
@@ -326,66 +324,6 @@ public class EnnemiActif extends Ennemis {
             for(int f: disol){
                 prochain_deplacement.addFirst(map.getGrille()[f/colonnes][f%colonnes]);
             }
-
-
         }
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

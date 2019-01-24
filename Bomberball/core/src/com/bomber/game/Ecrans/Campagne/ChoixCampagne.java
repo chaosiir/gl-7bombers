@@ -29,32 +29,28 @@ public class ChoixCampagne extends Etat implements Screen {
     File nivplayertmp;
     FileWriter fw;
     int niveauactuel=1;
+    Scanner scan;
+    Map map;
 
     TextButton facile;
     TextButton moyen;
     TextButton difficile;
     Label choixdifficulte;
-
     ButtonGroup<TextButton> diffic;
-
     TextButton valider;
     TextButton retour;
     TextButton réinitialiserProg;
     Table table;
 
 
-    Scanner scan;
-
-    Map map;
 
 
     public ChoixCampagne(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-            f = Gdx.files.internal("./Campagne/").file();
-            nivplayer= Gdx.files.internal("./Campagne/niveau.txt").file();
-            nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
+        f = Gdx.files.internal("./Campagne/").file();
+        nivplayer= Gdx.files.internal("./Campagne/niveau.txt").file();
+        nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
 
 
     }

@@ -3,7 +3,6 @@ package com.bomber.game.MapetObjet;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.bomber.game.Bomberball;
-import com.bomber.game.MapetObjet.Case;
 
 public class Bombe extends Image {
     int taille; //taille de l'explosion

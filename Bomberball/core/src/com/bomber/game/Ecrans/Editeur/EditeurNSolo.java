@@ -395,105 +395,6 @@ public class EditeurNSolo extends Etat implements Screen {
      * @param button bouton de la souris appuyé
      */
     public boolean keyDown( int keycode) {
-        if(Input.Keys.A==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
-                        }
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j]);
-                        }
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
-                        }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
-                    }
-                }
-            }
-        }
-        if(Input.Keys.D==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i+1][j])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i+1][j]);
-                        }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
-                    }
-                }
-            }
-        }
-        if(Input.Keys.W==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j+1])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j+1]);
-                        }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
-                    }
-                }
-            }
-        }
-        if(Input.Keys.S==keycode){
-            for (int i =1;i<map.getGrille().length-1;i++) {
-                for (int j = 1; j < map.getGrille()[1].length-1; j++) {
-                    if (map.getGrille()[i][j].getEnnemi() != null) {
-                        map.getGrille()[i][j].getEnnemi().getProchain_deplacement().clear();
-                        if (map.getGrille()[i][j].getEnnemi().caseLibre(map.getGrille()[i][j-1])){
-                            map.getGrille()[i][j].getEnnemi().getProchain_deplacement().add(map.getGrille()[i][j-1]);
-                        }
-                        map.getGrille()[i][j].getEnnemi().deplacer();
-                    }
-                }
-            }
-        }
-        if(Input.Keys.E==keycode){
-            for (int i =1;i<map.getGrille().length;i++){
-                for (int j =1;j<map.getGrille()[1].length;j++){
-                    if(map.getGrille()[i][j].getEnnemi()!=null){
-                        map.getGrille()[i][j].getEnnemi().setAnimationgauche();
-                    }
-                }
-            }
-        }
-        if(Input.Keys.R==keycode){
-            for (int i =1;i<map.getGrille().length;i++){
-                for (int j =1;j<map.getGrille()[1].length;j++){
-                    if(map.getGrille()[i][j].getEnnemi()!=null ){
-                        if (map.getGrille()[i][j].getEnnemi() instanceof EnnemiActifAggressif){
-                            ((EnnemiActifAggressif) map.getGrille()[i][j].getEnnemi()).setAgro(!((EnnemiActifAggressif) map.getGrille()[i][j].getEnnemi()).getAgro());
-                        }
-                        if( map.getGrille()[i][j].getEnnemi() instanceof EnnemiPassifAgressif){
-                            ((EnnemiPassifAgressif) map.getGrille()[i][j].getEnnemi()).setAgro(!((EnnemiPassifAgressif) map.getGrille()[i][j].getEnnemi()).getAgro());
-                        }
-                    }
-                }
-            }
-        }
-        if(Input.Keys.Z==keycode){
-            for (int i =1;i<map.getGrille().length;i++){
-                for (int j =1;j<map.getGrille()[1].length;j++){
-                    if(map.getGrille()[i][j].getEnnemi()!=null){
-                        map.getGrille()[i][j].getEnnemi().setAnimationdroite();
-                    }
-                }
-            }
-        }
-        if(Input.Keys.T==keycode){
-            for (int i =1;i<map.getGrille().length;i++){
-                for (int j =1;j<map.getGrille()[1].length;j++){
-                    if(map.getGrille()[i][j].getEnnemi()!=null){
-                        map.getGrille()[i][j].getEnnemi().setAnimationdefaite();
-                    }
-                }
-            }
-        }
         if(keycode==Input.Keys.SPACE){
             LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
             for(int i=0;i<15;i++){
@@ -537,7 +438,6 @@ public class EditeurNSolo extends Etat implements Screen {
                                 else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
                                     map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
                                     EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
-                                   // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
                                 }
@@ -545,19 +445,16 @@ public class EditeurNSolo extends Etat implements Screen {
                             } else if (cas.getPersonnage() != null) {
                                 Personnage personnage = cas.getPersonnage();
                                 map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
-                               // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                 map.getGrille()[xc][yc].setPersonnage(null);
                                 map.getGrille()[xc][yc].setPersonnage(personnage);
                             } else {
                                 map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
-                               // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                             }
                         }
                     }
                     else if(en instanceof EnnemiActif || en instanceof EnnemiActifAggressif){
                         en.miseAjour();
                         LinkedList<Case> caca = en.getProchain_deplacement();
-                       // System.out.println("Position ennemi: "+en.getC().posX()+" "+en.getC().posY()+" Premier case LKL: "+ caca.getFirst().posX()+" "+caca.getFirst().posY());
                         for (Case cas : caca) {
                             int xc = cas.posX();
                             int yc = cas.posY();
@@ -586,7 +483,6 @@ public class EditeurNSolo extends Etat implements Screen {
                                 else if(cas.getEnnemi() instanceof  EnnemiActifAggressif){
                                     map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
                                     EnnemiActifAggressif ennemi_actif_aggressif = (EnnemiActifAggressif) cas.getEnnemi();
-                                    // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                     map.getGrille()[xc][yc].setEnnemi(null);
                                     map.getGrille()[xc][yc].setEnnemi(ennemi_actif_aggressif);
                                 }
@@ -594,12 +490,10 @@ public class EditeurNSolo extends Etat implements Screen {
                             } else if (cas.getPersonnage() != null) {
                                 Personnage personnage = cas.getPersonnage();
                                 map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
-                                // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                                 map.getGrille()[xc][yc].setPersonnage(null);
                                 map.getGrille()[xc][yc].setPersonnage(personnage);
                             } else {
                                 map.getGrille()[xc][yc].getBackground().setColor(Couleur[choix]);
-                                // map.getGrille()[xc][yc].setMarque(new Image(Bomberball.multiTexture[18]));
                             }
                         }
                     }
@@ -958,7 +852,6 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 else if(hitActor.getName().equals("Personnage")){
                     Case c = (Case) hitActor.getParent();
-                //    System.out.println("x="+c.posX()+" y="+c.posY());
                     if (button == Input.Buttons.RIGHT) {
                         c.setMur(null);
                         c.setPorte(null);
@@ -1071,62 +964,6 @@ public class EditeurNSolo extends Etat implements Screen {
                     }
 
                 }
-            /*else if(hitActor.getName().equals("Ennemis")){ //Je vais d'abord supposer qu'il n'y a que des ennemis passifs pour commencer
-                Case c = (Case) hitActor.getParent();
-                if(button==Input.Buttons.RIGHT){
-                    c.getEnnemi().prochain_deplacement.clear();
-                    c.setEnnemi(null);
-                    c.setMur(null);
-                    c.setPorte(null);
-                    c.setPersonnage(null);
-                    c.setBonus(null);
-                    c.setEnnemi(null);
-                    Image background=new Image(Bomberball.multiTexture[0]);
-                    background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                    c.addActor(background);
-                }
-                if(button==Input.Buttons.MIDDLE){ //Il faut afficher tous les ennemis
-
-
-
-                }
-                if(button==Input.Buttons.LEFT){
-                    if (selectionne.getDrawable() != null) {
-                        if (selectionne.getName().equals("murdes")) {
-                            c.getEnnemi().prochain_deplacement.clear();
-                            c.setEnnemi(null);
-                            c.setMur(new MurD());
-                        } else if (selectionne.getName().equals("sol")) {
-                            c.setMur(null);
-                            c.setPorte(null);
-                            c.setPersonnage(null);
-                            c.setBonus(null);
-                            c.getEnnemi().prochain_deplacement.clear();
-                            c.setEnnemi(null);
-                            Image background=new Image(Bomberball.multiTexture[0]);
-                            background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
-                            c.addActor(background);
-                        } else if (selectionne.getName().equals("murin")) {
-                            c.getEnnemi().prochain_deplacement.clear();
-                            c.setEnnemi(null);
-                            c.setMur(new MurI());
-                        } else if (selectionne.getName().equals("p")) {
-                            c.getEnnemi().prochain_deplacement.clear();
-                            c.setEnnemi(null);
-                            c.setPorte(new Porte());
-                        }
-                        else if(selectionne.getName().equals("player")){
-                            c.getEnnemi().prochain_deplacement.clear();
-                            c.setEnnemi(null);
-                            if(c.getMur()==null){
-                                c.setPersonnage(new Personnage(true,c,2,1,5,0));
-                            }
-
-                        }
-                    }
-                }
-            }*/
-
             }else if(hitActor.getParent() instanceof Case){
                 Case c = (Case) hitActor.getParent();
                 if (button == Input.Buttons.RIGHT) {
@@ -1201,27 +1038,12 @@ public class EditeurNSolo extends Etat implements Screen {
                             EnnemiActifAggressif eaa=new EnnemiActifAggressif(true,c,3,5,false);
                             c.setEnnemi(eaa);
                         }
-
                     }
                 }
-
-
-
-
             }
-
-
-
-
-
-            Gdx.app.log("HIT", hitActor.getName());
-
             return true;
-
         }
-
     }
-
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;

@@ -466,14 +466,6 @@ public class Personnage extends Image {
         return false;
     }
     /**
-     * Attribue le bonus de la case au joueur
-     */
-    public void ramasserBonus(){
-        if (c.getBonus()!=null){
-            c.getBonus().action();
-        }
-    }
-    /**
      * Vérifie que la case au-dessus du joueur est libre
      * @return true si la case est libre
      */

@@ -16,7 +16,6 @@ import com.bomber.game.Jeu;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 /**
  * Classe ValiderEditeurSolo
  * Elle permet de sauvegarder sa carte solo qu'il a créé
@@ -43,9 +42,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     public ValiderEditeurSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-            f = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
-
+        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
     }
 
     /**
@@ -56,12 +53,6 @@ public class ValiderEditeurSolo extends Etat implements Screen {
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
-
-        int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
-        int ymax=Toolkit.getDefaultToolkit().getScreenSize().height;
-
-        //System.out.println("xmax="+xmax+" ymax="+ymax);
-
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -97,17 +88,8 @@ public class ValiderEditeurSolo extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String nom=inputui.getText();
-                if (nom.equals("")){
-                    //rien
-                }
-                else if(nom.equals("tmp")){
-                    //rien, tu as pas le droit à un nom pareil
-                }
-                else{
-                    File directory = new File (".");
-                    File fi= null;
-
-                        fi = Gdx.files.internal( "./SaveMapPerso/Mapsolo/"+nom+".txt").file();
+                if (!nom.equals("") && !nom.equals("tmp")){ //rien, tu as pas le droit à un nom pareil
+                    File fi= Gdx.files.internal( "./SaveMapPerso/Mapsolo/"+nom+".txt").file();
 
                     jeu.removeActor(jeu.map);
                     jeu.map=null;

@@ -1,10 +1,7 @@
 package com.bomber.game.Ecrans;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.bomber.game.Jeu;
 
 public abstract class Etat extends Group implements InputProcessor{//classe etat

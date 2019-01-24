@@ -34,6 +34,11 @@ import java.io.IOException;
  */
 public class EditeurNMulti extends Etat implements Screen {
     Bomberball game;
+    Map map;
+    Skin skin;
+    File f;
+    FileWriter fw;
+
     Image back;
     Image floor;
     Image murd;
@@ -48,6 +53,7 @@ public class EditeurNMulti extends Etat implements Screen {
     Image perso4;
     Image bonusP;
 
+
     Label select;
     Label instruction1;
     Label instruction2;
@@ -56,12 +62,7 @@ public class EditeurNMulti extends Etat implements Screen {
     TextButton valider;
     TextButton charger;
 
-    Map map;
 
-    Skin skin;
-
-    File f;
-    FileWriter fw;
 
     /**
      * Classe EditeurNMulti
@@ -72,8 +73,7 @@ public class EditeurNMulti extends Etat implements Screen {
     public EditeurNMulti(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-        f = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();//new File(directory.getCanonicalPath() + "/SaveMapPerso/MapMulti/tmp.txt");
+        f = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();
 
     }
 
@@ -341,7 +341,6 @@ public class EditeurNMulti extends Etat implements Screen {
      */
     public boolean touchDown(int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
-      //  System.out.println(hitActor==null);
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
         if (hitActor.getName()!=null) {
             if (hitActor.getName().equals("murd")) {
@@ -386,139 +385,124 @@ public class EditeurNMulti extends Etat implements Screen {
                 selectionne.setDrawable(bonusP.getDrawable());
                 selectionne.setName("bP");
             }
-            else if(hitActor.getName().equals("MurI")){
+            else if(hitActor.getName().equals("MurI")) {
                 Case c = (Case) hitActor.getParent();
-                if(c.posX()==0 || c.posX()==14 || c.posY()==0 || c.posY()==12){
+                if (c.posX() == 0 || c.posX() == 14 || c.posY() == 0 || c.posY() == 12) {
                     //rien
-                }
-                else{
+                } else {
                     if (button == Input.Buttons.RIGHT) {
-                        Map m=c.getMap();
+                        Map m = c.getMap();
 
-                        int xp=c.posX();
-                        int yp=c.posY();
+                        int xp = c.posX();
+                        int yp = c.posY();
 
                         c.setMur(null);
-                        m.getGrille()[14-xp][yp].setMur(null);
-                        m.getGrille()[14-xp][12-yp].setMur(null);
-                        m.getGrille()[xp][12-yp].setMur(null);
+                        m.getGrille()[14 - xp][yp].setMur(null);
+                        m.getGrille()[14 - xp][12 - yp].setMur(null);
+                        m.getGrille()[xp][12 - yp].setMur(null);
 
                         c.setPorte(null);
-                        m.getGrille()[14-xp][yp].setPorte(null);
-                        m.getGrille()[14-xp][12-yp].setPorte(null);
-                        m.getGrille()[xp][12-yp].setPorte(null);
+                        m.getGrille()[14 - xp][yp].setPorte(null);
+                        m.getGrille()[14 - xp][12 - yp].setPorte(null);
+                        m.getGrille()[xp][12 - yp].setPorte(null);
 
                         c.setPersonnage(null);
-                        m.getGrille()[14-xp][yp].setPersonnage(null);
-                        m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                        m.getGrille()[xp][12-yp].setPersonnage(null);
+                        m.getGrille()[14 - xp][yp].setPersonnage(null);
+                        m.getGrille()[14 - xp][12 - yp].setPersonnage(null);
+                        m.getGrille()[xp][12 - yp].setPersonnage(null);
 
                         c.setBonus(null);
-                        m.getGrille()[14-xp][yp].setBonus(null);
-                        m.getGrille()[14-xp][12-yp].setBonus(null);
-                        m.getGrille()[xp][12-yp].setBonus(null);
+                        m.getGrille()[14 - xp][yp].setBonus(null);
+                        m.getGrille()[14 - xp][12 - yp].setBonus(null);
+                        m.getGrille()[xp][12 - yp].setBonus(null);
 
-                        Image background=new Image(Bomberball.multiTexture[0]);
-                        background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                        Image background = new Image(Bomberball.multiTexture[0]);
+                        background.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
                         c.addActor(background);
 
-                        m.getGrille()[14-xp][yp].addActor(background);
-                        m.getGrille()[14-xp][12-yp].addActor(background);
-                        m.getGrille()[xp][12-yp].addActor(background);
+                        m.getGrille()[14 - xp][yp].addActor(background);
+                        m.getGrille()[14 - xp][12 - yp].addActor(background);
+                        m.getGrille()[xp][12 - yp].addActor(background);
 
 
                     } else if (button == Input.Buttons.LEFT) {
                         if (selectionne.getDrawable() != null) {
                             if (selectionne.getName().equals("murdes")) {
-                                Map m=c.getMap();
+                                Map m = c.getMap();
 
-                                int xp=c.posX();
-                                int yp=c.posY();
+                                int xp = c.posX();
+                                int yp = c.posY();
 
                                 c.setMur(null);
-                                m.getGrille()[14-xp][yp].setMur(null);
-                                m.getGrille()[14-xp][12-yp].setMur(null);
-                                m.getGrille()[xp][12-yp].setMur(null);
+                                m.getGrille()[14 - xp][yp].setMur(null);
+                                m.getGrille()[14 - xp][12 - yp].setMur(null);
+                                m.getGrille()[xp][12 - yp].setMur(null);
 
                                 c.setPorte(null);
-                                m.getGrille()[14-xp][yp].setPorte(null);
-                                m.getGrille()[14-xp][12-yp].setPorte(null);
-                                m.getGrille()[xp][12-yp].setPorte(null);
+                                m.getGrille()[14 - xp][yp].setPorte(null);
+                                m.getGrille()[14 - xp][12 - yp].setPorte(null);
+                                m.getGrille()[xp][12 - yp].setPorte(null);
 
                                 c.setPersonnage(null);
-                                m.getGrille()[14-xp][yp].setPersonnage(null);
-                                m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                                m.getGrille()[xp][12-yp].setPersonnage(null);
+                                m.getGrille()[14 - xp][yp].setPersonnage(null);
+                                m.getGrille()[14 - xp][12 - yp].setPersonnage(null);
+                                m.getGrille()[xp][12 - yp].setPersonnage(null);
 
                                 c.setBonus(null);
-                                m.getGrille()[14-xp][yp].setBonus(null);
-                                m.getGrille()[14-xp][12-yp].setBonus(null);
-                                m.getGrille()[xp][12-yp].setBonus(null);
+                                m.getGrille()[14 - xp][yp].setBonus(null);
+                                m.getGrille()[14 - xp][12 - yp].setBonus(null);
+                                m.getGrille()[xp][12 - yp].setBonus(null);
 
-                                Image background=new Image(Bomberball.multiTexture[0]);
-                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                Image background = new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
                                 c.addActor(background);
 
-                                m.getGrille()[14-xp][yp].addActor(background);
-                                m.getGrille()[14-xp][12-yp].addActor(background);
-                                m.getGrille()[xp][12-yp].addActor(background);
+                                m.getGrille()[14 - xp][yp].addActor(background);
+                                m.getGrille()[14 - xp][12 - yp].addActor(background);
+                                m.getGrille()[xp][12 - yp].addActor(background);
                                 c.setMur(new MurD());
                             } else if (selectionne.getName().equals("sol")) {
-                                Map m=c.getMap();
+                                Map m = c.getMap();
 
-                                int xp=c.posX();
-                                int yp=c.posY();
+                                int xp = c.posX();
+                                int yp = c.posY();
 
                                 c.setMur(null);
-                                m.getGrille()[14-xp][yp].setMur(null);
-                                m.getGrille()[14-xp][12-yp].setMur(null);
-                                m.getGrille()[xp][12-yp].setMur(null);
+                                m.getGrille()[14 - xp][yp].setMur(null);
+                                m.getGrille()[14 - xp][12 - yp].setMur(null);
+                                m.getGrille()[xp][12 - yp].setMur(null);
 
                                 c.setPorte(null);
-                                m.getGrille()[14-xp][yp].setPorte(null);
-                                m.getGrille()[14-xp][12-yp].setPorte(null);
-                                m.getGrille()[xp][12-yp].setPorte(null);
+                                m.getGrille()[14 - xp][yp].setPorte(null);
+                                m.getGrille()[14 - xp][12 - yp].setPorte(null);
+                                m.getGrille()[xp][12 - yp].setPorte(null);
 
                                 c.setPersonnage(null);
-                                m.getGrille()[14-xp][yp].setPersonnage(null);
-                                m.getGrille()[14-xp][12-yp].setPersonnage(null);
-                                m.getGrille()[xp][12-yp].setPersonnage(null);
+                                m.getGrille()[14 - xp][yp].setPersonnage(null);
+                                m.getGrille()[14 - xp][12 - yp].setPersonnage(null);
+                                m.getGrille()[xp][12 - yp].setPersonnage(null);
 
                                 c.setBonus(null);
-                                m.getGrille()[14-xp][yp].setBonus(null);
-                                m.getGrille()[14-xp][12-yp].setBonus(null);
-                                m.getGrille()[xp][12-yp].setBonus(null);
+                                m.getGrille()[14 - xp][yp].setBonus(null);
+                                m.getGrille()[14 - xp][12 - yp].setBonus(null);
+                                m.getGrille()[xp][12 - yp].setBonus(null);
 
-                                Image background=new Image(Bomberball.multiTexture[0]);
-                                background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
+                                Image background = new Image(Bomberball.multiTexture[0]);
+                                background.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
                                 c.addActor(background);
 
-                                m.getGrille()[14-xp][yp].addActor(background);
-                                m.getGrille()[14-xp][12-yp].addActor(background);
-                                m.getGrille()[xp][12-yp].addActor(background);
-                            } else if (selectionne.getName().equals("murin")) {
-                                //rien
-
-
-
-
-
-
-
-
-                            } else if (selectionne.getName().equals("p")) {
-
+                                m.getGrille()[14 - xp][yp].addActor(background);
+                                m.getGrille()[14 - xp][12 - yp].addActor(background);
+                                m.getGrille()[xp][12 - yp].addActor(background);
                             }
                         }
                     }
 
                 }
 
-
             }
             else if(hitActor.getName().equals("MurD")){
                 Case c = (Case) hitActor.getParent();
-               // System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -584,7 +568,6 @@ public class EditeurNMulti extends Etat implements Screen {
             }
             else if(hitActor.getName().equals("Personnage")){
                 Case c = (Case) hitActor.getParent();
-              //  System.out.println("x="+c.posX()+" y="+c.posY());
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -730,7 +713,6 @@ public class EditeurNMulti extends Etat implements Screen {
             }
         }else if(hitActor.getParent() instanceof Case){
             Case c = (Case) hitActor.getParent();
-            //System.out.println("x="+c.posX()+" y="+c.posY());
             if (button == Input.Buttons.RIGHT) {
                 c.setMur(null);
                 c.setPorte(null);
@@ -819,19 +801,9 @@ public class EditeurNMulti extends Etat implements Screen {
                     }
                 }
             }
-
-
-
-
         }
-
-
-
-        Gdx.app.log("HIT", hitActor.getName());
-
         return true;
     }
-
     @Override
     public boolean mouseMoved(int x, int y) {
         return false;

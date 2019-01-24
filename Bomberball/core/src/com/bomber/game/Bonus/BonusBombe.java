@@ -7,7 +7,7 @@ public class BonusBombe extends Bonus {
     /**
      * Constructeur de la classe BonusBombe
      * @param C
-     * @return un bonus de bombe ur la case C
+     * @return un bonus de bombe sur la case C
      */
     public BonusBombe(Case C) {
         super(C,Bomberball.multiTexture[6]);

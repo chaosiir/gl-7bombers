@@ -12,9 +12,6 @@ package com.bomber.game.Ecrans;
     import com.bomber.game.Bomberball;
     import com.bomber.game.Jeu;
 
-    import java.io.File;
-    import java.io.IOException;
-
 /**
  * Classe MenuPrincipalBis
  * Elle affiche le menu principal lorsque le jeu démarre
@@ -32,7 +29,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
     private TextButton editeurButton;
     private TextButton quitButton;
 
-    Bomberball game; // Note it's "MyGame" not "Game"
+    Bomberball game;
 
 
 
@@ -75,7 +72,6 @@ public class MenuPrincipalBis extends Etat implements Screen {
         public void show() {
             Bomberball.stg.addActor(this);
             Bomberball.stg.setKeyboardFocus(this);
-            // called when this screen is set as the screen with game.setScreen();
             skin=new Skin(Gdx.files.internal("uiskin.json"));
             back= new Image(new Texture(Gdx.files.internal("main.png")) );
             back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -172,7 +168,6 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
         @Override
         public void dispose() {
-            // never called automatically
         }
 
     @Override

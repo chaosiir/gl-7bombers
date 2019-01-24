@@ -59,45 +59,8 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     }
 
-
-
-
     public boolean getAgro(){
         return agro;
-    }
-
-
-
-
-
-
-
-    public int[][] traducteur(){
-        Map m=c.getMap();
-        int[][] res = new int[15][13];
-        for(int i=0;i<15;i++){
-            for (int j=0;j<13;j++){
-                if(m.getGrille()[i][j].getMur()!= null){
-                    res[i][j]=1;
-                }
-                else if(m.getGrille()[i][j].getMur()== null){
-                    if(m.getGrille()[i][j]==c || m.getGrille()[i][j].getPersonnage()!=null ){
-                        res[i][j]=2;
-                    }
-                    else{
-                        res[i][j]=0;
-                    }
-                }
-            }
-        }
-        return res;
-    }
-
-
-    public boolean verifAgro(){
-        Map map=c.getMap();
-        int[][] t = traducteur();
-        return map.verifSolo(t);
     }
 
 
@@ -158,8 +121,6 @@ public class EnnemiPassifAgressif extends Ennemis {
         while(prochain_deplacement.size()>pm+1){ //Il contient au moins la case où il se trouve
             prochain_deplacement.removeLast();
         }
-
-
     }
 
     public void cheminJoueur(){
@@ -393,9 +354,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                     }
                     //Dans le cas général et pas dans ces cas particuliers
                     if(retour){
-                        //System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS RETOUR");
                         Case aCase=chemin.get(pos-1);
-                        // System.out.println("Case "+aCase.posX()+" "+aCase.posY());
                         if(map.getGrille()[aCase.posX()][aCase.posY()].getMur()==null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ){
 
                             pmrestant--;
@@ -408,7 +367,6 @@ public class EnnemiPassifAgressif extends Ennemis {
                         }
                     }
                     else {
-                        // System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS NON RETOUR");
                         Case aCase = chemin.get(pos + 1);
                         if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ) {
                             pmrestant--;

@@ -140,14 +140,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
                 }
                 catch (NumberFormatException e){}
 
-
-
-
                 game.choixMenuMultijoueur.removeActor(jeu);
-
-
-
-
 
                 jeu.setEtat(game.multijoueur);
                 game.setScreen(game.multijoueur);
@@ -212,7 +205,6 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
 
         table=new Table(); //Tableau
-        //table.setDebug(true);
         table.setWidth(Bomberball.stg.getWidth());
         table.align(Align.center | Align.topLeft);
         table.setPosition(0, Gdx.graphics.getHeight());

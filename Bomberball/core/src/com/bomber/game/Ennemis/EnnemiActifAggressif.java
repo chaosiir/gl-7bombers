@@ -15,7 +15,7 @@ public class EnnemiActifAggressif extends Ennemis {
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
     dans un carré de taille 5x5 autour de l'ennemi*/
 
-    private boolean agro = false;
+    private boolean agro ;
 
 
     public int getPortee() {
@@ -76,49 +76,6 @@ public class EnnemiActifAggressif extends Ennemis {
         }
 
         return voisin;
-    }
-
-
-    /* Met à jour le chemin de l'ennemi pour qu'il soit maximum */
-    public LinkedList<Case> cheminMax(int pmMax, Case cChemin) {
-
-        LinkedList<Case> visites = new LinkedList<Case>();
-        visites.add(cChemin);
-
-        return cheminMaxAux(visites, pmMax, pmMax - 1);
-
-    }
-
-    /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
-    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites, int pmMax, int pmRestants) {
-        //case initiale = visites[pm - pmRestants -1]
-        LinkedList<Case> res = new LinkedList<Case>();
-
-        // cas de base: l'ennemi ne peut pas aller plus loin
-        if (pmRestants == 0) {
-            return res;
-        } else {
-            LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
-
-            LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
-
-
-            // sinon on parcours les cases voisines non visitées
-            for (Case a : voisins) {
-                if (!visites.contains(a)) {
-                    if (visites.size() == (pmMax - pmRestants)) {
-                        visites.add(a);
-                    } else {
-                        visites.set(pmMax - pmRestants, a);
-                    }
-                    cheminProvisoire = cheminMaxAux(visites, pmMax, pmRestants - 1);
-                    if (cheminProvisoire.size() > res.size()) {
-                        res = cheminProvisoire;
-                    }
-                }
-            }
-            return res;
-        }
     }
 
     // Met à jour la variable poursuivre si le joueur est détecté par l'ennemi
@@ -197,33 +154,6 @@ public class EnnemiActifAggressif extends Ennemis {
             }
             k = k + 1;
         }
-    }
-
-
-    public int[][] traducteur() {
-        Map m = c.getMap();
-        int[][] res = new int[15][13];
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 13; j++) {
-                if (m.getGrille()[i][j].getMur() != null) {
-                    res[i][j] = 1;
-                } else if (m.getGrille()[i][j].getMur() == null) {
-                    if (m.getGrille()[i][j] == c || m.getGrille()[i][j].getPersonnage() != null) {
-                        res[i][j] = 2;
-                    } else {
-                        res[i][j] = 0;
-                    }
-                }
-            }
-        }
-        return res;
-    }
-
-
-    public boolean verifAgro() {
-        Map map = c.getMap();
-        int[][] t = traducteur();
-        return map.verifSolo(t);
     }
 
 

@@ -15,7 +15,6 @@ import com.bomber.game.Jeu;
 import com.bomber.game.MapetObjet.Map;
 
 import java.io.File;
-import java.io.IOException;
 /**
  * Classe ChoixMapSoloE
  * Elle affiche des maps solo que le joueur a déjà créé et qu'il veut remodifié
@@ -27,6 +26,8 @@ public class ChoixMapSoloE extends Etat implements Screen {
     List<String> list;
     Image back;
     Skin skin;
+    Map map;
+    File f;
 
     TextButton valider;
     TextButton retour;
@@ -34,10 +35,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
     Table table;
     ScrollPane scrollPane;
 
-    Map map;
 
-
-    File f;
 
     /**
      * Constructeur de la fenêtre
@@ -47,8 +45,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
     public ChoixMapSoloE(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/").file();//new File(directory.getCanonicalPath() + "/SaveMapPerso/Mapsolo/tmp.txt");
+        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/").file();
     }
 
     /**
@@ -106,28 +103,26 @@ public class ChoixMapSoloE extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 int i=list.getSelectedIndex();
-                if (i!=-1){
+                if (i!=-1) {
                     File f1;
                     File f2;
-                    File directory = new File (".");
-                        f2 =  Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
-                        f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt").file();
-                       f2.delete();
-                        Bomberball.copier(f1,f2);
-                        game.choixMapSoloE.removeActor(back);
-                        game.choixMapSoloE.removeActor(scrollPane);
-                        game.choixMapSoloE.removeActor(table);
-                        //map.suppActor();
-                        jeu.removeActor(map);
-                        if(map!=null){
-                            map.suppActor();
-                        }
-                        map=null;
+                    f2 = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
+                    f1 = Gdx.files.internal("./SaveMapPerso/Mapsolo/" + list.getItems().get(i) + ".txt").file();
+                    f2.delete();
+                    Bomberball.copier(f1, f2);
+                    game.choixMapSoloE.removeActor(back);
+                    game.choixMapSoloE.removeActor(scrollPane);
+                    game.choixMapSoloE.removeActor(table);
+                    jeu.removeActor(map);
+                    if (map != null) {
+                        map.suppActor();
+                    }
+                    map = null;
 
-                        Bomberball.input.removeProcessor(game.choixMapSoloE);
-                        game.choixMapSoloE.removeActor(jeu);
-                        jeu.setEtat(game.editeurNSolo);
-                        game.setScreen(game.editeurNSolo);
+                    Bomberball.input.removeProcessor(game.choixMapSoloE);
+                    game.choixMapSoloE.removeActor(jeu);
+                    jeu.setEtat(game.editeurNSolo);
+                    game.setScreen(game.editeurNSolo);
 
                 }
             }
@@ -153,7 +148,6 @@ public class ChoixMapSoloE extends Etat implements Screen {
                 String s=list.getSelected();
                 if(s!=null) {
                     File f1;
-                    File directory = new File(".");
                     f1 = Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
                     f1.delete();
                     map.suppActor();
@@ -177,28 +171,27 @@ public class ChoixMapSoloE extends Etat implements Screen {
             }
         });
 
-        list.addListener(new ClickListener(){
+        list.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String s=list.getSelected();
+                String s = list.getSelected();
                 File f1;
-                File directory = new File (".");
-                    f1= Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
-                    String text=Bomberball.loadFile(f1);
-                    map=Map.mapFromStringN(text);
-                    map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-                    map.setScale(0.8f);
-                    for (int i=0;i<15;i++){
-                        for (int j=0;j<13;j++){
-                            if(map.getGrille()[i][j].getBonus()!=null){
-                                Bonus b=map.getGrille()[i][j].getBonus();
-                                map.getGrille()[i][j].setBonus(null);
-                                map.getGrille()[i][j].setBonus(b);
-                                map.getGrille()[i][j].getBonus().setScale(0.5f);
-                            }
+                f1 = Gdx.files.internal("./SaveMapPerso/Mapsolo/" + s + ".txt").file();
+                String text = Bomberball.loadFile(f1);
+                map = Map.mapFromStringN(text);
+                map.setBounds(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 1 / 5 + 20, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+                map.setScale(0.8f);
+                for (int i = 0; i < 15; i++) {
+                    for (int j = 0; j < 13; j++) {
+                        if (map.getGrille()[i][j].getBonus() != null) {
+                            Bonus b = map.getGrille()[i][j].getBonus();
+                            map.getGrille()[i][j].setBonus(null);
+                            map.getGrille()[i][j].setBonus(b);
+                            map.getGrille()[i][j].getBonus().setScale(0.5f);
                         }
                     }
-                    jeu.addActor(map);
+                }
+                jeu.addActor(map);
 
 
             }

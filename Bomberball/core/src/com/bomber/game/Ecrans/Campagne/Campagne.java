@@ -28,7 +28,22 @@ import java.util.LinkedList;
 public class Campagne extends Etat implements Screen {
     int pm=5;
     int nb=1;
+    private Bomberball game;
+    int mapactuel; //Niveau actuel
+    int u=0;
+    Personnage personnage;
     Image back;
+    TextButton retour;
+    Skin skin;
+    Image player;
+
+    File f;
+    File frecommencer;
+    FileWriter fw;
+    FileWriter fwr;
+    Dialog dialog;
+
+
 
     ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();
     Image joueur;
@@ -42,29 +57,12 @@ public class Campagne extends Etat implements Screen {
     Label porteExplo;
     Label poussee;
 
-    int mapactuel; //Niveau actuel
-
-    TextButton retour;
-
-    Personnage personnage;
-
-    Skin skin;
-
-    Image player;
-
-    File f;
-    File frecommencer;
-    FileWriter fw;
-    FileWriter fwr;
-    Dialog dialog;
-    int u=0;
 
 
-    private Bomberball game;
+
     public Campagne(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
-        File directory = new File (".");
         f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
         frecommencer = Gdx.files.internal( "./SaveTempo/debut.txt").file();
 
@@ -217,8 +215,9 @@ public class Campagne extends Etat implements Screen {
                     System.out.println("result "+obj);
                 }
             };
-            dialog.text("Pour vous deplacer, appuyez sur les fleches directionnels ");
-            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
+            dialog.text("Sur la gauche de la Map vous pouvez voir vos caracteristique. \nDe haut en bas vous pouvez voir indique votre nombre de depacements,\n  votre nombre de bombes" +
+                    ", la portee de vos bombes,\n  ainsi que si vous pouvez pousser les bombes. \nPour commencer a vous deplacer, appuyez sur les fleches directionnelles. ");
+            dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*15,Bomberball.taillecase*6);
             dialog.button("OK");
 
         }
@@ -368,7 +367,7 @@ public class Campagne extends Etat implements Screen {
         if(jeu.findActor("explo")==null) {
 
             if ((joueur != null) && (!joueur.hasActions())) {
-                boolean b = false;
+                boolean b ;
                 if (keycode == Input.Keys.RIGHT) {
                     if (pm > 0) {
                         b = joueur.deplacerDroite();
@@ -581,7 +580,7 @@ public class Campagne extends Etat implements Screen {
                         System.out.println("result " + obj);
                     }
                 };
-                dialog.text("La taille de l'explosion de votre bombe a augmente de 1");
+                dialog.text("La taille de l'explosion de votre bombe a augmentee de 1");
                 dialog.setBounds(Gdx.graphics.getWidth() - (jeu.map.getGrille().length - 1) * Bomberball.taillecase, Bomberball.taillecase, Bomberball.taillecase * 13, Bomberball.taillecase * 2);
                 dialog.button("OK");
                 dialog.show(jeu.getStage());
@@ -620,8 +619,9 @@ public class Campagne extends Etat implements Screen {
                         System.out.println("result " + obj);
                     }
                 };
-                dialog.text("Vous avez desormais la possibilite de pousser une bombe");
-                dialog.setBounds(Gdx.graphics.getWidth() - (jeu.map.getGrille().length - 1) * Bomberball.taillecase, Bomberball.taillecase, Bomberball.taillecase * 13, Bomberball.taillecase * 2);
+                dialog.text("Vous avez desormais la possibilite de pousser une bombe. \nPour pousser une bombe entrez dans une case possedant une\n bombe et elle partira dans la " +
+                        "direction opposee a votre arrivee");
+                dialog.setBounds(Gdx.graphics.getWidth() - (jeu.map.getGrille().length - 1) * Bomberball.taillecase, Bomberball.taillecase, Bomberball.taillecase * 13, Bomberball.taillecase * 4);
                 dialog.button("OK");
                 dialog.show(jeu.getStage());
 

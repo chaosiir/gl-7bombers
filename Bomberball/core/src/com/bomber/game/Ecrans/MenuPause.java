@@ -16,7 +16,6 @@ import com.bomber.game.Bomberball;
 import com.bomber.game.Jeu;
 
 import java.io.File;
-import java.io.IOException;
 /**
  * Classe MenuPause
  * Elle affiche le menu pause dans le mode solo et multijoueur
@@ -44,12 +43,11 @@ public class MenuPause extends Etat implements Screen {
      * @param game
      * @param jeu
      */
-    public MenuPause(Bomberball game,Jeu jeu){
+    public MenuPause(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game = game;
-        File directory = new File (".");
-            f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
-            source =Gdx.files.internal("./SaveTempo/debut.txt").file();
+        f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
+        source = Gdx.files.internal("./SaveTempo/debut.txt").file();
 
     }
     /**
@@ -85,7 +83,6 @@ public class MenuPause extends Etat implements Screen {
     }
     @Override
     public void dispose() {
-        // never called automatically
     }
     @Override
     public boolean keyDown( int keycode) {

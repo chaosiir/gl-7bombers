@@ -100,13 +100,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
      */
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
-        this.game=game;
-        File directory = new File (".");
-
-            f = Gdx.files.internal( "./SaveTempo/tmp.txt").file();
-            frecommencer = Gdx.files.internal( "./SaveTempo/debut.txt").file();
-
-
+        this.game = game;
+        f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
+        frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
 
     }
 
@@ -642,7 +638,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         Personnage joueur = joueurs[tour%4];
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {
-                boolean b = false;
+                boolean b ;
                 if (keycode == Input.Keys.RIGHT) {
                     if (pm > 0) {
                         b = joueur.deplacerDroite();

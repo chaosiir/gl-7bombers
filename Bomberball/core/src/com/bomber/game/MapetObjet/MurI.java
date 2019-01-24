@@ -9,7 +9,4 @@ public class MurI extends Mur {
         setName("MurI");
     }
 
-    public boolean destructible() {
-        return false;
-    }
 }

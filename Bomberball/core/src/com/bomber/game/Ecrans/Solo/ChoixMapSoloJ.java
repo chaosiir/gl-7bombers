@@ -17,7 +17,6 @@ import com.bomber.game.MapetObjet.Map;
 import com.bomber.game.MapetObjet.Personnage;
 
 import java.io.File;
-import java.io.IOException;
 /**
  * Classe ChoixMapSoloJ
  * Elle affiche des maps solo que le joueur a déjà créé et sur lesquelles il veut jouer
@@ -47,14 +46,9 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     public ChoixMapSoloJ(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-            f =Gdx.files.internal( "./SaveMapPerso/Mapsolo/").file();
-
+        f =Gdx.files.internal( "./SaveMapPerso/Mapsolo/").file();
     }
 
-    public ChoixMapSoloJ(Jeu jeu) {
-        super(jeu);
-    }
 
     /**
      * Méthode appelée pour afficher la fenêtre
@@ -92,8 +86,6 @@ public class ChoixMapSoloJ extends Etat implements Screen {
                     tmp.add(fi.getName().substring(0,fi.getName().length()-4));
                 }
 
-
-
             }
         }
         list.setItems(tmp);
@@ -112,10 +104,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 int i=list.getSelectedIndex();
                 if (i!=-1){
-                    File f1;
-                    File directory = new File (".");
-
-                        f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt").file();
+                    File f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+list.getItems().get(i)+".txt").file();
 
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         game.choixMapSoloJ.removeActor(map);
@@ -158,9 +147,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String s=list.getSelected();
-                File f1;
-                File directory = new File (".");
-                    f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
+                File f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);

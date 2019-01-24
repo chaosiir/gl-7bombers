@@ -15,7 +15,6 @@ import com.bomber.game.Jeu;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 
 public class Defaite extends Etat implements Screen {
 
@@ -40,11 +39,8 @@ public class Defaite extends Etat implements Screen {
         super(jeu);
         this.game = game;
         txt = st;
-
-        File directory = new File (".");
-
-            f=Gdx.files.internal("./SaveTempo/tmp.txt").file();
-            frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
+        f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
+        frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
 
     }
 
@@ -64,7 +60,6 @@ public class Defaite extends Etat implements Screen {
         int xmax = Toolkit.getDefaultToolkit().getScreenSize().width;
         int ymax = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-        //System.out.println("xmax="+xmax+" ymax="+ymax);
 
         back = new Image(new Texture(Gdx.files.internal("backmain.png")));
         back.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

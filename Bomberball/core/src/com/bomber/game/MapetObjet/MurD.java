@@ -9,9 +9,5 @@ public class MurD extends Mur {
        setName("MurD");
     }
 
-    @Override
-    public boolean destructible() {
-        return true;
-    }
 
 }

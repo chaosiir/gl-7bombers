@@ -24,20 +24,20 @@ import java.util.Scanner;
 
 public class VictoireCampagne extends Etat implements Screen {
     Bomberball game;
+    int niveaugag; //Niveau que le joueur a gagné
     Image back;
+
     Label explication;
     Skin skin;
     TextButton continuer;
     TextButton recommencer;
     TextButton quitter;
     Table table;
+
     File frecommencer;
     File f;
-
     File recupniv;
     File nivplayertmp;
-
-    int niveaugag; //Niveau que le joueur a gagné
     File niveau;
     FileWriter fw;
     Scanner scanner;
@@ -45,13 +45,11 @@ public class VictoireCampagne extends Etat implements Screen {
     public VictoireCampagne(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-
-            recupniv=Gdx.files.internal("./Campagne/").file();
-            f=Gdx.files.internal("./SaveTempo/tmp.txt").file();
-            frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
-            niveau = Gdx.files.internal("./Campagne/niveau.txt").file();//Récupérer l'avancement du joueur
-            nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
+        recupniv=Gdx.files.internal("./Campagne/").file();
+        f=Gdx.files.internal("./SaveTempo/tmp.txt").file();
+        frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
+        niveau = Gdx.files.internal("./Campagne/niveau.txt").file();//Récupérer l'avancement du joueur
+        nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
 
 
     }
@@ -101,13 +99,6 @@ public class VictoireCampagne extends Etat implements Screen {
         Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
 
-        int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
-        int ymax=Toolkit.getDefaultToolkit().getScreenSize().height;
-
-
-
-        //System.out.println("xmax="+xmax+" ymax="+ymax);
-
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -145,7 +136,6 @@ public class VictoireCampagne extends Etat implements Screen {
                 frecommencer.delete();
                 f.delete();
 
-                File directory = new File (".");
                 final File liste[]=recupniv.listFiles();
                 Array<String> tmp=new Array<String>();
                 if(liste!=null &&liste.length!=0) {

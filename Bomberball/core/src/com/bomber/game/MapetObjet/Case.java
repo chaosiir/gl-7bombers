@@ -7,7 +7,6 @@ import com.bomber.game.*;
 import com.bomber.game.Bonus.Bonus;
 import com.bomber.game.Ennemis.Ennemis;
 
-import static com.badlogic.gdx.math.MathUtils.random;
 
 // !!! a faire très important lorqu'on enleve les mur / perso/ acteur  => enlever l'acteur
 //ce serait mieux de supprimer les parametre et de prendre les acteurs par nom à chaque fois (à voir si plus pratique => on peut le recuperer

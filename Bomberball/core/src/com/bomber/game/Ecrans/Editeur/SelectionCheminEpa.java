@@ -30,31 +30,24 @@ import java.io.IOException;
  */
 public class SelectionCheminEpa extends Etat implements Screen {
     Bomberball game;
-
     Image back;
+    EnnemiPassifAgressif ennemi_passif_aggressif;
+    int compteur=0;
+    Map map;
 
     Label indication;
     Label indication1;
-    EnnemiPassifAgressif ennemi_passif_aggressif;
-
     TextButton valider;
     TextButton retour;
-
     Table table;
-    int compteur=0;
-
-    Map map;
     Skin skin;
 
     File f;
     FileWriter fw;
     public SelectionCheminEpa(Bomberball game,Jeu jeu) {
         super(jeu);
-        this.game=game;
-        File directory = new File (".");
-
-            f =Gdx.files.internal( "./SaveMapPerso/Mapsolo/tmp.txt").file();
-
+        this.game = game;
+        f = Gdx.files.internal("./SaveMapPerso/Mapsolo/tmp.txt").file();
 
     }
 

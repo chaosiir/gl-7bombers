@@ -159,7 +159,6 @@ public class Bomberball extends Game {
  */
 	public void dispose() {//quand la fenetre est fermé on lance cette fonction
 		int i;
-		//System.out.println(stg.getActors().first()==jeu);
 		for (i = 0; i < multiTexture.length; i++) {
 			multiTexture[i].dispose();//pour chaque texture on la detruit pour eviter les fuites memoire =>voir tuto Texture
 		}

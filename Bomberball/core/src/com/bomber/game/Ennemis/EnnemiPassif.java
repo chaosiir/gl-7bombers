@@ -84,25 +84,21 @@ public class EnnemiPassif extends Ennemis {
 
             }
                 //Dans le cas général et pas dans ces cas particuliers
-            if(retour){
-                //System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS RETOUR");
-                        Case aCase=chemin.get(pos-1);
-                       // System.out.println("Case "+aCase.posX()+" "+aCase.posY());
-                        if(map.getGrille()[aCase.posX()][aCase.posY()].getMur()==null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ){
+            if(retour) {
+                Case aCase = chemin.get(pos - 1);
+                if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi() == null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi() == this)) {
 
-                            pmrestant--;
-                            prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
-                            pos--;
-                        }
-                        else{
+                    pmrestant--;
+                    prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                    pos--;
+                } else {
 
-                            retour=false;
-                        }
-                    }
+                    retour = false;
+                }
+            }
             else {
-               // System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS NON RETOUR");
                 Case aCase = chemin.get(pos + 1);
-                if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ) {
+                if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi() == null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi() == this)) {
                     pmrestant--;
                     prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
                     pos++;
@@ -111,15 +107,7 @@ public class EnnemiPassif extends Ennemis {
 
                 }
             }
-
-
-
-
         }
-
-
-
-
     }
 
     @Override
@@ -141,9 +129,7 @@ public class EnnemiPassif extends Ennemis {
             @Override
             public boolean act(float delta) {
                 time += delta;
-
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + (int) (time * 1) % 4))));
-
                 return false;
             }
         };

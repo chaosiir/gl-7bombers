@@ -17,7 +17,6 @@ import com.bomber.game.Jeu;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 /**
  * Classe ValiderEditeurMulti
  * Elle permet de sauvegarder sa carte multijoueur qu'il a créé
@@ -35,20 +34,15 @@ public class ValiderEditeurMulti extends Etat implements Screen {
     TextField inputui;
     Table table;
     File f;
-    FileWriter fw;
     /**
      * Constructeur de la classe ValiderEditeurMulti
      * @param game
      * @param jeu
      */
-    public ValiderEditeurMulti(Bomberball game,Jeu jeu){
+    public ValiderEditeurMulti(Bomberball game,Jeu jeu) {
         super(jeu);
-        this.game=game;
-        File directory = new File (".");
-
-            f = Gdx.files.internal( "./SaveMapPerso/MapMulti/tmp.txt").file();
-
-
+        this.game = game;
+        f = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();
     }
 
     /**
@@ -59,12 +53,6 @@ public class ValiderEditeurMulti extends Etat implements Screen {
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
-
-        int xmax= Toolkit.getDefaultToolkit().getScreenSize().width;
-        int ymax=Toolkit.getDefaultToolkit().getScreenSize().height;
-
-        //System.out.println("xmax="+xmax+" ymax="+ymax);
-
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -98,16 +86,10 @@ public class ValiderEditeurMulti extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String nom=inputui.getText();
-                if (nom.equals("")){
-                    //rien
-                }
-                else{
-                    File directory = new File (".");
-                    File fi= null;
-                        fi = Gdx.files.internal( "./SaveMapPerso/MapMulti/"+nom+".txt").file();
+                if (!nom.equals("")){
+                    File fi = Gdx.files.internal( "./SaveMapPerso/MapMulti/"+nom+".txt").file();
                     fi.delete();
                     f.renameTo(fi);
-
 
                     jeu.removeActor(jeu.map);
                     jeu.map=null;

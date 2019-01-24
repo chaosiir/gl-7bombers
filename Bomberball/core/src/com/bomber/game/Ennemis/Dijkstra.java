@@ -50,16 +50,9 @@ public class Dijkstra {
 				majDistMin(t);
 			} //end if
 		}//end for
-//		for (int i=0; i<dimensionDeLaMatrice;i++){
-//			System.out.print(" S[i]"+S[i]);
-//		}
-//		for (int i=0; i<dimensionDeLaMatrice;i++){
-//			System.out.print(" R["+i+"]"+R[i]);
-//		}
-//		System.out.println();
 	}
 	
-	//impl�mentation de initDistMin
+	//implementation de initDistMin
 	private void initDistMin(){
 		noeudsMarques[x0]=true;
 		for (int i=0; i<dimensionDeLaMatrice;i++){
