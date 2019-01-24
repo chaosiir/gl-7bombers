@@ -150,7 +150,8 @@ public class VictoireCampagne extends Etat implements Screen {
                     jeu.map=Map.mapFromStringN(Bomberball.loadFile(liste[niveaugag]));
                 }
 
-                game.campagne.setMapactuel(niv);
+                game.campagne.setMapactuel(niveaugag+1);
+                game.campagne.u=0;
                 jeu.setEtat(game.campagne);
                 game.setScreen(game.campagne);
             }

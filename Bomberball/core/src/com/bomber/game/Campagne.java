@@ -565,7 +565,7 @@ public class Campagne extends Etat implements Screen {
             dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
             dialog.button("OK");
             dialog.show(jeu.getStage());
-            u=0;
+
         }
 
         if(u==0 && mapactuel==2 && joueur.getTaille()>2){
@@ -618,7 +618,7 @@ public class Campagne extends Etat implements Screen {
             dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
             dialog.button("OK");
             dialog.show(jeu.getStage());
-            u=0;
+
         }
 
         if(u==0 && mapactuel==3 && pm==3){
@@ -654,7 +654,7 @@ public class Campagne extends Etat implements Screen {
                     System.out.println("result "+obj);
                 }
             };
-            dialog.text("Les ennemis en haut a gauche sont des ennemis passifs-agressifs qui suivent un chemin predefini mais qui vous suivent s'ils vous reperent");
+            dialog.text("Les ennemis en haut a gauche sont des ennemis passifs-agressifs qui suivent \nun chemin predefini mais qui vous suivent s'ils vous reperent");
             dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
             dialog.button("OK");
             dialog.show(jeu.getStage());
@@ -667,7 +667,7 @@ public class Campagne extends Etat implements Screen {
                     System.out.println("result "+obj);
                 }
             };
-            dialog.text("Les ennemis en haut a droite sont des ennemis actifs-agressifs qui choisissent le chemin le plus long mais qui vous suivent s'ils vous reperent");
+            dialog.text("Les ennemis en haut a droite sont des ennemis actifs-agressifs qui choisissent\n le chemin le plus long mais qui vous suivent s'ils vous reperent");
             dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
             dialog.button("OK");
             dialog.show(jeu.getStage());
@@ -684,7 +684,6 @@ public class Campagne extends Etat implements Screen {
             dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,6*Bomberball.taillecase,Bomberball.taillecase*13,Bomberball.taillecase*2);
             dialog.button("OK");
             dialog.show(jeu.getStage());
-            u=0;
         }
 
 

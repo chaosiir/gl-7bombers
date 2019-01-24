@@ -760,6 +760,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                                     jeu.porteeBombe=-1;
                                     jeu.nbDeplaP=-1;
                                     jeu.nbBombe=-1;
+                                    jeu.removeActor(jeu.map);
+                                    jeu.map=null;
+                                    game.multijoueur.removeActor(jeu);
                                     game.victoire = new Victoire(game, jeu, "                         Match nul");
                                     jeu.setEtat(game.victoire);
                                     game.setScreen(game.victoire);

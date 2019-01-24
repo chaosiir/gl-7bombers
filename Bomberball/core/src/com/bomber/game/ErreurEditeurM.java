@@ -52,7 +52,7 @@ public class ErreurEditeurM extends Etat implements Screen {
         back.setName("Je suis ton arrière plan");
 
 
-        explication=new Label("Il doit y avoir 4 joueurs différents",skin);
+        explication=new Label("Il doit y avoir 4 joueurs differents",skin);
         explication.setBounds(xmax/2-300,ymax/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
         explication.setWrap(true);
 
