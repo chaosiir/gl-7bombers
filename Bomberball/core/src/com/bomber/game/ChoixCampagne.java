@@ -1,5 +1,3 @@
-package com.bomber.game;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,12 +6,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.bomber.game.Bomberball;
+import com.bomber.game.Ecrans.Etat;
+import com.bomber.game.Jeu;
+import com.bomber.game.MapetObjet.Map;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ *  Choisir le niveau du mode campagne.
+ */
 public class ChoixCampagne extends Etat implements Screen {
     Bomberball game;
     Image back;
@@ -25,55 +30,73 @@ public class ChoixCampagne extends Etat implements Screen {
     File nivplayertmp;
     FileWriter fw;
     int niveauactuel=1;
+    Scanner scan;
+    Map map;
 
     TextButton facile;
     TextButton moyen;
     TextButton difficile;
     Label choixdifficulte;
-
     ButtonGroup<TextButton> diffic;
-
     TextButton valider;
     TextButton retour;
     TextButton réinitialiserProg;
     Table table;
 
 
-    Scanner scan;
-
-    Map map;
-
-
+    /**
+     * Choisir le niveau du mode campagne.
+     * @param game
+     * @param jeu
+     */
     public ChoixCampagne(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
-        File directory = new File (".");
-        try {
-            f = new File(directory.getCanonicalPath() + "/Campagne/");
-            nivplayer= new File(directory.getCanonicalPath()+"/Campagne/niveau.txt");
-            nivplayertmp=new File(directory.getCanonicalPath()+"/Campagne/niveautmp.txt");
+        f = Gdx.files.internal("./Campagne/").file();
+        nivplayer= Gdx.files.internal("./Campagne/niveau.txt").file();
+        nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
 
 
-        } catch (IOException e) {
-
-        }
     }
+
+    /**
+     * Permet de détecter un appui sur une touche
+     * @param keycode : vaut le numéro de la touche enfoncée
+     * @return false: on ne traite pas cet appui
+     */
 
     @Override
     public boolean keyDown(int keycode) {
         return false;
     }
 
+    /**
+     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position y du pointeur.
+     * @param pointer : récupère le pointeur sur événement.
+     * @param button : donne le bouton appuyé.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         Bomberball.copier(nivplayer,nivplayertmp);
@@ -157,8 +180,8 @@ public class ChoixCampagne extends Etat implements Screen {
                 if (i!=-1){
                     File f1;
                     File directory = new File (".");
-                    try {
-                        f1=new File(directory.getCanonicalPath()+"/Campagne/"+list.getItems().get(i)+".txt");
+
+                        f1=Gdx.files.internal("./Campagne/"+list.getItems().get(i)+".txt").file();
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         table.removeActor(valider);
                         table.removeActor(retour);
@@ -177,9 +200,6 @@ public class ChoixCampagne extends Etat implements Screen {
                        jeu.setEtat(game.campagne);
                        game.setScreen(game.campagne);
 
-                    } catch (IOException e) {
-
-                    }
                 }
             }
         });
@@ -209,16 +229,14 @@ public class ChoixCampagne extends Etat implements Screen {
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
-                try {
-                    f1=new File(directory.getCanonicalPath()+"/Campagne/"+s+".txt");
+
+                    f1=Gdx.files.internal("./Campagne/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);
                     map=Map.mapFromStringN(text);
                     map.setBounds(Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()*1/5+20,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
                     map.setScale(0.8f);
                     jeu.addActor(map);
 
-                } catch (IOException e) {
-                }
 
             }
         });
@@ -304,31 +322,54 @@ public class ChoixCampagne extends Etat implements Screen {
 
     }
 
+
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
 
     }
 
+
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void dispose() {
 

@@ -108,8 +108,9 @@ public abstract int getPortee();
             prochaine=prochain_deplacement.removeFirst();
         }
 
+        System.out.println(prochain_deplacement.size());
         if(teleportation){
-            prochaine=prochain_deplacement.removeFirst();
+           // prochaine=prochain_deplacement.removeFirst();
             teleportation(prochaine.posX(),prochaine.posY());
         }
         while(!prochain_deplacement.isEmpty() && i>0){

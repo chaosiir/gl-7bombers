@@ -1,6 +1,5 @@
-package com.bomber.game;
-
-import java.io.Serializable;
+import com.bomber.game.Bomberball;
+import com.bomber.game.MapetObjet.Case;
 
 public class BonusExplo extends Bonus {
     /**

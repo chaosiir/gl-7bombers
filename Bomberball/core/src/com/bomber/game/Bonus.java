@@ -1,11 +1,13 @@
-package com.bomber.game;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.bomber.game.Bomberball;
+import com.bomber.game.MapetObjet.Case;
 
-import java.io.Serializable;
-
-public class Bonus extends Image  {
+/**
+ * Classe permettant d'implémenter les bonus du jeu.
+ * Permet de factoriser les différentes classes de bonus (Mouvement, Bombe, Explo, Pousser)
+ */
+public abstract class Bonus extends Image  {
     Case c;
 
     /**
@@ -30,12 +32,9 @@ public class Bonus extends Image  {
         c=C;
     }
 
-    public void action(){
-    }
 
-    public String identifier(){
-        return null;
-    }
+
+    public abstract void action();
 
 
 
