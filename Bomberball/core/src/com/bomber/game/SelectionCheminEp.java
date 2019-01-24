@@ -20,6 +20,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import static com.bomber.game.Bomberball.ennemis;
 import static com.bomber.game.Bomberball.stg;
@@ -106,7 +107,7 @@ public class SelectionCheminEp extends Etat implements Screen {
 
         indication = new Label("Clic gauche pour indiquer \n le chemin de votre ennemi passif",skin);
         indication.setName("Indication");
-        indication1= new Label("Clic droit pour enlever \n la case du chemin de votre ennemi passif",skin);
+        indication1= new Label("Clic droit pour enlever  la case \n du chemin de votre ennemi passif",skin);
         indication1.setName("Indication1");
 
         valider = new TextButton("Valider la trajectoire",skin);
@@ -123,10 +124,11 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
                 compteur=0;
 
-                jeu.map.suppActor();
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
-                game.parametreSolo.removeActor(jeu);
+                game.selectionCheminEp.removeActor(jeu);
 
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
@@ -145,10 +147,15 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
                 compteur=0;
 
-
+                map.suppActor();
+                jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEp.removeActor(jeu);
+
+
+
+
 
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
@@ -232,10 +239,10 @@ public class SelectionCheminEp extends Etat implements Screen {
                 if(compteur==0){
                     compteur++;
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
-                    ennemi_passif=new EnnemiPassif(true,c,5);
+                    ennemi_passif=new EnnemiPassif(true,c,3);
                     ennemi_passif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif);
-                    System.out.println(ennemi_passif==null);
+                    //System.out.println(ennemi_passif==null);
                     ennemi_passif.getChemin().add(c);
                 }
                 else if(compteur==1){

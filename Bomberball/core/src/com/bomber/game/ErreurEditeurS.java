@@ -28,7 +28,11 @@ public class ErreurEditeurS extends Etat implements Screen {
     Label explication;
     Skin skin;
     TextButton ok;
-
+    /**
+     * Constructeur de la classe ErreurEditeurS
+     * @param game
+     * @param jeu
+     */
     public  ErreurEditeurS(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -64,7 +68,7 @@ public class ErreurEditeurS extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.erreurEditeurS.removeActor(jeu);

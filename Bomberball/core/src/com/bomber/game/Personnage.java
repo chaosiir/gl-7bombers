@@ -25,6 +25,15 @@ public class Personnage extends Image {
     private int id;
 
 
+    /**
+     * Constructeur de la classe Personnage
+     * @param vivant etat du personnage
+     * @param c case où le personnage apparait
+     * @param taille portée des bombes du personnage
+     * @param nbBombe nombre de bombes que le personnage peut poser à chaque tour
+     * @param pm nombre de déplacement que le personnage peut faire à chaque tour
+     * @param id identifiant du personnage
+     */
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
         super(Bomberball.perso.findRegion("pdown"+id+"2"));
 
@@ -39,61 +48,125 @@ public class Personnage extends Image {
         this.id=id;
 
     }
+    /**
+     * Accesseur de l'identifiant du joueur
+     * @return entier
+     */
     public int getId(){
         return id;
     }
+
+    /**
+     * Modificateur de l'identifiant du joueur
+     * @param id
+     */
     public void setId(int id){
         this.id=id;
     }
 
+    /**
+     * Accesseur de la portée des bombes du joueur
+     * @return entier
+     */
     public int getTaille() {
         return taille;
     } //Taille d'une explosion
 
+    /**
+     * Modificateur de la paortée des bombes du joueur
+     * @param taille
+     */
     public void setTaille(int taille) {
         this.taille = taille;
     }
 
+    /**
+     * Accesseur du nombre de bombes du joueur
+     * @return entier
+     */
     public int getNbBombe() {
         return nbBombe;
     }
 
+    /**
+     * Modificateur du nombre de bombe du joueur
+     * @param nbBombe
+     */
     public void setNbBombe(int nbBombe) {
         this.nbBombe = nbBombe;
     }
 
+    /**
+     * Accesseur du nombre de déplacements du joueur
+     * @return entier
+     */
     public int getPm() {
         return pm;
     }
 
+    /**
+     * Modificateur du nombre de déplacements du joueur
+     * @param pm
+     */
     public void setPm(int pm) {
         this.pm = pm;
     }
 
+    /**
+     * Accesseur de de la poussée du joueur
+     * @return boolean
+     */
     public boolean isPoussee() {
         return poussee;
     }
 
+    /**
+     * Modificateur de la poussée du joueur
+     * @param poussee
+     */
     public void setPoussee(boolean poussee) {
         this.poussee = poussee;
     }
 
+    /**
+     * Accesseur de la case du joueur
+     * @return une case
+     */
     public Case getC() {
         return c;
     }
 
+    /**
+     * Modificateur de la case du joueur
+     * @param c
+     */
     public void setC(Case c) {
         this.c = c;
     }
 
+    /**
+     * Accesseur de l'état du joueur
+     * @return boolean
+     */
     public boolean isVivant() {
         return vivant;
     }
 
+    /**
+     * Modificateur de l'état du joueur
+     * @param vivant
+     */
     public void setVivant(boolean vivant) {
         this.vivant = vivant;
+        if(!vivant){
+          c.setPersonnage(null);
+        }
     }
 
+    /**
+     * Crée une bombe sur la case où se trouve le joueur
+     * @return boolean
+     */
     public boolean poserBombe() {
         if (c.getBombe() == null && this.nbBombe>0) {
             Bombe b = new Bombe(taille, c);
@@ -103,6 +176,14 @@ public class Personnage extends Image {
         return false;
     }
 
+    /**
+     * affiche le joueur
+     * @param b
+     * @param x abscisse
+     * @param y ordonnée
+     * @param multt texture
+     */
+
     public void afficher(Batch b, int x, int y, Texture[] multt){
         Sprite s;
         s=new Sprite(multt[4]);
@@ -110,7 +191,10 @@ public class Personnage extends Image {
         s.setSize(50,50);
         s.draw(b);
     }
-
+    /**
+     * Déplace le joueur d'une case vers le haut s'il n'y a pas d'obstacles, tout en récupérant les bonus
+     * @return boolean
+     */
     public boolean deplacerHaut(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -132,12 +216,12 @@ public class Personnage extends Image {
 
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pup"+id+""+(int)(time*8)%4))));
 
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
             MoveByAction action=new MoveByAction();
             action.setAmount(0,Bomberball.taillecase);
-            action.setDuration(0.5f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -172,7 +256,10 @@ public class Personnage extends Image {
         }
         return false;
     }
-
+    /**
+     * Déplace le joueur d'une case vers le bas s'il n'y a pas d'obstacles, tout en récupérant les bonus
+     * @return boolean
+     */
     public boolean deplacerBas(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -185,7 +272,7 @@ public class Personnage extends Image {
                 public boolean act(float delta) {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pdown"+id+""+(int)(time*8)%4))));
-                    if(time>0.5) {
+                    if(time>0.35) {
                         Case tmp = (c.getMap().getGrille()[c.posX()][c.posY()-1]);
                         c.setPersonnage(null);
                         c.removeActor(target);
@@ -195,13 +282,13 @@ public class Personnage extends Image {
                         c.addActor(target);
                         setY(0);
                     }
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
 
             MoveByAction action=new MoveByAction();
             action.setAmount(0,-Bomberball.taillecase);
-            action.setDuration(0.45f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -215,7 +302,7 @@ public class Personnage extends Image {
                 Bombe b = c.getMap().getGrille()[c.posX()][c.posY() - 1].getBombe();
                 MoveToAction action1=new MoveToAction();
                 action1.setDuration(0.2f*taillepoussee);
-                action1.setPosition(0,-(taillepoussee-1)*Bomberball.taillecase);
+                action1.setPosition(Bomberball.taillecase/4,-(taillepoussee-1.25f)*Bomberball.taillecase);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
                 attente.setDuration(0.2f*taillepoussee);
@@ -245,7 +332,10 @@ public class Personnage extends Image {
         }
         return false;
     }
-
+    /**
+     * Déplace le joueur d'une case vers la droite s'il n'y a pas d'obstacles, tout en récupérant les bonus
+     * @return boolean
+     */
     public boolean deplacerDroite(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -264,13 +354,13 @@ public class Personnage extends Image {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pr"+id+""+(int)(time*8)%4))));
 
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
             this.setX(getX()-Bomberball.taillecase);
             MoveByAction action=new MoveByAction();
             action.setAmount(Bomberball.taillecase,0);
-            action.setDuration(0.5f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -302,7 +392,10 @@ public class Personnage extends Image {
         }
         return false;
     }
-
+    /**
+     * Déplace le joueur d'une case vers la gauche s'il n'y a pas d'obstacles, tout en récupérant les bonus
+     * @return boolean
+     */
     public boolean deplacerGauche(){
         this.setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+"0"))));
         this.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -314,7 +407,7 @@ public class Personnage extends Image {
                 public boolean act(float delta) {
                     time+=delta;
                     setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.perso.findRegion("pl"+id+""+(int)(time*8)%4))));
-                    if(time>0.5) {
+                    if(time>0.35) {
                         Case tmp = (c.getMap().getGrille()[c.posX()-1][c.posY()]);
                         c.setPersonnage(null);
                         c.getMap().getGrille()[c.posX() - 1][c.posY()].setPersonnage((Personnage) target);
@@ -324,12 +417,12 @@ public class Personnage extends Image {
                         c.addActor(target);
                         setX(0);
                     }
-                    return time>0.5;
+                    return time>0.35;
                 }
             });
             MoveByAction action=new MoveByAction();
             action.setAmount(-Bomberball.taillecase,0);
-            action.setDuration(0.45f);
+            action.setDuration(0.35f);
             this.addAction(action);
             /*Fin de l'animation*/
             /*Poussage de la bombe*/
@@ -374,16 +467,22 @@ public class Personnage extends Image {
         }
         return false;
     }
-
+    /**
+     * Attribue le bonus de la case au joueur
+     */
     public void ramasserBonus(){
         if (c.getBonus()!=null){
             c.getBonus().action();
         }
     }
-
+    /**
+     * Vérifie que la case au-dessus du joueur est libre
+     * @return true si la case est libre
+     */
     public boolean caseVideHaut(){
         if (c.getMap().getGrille()[c.posX()][c.posY()+1].getMur()!=null ||
-                c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+                c.getMap().getGrille()[c.posX()][c.posY()+1].getPersonnage()!=null ||
+                c.getMap().getGrille()[c.posX()][c.posY()+1].getEnnemi()!=null) { //Y a t-il un mur ou un personnage ?
             return false; //si oui on ne peut pas passer
         }else if (c.getMap().getGrille()[c.posX()][c.posY()+1].getBombe()==null){//N'y a t-il pas de bombe ?
             return true; //Si non on peut passer, car il n'y a ni mur ni personnage
@@ -391,15 +490,20 @@ public class Personnage extends Image {
             return false; //Si non on ne passe pas
         } else if (c.getMap().getGrille()[c.posX()][c.posY()+2].getBombe()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()+2].getPersonnage()==null &&
-                c.getMap().getGrille()[c.posX()][c.posY()+2].getMur()==null){
+                c.getMap().getGrille()[c.posX()][c.posY()+2].getMur()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()+2].getEnnemi()==null){
             return true;
         }
         return false;
     }
-
+    /**
+     * Vérifie que la case en-dessous du joueur est libre
+     * @return true si la case est libre
+     */
     public boolean caseVideBas(){
         if (c.getMap().getGrille()[c.posX()][c.posY()-1].getMur()!=null ||
-                c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+                c.getMap().getGrille()[c.posX()][c.posY()-1].getPersonnage()!=null ||
+                c.getMap().getGrille()[c.posX()][c.posY()-1].getEnnemi()!=null) { //Y a t-il un mur ou un personnage ?
             return false; //si oui on ne peut pas passer
         }else if (c.getMap().getGrille()[c.posX()][c.posY()-1].getBombe()==null){//N'y a t-il pas de bombe ?
             return true; //Si non on peut passer, car il n'y a ni mur ni personnage
@@ -407,15 +511,20 @@ public class Personnage extends Image {
             return false; //Si non on ne passe pas
         } else if (c.getMap().getGrille()[c.posX()][c.posY()-2].getBombe()==null &&
                 c.getMap().getGrille()[c.posX()][c.posY()-2].getPersonnage()==null &&
-                c.getMap().getGrille()[c.posX()][c.posY()-2].getMur()==null){
+                c.getMap().getGrille()[c.posX()][c.posY()-2].getMur()==null &&
+                c.getMap().getGrille()[c.posX()][c.posY()-2].getEnnemi()==null){
             return true;
         }
         return false;
     }
-
+    /**
+     * Vérifie que la case à droite du joueur est libre
+     * @return true si la case est libre
+     */
     public boolean caseVideDroite(){
         if (c.getMap().getGrille()[c.posX()+1][c.posY()].getMur()!=null ||
-                c.getMap().getGrille()[c.posX()+1][c.posY()].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+                c.getMap().getGrille()[c.posX()+1][c.posY()].getPersonnage()!=null ||
+                c.getMap().getGrille()[c.posX()+1][c.posY()].getEnnemi()!=null) { //Y a t-il un mur ou un personnage ?
             return false; //si oui on ne peut pas passer
         }else if (c.getMap().getGrille()[c.posX()+1][c.posY()].getBombe()==null){//N'y a t-il pas de bombe ?
             return true; //Si non on peut passer, car il n'y a ni mur ni personnage
@@ -423,15 +532,20 @@ public class Personnage extends Image {
             return false; //Si non on ne passe pas
         } else if (c.getMap().getGrille()[c.posX()+2][c.posY()].getBombe()==null &&
                 c.getMap().getGrille()[c.posX()+2][c.posY()].getPersonnage()==null &&
-                c.getMap().getGrille()[c.posX()+2][c.posY()].getMur()==null){
+                c.getMap().getGrille()[c.posX()+2][c.posY()].getMur()==null &&
+                c.getMap().getGrille()[c.posX()+2][c.posY()].getEnnemi()==null){
             return true;
         }
         return false;
     }
-
+    /**
+     * Vérifie que la case à gauche du joueur est libre
+     * @return true si la case est libre
+     */
     public boolean caseVideGauche(){
         if (c.getMap().getGrille()[c.posX()-1][c.posY()].getMur()!=null ||
-                c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()!=null) { //Y a t-il un mur ou un personnage ?
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getPersonnage()!=null ||
+                c.getMap().getGrille()[c.posX()-1][c.posY()].getEnnemi()!=null) { //Y a t-il un mur ou un personnage ?) { //Y a t-il un mur ou un personnage ?
             return false; //si oui on ne peut pas passer
         }else if (c.getMap().getGrille()[c.posX()-1][c.posY()].getBombe()==null){//N'y a t-il pas de bombe ?
             return true; //Si non on peut passer, car il n'y a ni mur ni personnage
@@ -439,7 +553,8 @@ public class Personnage extends Image {
             return false; //Si non on ne passe pas
         } else if (c.getMap().getGrille()[c.posX()-2][c.posY()].getBombe()==null &&
                 c.getMap().getGrille()[c.posX()-2][c.posY()].getPersonnage()==null &&
-                c.getMap().getGrille()[c.posX()-2][c.posY()].getMur()==null){
+                c.getMap().getGrille()[c.posX()-2][c.posY()].getMur()==null &&
+                c.getMap().getGrille()[c.posX()-2][c.posY()].getEnnemi()==null){
             return true;
         }
         return false;

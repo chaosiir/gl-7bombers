@@ -41,7 +41,11 @@ public class MenuPause extends Etat implements Screen {
     Bomberball game; // Note it's "MyGame" not "Game"
 
 
-    // constructor to keep a reference to the main Game class
+    /**
+     * Constructeur de la classe MenuPause
+     * @param game
+     * @param jeu
+     */
     public MenuPause(Bomberball game,Jeu jeu){
         super(jeu);
         this.game = game;
@@ -54,7 +58,10 @@ public class MenuPause extends Etat implements Screen {
 
         }
     }
-
+    /**
+     * Modificateur de l'état antérieur à l'appui sur le bouton pause
+     * @param e
+     */
     public void setEtatAnterieur(Etat e){
         etatAnterieur = e;
     }
@@ -117,7 +124,7 @@ public class MenuPause extends Etat implements Screen {
         reprendreButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                jeu.map.suppActor();
+
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.menuPause.removeActor(jeu);
@@ -129,6 +136,7 @@ public class MenuPause extends Etat implements Screen {
         recommencerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                f.delete();
                 source.renameTo(f);
                 jeu.recommencer=true;
                 jeu.removeActor(jeu.map);
@@ -143,6 +151,11 @@ public class MenuPause extends Etat implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 f.delete();
                 source.delete();
+
+                jeu.porteeBombe=-1;
+                jeu.nbDeplaP=-1;
+                jeu.nbBombe=-1;
+                jeu.nbEnnemis=-1;
 
                 jeu.removeActor(jeu.map);
                 game.menuPause.removeActor(jeu);

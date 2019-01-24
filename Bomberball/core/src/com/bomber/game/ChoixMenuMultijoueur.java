@@ -23,8 +23,10 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     private Table table;
     private Label nbjoueur;
     private Label nbBonus;
-
+    private Label nbBlocD;
     private Label porteeBombe;
+    private Label nbDeplace;
+    private Label nbBombe;
 
     private TextButton retour;
     private TextButton deux;
@@ -33,8 +35,13 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     private TextButton choixmap;
     private TextButton lancerP;
 
-    private Slider nbBonusS;
-    private Slider porteeBombeS;
+    private ButtonGroup<TextButton> nbJ;
+
+    private TextField nbBonusS;
+    private TextField porteeBombeS;
+    private TextField nbBlocDT;
+    private TextField nbDeplac;
+    private TextField nbBombeT;
 
     public ChoixMenuMultijoueur(Bomberball game, Jeu jeu){
         super(jeu);
@@ -57,17 +64,31 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
         porteeBombe= new Label("Portee d'une bombe :",skin);
 
+        nbBlocD=new Label("Nombre de bloc destructible :",skin);
+        nbDeplace = new Label("Nombre de deplacement :",skin);
+        nbBombe=new Label("Nombre de bombe :",skin);
+
+        nbJ=new ButtonGroup<TextButton>();
+
 
         retour= new TextButton("Retour",skin);
-        deux= new TextButton("2",skin);
-        trois = new TextButton("3",skin);
-        quatre= new TextButton("4",skin);
+        deux= new TextButton("2",skin,"toggle");
+        trois = new TextButton("3",skin,"toggle");
+        quatre= new TextButton("4",skin,"toggle");
+
+        nbJ.add(quatre);
+        nbJ.add(trois);
+        nbJ.add(deux);
+
         choixmap = new TextButton("Choix de la map",skin);
         lancerP = new TextButton("Lancer la partie",skin);
 
 
-        nbBonusS= new Slider(0f,20f,1f,false,skin);
-        porteeBombeS=  new Slider(0f,20f,1f,false,skin);
+        nbBonusS= new TextField("12",skin);
+        porteeBombeS=  new TextField("2",skin);
+        nbBlocDT = new TextField("40",skin);
+        nbDeplac = new TextField("5",skin);
+        nbBombeT= new TextField("1",skin);
 
         lancerP.addListener(new ClickListener(){
             @Override
@@ -75,7 +96,54 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
                 game.choixMenuMultijoueur.removeActor(back);
                 game.choixMenuMultijoueur.removeActor(table);
 
+                try{
+                    int nbBD=Integer.parseInt(nbBlocDT.getText());
+                    if(nbBD>=0){
+                        jeu.nbBlocD=nbBD;
+                    }
+                }
+                catch (NumberFormatException e){
+                }
+
+                try{
+                    int nbB=Integer.parseInt(nbBonusS.getText());
+                    if(nbB>=0){
+                        jeu.nbBonus=nbB;
+                    }
+                }
+                catch (NumberFormatException e){
+                }
+                try{
+                    int nbP=Integer.parseInt(porteeBombeS.getText());
+                    if(nbP>=0){
+                        jeu.porteeBombe=nbP;
+                    }
+                }
+                catch (NumberFormatException e){
+                }
+                try{
+                    int nbD=Integer.parseInt(nbDeplac.getText());
+                    if(nbD>=1){
+                        jeu.nbDeplaP=nbD;
+                    }
+                }
+                catch (NumberFormatException e){}
+                try{
+                    int nbBo=Integer.parseInt(nbBombeT.getText());
+                    if(nbBo>=1){
+                        jeu.nbBombe=nbBo;
+                    }
+                }
+                catch (NumberFormatException e){}
+
+
+
+
                 game.choixMenuMultijoueur.removeActor(jeu);
+
+
+
+
 
                 jeu.setEtat(game.multijoueur);
                 game.setScreen(game.multijoueur);
@@ -94,6 +162,8 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.choixMenuMultijoueur.removeActor(jeu);
+
+                jeu.nbJoueur=4;
 
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);
@@ -115,15 +185,41 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
             }
         });
 
+        deux.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.nbJoueur=2;
+            }
+        });
+
+        trois.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.nbJoueur=3;
+            }
+        });
+
+        quatre.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                jeu.nbJoueur=4;
+            }
+        });
+
+
         table=new Table(); //Tableau
+        //table.setDebug(true);
         table.setWidth(Bomberball.stg.getWidth());
         table.align(Align.center | Align.topLeft);
         table.setPosition(0, Gdx.graphics.getHeight());
 
         table.add(nbjoueur).padBottom(30);
-        table.add(deux);
-        table.add(trois);
-        table.add(quatre);
+        HorizontalGroup h=new HorizontalGroup();
+        h.space(10);
+        h.addActor(quatre);
+        h.addActor(trois);
+        h.addActor(deux);
+        table.add(h);
         table.row();
         table.add(nbBonus).padBottom(30);
         table.add(nbBonusS);
@@ -131,6 +227,15 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         table.row();
         table.add(porteeBombe).padBottom(30);
         table.add(porteeBombeS);
+        table.row();
+        table.add(nbBombe).padBottom(30);
+        table.add(nbBombeT);
+        table.row();
+        table.add(nbBlocD).padBottom(30);
+        table.add(nbBlocDT);
+        table.row();
+        table.add(nbDeplace).padBottom(30);
+        table.add(nbDeplac);
         table.row();
         table.add(choixmap).padBottom(30);
         table.row();

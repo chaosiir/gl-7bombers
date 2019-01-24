@@ -8,12 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.LinkedList;
 
 public class EnnemiPassif extends Ennemis {
+    int pos;
+    Boolean retour=false;
 
 
     public EnnemiPassif(boolean vivant,Case c,int pm) {
         super(Bomberball.multiTexture[17],vivant,c,pm);
         this.chemin=new LinkedList<Case>();
         setAnimationdroite();
+        pos=0;
     }
 
     public LinkedList<Case> getChemin() {
@@ -21,7 +24,7 @@ public class EnnemiPassif extends Ennemis {
     }
 
     public void setChemin(LinkedList<Case> chemin) {
-        this.chemin = chemin;
+        this.chemin=chemin;
     }
 
     private LinkedList<Case> chemin;
@@ -31,19 +34,100 @@ public class EnnemiPassif extends Ennemis {
 
 
     public void miseAjour() {
-        for(Case cas : chemin){
-            if(caseLibre(c.getMap().getGrille()[cas.posX()][cas.posY()])){
-                prochain_deplacement.add(c.getMap().getGrille()[cas.posX()][cas.posY()]);
+        prochain_deplacement.clear();
+        prochain_deplacement.add(c);
+        Map map=this.getC().getMap();
+        int pmrestant=pm;
+        Boolean ok=false;
+        if(chemin.size()!=1){
+            if(pos==0){
+                Case casap=chemin.get(1);
+                if(map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null){
+                    ok=true;
+                }
+                else{
+                    ok=false;
+                }
             }
-            else {
-                break;
+            else if(pos==chemin.size()-1){
+                Case casav=chemin.get(chemin.size()-2);
+               if (map.getGrille()[casav.posX()][casav.posY()].getMur()==null && map.getGrille()[casav.posX()][casav.posY()].getEnnemi()==null){
+                   ok=true;
+               }
+               else{
+                   ok=false;
+               }
             }
+            else{
+                Case casap=chemin.get(pos+1);
+                Case casav=chemin.get(pos-1);
+                if((map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null) || (map.getGrille()[casav.posX()][casav.posY()].getMur()==null && map.getGrille()[casav.posX()][casav.posY()].getEnnemi()==null) ){
+                    ok=true;
+
+                }
+                else{
+                    ok=false;
+                }
+            }
+
         }
+        while(pmrestant>0 && ok){
+
+            if(pos==(chemin.size()-1)){ //Si on est au bout du chemin, on retourne en arrière
+                retour=true;
+            }
+
+            if(pos==0){ //Si on est au début, on ne va pas retourner
+                    retour=false;
+
+            }
+                //Dans le cas général et pas dans ces cas particuliers
+            if(retour){
+                //System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS RETOUR");
+                        Case aCase=chemin.get(pos-1);
+                       // System.out.println("Case "+aCase.posX()+" "+aCase.posY());
+                        if(map.getGrille()[aCase.posX()][aCase.posY()].getMur()==null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ){
+
+                            pmrestant--;
+                            prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                            pos--;
+                        }
+                        else{
+
+                            retour=false;
+                        }
+                    }
+            else {
+               // System.out.println(this.getC().posX()+" "+this.getC().posX()+" ENNEMIS NON RETOUR");
+                Case aCase = chemin.get(pos + 1);
+                if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi()==this) ) {
+                    pmrestant--;
+                    prochain_deplacement.add(map.getGrille()[aCase.posX()][aCase.posY()]);
+                    pos++;
+                } else {
+                    retour = true;
+
+                }
+            }
+
+
+
+
+        }
+
+
+
+
     }
 
     @Override
     public boolean isAgro() {
         return false;
+    }
+
+    @Override
+    public void setPortee(int x) {
+//rien
     }
 
     @Override

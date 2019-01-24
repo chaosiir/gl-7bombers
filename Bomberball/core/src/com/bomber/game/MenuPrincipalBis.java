@@ -37,7 +37,11 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
 
 
-        // constructor to keep a reference to the main Game class
+    /**
+     * Constructeur de la classe MenuPrincipalBis
+     * @param game
+     * @param jeu
+     */
         public MenuPrincipalBis(Bomberball game,Jeu jeu){
             super(jeu);
             this.game = game;
@@ -73,7 +77,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             Bomberball.stg.setKeyboardFocus(this);
             // called when this screen is set as the screen with game.setScreen();
             skin=new Skin(Gdx.files.internal("uiskin.json"));
-            back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
+            back= new Image(new Texture(Gdx.files.internal("main.png")) );
             back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
 
@@ -81,7 +85,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             table=new Table(); //Tableau
             table.setWidth(Bomberball.stg.getWidth());
             table.align(Align.center | Align.top); // Middle of the screen start at the top
-            table.setPosition(0, 3*Gdx.graphics.getHeight()/4);
+            table.setPosition(-Gdx.graphics.getWidth()/7, 2*Gdx.graphics.getHeight()/4);
 
             soloButton = new TextButton("Mode Solo",skin);
             multiButton = new TextButton("Mode multijoueur",skin);
@@ -100,6 +104,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    jeu.nbJoueur=4;
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);

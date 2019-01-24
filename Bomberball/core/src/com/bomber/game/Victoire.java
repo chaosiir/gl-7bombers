@@ -29,6 +29,12 @@ public class Victoire extends Etat implements Screen {
     String txt;
     File frecommencer;
 
+    /**
+     * Constructeur de la classe Solo
+     * @param game
+     * @param jeu
+     * @param st
+     */
     public Victoire(Bomberball game,Jeu jeu,String st){
         super(jeu);
         this.game=game;
@@ -71,8 +77,9 @@ public class Victoire extends Etat implements Screen {
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                jeu.removeActor(jeu.map);
                 jeu.map=null;
-                jeu.removeActor(jeu.findActor("Map"));
+                game.victoire.removeActor(jeu);
                 frecommencer.delete();
                 jeu.setEtat(game.menuPrincipalBis);
                 game.setScreen(game.menuPrincipalBis);

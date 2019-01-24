@@ -13,10 +13,14 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
     Map map;//la map du jeu
     Etat etat;//etat du jeu c'est lui qui prend les inputs et fait l'affichage
     int nbBonus=-1;
+    int nbBlocD=-1;
+    int nbDeplaP=-1;
+    int difficulte=-1;
+
     int nbEnnemis=-1;
     int porteeBombe=-1;
-    int nbDeplaEnnemis=-1;
     int nbBombe=-1;
+
     int pmtmp1=-1;
     int pmtmp2=-1;
     int pmtmp3=-1;
@@ -26,6 +30,8 @@ public class Jeu extends Group {//le jeu est un group d'acteur il manque aussi l
     int nbtmp2=-1;
     int nbtmp3=-1;
     int nbtmp4=-1;
+
+    int nbJoueur=4;
 
     boolean recommencer=false;
 
