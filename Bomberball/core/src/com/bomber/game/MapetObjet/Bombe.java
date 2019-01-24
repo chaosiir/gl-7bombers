@@ -15,7 +15,7 @@ public class Bombe extends Image {
     public Bombe(int taille, Case c) {
         super(Bomberball.multiTexture[5]);
         this.taille = taille;
-        this.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
+        this.setPosition(Bomberball.taillecase/2-this.getWidth()/2,Bomberball.taillecase/2 -this.getHeight()/2);
 
         this.setName("bombe");
         this.c = c;

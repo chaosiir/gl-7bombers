@@ -407,10 +407,13 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                     if (joueur.getC().getPorte() != null) {
                         jeu.removeActor(joueur);
                         jeu.removeActor(jeu.map);
+                        this.removeActor(jeu);
                         jeu.map = null;
                         bombaaaagh.victoire = new Victoire(bombaaaagh, jeu, "                           Victoire");
                         jeu.setEtat(bombaaaagh.victoire);
                         bombaaaagh.setScreen(bombaaaagh.victoire);
+                        return true;
+
                     }
                     pm = joueur.getPm();
                     nb = joueur.getNbBombe();

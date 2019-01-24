@@ -177,7 +177,7 @@ public abstract int getPortee();
         });
         MoveToAction mv= new MoveToAction();
         mv.setPosition(0,0);
-        mv.setDuration(0.3f);
+        mv.setDuration(0.2f);
         seq.addAction(mv);
         seq.addAction(new Action() {
             @Override
@@ -203,7 +203,7 @@ public abstract int getPortee();
         });
         MoveByAction action=new MoveByAction();
         action.setAmount(-Bomberball.taillecase,0);
-        action.setDuration(0.3f);
+        action.setDuration(0.2f);
         seq.addAction(action);
         seq.addAction(new Action() {
             @Override
@@ -237,7 +237,7 @@ public abstract int getPortee();
         });
         MoveToAction mv=new MoveToAction();
         mv.setPosition(0,0);
-        mv.setDuration(0.3f);
+        mv.setDuration(0.2f);
         seq.addAction(mv);
         seq.addAction(new Action() {
             @Override
@@ -263,7 +263,7 @@ public abstract int getPortee();
         });
         MoveByAction action=new MoveByAction();
         action.setAmount(0,-Bomberball.taillecase);
-        action.setDuration(0.3f);
+        action.setDuration(0.2f);
         seq.addAction(action);
         seq.addAction(new Action() {
             @Override

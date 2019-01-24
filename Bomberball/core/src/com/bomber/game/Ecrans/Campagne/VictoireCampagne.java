@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.bomber.game.Bomberball;
 import com.bomber.game.Ecrans.Etat;
 import com.bomber.game.Jeu;
@@ -18,6 +19,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VictoireCampagne extends Etat implements Screen {
@@ -144,10 +146,19 @@ public class VictoireCampagne extends Etat implements Screen {
                 f.delete();
 
                 File directory = new File (".");
-
                 final File liste[]=recupniv.listFiles();
-                if(liste!=null && liste[niveaugag]!=null){
-                    jeu.map=Map.mapFromStringN(Bomberball.loadFile(liste[niveaugag]));
+                Array<String> tmp=new Array<String>();
+                if(liste!=null &&liste.length!=0) {
+                    for (File fi : liste) {
+                        if (!fi.getName().equals("niveau.txt")) {
+                            tmp.add(fi.getName());
+                        }
+                    }
+                }
+                tmp.sort();
+                File lo= Gdx.files.internal("./Campagne/"+tmp.get(niveaugag)).file();
+                if(liste!=null && tmp.get(niveaugag)!=null){
+                    jeu.map=Map.mapFromStringN(Bomberball.loadFile(lo));
                 }
 
                 game.campagne.setMapactuel(niveaugag+1);

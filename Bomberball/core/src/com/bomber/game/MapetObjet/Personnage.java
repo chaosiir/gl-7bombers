@@ -235,7 +235,7 @@ public class Personnage extends Image {
                 Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()][c.posY()+taillepoussee-1]);
                 b.setY(-(taillepoussee-1)*Bomberball.taillecase);
                 MoveToAction move=new MoveToAction();
-                move.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
+                move.setPosition(Bomberball.taillecase/2-b.getWidth()/2,Bomberball.taillecase/2 -b.getHeight()/2);
                 move.setDuration(taillepoussee*0.2f);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
@@ -300,7 +300,7 @@ public class Personnage extends Image {
                 Bombe b = c.getMap().getGrille()[c.posX()][c.posY() - 1].getBombe();
                 MoveToAction action1=new MoveToAction();
                 action1.setDuration(0.2f*taillepoussee);
-                action1.setPosition(Bomberball.taillecase/4,-(taillepoussee-1.25f)*Bomberball.taillecase);
+                action1.setPosition(Bomberball.taillecase/8,-(taillepoussee-1)*Bomberball.taillecase);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
                 attente.setDuration(0.2f*taillepoussee);
@@ -373,7 +373,7 @@ public class Personnage extends Image {
                 Bombe b= new Bombe(this.taille,c.getMap().getGrille()[c.posX()+taillepoussee-1][c.posY()]);
                 b.setX(-(taillepoussee-1)*Bomberball.taillecase);
                 MoveToAction move=new MoveToAction();
-                move.setPosition(Bomberball.taillecase/4,Bomberball.taillecase/4);
+                move.setPosition(Bomberball.taillecase/2-b.getWidth()/2,Bomberball.taillecase/2 -b.getHeight()/2);
                 move.setDuration(taillepoussee*0.2f);
                 MoveByAction attente=new MoveByAction();
                 attente.setAmount(0,0);
