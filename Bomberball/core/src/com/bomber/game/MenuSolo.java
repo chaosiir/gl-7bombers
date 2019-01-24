@@ -30,6 +30,11 @@ public class MenuSolo extends Etat implements Screen {
 
 
 
+    /**
+     * Constructeur de la classe MenuSolo
+     * @param game
+     * @param jeu
+     */
     public MenuSolo(Bomberball game,Jeu jeu){
         super(jeu);
         this.game = game;

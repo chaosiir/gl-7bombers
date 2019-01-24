@@ -32,7 +32,11 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     Map map;
 
     File f;
-
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixMapMultiJ(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;

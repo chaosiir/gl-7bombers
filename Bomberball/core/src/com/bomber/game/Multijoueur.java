@@ -90,7 +90,11 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     FileWriter fw;
     FileWriter fwr;
 
-
+    /**
+     * Constructeur de la classe Multijoueur
+     * @param game
+     * @param jeu
+     */
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
@@ -628,6 +632,11 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
 
 
     @Override
+    /**
+     * Effectue l'action liée à un appui de touche en fonction de la touche appuyée
+     * @param event
+     * @param keycode code de la touche appuyée
+     */
     public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = joueurs[tour%4];
         if(jeu.findActor("explo")==null) {
@@ -751,6 +760,9 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                                     jeu.porteeBombe=-1;
                                     jeu.nbDeplaP=-1;
                                     jeu.nbBombe=-1;
+                                    jeu.removeActor(jeu.map);
+                                    jeu.map=null;
+                                    game.multijoueur.removeActor(jeu);
                                     game.victoire = new Victoire(game, jeu, "                         Match nul");
                                     jeu.setEtat(game.victoire);
                                     game.setScreen(game.victoire);

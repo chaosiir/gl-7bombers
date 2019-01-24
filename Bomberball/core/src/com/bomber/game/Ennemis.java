@@ -22,17 +22,34 @@ public abstract class Ennemis extends Image {
     protected Action animation;
     boolean teleportation=false;
 
+    /**
+     * Accesseur du chemin de l'ennemi
+     * @return une LinkedList<Case>
+     */
     public LinkedList<Case> getProchain_deplacement() {
         return prochain_deplacement;
     }
 
+
     public abstract void setAnimationgauche();
     public abstract void setAnimationdroite();
     public abstract void setAnimationdefaite();
+    /**
+     * Modificateur du chemin de l'ennemi
+     * @param chemin
+     */
+
     public void setProchain_deplacement(LinkedList<Case> chemin) {
         this.prochain_deplacement = chemin;
     }
 
+    /**
+     * Constucteur de la classe Ennemis
+     * @param t texture de l'ennemi
+     * @param vivant état de l'ennemi
+     * @param c case où l'ennemi apparait
+     * @param pm nombre de déplacement de l'ennemi
+     */
     public Ennemis(Texture t,boolean vivant, Case c, int pm){
         super(t);
         this.c=c;
@@ -79,7 +96,9 @@ public abstract int getPortee();
     public abstract boolean isAgro();
     public abstract void setPortee(int x);
 
-
+    /**
+     * Déplace l'ennemi de son nombre de mouvement sur son chemin
+     */
     public void deplacer(){
         int i = pm;
         this.miseAjour();
@@ -127,7 +146,11 @@ public abstract int getPortee();
     }
 
 
-    /* fonction permettant de tester si une case est occupée ou non par un mur ou un autre ennemi*/
+    /**
+     * Vérifie si une case est vide
+     * @param caseC
+     * @return true si la case est libre
+     */
     public boolean caseLibre(Case caseC){
         Mur mur=caseC.getMur();
         Ennemis ennemi=caseC.getEnnemi();
@@ -136,6 +159,7 @@ public abstract int getPortee();
         }
         else return false;
     }
+
     public Action deplacementdroite(){
         final Case proch=prochaine;
         SequenceAction seq=new SequenceAction();

@@ -37,7 +37,11 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
 
 
-        // constructor to keep a reference to the main Game class
+    /**
+     * Constructeur de la classe MenuPrincipalBis
+     * @param game
+     * @param jeu
+     */
         public MenuPrincipalBis(Bomberball game,Jeu jeu){
             super(jeu);
             this.game = game;

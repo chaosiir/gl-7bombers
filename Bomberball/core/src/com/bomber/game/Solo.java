@@ -60,6 +60,11 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
     FileWriter fwr;
 
     private Bomberball bombaaaagh;
+    /**
+     * Constructeur de la classe Solo
+     * @param bombaaaagh
+     * @param jeu
+     */
     public Solo(Bomberball bombaaaagh,Jeu jeu) {
         super(jeu);
         this.bombaaaagh=bombaaaagh;
@@ -337,6 +342,12 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
     }
 
     @Override
+    /**
+     * Effectue une action en fonction de la touche appuyée sur le clavier
+     * @param event
+     * @param keycode code de la touche appuyée
+     * @return boolean
+     */
     public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
         Personnage joueur = personnage;
         if(jeu.findActor("explo")==null) {

@@ -234,10 +234,9 @@ public class ChoixCampagne extends Etat implements Screen {
                 catch (IOException e) {
                     e.printStackTrace();
                 }
-                if(map!=null){
+                if(map!=null) {
                     map.suppActor();
                 }
-
                 map = null;
                 jeu.removeActor(map);
                 Array<String> tmp=new Array<String>();

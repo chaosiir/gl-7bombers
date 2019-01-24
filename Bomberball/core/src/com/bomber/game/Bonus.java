@@ -7,9 +7,21 @@ import java.io.Serializable;
 
 public class Bonus extends Image  {
     Case c;
+
+    /**
+     * Constructeur de la classe Bonus
+     * @return un bonus sur la case C
+     */
     public Bonus(Case C){
-            c=C;
+        c=C;
     }
+
+    /**
+     *
+     * @param C
+     * @param t
+     * @return un bonus sur la case C avec la texture t
+     */
     protected Bonus(Case C,Texture t){
         super(t);
         this.setName("bonus");

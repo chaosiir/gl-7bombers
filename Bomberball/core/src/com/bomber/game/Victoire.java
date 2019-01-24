@@ -29,6 +29,12 @@ public class Victoire extends Etat implements Screen {
     String txt;
     File frecommencer;
 
+    /**
+     * Constructeur de la classe Solo
+     * @param game
+     * @param jeu
+     * @param st
+     */
     public Victoire(Bomberball game,Jeu jeu,String st){
         super(jeu);
         this.game=game;

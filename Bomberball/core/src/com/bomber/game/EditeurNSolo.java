@@ -79,7 +79,11 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
 
-
+    /**
+     * Générateur de la classe EditeurNSolo
+     * @param game
+     * @param jeu
+     */
     public EditeurNSolo(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
@@ -388,6 +392,14 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique sur une touche du clavier en fonction de la touche appuyée
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean keyDown( int keycode) {
         if(Input.Keys.A==keycode){
             for (int i =1;i<map.getGrille().length-1;i++) {
@@ -710,6 +722,14 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     @Override
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param event
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer
+     * @param button bouton de la souris appuyé
+     */
     public boolean touchDown(int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true); //Retourne référence de l'acteur touché
         //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
@@ -947,6 +967,11 @@ public class EditeurNSolo extends Etat implements Screen {
                     } else if (button == Input.Buttons.LEFT) {
                         if (selectionne.getDrawable() != null) {
                             if (selectionne.getName().equals("murdes")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
                                 c.setMur(new MurD());
                             } else if (selectionne.getName().equals("sol")) {
                                 c.setMur(null);
@@ -958,9 +983,18 @@ public class EditeurNSolo extends Etat implements Screen {
                                 background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                                 c.addActor(background);
                             } else if (selectionne.getName().equals("murin")) {
-                                Map m=c.getMap();
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
                                 c.setMur(new MurI());
                             } else if (selectionne.getName().equals("p")) {
+                                c.setMur(null);
+                                c.setPorte(null);
+                                c.setPersonnage(null);
+                                c.setBonus(null);
+                                c.setEnnemi(null);
                                 c.setPorte(new Porte());
                             }
                             else if(selectionne.getName().equals("player")){

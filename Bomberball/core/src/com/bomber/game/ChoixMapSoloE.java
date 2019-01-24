@@ -35,7 +35,11 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     File f;
 
-
+    /**
+     * Constructeur de la fenêtre
+     * @param game  La classe principal du jeu
+     * @param jeu   Un jeu contenant les acteurs
+     */
     public ChoixMapSoloE(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;

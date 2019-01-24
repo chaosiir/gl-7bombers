@@ -32,7 +32,12 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     Map map;
 
     File f;
-
+    /**
+     * Constructeur de la classe ChoixMapSoloJ
+     * @param game
+     * @param jeu
+     * @return un menu ChoixMapSoloJ
+     */
     public ChoixMapSoloJ(Bomberball game, Jeu jeu){
         super(jeu);
         this.game=game;
