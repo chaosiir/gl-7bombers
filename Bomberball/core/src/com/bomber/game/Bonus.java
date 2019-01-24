@@ -30,6 +30,10 @@ public class Bonus extends Image  {
         c=C;
     }
 
+    public com.bomber.game.Case getC() {
+        return c;
+    }
+
     public void action(){
     }
 

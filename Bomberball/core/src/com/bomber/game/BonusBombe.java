@@ -20,4 +20,18 @@ public class BonusBombe extends Bonus {
         c.getPersonnage().setNbBombe(c.getPersonnage().getNbBombe()+1);
         c.suppBonus();
     }
+
+    public static void main(String[] args){
+        Bonus B=new BonusBombe(new Case());
+        B.getC().setPersonnage(new Personnage(true,B.getC(),1,1,1,1));
+        int Nb=B.getC().getPersonnage().getNbBombe();
+        try{
+            B.action();
+        }catch (Exception e){
+            System.out.println("fail action");
+        }
+        if (B.getC().getPersonnage().getNbBombe()==Nb) {
+            System.out.println("fail action");
+        }
+    }
 }
