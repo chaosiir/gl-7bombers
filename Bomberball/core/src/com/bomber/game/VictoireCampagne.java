@@ -115,7 +115,7 @@ public class VictoireCampagne extends Etat implements Screen {
 
         explication=new Label("Niveau reussi",skin);
 
-       explication.setBounds(xmax/2-300,Gdx.graphics.getHeight()/4,explication.getWidth(),explication.getHeight()); //Positionnement à la main
+       explication.setBounds(Gdx.graphics.getWidth()/2-200,Gdx.graphics.getHeight()/2,explication.getWidth(),explication.getHeight()); //Positionnement à la main
 
 
         continuer= new TextButton("Continuer",skin);
@@ -128,7 +128,7 @@ public class VictoireCampagne extends Etat implements Screen {
         continuer.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<3){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
                     try{
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
@@ -159,7 +159,7 @@ public class VictoireCampagne extends Etat implements Screen {
         recommencer.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<3){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
                     try{
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
@@ -183,7 +183,7 @@ public class VictoireCampagne extends Etat implements Screen {
         quitter.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<3){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
                     try{
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
