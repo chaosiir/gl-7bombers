@@ -27,7 +27,6 @@ import java.util.LinkedList;
 
 /**Classe Campagne
  * Elle s'affiche lorsque le joueur joue en mode campagne
- * @author Paul-Louis Renard
  */
 public class Campagne extends Etat implements Screen {
     int pm=5;                   //Nombre de pm initialisé

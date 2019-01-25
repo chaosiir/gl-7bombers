@@ -35,20 +35,31 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
     /**
      * Constructeur de la classe MenuPrincipalBis
-     * @param game
-     * @param jeu
+     *
+     * @param game : l'application BomberBall
+     * @param jeu : Map avec informations supplémentaires
      */
         public MenuPrincipalBis(Bomberball game,Jeu jeu){
             super(jeu);
             this.game = game;
 
         }
-
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     *
+     * @param x : récupère la position x du pointeur.
+     * @param y : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int x, int y) {
         return false;
     }
 
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
         public void render(float delta) {
             // update and draw stuff
@@ -59,7 +70,12 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
 
 
-
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
         @Override
         public void resize(int width, int height) {
         }
@@ -147,33 +163,54 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
         }
 
-
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
         @Override
         public void hide() {
             // called when current screen changes from this to a different screen
             Bomberball.stg.clear();
         }
 
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
         @Override
         public void pause() {
         }
 
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
         @Override
         public void resume() {
         }
 
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
         @Override
         public void dispose() {
         }
-
+    /**
+     * Permet de détecter un appui sur une touche
+     *
+     * @param keycode : vaut le numéro de la touche enfoncée
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown( int keycode) {
         return true;
     }
-
+    /**
+     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     *
+     * @param x : récupère la position x du pointeur.
+     * @param y : récupère la position y du pointeur.
+     * @param pointer : récupère le pointeur sur événement.
+     * @param button  : donne le bouton appuyé.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         return false;

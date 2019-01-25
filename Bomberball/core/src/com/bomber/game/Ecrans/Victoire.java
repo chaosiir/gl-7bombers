@@ -31,9 +31,9 @@ public class Victoire extends Etat implements Screen {
 
     /**
      * Constructeur de la classe Solo
-     * @param game
-     * @param jeu
-     * @param st
+     * @param game : L'application Bomberball globale. Excellent jeu ;)
+     * @param jeu : Map et informations complémentaire
+     * @param st : Chaîne de caractère à écrire au milieu de l'écran.
      */
     public Victoire(Bomberball game, Jeu jeu, String st){
         super(jeu);
@@ -83,47 +83,79 @@ public class Victoire extends Etat implements Screen {
         this.addActor(explication);
         this.addActor(ok);
     }
-
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
     public void render(float delta) {
 
     }
-
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
-
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
         Bomberball.stg.clear();
     }
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void dispose() {
 
     }
-
+    /**
+     * Permet de détecter un appui sur une touche
+     * @param keycode : vaut le numéro de la touche enfoncée
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown( int keycode) {
         return false;
     }
-
+    /**
+     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param x : récupère la position x du pointeur.
+     * @param y: récupère la position y du pointeur.
+     * @param pointer : récupère le pointeur sur événement.
+     * @param button : donne le bouton appuyé.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
     }
-
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param x: récupère la position x du pointeur.
+     * @param y : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int x, int y) {
         return false;

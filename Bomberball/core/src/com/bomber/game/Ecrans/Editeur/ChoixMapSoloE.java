@@ -18,7 +18,6 @@ import java.io.File;
 /**
  * Classe ChoixMapSoloE
  * Elle affiche des maps solo que le joueur a déjà créé et qu'il veut remodifié
- * @author Paul-Louis Renard
  *
  */
 public class ChoixMapSoloE extends Etat implements Screen {

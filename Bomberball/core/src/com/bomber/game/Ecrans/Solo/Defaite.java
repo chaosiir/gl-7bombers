@@ -113,38 +113,58 @@ public class Defaite extends Etat implements Screen {
         this.addActor(ok);
         this.addActor(rejouer);
     }
-
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
     public void render(float delta) {
 
     }
-
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
-
+    /**
+     * Fonction appellée lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
         Bomberball.stg.clear();
 
     }
-
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**Fonction qui gère l'appui
+     * @param keycode
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown( int keycode) {
         return false;
@@ -155,6 +175,12 @@ public class Defaite extends Etat implements Screen {
         return false;
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param x : récupère la position x du pointeur.
+     * @param y : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int x, int y) {
         return false;

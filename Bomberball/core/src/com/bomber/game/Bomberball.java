@@ -23,14 +23,15 @@ import com.bomber.game.Ecrans.Victoire;
 import java.awt.*;
 import java.io.*;
 
-//classe de l'application
+/**
+ * Classe de l'application globale. Excellent jeu ;)
+ */
 public class Bomberball extends Game {
-	public static Stage stg;//creer le stage(la fenetre ) sur lequel tout va s'afficher => voir tuto scene2D
-	Jeu jeu;//creation de notre classe jeu
-	// la taille defini / augmenté au besoin
-	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
-	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouye en
-	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
+	public static Stage stg;
+	Jeu jeu;
+
+	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;
+
 	public static InputMultiplexer input=new InputMultiplexer();
 	public String addresse=new File(".").getPath();
 	public MenuPrincipalBis menuPrincipalBis;
@@ -198,6 +199,13 @@ public class Bomberball extends Game {
 		return null;
 	}
 
+	/**
+	 * Permet de copier un fichier source vers un fichier destinataire
+	 *
+	 * @param source : fichier à copier
+	 * @param dest   : fichier destinataire
+	 * @return : Si true: pas d'erreur; false sinon
+	 */
 	public static boolean copier(File source, File dest) {
 		try {InputStream sourceFile = new java.io.FileInputStream(source);
 			 OutputStream destinationFile = new FileOutputStream(dest);
