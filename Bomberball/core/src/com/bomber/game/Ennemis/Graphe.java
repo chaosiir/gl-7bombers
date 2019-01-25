@@ -1,5 +1,8 @@
 package com.bomber.game.Ennemis;
-
+/**Classe Graphe
+ *Permet d'implermenter l'algorithme de dijkstra avec la classe dijkstra pour trouver le chemin à prendre pour les différents ennemis
+ *@author  https://codes-sources.commentcamarche.net/source/54685-algorithme-de-dijkstra
+ */
 public class Graphe {
 
 	// Declaration de variable

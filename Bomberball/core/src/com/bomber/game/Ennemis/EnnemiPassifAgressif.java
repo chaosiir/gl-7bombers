@@ -9,22 +9,33 @@ import com.bomber.game.MapetObjet.Map;
 
 import java.util.LinkedList;
 
+/**
+ * Classe EnnemiPassifAgressif
+ * suit un chemin predefini sauf si il repere le personnage dans ce cas se raproche de lui
+ */
 public class EnnemiPassifAgressif extends Ennemis {
-
+    /**
+     * Accesseur du chemin de l'ennemi
+     * @return une LinkedList<Case>
+     */
     public LinkedList<Case> getChemin() {
         return chemin;
     }
+    /**
+     * Modificateur du chemin de l'ennemi
+     * @param chemin
+     */
 
     public void setChemin(LinkedList<Case> chemin) {
         this.chemin = chemin;
     }
 
-    private LinkedList<Case> chemin;
+    private LinkedList<Case> chemin;//chemin que l'ennemis doit suivre
 
     // indice de la case en cours sur le chemin défini
     private int i = 0;
-    public Boolean retour=false;
-    private int portee;
+    public Boolean retour=false;//dans quel sens suit on le chemin
+    private int portee;//portée de detection
 
     public int pos;
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
@@ -32,23 +43,46 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     private boolean agro = false;
 
+    /**
+     * acceusseur de portee
+     * @return int
+     */
     public int getPortee() {
         return portee;
     }
 
+    /**
+     * modificateur portee
+     * @param int portee
+     */
     public void setPortee(int portee) {
         this.portee = portee;
     }
 
+    /**
+     * accesseut agro
+     * @return agro
+     */
     public boolean isAgro() {
         return agro;
     }
 
+    /**
+     * modificateur agro
+     * @param boolean agro
+     */
     public void setAgro(boolean agro) {
         this.agro = agro;
     }
 
-
+    /**
+     * renvoi un ennemis passif agressif sur la case c avec pm deplacement une detection de portee et si il est aggressif
+     * @param vivant
+     * @param c
+     * @param pm
+     * @param portee
+     * @param agro
+     */
     public EnnemiPassifAgressif(boolean vivant, Case c, int pm, int portee, boolean agro) {
         super(Bomberball.multiTexture[23],vivant, c, pm);
         this.portee = portee;
@@ -59,11 +93,17 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     }
 
+    /**
+     * accesseur de agro
+     * @return boolean
+     */
     public boolean getAgro(){
         return agro;
     }
 
-
+    /**
+     * change l'annimation de l'ennemis pourqu'il regarde à gauche
+     */
     @Override
     public void setAnimationgauche() {
         this.removeAction(animation);
@@ -71,7 +111,7 @@ public class EnnemiPassifAgressif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//on change regulierement d'image pour faire une annimation
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + ((agro)?"1":"0") + "" + (int) (time * ((agro)?4:1)) % 4+"inv"))));
@@ -81,13 +121,16 @@ public class EnnemiPassifAgressif extends Ennemis {
         };
         this.addAction(animation);
     }
+    /**
+     * change l'annimation de l'ennemis pourqu'il dance lorsque le joueur meurt
+     */
     public void setAnimationdefaite() {
         this.removeAction(animation);
         animation = new Action() {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//on alterne rapidement entre gauche et droite
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + 0 + ((((int)(time * 5) % 2) == 0) ? "" : "inv")))));
@@ -97,6 +140,9 @@ public class EnnemiPassifAgressif extends Ennemis {
         };
         this.addAction(animation);
     }
+    /**
+     * change l'annimation de l'ennemis pourqu'il regarde à droite
+     */
     @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
@@ -114,27 +160,35 @@ public class EnnemiPassifAgressif extends Ennemis {
         };
         this.addAction(animation);
     }
-
-    public void miseAjour() {
+    /**
+     *
+     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     *
+     */
+    public void miseAjour() {//
         prochain_deplacement.clear();
-        cheminJoueur();
+        cheminJoueur();//renvoi le prochain chemin
         while(prochain_deplacement.size()>pm+1){ //Il contient au moins la case où il se trouve
-            prochain_deplacement.removeLast();
+            prochain_deplacement.removeLast();//et le coupe pour qu'il fasse la taille du nombre de deplacement +1
         }
     }
-
+    /**
+     *
+     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     *
+     */
     public void cheminJoueur(){
-        Map map = this.getC().getMap();
+        Map map = this.getC().getMap();//recuperation de la map
         int lignes = 15;
         int colonnes = 13;
-        int xc = this.getC().posX();
+        int xc = this.getC().posX();//recuperation des coordonnée de l'ennemis
         int yc = this.getC().posY();
         int h=0; //Si on ne trouve pas un personnage a une portée maximum, on diminue
         Boolean personnage=false;
         int xp=0,yp=0; //On stocke les coordonnées du personnages s'il est détecté
 
         int i, j;
-        int[][] trad = new int[15][13];
+        int[][] trad = new int[15][13];//creation de la matrice des case libres ou occupés 0=libre 1=occupé
         for (i = 0; i < 15; i++) {
             for (j = 0; j < 13; j++) {
                 if (map.getGrille()[i][j].getMur() != null) { //On ne peut pas passer s'il y a un mur
@@ -246,7 +300,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         }
 
         /** Si le personnage est repéré **/
-        if (personnage) {
+        if (personnage) {//on devient aggressif
             this.setAgro(true);
 
             if(tmp[yc+colonnes*xc][yp+colonnes*xp]==1 || tmp[yp+colonnes*xp][yc+colonnes*xc]==1){
@@ -272,7 +326,7 @@ public class EnnemiPassifAgressif extends Ennemis {
 
                 while (!disol.isEmpty()) {
                     pmrestant--;
-                    int casis = disol.removeFirst();
+                    int casis = disol.removeFirst();//ajout des case du chemin donné par dijkstra dans prochain_deplacement en inversant le sens
                     prochain_deplacement.addFirst(map.getGrille()[casis / colonnes][casis % colonnes]);
                 }
 
@@ -306,7 +360,7 @@ public class EnnemiPassifAgressif extends Ennemis {
                 }
             }
             else{
-                prochain_deplacement.clear();
+                prochain_deplacement.clear();//sinon on ajoute les case du chemin
                 prochain_deplacement.add(c);
                 int pmrestant=pm;
                 Boolean ok=false;

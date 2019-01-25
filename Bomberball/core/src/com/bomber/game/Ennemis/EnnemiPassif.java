@@ -8,12 +8,20 @@ import com.bomber.game.MapetObjet.Case;
 import com.bomber.game.MapetObjet.Map;
 
 import java.util.LinkedList;
-
+/**
+ * Classe EnnemiPassif
+ * ennemis qui suit un chemin predefini
+ */
 public class EnnemiPassif extends Ennemis {
     public int pos;
     public Boolean retour=false;
 
-
+    /**
+     * renvoi un ennemis sur la cas c qui peut se deplacer de pm mouvement
+     * @param vivant
+     * @param c
+     * @param pm
+     */
     public EnnemiPassif(boolean vivant, Case c, int pm) {
         super(Bomberball.multiTexture[17],vivant,c,pm);
         this.chemin=new LinkedList<Case>();
@@ -21,10 +29,18 @@ public class EnnemiPassif extends Ennemis {
         pos=0;
     }
 
+    /**
+     * accesseur Chemin
+     * @return LinkedList<Case>
+     */
     public LinkedList<Case> getChemin() {
         return chemin;
     }
 
+    /**
+     * modificateur chemin
+     * @param LinkedList<Case> chemin
+     */
     public void setChemin(LinkedList<Case> chemin) {
         this.chemin=chemin;
     }
@@ -34,14 +50,18 @@ public class EnnemiPassif extends Ennemis {
     // indice de la case en cours sur le chemin défini
     private int i = 0;
 
-
+    /**
+     *
+     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     *
+     */
     public void miseAjour() {
         prochain_deplacement.clear();
         prochain_deplacement.add(c);
-        Map map=this.getC().getMap();
+        Map map=this.getC().getMap();//recuperation de la map
         int pmrestant=pm;
         Boolean ok=false;
-        if(chemin.size()!=1){
+        if(chemin.size()!=1){//si le chemin n'est pas vide ,test si on peut aller sur la prochaine case
             if(pos==0){
                 Case casap=chemin.get(1);
                 if(map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null){
@@ -73,7 +93,7 @@ public class EnnemiPassif extends Ennemis {
             }
 
         }
-        while(pmrestant>0 && ok){
+        while(pmrestant>0 && ok){//tant qu'il reste des pm
 
             if(pos==(chemin.size()-1)){ //Si on est au bout du chemin, on retourne en arrière
                 retour=true;
@@ -84,7 +104,7 @@ public class EnnemiPassif extends Ennemis {
 
             }
                 //Dans le cas général et pas dans ces cas particuliers
-            if(retour) {
+            if(retour) {//ajout des cases
                 Case aCase = chemin.get(pos - 1);
                 if (map.getGrille()[aCase.posX()][aCase.posY()].getMur() == null && (map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi() == null || map.getGrille()[aCase.posX()][aCase.posY()].getEnnemi() == this)) {
 
@@ -110,16 +130,28 @@ public class EnnemiPassif extends Ennemis {
         }
     }
 
+    /**
+     * accesseur de agro
+     * @return boolean
+     */
     @Override
     public boolean isAgro() {
         return false;
     }
 
+    /**
+     * modificateur de portee
+     * @param int x
+     */
     @Override
     public void setPortee(int x) {
 //rien
     }
 
+
+    /**
+     * change l'annimation de l'ennemis pourqu'il regarde à droite
+     */
     @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
@@ -127,7 +159,7 @@ public class EnnemiPassif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidemement d'image pour faire une annimation
                 time += delta;
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + (int) (time * 1) % 4))));
                 return false;
@@ -135,14 +167,16 @@ public class EnnemiPassif extends Ennemis {
         };
         this.addAction(animation);
     }
-
+    /**
+     * change l'annimation de l'ennemis pourqu'il dance lorsque le joueur meurt
+     */
     public void setAnimationdefaite() {
         this.removeAction(animation);
         animation = new Action() {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidement de coté
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + 0 + ((((int)(time * 5) % 2) == 0) ? "" : "inv")))));
@@ -153,6 +187,10 @@ public class EnnemiPassif extends Ennemis {
         this.addAction(animation);
     }
 
+    /**
+     * accesseur portee
+     * @return int
+     */
     @Override
     public int getPortee() {
         return 0;
@@ -160,13 +198,16 @@ public class EnnemiPassif extends Ennemis {
 
     @Override
 
+    /**
+     * change l'annimation de l'ennemis pourqu'il regarde à gauche
+     */
     public void setAnimationgauche() {
         this.removeAction(animation);
         animation=new Action() {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidemement d'image pour faire une annimation
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + (int) (time * 1) % 4+"inv"))));

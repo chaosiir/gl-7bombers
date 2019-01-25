@@ -24,7 +24,6 @@ public class Defaite extends Etat implements Screen {
     Skin skin;
     TextButton ok;
     TextButton rejouer;
-    String txt;
     File frecommencer;
     File f;
     Etat precedent;
@@ -33,12 +32,10 @@ public class Defaite extends Etat implements Screen {
      * Générateur de la classe Defaite
      * @param game
      * @param jeu
-     * @param st
      */
-    public Defaite(Bomberball game, Jeu jeu, String st) {
+    public Defaite(Bomberball game, Jeu jeu) {
         super(jeu);
         this.game = game;
-        txt = st;
         f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
         frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
 

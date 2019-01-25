@@ -8,87 +8,25 @@ import com.bomber.game.MapetObjet.Case;
 import com.bomber.game.MapetObjet.Map;
 
 import java.util.LinkedList;
-
+/**
+ * Classe EnnemiActif
+ * ennemis qui suit le chemin le plus long accessible
+ */
 public class EnnemiActif extends Ennemis {
-
+    /**
+     * renvoit un ennemis actif sur la case c et avec pm mouvement
+     * @param vivant
+     * @param c
+     * @param pm
+     */
     public EnnemiActif(boolean vivant, Case c, int pm) {
         super(Bomberball.multiTexture[16], vivant, c, pm);
         setAnimationdroite();
 
     }
-
-
-    /* fonction renvoyant la liste des cases non occupées par un mur ou un autre ennemi autour de la case donnée*/
-    public LinkedList<Case> voisinAccessibles(Case caseC) {
-        Map m = caseC.getMap();
-        Case[][] grille = m.getGrille();
-
-        int a = caseC.posX();
-        int b = caseC.posY();
-        LinkedList<Case> voisin = new LinkedList<Case>();
-
-        if (caseLibre(grille[a - 1][b])) {
-            voisin.add(grille[a - 1][b]);
-        }
-
-        if (caseLibre(grille[a][b + 1])) {
-            voisin.add(grille[a][b + 1]);
-        }
-
-        if (caseLibre(grille[a + 1][b])) {
-            voisin.add(grille[a + 1][b]);
-        }
-
-        if (caseLibre(grille[a][b - 1])) {
-            voisin.add(grille[a][b - 1]);
-        }
-
-        return voisin;
-    }
-
-
-    /* Met à jour le chemin de l'ennemi pour qu'il soit maximum */
-    public LinkedList<Case> cheminMax(int pmMax, Case cChemin) {
-
-        LinkedList<Case> visites = new LinkedList<Case>();
-        visites.add(cChemin);
-
-        return cheminMaxAux(visites, pmMax, pmMax);
-    }
-
-
-    /* Calcul par récursivité le chemin qui emmène l'ennemi le plus loin possible de la case où il se trouve */
-    public LinkedList<Case> cheminMaxAux(LinkedList<Case> visites, int pmMax, int pmRestants) {
-        //case initiale = visites[pm - pmRestants -1]
-        LinkedList<Case> res = new LinkedList<Case>();
-
-        // cas de base: l'ennemi ne peut pas aller plus loin
-        if (pmRestants == 0) {
-            return res;
-        } else {
-            LinkedList<Case> voisins = voisinAccessibles(visites.getLast());
-
-            LinkedList<Case> cheminProvisoire = new LinkedList<Case>();
-
-
-            // sinon on parcours les cases voisines non visitées
-            for (Case a : voisins) {
-                if (!visites.contains(a)) {
-                    if (visites.size() == (pmMax - pmRestants+1)) {
-                        visites.add(a);
-                    } else {
-                        visites.set(pmMax - pmRestants, a);
-                    }
-                    cheminProvisoire = cheminMaxAux(visites, pmMax, pmRestants - 1);
-                    if (cheminProvisoire.size() > res.size()) {
-                        res = cheminProvisoire;
-                    }
-                }
-            }
-            return res;
-        }
-    }
-
+    /**
+     * change l'annimation de l'ennemis pourqu'il regarde à gauche
+     */
     @Override
     public void setAnimationgauche() {
         this.removeAction(animation);
@@ -96,7 +34,7 @@ public class EnnemiActif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidemement d'image pour faire une annimation
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + (int) (time * 6) % 4 + "inv"))));
@@ -106,14 +44,16 @@ public class EnnemiActif extends Ennemis {
         };
         this.addAction(animation);
     }
-
+    /**
+     * change l'annimation de l'ennemis pourqu'il dance lorsque le joueur meurt
+     */
     public void setAnimationdefaite() {
         this.removeAction(animation);
         animation = new Action() {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidement de coté
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int) (time * 5) % 2) == 0) ? "" : "inv")))));
@@ -124,16 +64,26 @@ public class EnnemiActif extends Ennemis {
         this.addAction(animation);
     }
 
+    /**
+     * accesseur portee
+     * @return int
+     */
     @Override
     public int getPortee() {
         return 0;
     }
 
+    /**
+     * accesseur chemin
+     * @return LinkedList<Case>
+     */
     @Override
     public LinkedList<Case> getChemin() {
         return null;
     }
-
+    /**
+     * change l'annimation de l'ennemis pourqu'il regarde à gauche
+     */
     @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
@@ -141,7 +91,7 @@ public class EnnemiActif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidemement d'image pour faire une annimation
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + (int) (time * 6) % 4))));
@@ -152,7 +102,11 @@ public class EnnemiActif extends Ennemis {
         this.addAction(animation);
 
     }
-
+    /**
+     *
+     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     *
+     */
     public void miseAjour() {
         prochain_deplacement.clear();
         recherchecheminmaxPL();
@@ -161,19 +115,31 @@ public class EnnemiActif extends Ennemis {
         }
     }
 
+    /**
+     * accesseur agro
+     * @return boolean
+     */
     @Override
     public boolean isAgro() {
         return false;
     }
 
+    /**
+     * modificateur portee
+     * @param int x
+     */
     @Override
     public void setPortee(int x) {
 //rien
     }
 
 
-    /** Partie Paul-Louis pour la résolution du chemin des ennemis **/
 
+    /**
+     * place le chemin le plus long accessible pour l'ennemis et le place dans prochain chemin
+     * @author Paul-Louis
+     *
+     */
     public void recherchecheminmaxPL() {
         Map map = this.getC().getMap();
         int lignes = 15;
@@ -321,7 +287,7 @@ public class EnnemiActif extends Ennemis {
             Dijkstra dijkstra=new Dijkstra(yc+colonnes*xc,graphe);
             LinkedList<Integer> disol=dijkstra.afficheChemin(ya+colonnes*xa);
 
-            for(int f: disol){
+            for(int f: disol){//on recupere le chemin donnée par dijkstra et on inverse son sens et on la met dans prochain_deplacement
                 prochain_deplacement.addFirst(map.getGrille()[f/colonnes][f%colonnes]);
             }
         }

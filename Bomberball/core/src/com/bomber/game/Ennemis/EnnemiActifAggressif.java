@@ -9,7 +9,10 @@ import com.bomber.game.MapetObjet.Map;
 import com.bomber.game.MapetObjet.Personnage;
 
 import java.util.LinkedList;
-
+/**
+ * Classe EnnemiActifAggressif
+ * ennemis qui suit le chemin le plus long  possible sauf quand il est pres du joueur dans se cas il se rapproche de lui
+ */
 public class EnnemiActifAggressif extends Ennemis {
     private int portee;
     /* determine la portée de la vision de l'ennemi. Si portee=2, le joueur sera détecté
@@ -17,146 +20,73 @@ public class EnnemiActifAggressif extends Ennemis {
 
     private boolean agro ;
 
-
+    /**
+     * accesseur de portee
+     * @return int
+     */
     public int getPortee() {
         return portee;
     }
 
+    /**
+     * accesseur de chemin
+     * @return LinkedList<Case
+     */
     @Override
     public LinkedList<Case> getChemin() {
         return null;
     }
 
+    /**
+     * modifiacteur portee
+     * @param int
+     */
     public void setPortee(int portee) {
         this.portee = portee;
     }
 
+    /**
+     * accesseur agro
+     * @return boolean
+     */
     public boolean isAgro() {
         return agro;
     }
 
+    /**
+     * modificateur agro
+     * @param boolean agro
+     */
     public void setAgro(boolean agro) {
         this.agro = agro;
     }
 
-
+    /**
+     * renvoit un ennemis actif agressif sur la case c avec pm mouvement une detection a portee case
+     * @param vivant
+     * @param c
+     * @param pm
+     * @param portee
+     * @param agro
+     */
     public EnnemiActifAggressif(boolean vivant, Case c, int pm, int portee, boolean agro) {
         super(Bomberball.multiTexture[24], vivant, c, pm);
         this.portee = portee;
         this.agro = agro;
         setAnimationdroite();
     }
-
+/**
+ * accesseur agro
+ * @return agro
+ */
     public boolean getAgro() {
         return agro;
     }
 
-    public LinkedList<Case> voisinAccessibles(Case caseC) {
-
-        Map m = caseC.getMap();
-        Case[][] grille = m.getGrille();
-        int a = caseC.posX();
-        int b = caseC.posY();
-        LinkedList<Case> voisin = new LinkedList<Case>();
-
-        if (caseLibre(grille[a - 1][b])) {
-            voisin.add(grille[a - 1][b]);
-        }
-
-        if (caseLibre(grille[a][b + 1])) {
-            voisin.add(grille[a][b + 1]);
-        }
-
-        if (caseLibre(grille[a + 1][b])) {
-            voisin.add(grille[a + 1][b]);
-        }
-
-        if (caseLibre(grille[a][b - 1])) {
-            voisin.add(grille[a][b - 1]);
-        }
-
-        return voisin;
-    }
-
-    // Met à jour la variable poursuivre si le joueur est détecté par l'ennemi
-    public boolean detection() {
-        Map m = c.getMap();
-        Case[][] grille = m.getGrille();
-        int a = c.posX();
-        int b = c.posY();
-
-        // on récupère la position du personnage
-        Personnage personnage = m.findActor("Personnage");
-        int xPerso = personnage.getC().posX();
-        int yPerso = personnage.getC().posY();
-
-
-        // On crée l'intervale des cases à surveiller
-        int a1 = Math.max(a - portee, 0);
-        int a2 = Math.min(13, a + portee);
-
-        int b1 = Math.max(b - portee, 0);
-        int b2 = Math.min(11, b + portee);
-
-        // Si le joueur est à portée de l'ennemi, il se fera alors poursuivre
-        return (((a1 <= xPerso) && (xPerso <= a2)) && ((a1 <= xPerso) && (xPerso <= a2)));
-    }
-
-    /* Met à jour le chemin de l'ennemi pour qu'il trouve le chemin minimum vers le joueur
-     *  Pré: requis On suppose qu'il existe bien un chemin reliant l'ennemi au joueur. */
-    public void cheminMin() {
-
-        Map m = c.getMap();
-        Case[][] grille = m.getGrille();
-
-        // on récupère la case du personnage
-        Personnage personnage = m.findActor("Personnage");
-        Case cPerso = personnage.getC();
-
-        /* On créer une liste de liste de case pour parcourir tous les chemins partants de la case de
-        l'ennemi, case par case, jusqu'à trouver le joueur, et ainsi obtenir le plus court chemin vers lui.
-         */
-
-        LinkedList<LinkedList<Case>> listeChemin = new LinkedList<LinkedList<Case>>();
-
-        // On mémorise les cases déjà visitées
-        LinkedList<Case> visites = new LinkedList<Case>();
-        visites.add(c);
-
-        // Indice de parcours du tableau visites
-        int k = 0;
-
-        // Tant que l'on a pas trouvé le joueur, on continu de le chercher
-        while (!visites.contains(cPerso)) {
-            Case temp = visites.get(k);
-            LinkedList<Case> voisins = voisinAccessibles(temp);
-            for (Case suivant : voisins) {
-                if (!visites.contains(suivant)) {
-                    // On parcours les nouvelles cases voisines et on les sauvegarde dans voisins
-                    visites.add(suivant);
-                    int n = listeChemin.size();
-                    int i = 0;
-                    /* On parcours tous les chemins existants  dont la dernière case est "suivant" et on rajoute alors
-                    alors ceux qui permettent d'atteindre la nouvelle case visitée,
-                    */
-                    for (i = 0; i < n; i++) {
-                        LinkedList<Case> cheminNouveau = listeChemin.get(i);
-                        if (cheminNouveau.getLast() == temp) {
-                            cheminNouveau.add(suivant);
-                            listeChemin.add(cheminNouveau);
-                            if (suivant == cPerso) {
-                                // On a trouver un chemin vers le joueur: il est l'une des solutions optimales
-                                prochain_deplacement = cheminNouveau;
-                            }
-                        }
-                    }
-                }
-            }
-            k = k + 1;
-        }
-    }
-
-
+    /**
+     * renvois une action affichant un deplacement vers la gauche de l'ennemis
+     * @return Action
+     */
     @Override
     public void setAnimationgauche() {
         this.removeAction(animation);
@@ -164,7 +94,7 @@ public class EnnemiActifAggressif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidemement d'image pour faire une annimation
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + ((agro) ? "1" : "0") + "" + (int) (time * ((agro) ? 12 : 6)) % 4 + "inv"))));
@@ -174,7 +104,10 @@ public class EnnemiActifAggressif extends Ennemis {
         };
         this.addAction(animation);
     }
-
+    /**
+     * renvois une action affichant un deplacement vers la droite de l'ennemis
+     * @return Action
+     */
     @Override
     public void setAnimationdroite() {
         this.removeAction(animation);
@@ -182,7 +115,7 @@ public class EnnemiActifAggressif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidemement d'image pour faire une annimation
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + ((agro) ? "1" : "0") + "" + (int) (time * ((agro) ? 12 : 6)) % 4))));
@@ -192,7 +125,9 @@ public class EnnemiActifAggressif extends Ennemis {
         };
         this.addAction(animation);
     }
-
+    /**
+     * change l'annimation de l'ennemis pourqu'il dance lorsque le joueur meurt
+     */
     @Override
     public void setAnimationdefaite() {
         this.removeAction(animation);
@@ -200,7 +135,7 @@ public class EnnemiActifAggressif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//change rapidement de coté
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int) (time * 5) % 2) == 0) ? "" : "inv")))));
@@ -210,17 +145,25 @@ public class EnnemiActifAggressif extends Ennemis {
         };
         this.addAction(animation);
     }
-
+    /**
+     *
+     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     *
+     */
     public void miseAjour() {
         prochain_deplacement.clear();
-        recherchecheminmaxPL();
+        recherchecheminmaxPL();//recupere le chemin calculé
         while (prochain_deplacement.size() > pm + 1) { //Il contient au moins la case où il se trouve
-            prochain_deplacement.removeLast();
+            prochain_deplacement.removeLast();//et le coupe pour qu'il fasse une longeur de pm+1 maximum
         }
 
 
     }
-
+    /**
+     * place le chemin le plus long accessible pour l'ennemis et le place dans prochain chemin
+     * @author Paul-Louis
+     *
+     */
     public void recherchecheminmaxPL() {
         Map map = this.getC().getMap();
         int lignes = 15;
@@ -467,12 +410,10 @@ public class EnnemiActifAggressif extends Ennemis {
                 Graphe graphe = new Graphe(existdij);
                 Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
                 LinkedList<Integer> disol = dijkstra.afficheChemin(ya + colonnes * xa);
-                prochain_deplacement.addFirst(c);
+                prochain_deplacement.addFirst(c);//on recupere le chemin donnée par dijkstra et on inverse son sens et on la met dans prochain_deplacement
                 for (int f : disol) {
                     prochain_deplacement.addFirst(map.getGrille()[f / colonnes][f % colonnes]);
                 }
-
-
             }
 
         }

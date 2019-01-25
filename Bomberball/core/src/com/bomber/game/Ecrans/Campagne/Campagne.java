@@ -467,7 +467,7 @@ public class Campagne extends Etat implements Screen {
                                 if (time > 3) {
                                     jeu.removeActor(jeu.map);
                                     jeu.map = null;
-                                    game.defaite = new Defaite(game, jeu, "gdjdj");
+                                    game.defaite = new Defaite(game, jeu);
                                     game.defaite.setEtat(game.campagne);
                                     game.campagne.removeActor(jeu);
                                     jeu.setEtat(game.defaite);
