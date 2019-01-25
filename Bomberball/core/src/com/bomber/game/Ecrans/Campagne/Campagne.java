@@ -704,7 +704,7 @@ public class Campagne extends Etat implements Screen {
      */
     public void tourEnnemi() {
 
-        this.addAction(new Action() {
+        this.addAction(new Action() {                                       //on ajoute une action à solo
             Ennemis en=ennemis.get(0);
             int i=-1;
             float time=0;
@@ -712,16 +712,16 @@ public class Campagne extends Etat implements Screen {
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if (time>1.01 && en.getActions().size==1) {
+                if (time>1.01 && en.getActions().size==1) {                 //on attend la fin des explosion et ou que l'ennemis en cours
                     i++;
-                    if (i == ennemis.size()) {
-                        Bomberball.input.addProcessor((Campagne) target);
+                    if (i == ennemis.size()) {                              //si on a terminé
+                        Bomberball.input.addProcessor((Campagne) target);   //on remet les inputs
                         return true;
                     }
                     en = ennemis.get(i);
-                    if (en.isVivant()) {
+                    if (en.isVivant()) {                                    //si l'ennemi est vivant
 
-                        en.deplacer();
+                        en.deplacer();                                      //il se deplace
                     }
                 }
                 return false;

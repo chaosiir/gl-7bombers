@@ -16,6 +16,9 @@ import com.bomber.game.Jeu;
 import java.awt.*;
 import java.io.File;
 
+/**
+ * Classe qui s'affiche lors d'une défaite
+ */
 public class Defaite extends Etat implements Screen {
 
     Bomberball game;                //Instance de la classe principale

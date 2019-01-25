@@ -14,10 +14,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-
+/**
+ * Classe Map
+ * Groupe de case contenu dans une matrice pour pouvoir voir les voisins
+ */
 public class Map extends Group {//meme chose map est un group d'acteur (les cases)
-    private Case[][] grille;
-    private int x;      //dimensions de la map, typiquement 15x13
+    private Case[][] grille;    //grille de case
+    private int x;              //dimensions de la map, typiquement 15x13
     private int y;
 
 
@@ -29,9 +32,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     public Map() {
         super();
         setName("Map");
-        this.setPosition(Bomberball.taillecase * 2.5f, Bomberball.taillecase / 2);//on definit sa position dans la fenetre tout les acteurs
-        // appartenant à ce groupe auront une position relative à celle-ci => voir tuto Acteur/group
-        //la taillecase est defini dans bomberball par rapport à la taille de l'ecran
+        this.setPosition(Bomberball.taillecase * 2.5f, Bomberball.taillecase / 2);
+        //la taillecase est defini dans bomberball par rapport à la taille de l'écran
+
         grille = new Case[15][13];
         x = 15;
         y = 13;
@@ -59,87 +62,61 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return grille;
     }
 
+    /**
+     * modificateur de grille
+     * @param grille
+     */
     public void setGrille(Case[][] grille) {
         this.grille = grille;
     }
 
+    /**
+     * accesseur x
+     * @return int
+     */
     public int tailleX() {
         return x;
     }
+
+    /**
+     * Modificateur x
+     * @param x
+     */
     public void settailleX(int x) {
         this.x = x;
     }
 
+    /**
+     * accesseur Y
+     * @return int
+     */
     public int tailleY() {
         return y;
     }
 
+    /**
+     * Modificateur Y
+     * @param y
+     */
     public void settailleY(int y) {
         this.y = y;
     }
 
 
+
+
     /**
-     * @param lignes
-     * @param colonnes
-     * @return
+     * génération de la map PvP de base
+     * Renvoie un tableau de case de taille 15x13 avec le pourtour
+     * @param nbDestru
+     * @param bonus
+     * @return générer une map multijoueur
      */
-
-    public int[][] mat(int lignes, int colonnes) {
-        int t[][] = new int[lignes][colonnes];
-        int x, y;
-        int compteur1 = 0;
-        int compteur2 = 0;
-        while (compteur1 != 36) {
-            x = (int) (Math.random() * lignes);
-            y = (int) (Math.random() * colonnes);
-            if (t[x][y] == 0) {
-                t[x][y] = 1;
-                compteur1++;
-            }
-        }
-        while (compteur2 != 2) {
-            x = (int) (Math.random() * lignes);
-            y = (int) (Math.random() * colonnes);
-            if (t[x][y] == 0) {
-                t[x][y] = 2;
-                compteur2++;
-            }
-        }
-        return t;
-    }
-
-    public static void main(String args[]) {
-        Map m = new Map();
-        int t[][] = m.mat(13, 15);
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 15; j++) {
-                System.out.print(" " + t[i][j]);
-            }
-            System.out.println();
-        }
-        boolean b = m.verifSolo(t);
-        if (b) {
-            System.out.println("La carte est valide");
-        } else {
-            System.out.println("La carte n'est pas valide");
-        }
-        /*for (i=1;i<=10;i++){
-            int randomNum = 1 + (int)(Math.random() * 3);
-            j=randomNum;
-
-        }*/
-
-    }
-
-
-    //génération de la map PvP de base
-    //Renvoie un tableau de case de taille 15x13 avec le pourtour
     public static Map generatePvp(int nbDestru, int bonus) {
         int i;            // indice de ligne
         int j;            // indice de colonne
-        int cpt = 0;        //compteur de cases potentiellement destructibles, spoiler il y en a 93
-        int cpt2 = 0;   //indice allant de 1 à nbDestru
+        int cpt = 0;      //compteur de cases potentiellement destructibles, spoiler il y en a 93
+        int cpt2 = 0;     //indice allant de 1 à nbDestru
         int random;
         if (nbDestru > 93) {
             nbDestru = 93;
@@ -151,26 +128,26 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
         int id = 0;
 
-        Case[][] g = new Case[15][13];                          //ce qu'on va renvoyer, le tableau de case
-        Case[] casePotDes = new Case[100];                        //repertorie les cases potentiellement destructibles dans un  tableau
-        Case[] caseDes = new Case[200];                    // réportorie les cases destructibles (après la génération des murs destructibles)
+        Case[][] g = new Case[15][13];                                                                                                                                      //ce qu'on va renvoyer, le tableau de case
+        Case[] casePotDes = new Case[100];                                                                                                                                  //repertorie les cases potentiellement destructibles dans un  tableau
+        Case[] caseDes = new Case[200];                                                                                                                                     // réportorie les cases destructibles (après la génération des murs destructibles)
 
-        for (i = 0; i < 15; i++) {                                 //on parcourt toutes les cases de la map
+        for (i = 0; i < 15; i++) {                                                                                                                                          //on parcourt toutes les cases de la map
             for (j = 0; j < 13; j++) {
-                g[i][j] = new Case();                            //création d'une nouvelle case à la postion i,j
+                g[i][j] = new Case();                                                                                                                                       //création d'une nouvelle case à la postion i,j
                 g[i][j].setposX(i);
                 g[i][j].setposY(j);
-                if (i == 0 || i == 14 || j == 0 || j == 12 || (i % 2 == 0 && j % 2 == 0)) { //si la case fait partie des case indestructibles
-                    Mur m = new MurI();                                     //on crée un mur indestructible et on le met dans la case
+                if (i == 0 || i == 14 || j == 0 || j == 12 || (i % 2 == 0 && j % 2 == 0)) {                                                                                 //si la case fait partie des case indestructibles
+                    Mur m = new MurI();                                                                                                                                     //on crée un mur indestructible et on le met dans la case
                     g[i][j].setMur(m);
                 } else if ((j == 1 && (i == 3 || i == 11)) || (j == 3 && (i == 1 || i == 13)) || (j == 9 && (i == 1 || i == 13)) || (j == 11 && (i == 3 || i == 11))) {
-                    Mur m = new MurD();                  //mise en place des cases destructibles obligatoires autour de zones de départ
+                    Mur m = new MurD();                                                                                                                                     //mise en place des cases destructibles obligatoires autour de zones de départ
                     g[i][j].setMur(m);
                     caseDes[cpt2] = g[i][j];
                     cpt2++;
                 } else if (!((j <= 2 && i <= 2) || (j >= 10 && i <= 2) || (j <= 2 && i >= 12) || (j >= 10 && i >= 12))) {
-                    casePotDes[cpt] = g[i][j];               //pour toutes les autres cases sauf celles de la zone de départ
-                    cpt++;                              //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
+                    casePotDes[cpt] = g[i][j];                                                                                                                              //pour toutes les autres cases sauf celles de la zone de départ
+                    cpt++;                                                                                                                                                  //on ajoute la case de coordonnées i,j à la liste des cases potentiellement destru
                 }
                 if ((i == 1 || i == 13) && (j == 1 || j == 11)) {
                     g[i][j].setPersonnage(new Personnage(true, g[i][j], 2, 1, 5, id));
@@ -237,12 +214,14 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     }
 
 
-    // 1 : indestructible
-    // 2 : entree/sortie
-    // 0 : libre
+
 
 
     /**
+     *  1 : indestructible
+     *  2 : entree/sortie
+     *  0 : libre
+     *
      * Vérifie qu'un tableau passé en paramètre avec la convention ci-dessus est valide pour représenter une map
      * C'est-à-dire qu'il existe un chemin entre l'entrée et la sortie
      *
@@ -274,8 +253,8 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
         }
 
-        int tmp[][] = new int[lignes * colonnes][lignes * colonnes]; //tmp indique s'il existe un chemin entre deux sommets
-        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        int tmp[][] = new int[lignes * colonnes][lignes * colonnes];                //tmp indique s'il existe un chemin entre deux sommets
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes];              //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
         for (i = 0; i < lignes; i++) {
             for (j = 0; j < colonnes; j++) {
                 if (j > 0 && j < colonnes - 1) {
@@ -303,7 +282,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
         //Ici la matrice d'existence est faite.
 
-        int a = yd + colonnes * xd; //Valeur des sommets dans la matrice d'existence
+        int a = yd + colonnes * xd;                                                 //Valeur des sommets dans la matrice d'existence
         int b = ya + colonnes * xa;
 
 
@@ -358,7 +337,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         if (bonus > nbDestru) {
             bonus = nbDestru-1;
         }
-        Case dest[] = new Case[nbDestru];
+        Case dest[] = new Case[nbDestru];                               //Stocke les cases destructibles sur lesquelles on peut placer des bonus
         int a = 0;
         tmp = nbDestru;
         tmp1 = nbInDestru;
@@ -374,7 +353,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             }
         }
         while (tmp > 0) {
-            while (grille[x][y].getMur() != null && tmp > 0) {
+            while (grille[x][y].getMur() != null && tmp > 0) {          //Choix aléatoire du placement des murs
                 x = (int) (Math.random() * 15);
                 y = (int) (Math.random() * 13);
             }
@@ -452,6 +431,12 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return m;
     }
 
+    /**
+     * Méthode ajouterEnnemis
+     * Pour ajouter des ennemis à une map déjà crée
+     * @param nombre        nombre d'ennemis
+     * @param difficulte    niveau de difficulté
+     */
     public void ajouterEnnemis(int nombre ,int difficulte) {
         ArrayList<Case> tab = new ArrayList<Case>();
         for (int i = 1; i < grille.length - 1; i++) {
@@ -478,7 +463,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             boolean ajoute = false;
             ArrayList<Case> tabtemp = new ArrayList<Case>();
             tabtemp.addAll(tab);
-            if (Math.random() < 0.3) {//ajout fantome
+            if (Math.random() < 0.3) {                                                      //ajout fantome
                 while (!tabtemp.isEmpty() && !ajoute) {
                     Case potentiel = tabtemp.remove((int) (Math.random() * tabtemp.size()));
                     if (grille[potentiel.posX()][potentiel.posY()].estVide() && (getGrille()[potentiel.posX() - 1][potentiel.posY()].estVide() || getGrille()[potentiel.posX()][potentiel.posY() - 1].estVide() ||
@@ -528,7 +513,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     }
                 }
             }
-            if (!ajoute) {//ajout bat
+            if (!ajoute) {                                                                      //ajout bat
                 tabtemp.addAll(tab);
                 while (!tabtemp.isEmpty() && !ajoute) {
                     Case potentiel = tabtemp.remove((int) (Math.random() * tabtemp.size()));
@@ -559,17 +544,19 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
     /**
      * Méthode réalisant une conversion entre une map et un tableau compréhensible par verifSolo
-     *
+     * 1 pour un mur indestructible
+     * 2 pour une porte
+     * 3 pour un personnage
+     * 0 pour une case libre
      * @return un tableau d'entier
      */
-    int[][] traducteur() {//map.traducteur
+    int[][] traducteur() {
         int[][] tableau = new int[15][13];
         int i;
         int j;
         for (i = 0; i < 15; i++) {
             for (j = 0; j < 13; j++) {
                 if (this.grille[i][j].getMur() instanceof MurI) {
-                    //(MurI)this.grille[i][j].getMur().fdh();
                     tableau[i][j] = 1;
                 } else if (this.grille[i][j].getPorte() != null) {
                     tableau[i][j] = 2;
@@ -584,7 +571,10 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
     }
 
-    public void explosion() { //explose toutes les bombes de la map
+    /**Méthode explosion
+     * Explose toutes les bombes de la map
+     */
+    public void explosion() {
         int i;
         int j;
         for (i = 0; i < 15; i++) {
@@ -610,7 +600,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         m = m.generatePve(nbDestru, nbInDestru, bonus);
         int t[][] = m.traducteur();
         boolean bool = true;
-        while (!m.verifSolo(t) || bool) {
+        while (!m.verifSolo(t) || bool) {                       //Tant que l'on ne trouve pas une carte valide
             m = m.generatePve(nbDestru, nbInDestru, bonus);
             t = m.traducteur();
             int i;
@@ -622,14 +612,14 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     if (m.getGrille()[i][j].getPersonnage() != null) {
                         x = i;
                         y = j;
-                        i = 2000;//sortie des for
+                        i = 2000;                                               //sortie des for
                         j = 2000;
                     }
                 }
             }
             bool = true;
-            if (((m.getGrille()[x][y - 1].getMur() == null) && ((m.getGrille()[x - 1][y].getMur() == null) || (m.getGrille()[x + 1][y].getMur() == null))) ||// arc ^-> et v->
-                    ((m.getGrille()[x][y + 1].getMur() == null) && ((m.getGrille()[x - 1][y].getMur() == null) || (m.getGrille()[x + 1][y].getMur() == null)))) {//arc <-^ et <-v
+            if (((m.getGrille()[x][y - 1].getMur() == null) && ((m.getGrille()[x - 1][y].getMur() == null) || (m.getGrille()[x + 1][y].getMur() == null))) ||          //On vérifie si le joueur a la place pour poser une bombe
+                    ((m.getGrille()[x][y + 1].getMur() == null) && ((m.getGrille()[x - 1][y].getMur() == null) || (m.getGrille()[x + 1][y].getMur() == null)))) {
                 bool = false;
             }
 
@@ -650,7 +640,10 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     }
 
 
-
+    /**
+     * colorie le contour de coordonée l'indice en rouge pour annoncer la reduction
+     * @param indiceContour
+     */
     public void alertecontour(int indiceContour) {
 
         for (int i = indiceContour; i <= 14 - indiceContour; i++) {
@@ -663,6 +656,12 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             grille[14-indiceContour][i].getBackground().setColor(1,0,0,1);
         }
     }
+
+    /**
+     * remplace les case du contour d'indice indiceContour par des mur indestructible  et renvoi la  liste des joueurs tués
+     * @param indiceContour
+     * @return  ArrayList<Personnage>
+     */
     public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
         ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>();
 
@@ -699,6 +698,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return listePersosEcrases;
     }
 
+    /**
+     * supprime tout les acteurs des cases et de la map
+     */
     public void suppActor() {
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 13; j++) {
@@ -854,7 +856,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         choix = scan.nextInt();
         while (choix != 9999) {
             switch (choix) {
-                case 1: // personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
+                case 1:                                                                                     // personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
                     Boolean vivant = scan.nextBoolean();
                     int xc = scan.nextInt();
                     int yc = scan.nextInt();
@@ -865,7 +867,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     Personnage personnage = new Personnage(vivant, g[xc][yc], taille, nbBombe, pm, id);
                     g[xc][yc].setPersonnage(personnage);
                     break;
-                case 2: //ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
+                case 2:                                                                                     //ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant1 = scan.nextBoolean();
                     int xc1 = scan.nextInt();
                     int yc1 = scan.nextInt();
@@ -879,7 +881,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 3: //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+                case 3:                                                                                     //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant2 = scan.nextBoolean();
                     int xc2 = scan.nextInt();
                     int yc2 = scan.nextInt();
@@ -895,7 +897,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 4: //ennemiActif suivi de vivant, c,pm
+                case 4:                                                                                 //ennemiActif suivi de vivant, c,pm
                     Boolean vivant3 = scan.nextBoolean();
                     int xc3 = scan.nextInt();
                     int yc3 = scan.nextInt();
@@ -903,7 +905,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     EnnemiActif ennemiActif = new EnnemiActif(vivant3, g[xc3][yc3], pm3);
                     g[xc3][yc3].setEnnemi(ennemiActif);
                     break;
-                case 5: // ennemiActifAgressif suivi vivant, c, pm, portee, agro
+                case 5:                                                                                 // ennemiActifAgressif suivi vivant, c, pm, portee, agro
                     Boolean vivant4 = scan.nextBoolean();
                     int xc4 = scan.nextInt();
                     int yc4 = scan.nextInt();
@@ -1118,7 +1120,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         choix = scan.nextInt();
         while (choix != 9999) {
             switch (choix) {
-                case 1: // personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
+                case 1:                                                                                                 // personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
                     Boolean vivant = scan.nextBoolean();
                     int xc = scan.nextInt();
                     int yc = scan.nextInt();
@@ -1132,7 +1134,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     personnages.add(personnage);
                     g[xc][yc].setPersonnage(personnage);
                     break;
-                case 2: //ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
+                case 2:                                                                                                 //ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant1 = scan.nextBoolean();
                     int xc1 = scan.nextInt();
                     int yc1 = scan.nextInt();
@@ -1150,7 +1152,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 3: //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retour et une suite de coordonnée de case (x,y) fin par 1010
+                case 3:                                                                                                 //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retour et une suite de coordonnée de case (x,y) fin par 1010
                     Boolean vivant2 = scan.nextBoolean();
                     int xc2 = scan.nextInt();
                     int yc2 = scan.nextInt();
@@ -1170,7 +1172,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 4: //ennemiActif suivi de vivant, c,pm
+                case 4:                                                                                                 //ennemiActif suivi de vivant, c,pm
                     Boolean vivant3 = scan.nextBoolean();
                     int xc3 = scan.nextInt();
                     int yc3 = scan.nextInt();
@@ -1178,7 +1180,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     EnnemiActif ennemiActif = new EnnemiActif(vivant3, g[xc3][yc3], pm3);
                     g[xc3][yc3].setEnnemi(ennemiActif);
                     break;
-                case 5: // ennemiActifAgressif suivi vivant, c, pm, portee, agro
+                case 5:                                                                                                 // ennemiActifAgressif suivi vivant, c, pm, portee, agro
                    Boolean vivant4 = scan.nextBoolean();
                     int xc4 = scan.nextInt();
                     int yc4 = scan.nextInt();

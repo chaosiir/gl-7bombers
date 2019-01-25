@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Classe qui affiche le jeu dans le multijoueur
+ */
 public class Multijoueur extends Etat implements Screen {
     int pm=5;                                           //Nombre de pm initialisé
     int nb=1;                                           //Nombre de bombe initial
@@ -776,8 +779,8 @@ public class Multijoueur extends Etat implements Screen {
                         MoveByAction action=new MoveByAction();
                         action.setDuration(16);
                         action.setAmount(0,0);
-                        joueurs[0].addAction(action);               //Ajout d'action pour désactiver les touches
-                        joueurs[1].addAction(action);
+                        joueurs[0].addAction(action);               //on met une action qui ne fait rien à tout les joueur pour qu'il ne puissent pas bouger
+                        joueurs[1].addAction(action);               //et on attend 16/4 =>4s
                         joueurs[2].addAction(action);
                         joueurs[3].addAction(action);
                         jeu.addAction(new Action() {
@@ -885,7 +888,7 @@ public class Multijoueur extends Etat implements Screen {
         return true;
     }
     @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {//test de fonction clic
+    public boolean touchDown(int x, int y, int pointer, int button) {           //test de fonction clic
 
         return true;
     }
@@ -900,7 +903,7 @@ public class Multijoueur extends Etat implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                           //nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
     }
 
     @Override

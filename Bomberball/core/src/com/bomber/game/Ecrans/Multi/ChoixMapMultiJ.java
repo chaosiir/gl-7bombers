@@ -19,7 +19,6 @@ import java.io.File;
 /**
  * Classe ChoixMapMultiJ
  * Elle affiche des maps multijoueurs que le joueur a déjà créé et sur lesquelles il veut jouer
- * @author Paul-Louis Renard
  *
  */
 public class ChoixMapMultiJ extends Etat implements Screen {
@@ -180,26 +179,45 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         this.addActor(jeu);
     }
 
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
     }
 
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellée lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
         Bomberball.stg.clear();
@@ -207,11 +225,18 @@ public class ChoixMapMultiJ extends Etat implements Screen {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**Fonction qui gère l'appui
+     * @param keycode
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown( int keycode) {
         return false;
@@ -222,6 +247,12 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         return false;
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param x : récupère la position x du pointeur.
+     * @param y : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int x, int y) {
         return false;

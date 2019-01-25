@@ -20,7 +20,6 @@ import java.io.File;
 /**
  * Classe ChoixMapSoloJ
  * Elle affiche des maps solo que le joueur a déjà créé et sur lesquelles il veut jouer
- * @author Paul-Louis Renard
  *
  */
 public class ChoixMapSoloJ extends Etat implements Screen {
@@ -95,7 +94,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
 
 
-        table=new Table(); //Tableau
+        table=new Table();                                                     //Tableau
         table.setWidth(Bomberball.stg.getWidth());
         table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom); //Positionnement à la main
 
@@ -188,7 +187,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                   //nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
     }
 

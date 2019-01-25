@@ -51,7 +51,6 @@ public class MenuSolo extends Etat implements Screen {
     public void show() {
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
-        // called when this screen is set as the screen with game.setScreen();
         skin=new Skin(Gdx.files.internal("uiskin.json"));
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -60,7 +59,7 @@ public class MenuSolo extends Etat implements Screen {
 
         table=new Table(); //Tableau
         table.setWidth(Bomberball.stg.getWidth());
-        table.align(Align.center | Align.top); // Middle of the screen start at the top
+        table.align(Align.center | Align.top);
         table.setPosition(0, Gdx.graphics.getHeight());
 
         demarrerpartie = new TextButton("Demarrer une partie",skin);

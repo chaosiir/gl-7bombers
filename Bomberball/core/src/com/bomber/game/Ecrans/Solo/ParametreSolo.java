@@ -196,7 +196,7 @@ public class ParametreSolo extends Etat implements Screen {
 
 
 
-        table=new Table(); //Tableau
+        table=new Table();                                                  //Tableau
         table.setWidth(Bomberball.stg.getWidth());
         table.align(Align.center | Align.topLeft);
         table.setPosition(0, Gdx.graphics.getHeight());
