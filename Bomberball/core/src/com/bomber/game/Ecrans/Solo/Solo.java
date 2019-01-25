@@ -485,9 +485,12 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
         return true;
     }
 
+    /**
+     * fait jouer tous les ennemis
+     */
     public void tourEnnemi() {
 
-        this.addAction(new Action() {
+        this.addAction(new Action() {//on ajoute une action à solo
             Ennemis en=ennemis.get(0);
             int i=-1;
             float time=0;
@@ -495,15 +498,16 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if ((time>1.5 ||jeu.findActor("explo")==null)&&en.getActions().size==1) {
+                if ((time>1.5 ||jeu.findActor("explo")==null)&&en.getActions().size==1) {//on attend la fin des explosion et ou que l'ennemis en cours
+                    //ait fini son action
                     i++;
-                    if (i == ennemis.size()) {
-                        Bomberball.input.addProcessor((Solo) target);
+                    if (i == ennemis.size()) {//si on a terminé
+                        Bomberball.input.addProcessor((Solo) target);//on remet les inputs
                         if (!personnage.isVivant()) {
 
                             for (Ennemis en : ennemis) {
                                 if (en.isVivant()) {
-                                    en.setAnimationdefaite();
+                                    en.setAnimationdefaite();//on gagne si le joueur est mort
                                 }
                             }
                             jeu.addAction(new Action() {
@@ -529,9 +533,9 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
                         return true;
                     }
                     en = ennemis.get(i);
-                    if (en.isVivant()) {
+                    if (en.isVivant()) {//si l'ennemis est vivant
 
-                        en.deplacer();
+                        en.deplacer();//il se deplace
                     }
                 }
                 return false;

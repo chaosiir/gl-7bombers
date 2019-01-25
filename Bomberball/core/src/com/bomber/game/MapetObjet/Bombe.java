@@ -56,10 +56,8 @@ public class Bombe extends Image {
      * Informe la case de la bombe qu'une explosion y prend sa source
      * Supprime la bombe une fois que l'explosion a eu lieu
      */
-
-
     public void explosion(){
-        this.c.explosionHaute(taille);
+        this.c.explosionHaute(taille);//on fait une explosion de chaque coté
         this.c.explosionBasse(taille);
         this.c.explosionDroite(taille);
         this.c.explosionGauche(taille);
@@ -70,7 +68,7 @@ public class Bombe extends Image {
         c.addAction(new Action() {
             float time=0;
             @Override
-            public boolean act(float delta) {
+            public boolean act(float delta) {//au bout d'une seconde on enleve l'affichage de l'explosion
                 time+=delta;
                 if(time>1){
                     c.removeActor(c.findActor("explo"));

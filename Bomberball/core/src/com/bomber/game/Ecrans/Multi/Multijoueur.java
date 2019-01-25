@@ -336,6 +336,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         jeu.map.setBounds(Gdx.graphics.getWidth()/9,0,jeu.map.getWidth(),jeu.map.getHeight());
         jeu.map.setScaleY(27f/26f);
 
+
+
         joueur1=new Image(new Texture(Gdx.files.internal("Panneau_joueur.png")));
         joueur1.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
         joueur1.setHeight(2*Bomberball.taillecase);
@@ -775,8 +777,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         MoveByAction action=new MoveByAction();
                         action.setDuration(16);
                         action.setAmount(0,0);
-                        joueurs[0].addAction(action);
-                        joueurs[1].addAction(action);
+                        joueurs[0].addAction(action);//on met une action qui ne fait rien à tout les joueur pour qu'il ne puissent pas bouger
+                        joueurs[1].addAction(action);//et on attend 16/4 =>4s
                         joueurs[2].addAction(action);
                         joueurs[3].addAction(action);
                         jeu.addAction(new Action() {
@@ -793,7 +795,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                                             viv=i;
                                         }
                                     }
-                                    jeu.removeActor(jeu.findActor("Map"));
+                                    jeu.removeActor(jeu.findActor("Map"));//avant d'afficher l'ecran de victoire
                                     game.victoire=new Victoire(game,jeu,"                     Victoire joueur "+(viv+1));
                                     for(int i=0;i<4;i++){
                                         jeu.removeActor(joueurs[i]);

@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-
-public class Map extends Group {//meme chose map est un group d'acteur (les cases)
-    private Case[][] grille;
+/**
+ * Classe Map
+ * Groupe de case contenu dans une matrice pour pouvoir voir les voisins
+ */
+public class Map extends Group {
+    private Case[][] grille;//grille de case
     private int x;      //dimensions de la map, typiquement 15x13
     private int y;
 
@@ -59,82 +62,52 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return grille;
     }
 
+    /**
+     * modificateur de grille
+     * @param grille
+     */
     public void setGrille(Case[][] grille) {
         this.grille = grille;
     }
 
+    /**
+     * accesseur x
+     * @return int
+     */
     public int tailleX() {
         return x;
     }
+
+    /**
+     * Modificateur x
+     * @param x
+     */
     public void settailleX(int x) {
         this.x = x;
     }
 
+    /**
+     * accesseur Y
+     * @return int
+     */
     public int tailleY() {
         return y;
     }
-
+    /**
+     * Modificateur Y
+     * @param y
+     */
     public void settailleY(int y) {
         this.y = y;
     }
 
-
     /**
-     * @param lignes
-     * @param colonnes
+     * génération de la map PvP de base
+     * Renvoie un tableau de case de taille 15x13 avec le pourtour
+     * @param nbDestru
+     * @param bonus
      * @return
      */
-
-    public int[][] mat(int lignes, int colonnes) {
-        int t[][] = new int[lignes][colonnes];
-        int x, y;
-        int compteur1 = 0;
-        int compteur2 = 0;
-        while (compteur1 != 36) {
-            x = (int) (Math.random() * lignes);
-            y = (int) (Math.random() * colonnes);
-            if (t[x][y] == 0) {
-                t[x][y] = 1;
-                compteur1++;
-            }
-        }
-        while (compteur2 != 2) {
-            x = (int) (Math.random() * lignes);
-            y = (int) (Math.random() * colonnes);
-            if (t[x][y] == 0) {
-                t[x][y] = 2;
-                compteur2++;
-            }
-        }
-        return t;
-    }
-
-    public static void main(String args[]) {
-        Map m = new Map();
-        int t[][] = m.mat(13, 15);
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 15; j++) {
-                System.out.print(" " + t[i][j]);
-            }
-            System.out.println();
-        }
-        boolean b = m.verifSolo(t);
-        if (b) {
-            System.out.println("La carte est valide");
-        } else {
-            System.out.println("La carte n'est pas valide");
-        }
-        /*for (i=1;i<=10;i++){
-            int randomNum = 1 + (int)(Math.random() * 3);
-            j=randomNum;
-
-        }*/
-
-    }
-
-
-    //génération de la map PvP de base
-    //Renvoie un tableau de case de taille 15x13 avec le pourtour
     public static Map generatePvp(int nbDestru, int bonus) {
         int i;            // indice de ligne
         int j;            // indice de colonne
@@ -584,7 +557,10 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
     }
 
-    public void explosion() { //explose toutes les bombes de la map
+    /**
+     * explose toutes les bombes de la map
+     */
+    public void explosion() {
         int i;
         int j;
         for (i = 0; i < 15; i++) {
@@ -650,12 +626,15 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     }
 
 
-
+    /**
+     * colorie le contour de coordonée l'indice en rouge pour annoncer la reduction
+     * @param indiceContour
+     */
     public void alertecontour(int indiceContour) {
 
         for (int i = indiceContour; i <= 14 - indiceContour; i++) {
             grille[i][indiceContour].getBackground().setColor(1,0,0,1);
-            grille[i][12-indiceContour].getBackground().setColor(1,0,0,1);
+            grille[i][12-indiceContour].getBackground().setColor(1,0,0,1);//changement de la couleur de l'arriere plan
 
         }
         for (int i = indiceContour + 1; i <= 11 - indiceContour; i++) {
@@ -663,14 +642,19 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             grille[14-indiceContour][i].getBackground().setColor(1,0,0,1);
         }
     }
+    /**
+     * remplace les case du contour d'indice indiceContour par des mur indestructible  et renvoi la  liste des joueurs tués
+     * @param int
+     * @return  ArrayList<Personnage>
+     */
     public ArrayList<Personnage> rapprochementDesMurs(int indiceContour) {
         ArrayList<Personnage> listePersosEcrases = new ArrayList<Personnage>();
 
         for (int i = indiceContour; i <= 14 - indiceContour; i++) {
-            grille[i][indiceContour].setMur(new MurI());
+            grille[i][indiceContour].setMur(new MurI());//on met des mur dans les bonnes case s
             if (grille[i][indiceContour].getPersonnage() != null) {
                 grille[i][indiceContour].getPersonnage().setVivant(false);
-                listePersosEcrases.add(grille[i][indiceContour].getPersonnage());
+                listePersosEcrases.add(grille[i][indiceContour].getPersonnage());//ajout du joueur dans la liste si tué
             }
 
             grille[i][12 - indiceContour].setMur(new MurI());
@@ -699,6 +683,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         return listePersosEcrases;
     }
 
+    /**
+     * supprime tout les acteurs des cases et de la map
+     */
     public void suppActor() {
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 13; j++) {

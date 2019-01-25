@@ -23,9 +23,9 @@ import com.bomber.game.Ecrans.Victoire;
 import java.awt.*;
 import java.io.*;
 
-//classe de l'application
+
 public class Bomberball extends Game {
-	public static Stage stg;//creer le stage(la fenetre ) sur lequel tout va s'afficher => voir tuto scene2D
+	public static Stage stg;
 	Jeu jeu;//creation de notre classe jeu
 	// la taille defini / augmenté au besoin
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;//definition de la taille d'une case en fonction
