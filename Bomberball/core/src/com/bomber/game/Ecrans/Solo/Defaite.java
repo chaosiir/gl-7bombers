@@ -111,52 +111,86 @@ public class Defaite extends Etat implements Screen {
         this.addActor(rejouer);
     }
 
-    @Override
-    public void render(float delta) {
 
+
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
+    @Override
+    public boolean mouseMoved(int x, int y) {
+        return false;
     }
 
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+    }
+
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellée lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
         Bomberball.stg.clear();
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**
+     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position y du pointeur.
+     * @param pointer : récupère le pointeur sur événement.
+     * @param button : donne le bouton appuyé.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
-    public boolean keyDown( int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int x, int y) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 }
+
 
 
 
