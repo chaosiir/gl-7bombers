@@ -25,62 +25,68 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**Classe Campagne
+ * Elle s'affiche lorsque le joueur joue en mode campagne
+ * @author Paul-Louis Renard
+ */
 public class Campagne extends Etat implements Screen {
-    int pm=5;
-    int nb=1;
-    private Bomberball game;
-    int mapactuel; //Niveau actuel
-    int u=0;
-    Personnage personnage;
-    Image back;
-    TextButton retour;
-    Skin skin;
-    Image player;
+    int pm=5;                   //Nombre de pm initialisé
+    int nb=1;                   //Nombre de bombe initial
+    private Bomberball game;    //Instance de la classe principale
+    int mapactuel;              //Niveau actuel
+    int u=0;                    //Entier permettant d'afficher les pop-up dans un ordre précis
+    Personnage personnage;      //Stockage du personnage
+    Image back;                 //Image de l'arrière-plan
+    TextButton retour;          //Bouton retour
+    Skin skin;                  //Caractéristiques des éléments graphiques
+    Image player;               //Affichage de l'image du joueur
 
-    File f;
-    File frecommencer;
-    FileWriter fw;
-    FileWriter fwr;
-    Dialog dialog;
-
-
-
-    ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();
-    Image joueur;
-    Image bombe;
-    Image mouvement;
-    Image pousse;
-    Image explosion;
-
-    Label nbmvt;
-    Label nbBombe;
-    Label porteExplo;
-    Label poussee;
+    File f;                     //Fichier qui sert pour la pause ou pour recommencer un niveau
+    File frecommencer;          //Fichier qui permet de sauvegarder le début d'une partie
+    FileWriter fw;              //Cela permet d'écrire dans le fichier f
+    FileWriter fwr;             //Cela permet d'écrire dans le fichier frecommencer
+    Dialog dialog;              //Constitue un pop-up
 
 
 
+    ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();      //Permet de récupérer tous les ennemis de la map
+    Image joueur;                                       //Panneau du joueur
+    Image bombe;                                        //Affiche le nombre de bombe
+    Image mouvement;                                    //Affiche le nombre des mouvements
+    Image pousse;                                       //Affiche si le joueur a la poussée
+    Image explosion;                                    //Affiche la portée de l'explosion
 
+    Label nbmvt;                                        //Contient le nombre de points de mouvement actuel
+    Label nbBombe;                                      //Contient le nombre de bombe actuel
+    Label porteExplo;                                   //Contient la valeur de la portée
+    Label poussee;                                      //Contient un X si le joueur peut poussé sinon rien
+
+
+    /**Constructeur de Campagne
+     * @param game  instance de la classe principale nécessaire au bon fonctionnement
+     * @param jeu   instance de jeu pour gérer l'affichage
+     */
     public Campagne(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game=game;
         f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
         frecommencer = Gdx.files.internal( "./SaveTempo/debut.txt").file();
-
-
     }
 
+    /**Méthode setMapactuel
+     * @param e Nouveau niveau actuel
+     */
     public void setMapactuel(int e){
         this.mapactuel=e;
     }
 
-    /**
-     * Méthode appelée pour afficher la fenêtre
+    /** Méthode appelée pour afficher la fenêtre
+     *
      */
     @Override
     public void show() {
-        System.out.println(mapactuel);
-        Bomberball.stg.addActor(this);
-        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.stg.addActor(this);                                              //Affiche l'écran
+        Bomberball.stg.setKeyboardFocus(this);                                      //Récupére le contrôle des touches
         Bomberball.input.addProcessor(this);
         jeu.removeActor(jeu.map);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -88,45 +94,45 @@ public class Campagne extends Etat implements Screen {
         back.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
 
-        if(f.exists()){
+        if(f.exists()){                                                             //Si le fichier tmp existe,
             jeu.removeActor(jeu.map);
             this.removeActor(jeu);
             jeu.map=null;
-            if(jeu.recommencer){
+            if(jeu.recommencer){                                                    //on vérifie si on est dans le cas où le joueur veut recommencer
                 u=0;
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
-                for (int i=0;i<15;i++){
-                    for(int j=0;j<13;j++){
+                for (int i=0;i<15;i++){                                             //On réinitialise les valeurs temporaires par le nombre de mouvement
+                    for(int j=0;j<13;j++){                                          //et le nombre de bombe du joueur
                         if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
                             pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
                             nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
                         }
                     }
                 }
-                f.delete();
+                f.delete();                                                         //Le fichier tmp est supprimé après son chargement
                 try {
-                    fwr = new FileWriter(frecommencer);
+                    fwr = new FileWriter(frecommencer);                             //On sauvegarde le contexte de début de partie pour pouvoir recommencer
                     fwr.write(jeu.map.mapToTextN());
                     fwr.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            else{
-                jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
+            else{                                                                   //Si le fichier tmp existe et que le joueur ne veut pas recommencer,
+                jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);       //c'est que le joueur veut continuer sa partie en revenant du menu pause
                 f.delete();
-                pm=jeu.pmtmp1; //Remise à jour des valeurs de pm et du nb de bombes restantes
+                pm=jeu.pmtmp1;                                                      //Remise à jour des valeurs de pm et du nb de bombes restantes
                 jeu.pmtmp1=-1;
                 nb=jeu.nbtmp1;
                 jeu.nbtmp1=-1;
             }
 
         }
-        else if(jeu.map==null){
-            //Rien
+        else if(jeu.map==null){                                                     //Ce cas n'est pas possible dans la campagne puisque le joueur ne peut
+            //Rien                                                                  //pas avoir une carte aléatoire
         }
-        else{
+        else{                                                                       //Sinon le fichier jeu.map n'est pas nul car le joueur a choisi une map
             u=0;
             for (int i=0;i<15;i++){
                 for(int j=0;j<13;j++){
@@ -136,14 +142,14 @@ public class Campagne extends Etat implements Screen {
                     }
                 }
             }
-            try {
+            try {                                                                   //On sauvegarde le contexte de début de partie pour pouvoir recommencer
                 fwr = new FileWriter(frecommencer);
                 fwr.write(jeu.map.mapToTextN());
                 fwr.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(jeu.difficulte!=-1){
+            if(jeu.difficulte!=-1){                                                 //Si le joueur a choisi un mode de difficulté,
                 LinkedList<Ennemis> ennemis=new LinkedList<Ennemis>();
                 for(int i=0;i<15;i++){
                     for(int j=0;j<13;j++){
@@ -152,7 +158,7 @@ public class Campagne extends Etat implements Screen {
                         }
                     }
                 }
-                switch (jeu.difficulte){
+                switch (jeu.difficulte){                                            //on règle la portée de détection et le nombre de déplacement des ennemis
                     case 1:
                         for(Ennemis en: ennemis){
                             if(en instanceof EnnemiActifAggressif || en instanceof EnnemiPassifAgressif){
@@ -178,7 +184,7 @@ public class Campagne extends Etat implements Screen {
             }
         }
 
-        for (int i=0;i<15;i++){
+        for (int i=0;i<15;i++){                                                           //Cette double boucle for permet d'afficher les bonus sur les cases
             for (int j=0;j<13;j++){
                 if(jeu.map.getGrille()[i][j].getBonus()!=null){
 
@@ -190,7 +196,7 @@ public class Campagne extends Etat implements Screen {
                 }
             }
         }
-        jeu.map.setPosition(Gdx.graphics.getWidth()-(jeu.map.getGrille().length+2f)*Bomberball.taillecase ,0);
+        jeu.map.setPosition(Gdx.graphics.getWidth()-(jeu.map.getGrille().length+2f)*Bomberball.taillecase ,0); //Positionnement de la map
         jeu.map.setScaleY(27f/26f);
         joueur=new Image(new Texture(Gdx.files.internal("Panneau_joueur.png")));
         joueur.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
@@ -199,17 +205,8 @@ public class Campagne extends Etat implements Screen {
 
         personnage=jeu.map.findActor("Personnage");
 
-        if(jeu.porteeBombe!=-1){
-            personnage.setTaille(jeu.porteeBombe);
-        }
-        if(jeu.nbBombe!=-1){
-            personnage.setNbBombe(jeu.nbBombe);
-        }
-        if(jeu.nbDeplaP!=-1){
-            personnage.setPm(jeu.nbDeplaP);
-        }
 
-        if(mapactuel==1 && u==0){
+        if(mapactuel==1 && u==0){                                                                                   //Affichage progressif des pop-up
             dialog = new Dialog("Tutoriel", skin, "dialog") {
                 public void result(Object obj) {
                     System.out.println("result "+obj);
@@ -248,7 +245,7 @@ public class Campagne extends Etat implements Screen {
 
 
 
-
+        /** Mise en place de l'affichage des caractéristiques du joueur **/
 
         mouvement = new Image(new Texture(Gdx.files.internal("Nombre_mouvement.png")));
         mouvement.setWidth(jeu.map.getX()+2f*Bomberball.taillecase);
@@ -300,7 +297,7 @@ public class Campagne extends Etat implements Screen {
 
 
 
-        retour.addListener(new ClickListener(){
+        retour.addListener(new ClickListener(){                         //Si le joueur appuie sur retour, il retourne au menuSolo
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.map.suppActor();
@@ -330,6 +327,7 @@ public class Campagne extends Etat implements Screen {
             }
         }
 
+/** Ajout des acteurs dans la campagne**/
 
         this.addActor(back);
         this.addActor(joueur);
@@ -361,15 +359,20 @@ public class Campagne extends Etat implements Screen {
 
     }
 
+    /**Méthode Keydown
+     * Gére l'appui sur une touche du clavier
+     * @param keycode   Code de la touche appuyée
+     * @return          un booléen qui indique la fin du traitement
+     */
     @Override
-    public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
+    public boolean keyDown( int keycode) {
         Personnage joueur = jeu.map.findActor("Personnage");
-        if(jeu.findActor("explo")==null) {
+        if(jeu.findActor("explo")==null) {                  //Dès que les explosions ne sont plus sur la map, le joueur peut interragir.
 
             if ((joueur != null) && (!joueur.hasActions())) {
                 boolean b ;
-                if (keycode == Input.Keys.RIGHT) {
-                    if (pm > 0) {
+                if (keycode == Input.Keys.RIGHT) {                 //Dès que le joueur appuie sur la fléche droite, il se déplace vers la droite
+                    if (pm > 0) {                                   //s'il a encore des points de mouvement
                         b = joueur.deplacerDroite();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
@@ -379,8 +382,8 @@ public class Campagne extends Etat implements Screen {
                     }
                 }
 
-                if (keycode == Input.Keys.LEFT) {
-                    if (pm > 0) {
+                if (keycode == Input.Keys.LEFT) {               //Dès que le joueur appuie sur la fléche gauche, il se déplace vers la gauche
+                    if (pm > 0) {                               //s'il a encore des points de mouvement
                         b = joueur.deplacerGauche();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
@@ -388,8 +391,8 @@ public class Campagne extends Etat implements Screen {
                         this.addActor(nbmvt);
                     }
                 }
-                if (keycode == Input.Keys.DOWN) {
-                    if (pm > 0) {
+                if (keycode == Input.Keys.DOWN) {               //Dès que le joueur appuie sur la fléche bas, il se déplace vers le bas
+                    if (pm > 0) {                               //s'il a encore des points de mouvement
                         b = joueur.deplacerBas();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
@@ -397,8 +400,8 @@ public class Campagne extends Etat implements Screen {
                         this.addActor(nbmvt);
                     }
                 }
-                if (keycode == Input.Keys.UP) {
-                    if (pm > 0) {
+                if (keycode == Input.Keys.UP) {                 //Dès que le joueur appuie sur la fléche haut, il se déplace vers le haut
+                    if (pm > 0) {                               //s'il a encore des points de mouvement
                         b = joueur.deplacerHaut();
                         pm = ((b) ? pm - 1 : pm);
                         this.removeActor(nbmvt);
@@ -406,14 +409,14 @@ public class Campagne extends Etat implements Screen {
                         this.addActor(nbmvt);
                     }
                 }
-                if (keycode == Input.Keys.SPACE) {
-                    if (nb > 0) {
+                if (keycode == Input.Keys.SPACE) {              //Dès que le joueur appuie sur espace, il pose une bombe
+                    if (nb > 0) {                               //s'il a encore des bombes
                         b = joueur.poserBombe();
                         nb = ((b) ? nb - 1 : nb);
                         nbBombe.setText(""+nb);
                     }
                 }
-                if (keycode == Input.Keys.ENTER) {
+                if (keycode == Input.Keys.ENTER) {              //L'appui sur ENTREE entraîne une fin de tour
                     jeu.map.explosion();
                     porteExplo.setText("" + personnage.getTaille());
                     if (joueur.isPoussee()) {
@@ -424,14 +427,14 @@ public class Campagne extends Etat implements Screen {
                         jeu.removeActor(jeu.map);
                         jeu.map = null;
 
-                        if(mapactuel==5){
+                        if(mapactuel==5){                   //Si le joueur est au dernier niveau
 
                             game.victoire=new Victoire(game,jeu,"Vous avez battu le jeu ! Bravo !");
                             game.campagne.removeActor(jeu);
                             jeu.setEtat(game.victoire);
                             game.setScreen(game.victoire);
                         }
-                        else{
+                        else{                               //S'il n'est pas au dernier niveau
                             game.victoireCampagne.setNiveaugag(mapactuel);
                             game.campagne.removeActor(jeu);
                             jeu.setEtat(game.victoireCampagne);
@@ -451,7 +454,7 @@ public class Campagne extends Etat implements Screen {
                         }
 
                     }
-                    if (!joueur.isVivant()) {
+                    if (!joueur.isVivant()) {           //Si le joueur est mort
 
                         for (Ennemis en : ennemis) {
                             if (en.isVivant()) {
@@ -462,7 +465,7 @@ public class Campagne extends Etat implements Screen {
                             float time = 0;
 
                             @Override
-                            public boolean act(float delta) {
+                            public boolean act(float delta) {                               //Au bout de 3 secondes, on affiche l'écran de défaite
                                 time += delta;
                                 if (time > 3) {
                                     jeu.removeActor(jeu.map);
@@ -482,7 +485,7 @@ public class Campagne extends Etat implements Screen {
                 }
             }
         }
-        if (keycode == Input.Keys.ESCAPE) {
+        if (keycode == Input.Keys.ESCAPE) {                             //Si le joueur appuie sur ECHAP, on passe dans le menu Pause
             try {
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextNP());
@@ -492,7 +495,7 @@ public class Campagne extends Etat implements Screen {
                 else{
                     fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
                 }
-                fw.write("111 "); //Symbole de fin pour la fin de la mise à jour des personnages
+                fw.write("111 ");                                  //Symbole de fin pour la fin de la mise à jour des personnages
                 fw.write(""+joueur.getId());
                 fw.close();
             } catch (IOException e) {
@@ -506,7 +509,7 @@ public class Campagne extends Etat implements Screen {
             jeu.setEtat(game.menuPause);
             game.setScreen(game.menuPause);
         }
-        if(personnage.isVivant()) {
+        if(personnage.isVivant()) {                                 //Affichage des autres pop-up
             if (u == 0 && mapactuel == 1 && pm == 2) {
                 u++;
                 dialog = new Dialog("Tutoriel", skin, "dialog") {
@@ -697,6 +700,9 @@ public class Campagne extends Etat implements Screen {
         return true;
     }
 
+    /**Méthode tourEnnemi
+     * Sert à la gestion du tour de l'ennemi
+     */
     public void tourEnnemi() {
 
         this.addAction(new Action() {
@@ -707,7 +713,7 @@ public class Campagne extends Etat implements Screen {
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if (time>1.01&&en.getActions().size==1) {
+                if (time>1.01 && en.getActions().size==1) {
                     i++;
                     if (i == ennemis.size()) {
                         Bomberball.input.addProcessor((Campagne) target);

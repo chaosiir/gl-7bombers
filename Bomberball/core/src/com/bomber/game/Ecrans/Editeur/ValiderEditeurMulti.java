@@ -24,16 +24,16 @@ import java.io.FileWriter;
  *
  */
 public class ValiderEditeurMulti extends Etat implements Screen {
-    Bomberball game;
-    Image back;
-    Label explication;
-    Skin skin;
-    TextButton valider;
-    TextButton retour;
-    TextButton abandonner;
-    TextField inputui;
-    Table table;
-    File f;
+    Bomberball game;        //Instance de la classe principale
+    Image back;             //Image de l'arrière-plan
+    Label explication;      //Texte explication
+    Skin skin;              //Caractéristiques des éléments graphiques
+    TextButton valider;     //Donner un nom à la map
+    TextButton retour;      //retour permet de retourner à l'éditeur multi
+    TextButton abandonner;  //Retourne au menu principal sans enregistrer
+    TextField inputui;      //Récupère le nom de la map
+    Table table;            //Permet d'organiser les élements de l'écran
+    File f;                 //Sauvegarde temporaire
     /**
      * Constructeur de la classe ValiderEditeurMulti
      * @param game

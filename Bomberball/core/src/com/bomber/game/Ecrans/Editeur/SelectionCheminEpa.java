@@ -29,21 +29,21 @@ import java.io.IOException;
  *
  */
 public class SelectionCheminEpa extends Etat implements Screen {
-    Bomberball game;
-    Image back;
-    EnnemiPassifAgressif ennemi_passif_aggressif;
-    int compteur=0;
-    Map map;
+    Bomberball game;                                //Instance de la classe principale
+    Image back;                                     //Image de l'arrière-plan
+    EnnemiPassifAgressif ennemi_passif_aggressif;   //Ennemi que l'on place
+    int compteur=0;                                 //Compteur de la taille du chemin de l'ennemi
+    Map map;                                        //Map sur laquelle on place l'ennemi
 
-    Label indication;
-    Label indication1;
-    TextButton valider;
-    TextButton retour;
-    Table table;
-    Skin skin;
+    Label indication;                               //Indiquer comment placer un ennemi
+    Label indication1;                              //Indiquer comment supprimer un ennemi
+    TextButton valider;                             //Permet de valider le chemin effectué
+    TextButton retour;                              //Permet de retourner sur l'éditeur
+    Table table;                                    //Contient les boutons
+    Skin skin;                                      //Caractéristiques des éléments graphiques
 
-    File f;
-    FileWriter fw;
+    File f;                                         //Sauvegarde temporaire de la map
+    FileWriter fw;                                  //Ecrire dans la sauvegarde temporaire
     public SelectionCheminEpa(Bomberball game,Jeu jeu) {
         super(jeu);
         this.game = game;
@@ -51,11 +51,16 @@ public class SelectionCheminEpa extends Etat implements Screen {
 
     }
 
+    /**Commentaire similaire à la classe SelectionCheminEp**/
+
     /**
      * Méthode appelée pour afficher la fenêtre
      */
     @Override
     public void show() {
+
+
+
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         Bomberball.input.addProcessor(this);

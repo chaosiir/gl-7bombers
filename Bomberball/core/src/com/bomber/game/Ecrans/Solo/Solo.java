@@ -32,37 +32,37 @@ import java.util.ArrayList;
  *
  */
 
-public class Solo extends Etat implements Screen  {//etat multijoueur
-    int pm=5;
-    int nb=1;
-    Image back;
+public class Solo extends Etat implements Screen  {
+    int pm=5;                                           //Nombre de pm initialisé
+    int nb=1;                                           //Nombre de bombe initial
+    Image back;                                         //Image de l'arrière-plan
 
     ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();
-    Image joueur;
-    Image bombe;
-    Image mouvement;
-    Image pousse;
-    Image explosion;
+    Image joueur;                                       //Panneau du joueur
+    Image bombe;                                        //Affiche le nombre de bombe
+    Image mouvement;                                    //Affiche le nombre des mouvements
+    Image pousse;                                       //Affiche si le joueur a la poussée
+    Image explosion;                                    //Affiche la portée de l'explosion
 
-    Label nbmvt;
-    Label nbBombe;
-    Label porteExplo;
-    Label poussee;
+    Label nbmvt;                                        //Contient le nombre de points de mouvement actuel
+    Label nbBombe;                                      //Contient le nombre de bombe actuel
+    Label porteExplo;                                   //Contient la valeur de la portée
+    Label poussee;                                      //Contient un X si le joueur peut poussé sinon rien
 
-    TextButton retour;
+    TextButton retour;                                  //Bouton retour
 
-    Personnage personnage;
+    Personnage personnage;                              //Stockage du personnage
 
-    Skin skin;
+    Skin skin;                                          //Caractéristiques des éléments graphiques
 
-    Image player;
+    Image player;                                       //Affichage de l'image du joueur
 
-    File f;
-    File frecommencer;
-    FileWriter fw;
-    FileWriter fwr;
+    File f;                                             //Fichier qui sert pour la pause ou pour recommencer un niveau
+    File frecommencer;                                  //Fichier qui permet de sauvegarder le début d'une partie
+    FileWriter fw;                                      //Cela permet d'écrire dans le fichier f
+    FileWriter fwr;                                     //Cela permet d'écrire dans le fichier frecommencer
 
-    private Bomberball bombaaaagh;
+    private Bomberball bombaaaagh;                      //Instance de la classe principale
     /**
      * Constructeur de la classe Solo
      * @param bombaaaagh
@@ -80,6 +80,7 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
      */
     @Override
     public void show() {
+        /** Fonctionnement similaire à Campagne **/
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         Bomberball.input.addProcessor(this);
@@ -116,15 +117,14 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
             else{
                 jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
                 f.delete();
-                pm=jeu.pmtmp1; //Remise à jour des valeurs de pm et du nb de bombes restantes
+                pm=jeu.pmtmp1;                                                          //Remise à jour des valeurs de pm et du nb de bombes restantes
                 jeu.pmtmp1=-1;
                 nb=jeu.nbtmp1;
                 jeu.nbtmp1=-1;
             }
 
         }
-        else if(jeu.map==null){
-            //Ligne à ajouter pour la modification du nombre d'ennemis sur la carte
+        else if(jeu.map==null){                                                         //Création de map avec des paramètres personnalisés
             if(jeu.nbBonus!=-1 && jeu.nbBlocD!=-1){
                 jeu.map=Map.genererMapSolo(jeu.nbBlocD,10, jeu.nbBonus);
                 jeu.nbBonus=-1;
@@ -340,7 +340,6 @@ public class Solo extends Etat implements Screen  {//etat multijoueur
     @Override
     /**
      * Effectue une action en fonction de la touche appuyée sur le clavier
-     * @param event
      * @param keycode code de la touche appuyée
      * @return boolean
      */

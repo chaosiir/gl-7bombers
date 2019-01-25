@@ -26,16 +26,16 @@ public class MenuPause extends Etat implements Screen {
 
 
 
-    private Etat etatAnterieur;
-    private Image back;
-    private Skin skin;
-    private Table table;
-    private TextButton reprendreButton;
-    private  TextButton recommencerButton;
-    private  TextButton quitterButton;
-    File f;
-    File source;
-    Bomberball game; // Note it's "MyGame" not "Game"
+    private Etat etatAnterieur;             //Etat précédent pour reprendre la partie dans un bon mode de jeu
+    private Image back;                     //Image de l'arrière-plan
+    private Skin skin;                      //Caractéristiques des éléments graphiques
+    private Table table;                    //Permet d'organiser l'écran
+    private TextButton reprendreButton;     //Permet de reprendre
+    private  TextButton recommencerButton;  //Permet de recommencer
+    private  TextButton quitterButton;      //Permet de quitter
+    File f;                                 //Sauvegarde temporaire pour mettre le menu pause
+    File source;                            //Sauvegarde pour pouvoir recommencer
+    Bomberball game;                        //Instance de la classe principale
 
 
     /**
@@ -128,7 +128,7 @@ public class MenuPause extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 f.delete();
-                source.renameTo(f);
+                source.renameTo(f);                                                 //Pour recommencer, on renomme debut en tmp pour qu'il soit chargé
                 jeu.recommencer=true;
                 jeu.removeActor(jeu.map);
                 game.menuPause.removeActor(jeu);
@@ -155,15 +155,15 @@ public class MenuPause extends Etat implements Screen {
             }
         });
 
-        table.padTop(30); //Espace de 30 entre le premier texte et le haut
+        table.padTop(30);                                       //Espace de 30 entre le premier texte et le haut
 
         table.add(reprendreButton).padBottom(30);
         table.row();
 
-        table.add(recommencerButton).padBottom(30); //Espace de 30 entre les 2 boutons
+        table.add(recommencerButton).padBottom(30);             //Espace de 30 entre les 2 boutons
         table.row();
 
-        table.add(quitterButton); //Espace de 30 entre les 2 boutons
+        table.add(quitterButton);                               //Espace de 30 entre les 2 boutons
         table.row();
 
         back.setName("Arrière plan: menu principal");

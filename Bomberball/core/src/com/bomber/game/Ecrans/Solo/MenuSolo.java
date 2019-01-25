@@ -18,19 +18,18 @@ import com.bomber.game.Jeu;
 /**
  * Classe MenuSolo
  * Elle affiche le menu spécifique au mode solo
- * @author Paul-Louis Renard
  *
  */
 public class MenuSolo extends Etat implements Screen {
-    private Bomberball game;
-    private Skin skin;
-    private Image back;
-    private Table table;
-    private TextButton demarrerpartie;
-    private TextButton campagne;
-    private  TextButton choixmap;
-    private  TextButton parametre;
-    private  TextButton retour;
+    private Bomberball game;                    //Instance de la classe principale
+    private Skin skin;                          //Caractéristiques des éléments graphiques
+    private Image back;                         //Image de l'arrière-plan
+    private Table table;                        //Permet d'organiser l'écran
+    private TextButton demarrerpartie;          //Bouton pour démarrer une partie solo aléatoire ou personnalisé
+    private TextButton campagne;                //Bouton pour accèder au mode campagne
+    private  TextButton choixmap;               //Bouton pour choisir la map
+    private  TextButton parametre;              //Bouton pour arriver dans les paramètres
+    private  TextButton retour;                 //Bouton pour retourner sur le menu principal
 
 
 
@@ -76,8 +75,8 @@ public class MenuSolo extends Etat implements Screen {
                 Bomberball.stg.clear();
                 jeu.removeActor(jeu.map);
                 Bomberball.input.removeProcessor(game.menuSolo);
-                jeu.setEtat(game.jeuSolo);
-                game.setScreen(game.jeuSolo);
+                jeu.setEtat(game.jeuSolo);                                      //Permet de transmettre à l'état de transmettre les commandes
+                game.setScreen(game.jeuSolo);                                   //Permet de changer d'écran
             }
         });
         campagne.addListener(new ClickListener(){

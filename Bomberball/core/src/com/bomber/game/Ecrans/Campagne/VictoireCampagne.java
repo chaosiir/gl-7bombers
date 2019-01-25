@@ -23,23 +23,23 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class VictoireCampagne extends Etat implements Screen {
-    Bomberball game;
-    int niveaugag; //Niveau que le joueur a gagné
-    Image back;
+    Bomberball game;            //Instance de la classe principale
+    int niveaugag;              //Niveau que le joueur a gagné
+    Image back;                 //Image de l'arrière-plan
 
-    Label explication;
-    Skin skin;
-    TextButton continuer;
-    TextButton recommencer;
-    TextButton quitter;
-    Table table;
+    Label explication;          //Message associé à la victoire d'un niveau
+    Skin skin;                  //Caractéristiques des éléments graphiques
+    TextButton continuer;       //Bouton pour continuer la campagne
+    TextButton recommencer;     //Bouton pour recommencer le niveau actuel
+    TextButton quitter;         //Bouton pour retourner sur le menu solo
+    Table table;                //Contient les boutons
 
-    File frecommencer;
-    File f;
-    File recupniv;
-    File nivplayertmp;
-    File niveau;
-    FileWriter fw;
+    File frecommencer;          //Fichier qui permet de sauvegarder le début d'une partie
+    File f;                     //Fichier pour pouvoir lancer le début
+    File recupniv;              //Répertoire où sont contenus les maps de la campagne
+    File nivplayertmp;          //Fichier de sauvegarde temporaire du niveau
+    File niveau;                //Fichier du niveau
+    FileWriter fw;              //Changer le niveau du joueur
     Scanner scanner;
 
     public VictoireCampagne(Bomberball game,Jeu jeu){
@@ -48,7 +48,7 @@ public class VictoireCampagne extends Etat implements Screen {
         recupniv=Gdx.files.internal("./Campagne/").file();
         f=Gdx.files.internal("./SaveTempo/tmp.txt").file();
         frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
-        niveau = Gdx.files.internal("./Campagne/niveau.txt").file();//Récupérer l'avancement du joueur
+        niveau = Gdx.files.internal("./Campagne/niveau.txt").file();        //Récupérer l'avancement du joueur
         nivplayertmp=Gdx.files.internal("./Campagne/niveautmp.txt").file();
 
 
@@ -79,7 +79,7 @@ public class VictoireCampagne extends Etat implements Screen {
         Bomberball.copier(niveau,nivplayertmp);
 
         try{
-            scanner=new Scanner(nivplayertmp);
+            scanner=new Scanner(nivplayertmp);          //On récupère le niveau dans le fichier temporaire
 
 
 
@@ -92,7 +92,7 @@ public class VictoireCampagne extends Etat implements Screen {
 
 
         table.setWidth(Bomberball.stg.getWidth());
-        table.align(Align.center | Align.top); // Middle of the screen start at the top
+        table.align(Align.center | Align.top);
         table.setPosition(0, 2*Gdx.graphics.getHeight()/4);
 
         Bomberball.stg.addActor(this);
@@ -112,7 +112,6 @@ public class VictoireCampagne extends Etat implements Screen {
 
 
         continuer= new TextButton("Continuer",skin);
-        //continuer.setBounds(xmax/2-50,ymax/2-Bomberball.taillecase,continuer.getWidth(),continuer.getHeight()); //Positionnement à la main
 
         recommencer=new TextButton("Recommencer",skin);
 
@@ -120,9 +119,9 @@ public class VictoireCampagne extends Etat implements Screen {
 
         continuer.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
-                    try{
+            public void clicked(InputEvent event, float x, float y) {       //Permet de passer au niveau suivant de la campagne
+                if(niv==niveaugag && niv<5){                                //Si le joueur a effectué le dernier niveau de sa campagne, on peut augmenter
+                    try{                                                    //le nombre de niveau effectué s'il n'a pas déjà atteint le dernier niveau
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
                         fw.close();
@@ -133,23 +132,28 @@ public class VictoireCampagne extends Etat implements Screen {
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.victoireCampagne.removeActor(jeu);
-                frecommencer.delete();
-                f.delete();
+                frecommencer.delete();                                  //On supprime la sauvegarde pour recommencer
+                f.delete();                                             //On supprime le fichier temporaire
+
+
+                /** Code pour récupérer la liste et prendre le niveau suivant **/
 
                 final File liste[]=recupniv.listFiles();
                 Array<String> tmp=new Array<String>();
-                if(liste!=null &&liste.length!=0) {
+                if(liste!=null &&liste.length!=0) {                                         //Récupération de tous les fichiers de la campagne sauf niveau.txt
                     for (File fi : liste) {
                         if (!fi.getName().equals("niveau.txt")) {
                             tmp.add(fi.getName());
                         }
                     }
                 }
-                tmp.sort();
-                File lo= Gdx.files.internal("./Campagne/"+tmp.get(niveaugag)).file();
+                tmp.sort();                                                                 //Tri pour prendre le bon niveau en fonction de l'indice
+                File lo= Gdx.files.internal("./Campagne/"+tmp.get(niveaugag)).file(); //Récupération du bon fichier
                 if(liste!=null && tmp.get(niveaugag)!=null){
                     jeu.map=Map.mapFromStringN(Bomberball.loadFile(lo));
                 }
+
+                /*****************************************************************/
 
                 game.campagne.setMapactuel(niveaugag+1);
                 game.campagne.u=0;
@@ -158,11 +162,11 @@ public class VictoireCampagne extends Etat implements Screen {
             }
         });
 
-        recommencer.addListener(new ClickListener(){
+        recommencer.addListener(new ClickListener(){                                        //Permet de recommencer la map effectué
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
-                    try{
+                if(niv==niveaugag && niv<5){                                                //Si le joueur a effectué le dernier niveau de sa campagne, on peut augmenter
+                    try{                                                                    //le nombre de niveau effectué s'il n'a pas déjà atteint le dernier niveau
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
                         fw.close();
@@ -182,10 +186,10 @@ public class VictoireCampagne extends Etat implements Screen {
             }
         });
 
-        quitter.addListener(new ClickListener(){
+        quitter.addListener(new ClickListener(){                                        //Permet de quitter et revenir au menu Solo
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<5){ //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){                                        //A modifier si le nombre de niveau augmente
                     try{
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
@@ -203,6 +207,7 @@ public class VictoireCampagne extends Etat implements Screen {
                 game.setScreen(game.menuSolo);
             }
         });
+/** Ajout des acteurs dans VictoireCampagne**/
 
         table.add(continuer);
         table.add(recommencer);

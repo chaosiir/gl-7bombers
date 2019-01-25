@@ -17,42 +17,41 @@ import com.bomber.game.Jeu;
 /**
  * Classe ParametreSolo
  * Elle affiche les paramètres modifiables par le joueur lorsqu'il joue en mode solo
- * @author Paul-Louis Renard
  *
  */
 public class ParametreSolo extends Etat implements Screen {
-    Bomberball game;
-    private Skin skin;
-    private Image back;
-    private Table table;
-    private Label difficulte;
-    private Label nbBonus;
-    private Label nbBombe;
-    private Label nbEnnemis;
-    private Label porteeBombe;
-    private Label nbDeplaJ;
-    private Label nbBlocD;
+    Bomberball game;                            //Instance de la classe principale
+    private Skin skin;                          //Caractéristiques des éléments graphiques
+    private Image back;                         //Image de l'arrière-plan
+    private Table table;                        //Permet d'organiser l'écran
+    private Label difficulte;                   //Texte indiquant que l'on peut modifier la difficulté
+    private Label nbBonus;                      //Texte indiquant que l'on peut modifier le nombre de bonus
+    private Label nbBombe;                      //Texte indiquant que l'on peut modifier le nombre de bombe
+    private Label nbEnnemis;                    //Texte indiquant que l'on peut modifier le nombre d'ennemis
+    private Label porteeBombe;                  //Texte indiquant que l'on peut modifier la portée d'une bombe
+    private Label nbDeplaJ;                     //Texte indiquant que l'on peut modifier le nombre de déplacement du joueur
+    private Label nbBlocD;                      //Texte indiquant que l'on peut modifier la difficulté
 
-    private TextButton retour;
-    private TextButton facile;
-    private TextButton moyen;
-    private TextButton difficile;
+    private TextButton retour;                  //Bouton retour
+    private TextButton facile;                  //Bouton facile
+    private TextButton moyen;                   //Bouton moyen
+    private TextButton difficile;               //Bouton difficile
 
-    private ButtonGroup<TextButton> diffic;
+    private ButtonGroup<TextButton> diffic;     //Permet qu'il n'y ait que facile, moyen ou difficile activé à la fois
 
-    private TextField nbBonusT;
-    private TextField nbEnnemisT;
-    private TextField porteeBombeT;
-    private TextField nbBombeT;
-    private TextField nbDeplaJT;
-    private TextField nbBlocDT;
+    private TextField nbBonusT;                 //Permet de rentrer le nombre de bonus
+    private TextField nbEnnemisT;               //Permet de rentrer le nombre d'ennemis
+    private TextField porteeBombeT;             //Permet de rentrer la portée des bombes
+    private TextField nbBombeT;                 //Permet de rentrer le nombre de bombes
+    private TextField nbDeplaJT;                //Permet de rentrer le nombre de déplacement du joueur
+    private TextField nbBlocDT;                 //Permet de rentrer le nombre de blocs destructibles
 
 
 
 
     /**
      * Constructeur de la classe ParametreSolo
-     * @param game
+     * @param game la classe principale
      * @param jeu
      */
     public ParametreSolo(Bomberball game,Jeu jeu){
@@ -98,7 +97,7 @@ public class ParametreSolo extends Etat implements Screen {
         nbBlocDT = new TextField("40",skin);
 
 
-        facile.addListener(new ClickListener(){
+        facile.addListener(new ClickListener(){                                                 //On récupère la difficulté du niveau choisi
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.difficulte=1;
@@ -131,7 +130,7 @@ public class ParametreSolo extends Etat implements Screen {
 
             }
         });
-        nbBlocDT.addListener(new ChangeListener() {
+        nbBlocDT.addListener(new ChangeListener() {                                             //On récupère les autres paramètres
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 try{

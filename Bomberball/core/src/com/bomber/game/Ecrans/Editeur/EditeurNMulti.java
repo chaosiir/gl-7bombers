@@ -33,34 +33,34 @@ import java.io.IOException;
  *
  */
 public class EditeurNMulti extends Etat implements Screen {
-    Bomberball game;
-    Map map;
-    Skin skin;
-    File f;
-    FileWriter fw;
+    Bomberball game;        //Instance de la classe principale
+    Map map;                //Mini-map affichée
+    Skin skin;              //Caractéristiques des éléments graphiques
+    File f;                 //Fichier de sauvegarde temporaire de la map
+    FileWriter fw;          //Permet d'écrire la sauvegarde
 
-    Image back;
-    Image floor;
-    Image murd;
-    Image muri;
-    Image selectionne;
-    Image bonusB;
-    Image bonusM;
-    Image bonusE;
-    Image perso1;
-    Image perso2;
-    Image perso3;
-    Image perso4;
-    Image bonusP;
+    Image back;             //Image de l'arrière-plan
+    Image floor;            //Image du sable du labyrinthe
+    Image murd;             //Image du mur destructible
+    Image muri;             //Image du mur indestructible
+    Image selectionne;      //Image du bloc sélectionné
+    Image bonusB;           //Image du bonus Bombe
+    Image bonusM;           //Image du bonus de déplacement
+    Image bonusE;           //Image du bonus de portée
+    Image perso1;           //Image du personnage1
+    Image perso2;           //Image du personnage2
+    Image perso3;           //Image du personnage3
+    Image perso4;           //Image du personnage4
+    Image bonusP;           //Image du bonus de poussé
 
 
-    Label select;
-    Label instruction1;
-    Label instruction2;
+    Label select;           //Texte précédent le bloc sélectionnée
+    Label instruction1;     //Texte indiqué comment poser un bloc
+    Label instruction2;     //Texte indique comment enlever un bloc
 
-    TextButton retour;
-    TextButton valider;
-    TextButton charger;
+    TextButton retour;      //Bouton permettant de revenir au menu éditeur
+    TextButton valider;     //Bouton permettant de valider la carte
+    TextButton charger;     //Bouton permettant de charger une map précédemment faite
 
 
 
@@ -85,18 +85,18 @@ public class EditeurNMulti extends Etat implements Screen {
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         Bomberball.input.addProcessor(this);
-        if(f.exists()){
+        if(f.exists()){                             //S'il existe un fichier tmp, on le charge
             String text=Bomberball.loadFile(f);
             map=Map.mapFromStringN(text);
         }
-        else{
+        else{                                       //Sinon on fournit une map de manière aléatoire
             map=Map.generatePvp(20,5);
 
         }
         map.setPosition(7*Bomberball.taillecase,0);
 
 
-
+        /**Mise en place des éléments pour l'éditeur multijoueur **/
 
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -181,7 +181,9 @@ public class EditeurNMulti extends Etat implements Screen {
         charger.setBounds(0,ymax-11*Bomberball.taillecase,charger.getWidth(),charger.getHeight());
         charger.setName("Charger");
 
-        retour.addListener(new ClickListener(){
+        /*****************************************************************************************************/
+
+        retour.addListener(new ClickListener(){                         //Permet de retourner au menu choix du caractère solo ou multijoueur de l'éditeur
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(f.exists()){
@@ -197,7 +199,7 @@ public class EditeurNMulti extends Etat implements Screen {
             }
         });
 
-        valider.addListener(new ClickListener(){
+        valider.addListener(new ClickListener(){                        //Permet d'enregistrer le niveau
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
@@ -207,6 +209,9 @@ public class EditeurNMulti extends Etat implements Screen {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                /** Préparation pour que la map soit valide **/
+
                 int tabid[]=new int[4];
                 int cptPerso=0;
                 for(int i=0;i<15;i++){
@@ -223,24 +228,20 @@ public class EditeurNMulti extends Etat implements Screen {
                        different=false;
                     }
                 }
-                if (cptPerso!=4 || !different){
+                /************************************************/
 
-
-                    jeu.removeActor(jeu.map);
+                if (cptPerso!=4 || !different){             //Si le nombre de joueur n'est pas 4 et qu'ils ne sont pas tous différent
+                    jeu.removeActor(jeu.map);               //la map n'est pas valide et on va l'indiquer au joueur
                     jeu.map=null;
                     game.editeurNMulti.removeActor(jeu);
 
                     jeu.setEtat(game.erreurEditeurM);
                     game.setScreen(game.erreurEditeurM);
                 }
-                else{
-
-
-
+                else{                                       //Si la map est valide, on lui permet de donner un nom à sa map
                     jeu.removeActor(jeu.map);
                     jeu.map=null;
                     game.editeurNMulti.removeActor(jeu);
-
                     jeu.setEtat(game.validerEditeurMulti);
                     game.setScreen(game.validerEditeurMulti);
                 }
@@ -250,12 +251,9 @@ public class EditeurNMulti extends Etat implements Screen {
         charger.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.editeurNMulti.removeActor(jeu);
-
-
                 jeu.setEtat(game.choixMapMultiE);
                 game.setScreen(game.choixMapMultiE);
             }
@@ -340,9 +338,9 @@ public class EditeurNMulti extends Etat implements Screen {
      * @param button bouton de la souris appuyé
      */
     public boolean touchDown(int x, int y, int pointer, int button) {
-        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);//Retourne référence de l'acteur touché
-        //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
-        if (hitActor.getName()!=null) {
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);     //Retourne référence de l'acteur touché
+                                                                                                    // hit fait un setbounds pour voir si l'acteur est dedans
+        if (hitActor.getName()!=null) {                         //On vérifie quelle case le joueur a sélectionné
             if (hitActor.getName().equals("murd")) {
                 selectionne.setDrawable(murd.getDrawable());
                 selectionne.setName("murdes");
@@ -385,19 +383,19 @@ public class EditeurNMulti extends Etat implements Screen {
                 selectionne.setDrawable(bonusP.getDrawable());
                 selectionne.setName("bP");
             }
-            else if(hitActor.getName().equals("MurI")) {
+            else if(hitActor.getName().equals("MurI")) {                                    //Si on clique sur un mur indestructible dans la map
                 Case c = (Case) hitActor.getParent();
                 if (c.posX() == 0 || c.posX() == 14 || c.posY() == 0 || c.posY() == 12) {
                     //rien
                 } else {
-                    if (button == Input.Buttons.RIGHT) {
+                    if (button == Input.Buttons.RIGHT) {                                    //le click droit permet de supprimer un ennemi
                         Map m = c.getMap();
 
                         int xp = c.posX();
                         int yp = c.posY();
 
                         c.setMur(null);
-                        m.getGrille()[14 - xp][yp].setMur(null);
+                        m.getGrille()[14 - xp][yp].setMur(null);                //On applique la symétrie pour les blocs indestructibles
                         m.getGrille()[14 - xp][12 - yp].setMur(null);
                         m.getGrille()[xp][12 - yp].setMur(null);
 
@@ -425,7 +423,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         m.getGrille()[xp][12 - yp].addActor(background);
 
 
-                    } else if (button == Input.Buttons.LEFT) {
+                    } else if (button == Input.Buttons.LEFT) {                                              //On applique la symétrie pour les blocs indestructibles
                         if (selectionne.getDrawable() != null) {
                             if (selectionne.getName().equals("murdes")) {
                                 Map m = c.getMap();
@@ -461,7 +459,7 @@ public class EditeurNMulti extends Etat implements Screen {
                                 m.getGrille()[14 - xp][12 - yp].addActor(background);
                                 m.getGrille()[xp][12 - yp].addActor(background);
                                 c.setMur(new MurD());
-                            } else if (selectionne.getName().equals("sol")) {
+                            } else if (selectionne.getName().equals("sol")) {                                   //On applique la symétrie pour les blocs indestructibles
                                 Map m = c.getMap();
 
                                 int xp = c.posX();
@@ -501,7 +499,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("MurD")){
+            else if(hitActor.getName().equals("MurD")){                                             //Si on clique sur un mur destructible dans la mini map
                 Case c = (Case) hitActor.getParent();
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
@@ -530,7 +528,7 @@ public class EditeurNMulti extends Etat implements Screen {
                             c.setMur(new MurI());
                             int xp=c.posX();
                             int yp=c.posY();
-                            m.getGrille()[14-xp][yp].setMur(new MurI());
+                            m.getGrille()[14-xp][yp].setMur(new MurI());        //Si on met un bloc indestructible, il y a une symétrie à appliquer
                             m.getGrille()[14-xp][yp].setBonus(null);
                             m.getGrille()[14-xp][12-yp].setMur(new MurI());
                             m.getGrille()[14-xp][12-yp].setBonus(null);
@@ -546,7 +544,7 @@ public class EditeurNMulti extends Etat implements Screen {
                                 c.setPersonnage(new Personnage(true,c,2,1,5,0));
                             }
                         }
-                        else if(selectionne.getName().equals("bB")){
+                        else if(selectionne.getName().equals("bB")){            //On peut placer des bonus sur les blocs destructibles
                             c.setBonus(new BonusBombe(c));
                             c.getBonus().setScale(0.5f);
                         }
@@ -566,7 +564,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("Personnage")){
+            else if(hitActor.getName().equals("Personnage")){           //Si on clique sur un joueur
                 Case c = (Case) hitActor.getParent();
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
@@ -598,7 +596,7 @@ public class EditeurNMulti extends Etat implements Screen {
                             int yp=c.posY();
 
                             c.setMur(null);
-                            m.getGrille()[14-xp][yp].setMur(null);
+                            m.getGrille()[14-xp][yp].setMur(null);                              //On applique la symétrie dans le cas de blocs indestructibles
                             m.getGrille()[14-xp][12-yp].setMur(null);
                             m.getGrille()[xp][12-yp].setMur(null);
 
@@ -625,7 +623,7 @@ public class EditeurNMulti extends Etat implements Screen {
                             c.setPersonnage(null);
                             c.setPorte(new Porte());
                         }
-                        else if(selectionne.getName().equals("player1")){
+                        else if(selectionne.getName().equals("player1")){                                       //On peut remplacer un joueur par un autre joueur
                             if(c.getMur()==null){
                                 c.setPersonnage(null);
                                 c.setPersonnage(new Personnage(true,c,2,1,5,0));
@@ -653,7 +651,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("bonus")){
+            else if(hitActor.getName().equals("bonus")){                                            //Si on clique sur un bonus
                 Case c = (Case) hitActor.getParent();
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
@@ -711,7 +709,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 }
 
             }
-        }else if(hitActor.getParent() instanceof Case){
+        }else if(hitActor.getParent() instanceof Case){                                             //Si on clique sur une case de la map inoccupée
             Case c = (Case) hitActor.getParent();
             if (button == Input.Buttons.RIGHT) {
                 c.setMur(null);
@@ -748,7 +746,7 @@ public class EditeurNMulti extends Etat implements Screen {
                         int yp=c.posY();
 
                         c.setMur(null);
-                        m.getGrille()[14-xp][yp].setMur(null);
+                        m.getGrille()[14-xp][yp].setMur(null);                  //Symétrie pour les blocs indestructibles
                         m.getGrille()[14-xp][12-yp].setMur(null);
                         m.getGrille()[xp][12-yp].setMur(null);
 

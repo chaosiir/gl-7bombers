@@ -18,17 +18,16 @@ import java.io.File;
 /**
  * Classe Victoire
  * Elle affiche un message avec un bouton ok puis retourne sur le menu principal
- * @author Pascal Ferrari
  *
  */
 public class Victoire extends Etat implements Screen {
-    Bomberball game;
-    Image back;
-    Label explication;
-    Skin skin;
-    TextButton ok;
-    String txt;
-    File frecommencer;
+    Bomberball game;        //Instance de la classe principale
+    Image back;             //Image de l'arrière-plan
+    Label explication;      //Message de la victoire
+    Skin skin;              //Caractéristiques des éléments graphiques
+    TextButton ok;          //Fermez la fenêtre et retournez au menu principal
+    String txt;             //Texte que l'on affiche
+    File frecommencer;      //fichier que l'on peut utiliser pour pouvoir recommencer
 
     /**
      * Constructeur de la classe Solo

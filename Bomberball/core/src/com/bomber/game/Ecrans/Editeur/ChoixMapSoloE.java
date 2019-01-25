@@ -22,18 +22,18 @@ import java.io.File;
  *
  */
 public class ChoixMapSoloE extends Etat implements Screen {
-    Bomberball game;
-    List<String> list;
-    Image back;
-    Skin skin;
-    Map map;
-    File f;
+    Bomberball game;        //Instance de la classe principale
+    List<String> list;       //Affiche le nom des map solo précèdemment créée
+    Image back;             //Image de l'arrière-plan
+    Skin skin;              //Caractéristiques des éléments graphiques
+    Map map;                //Mini-map affichée
+    File f;                 //Permet d'accèder au répertoire des maps multijoueurs
 
-    TextButton valider;
-    TextButton retour;
-    TextButton supprimer;
-    Table table;
-    ScrollPane scrollPane;
+    TextButton valider;     //Bouton pour valider la map sélectionnée
+    TextButton retour;      //Bouton pour revenir sur l'éditeur multi
+    TextButton supprimer;   //Bouton pour supprimer une map sélectionnée
+    Table table;            //Contient les boutons
+    ScrollPane scrollPane;  //Permet de gérer le choix des map s'il y en a plus
 
 
 
@@ -53,6 +53,8 @@ public class ChoixMapSoloE extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /** Commentaire analogue au ChoixMapMultiE **/
+
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -173,7 +175,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
         list.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {                               //Affichage de la map dans la mini-map
                 String s = list.getSelected();
                 File f1;
                 f1 = Gdx.files.internal("./SaveMapPerso/Mapsolo/" + s + ".txt").file();

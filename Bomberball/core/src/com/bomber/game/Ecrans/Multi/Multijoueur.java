@@ -22,81 +22,81 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Multijoueur extends Etat implements Screen {//etat multijoueur
-    int pm=5;
-    int nb=1;
-    private Bomberball game;
-    private Personnage joueurs[]=new Personnage[4];
-    private int tour=0;
-    Image back;
+public class Multijoueur extends Etat implements Screen {
+    int pm=5;                                           //Nombre de pm initialisé
+    int nb=1;                                           //Nombre de bombe initial
+    private Bomberball game;                            //Instance de la classe principale
+    private Personnage joueurs[]=new Personnage[4];     //Tableau des joueurs
+    private int tour=0;                                 //Variable qui s'incrémente à chaque personnage
+    Image back;                                         //Image de l'arrière-plan
 
-    Skin skin;
+    Skin skin;                                          //Caractéristiques des éléments graphiques
 
-    Image joueur1;
-    Image bombe1;
-    Image mouvement1;
-    Image pousse1;
-    Image explosion1;
-    Image player1;
+    Image joueur1;                                      //Panneau du joueur 1
+    Image bombe1;                                       //Affiche le nombre de bombe du joueur 1
+    Image mouvement1;                                   //Affiche le nombre des mouvements du joueur 1
+    Image pousse1;                                      //Affiche si le joueur 1 a la poussée
+    Image explosion1;                                   //Affiche la portée de l'explosion du joueur 1
+    Image player1;                                      //Affichage de l'image du joueur 1
 
-    Label nbmvt1;
-    Label nbBombe1;
-    Label  porteExplo1;
+    Label nbmvt1;                                       //Contient le nombre de points de mouvement actuel du joueur 1
+    Label nbBombe1;                                     //Contient le nombre de bombe actuel du joueur 1
+    Label  porteExplo1;                                 //Contient la valeur de la portée du joueur 1
 
-    Personnage personnage1;
-    Personnage personnage2;
-    Personnage personnage3;
-    Personnage personnage4;
+    Personnage personnage1;                             //Stockage du personnage 1
+    Personnage personnage2;                             //Stockage du personnage 2
+    Personnage personnage3;                             //Stockage du personnage 3
+    Personnage personnage4;                             //Stockage du personnage 3
 
-    Label nbmvt2;
-    Label nbBombe2;
-    Label porteExplo2;
+    Label nbmvt2;                                       //Contient le nombre de points de mouvement actuel du joueur 2
+    Label nbBombe2;                                     //Contient le nombre de bombe actuel du joueur 2
+    Label porteExplo2;                                  //Contient la valeur de la portée du joueur 2
 
-    Label nbmvt3;
-    Label nbBombe3;
-    Label porteExplo3;
+    Label nbmvt3;                                       //Contient le nombre de points de mouvement actuel du joueur 3
+    Label nbBombe3;                                     //Contient le nombre de bombe actuel du joueur 3
+    Label porteExplo3;                                  //Contient la valeur de la portée du joueur 3
 
-    Label nbmvt4;
-    Label nbBombe4;
-    Label porteExplo4;
+    Label nbmvt4;                                       //Contient le nombre de points de mouvement actuel du joueur 4
+    Label nbBombe4;                                     //Contient le nombre de bombe actuel du joueur 4
+    Label porteExplo4;                                  //Contient la valeur de la portée du joueur 4
 
-    Label poussee1;
-    Label poussee2;
-    Label poussee3;
-    Label poussee4;
+    Label poussee1;                                     //Contient un X si le joueur 1 peut poussé sinon rien
+    Label poussee2;                                     //Contient un X si le joueur 2 peut poussé sinon rien
+    Label poussee3;                                     //Contient un X si le joueur 3 peut poussé sinon rien
+    Label poussee4;                                     //Contient un X si le joueur 4 peut poussé sinon rien
 
 
 
-    Image joueur2;
-    Image bombe2;
-    Image mouvement2;
-    Image pousse2;
-    Image explosion2;
-    Image player2;
+    Image joueur2;                                          //Panneau du joueur 2
+    Image bombe2;                                           //Affiche le nombre de bombe du joueur 2
+    Image mouvement2;                                       //Affiche le nombre des mouvements du joueur 2
+    Image pousse2;                                          //Affiche si le joueur 2 a la poussée
+    Image explosion2;                                       //Affiche la portée de l'explosion du joueur 2
+    Image player2;                                          //Affichage de l'image du joueur 2
 
-    Image joueur3;
-    Image bombe3;
-    Image mouvement3;
-    Image pousse3;
-    Image explosion3;
-    Image player3;
+    Image joueur3;                                          //Panneau du joueur 3
+    Image bombe3;                                           //Affiche le nombre de bombe du joueur 3
+    Image mouvement3;                                       //Affiche le nombre des mouvements du joueur 3
+    Image pousse3;                                          //Affiche si le joueur 3 a la poussée
+    Image explosion3;                                       //Affiche la portée de l'explosion du joueur 3
+    Image player3;                                          //Affichage de l'image du joueur 3
 
-    Image joueur4;
-    Image bombe4;
-    Image mouvement4;
-    Image pousse4;
-    Image explosion4;
-    Image player4;
+    Image joueur4;                                          //Panneau du joueur 4
+    Image bombe4;                                           //Affiche le nombre de bombe du joueur 4
+    Image mouvement4;                                       //Affiche le nombre des mouvements du joueur 4
+    Image pousse4;                                          //Affiche si le joueur 4 a la poussée
+    Image explosion4;                                       //Affiche la portée de l'explosion du joueur 4
+    Image player4;                                          //Affichage de l'image du joueur 4
 
-    File f;
-    File frecommencer;
-    FileWriter fw;
-    FileWriter fwr;
+    File f;                                                 //Fichier qui sert pour la pause ou pour recommencer un niveau
+    File frecommencer;                                      //Fichier qui permet de sauvegarder le début d'une partie
+    FileWriter fw;                                          //Cela permet d'écrire dans le fichier f
+    FileWriter fwr;                                         //Cela permet d'écrire dans le fichier frecommencer
 
     /**
      * Constructeur de la classe Multijoueur
-     * @param game
-     * @param jeu
+     * @param game  instance de la classe principale nécessaire au bon fonctionnement
+     * @param jeu   instance de jeu pour gérer l'affichage
      */
     public Multijoueur(Bomberball game,Jeu jeu) {
         super(jeu);
@@ -110,6 +110,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
      * Méthode appelée pour afficher la fenêtre
      */
     @Override
+    /** Majorité de commentaire similaire à Campagne **/
     public void show() {
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
@@ -149,8 +150,8 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
             else{
                 jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
                 f.delete();
-                switch (tour%4){
-                    case 0:
+                switch (tour%4){                                                //En fonction du tour, on peut déterminer le joueur qui doit reprendre des valeurs de pm et nb
+                    case 0:                                                     //particulière en revenant d'une pause afin qu'il ne retrouve pas ses pm et nb après une pause
                         if(jeu.pmtmp1!=-1){
                         pm=jeu.pmtmp1;
                         nbmvt1.setText(""+pm);
@@ -218,7 +219,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
             }
 
         }
-       else if(jeu.map==null){
+       else if(jeu.map==null){                                                      //En fonction des paramètres que le joueur a rentré, on peut générer une map personnalisé
             tour=0;
             if(jeu.nbBonus!=-1 && jeu.nbBlocD!=-1){
                 jeu.map=Map.generatePvp(jeu.nbBlocD, jeu.nbBonus);
@@ -510,6 +511,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
         player4=new Image(Bomberball.multiTexture[22]);
         player4.setBounds(jeu.map.getX()+jeu.map.tailleX()+17*Bomberball.taillecase+3*Bomberball.taillecase,Gdx.graphics.getHeight()-Bomberball.taillecase-50,Bomberball.taillecase,Bomberball.taillecase);
 
+        //Modification en fonction du nombre de joueurs
         if(jeu.nbJoueur==2){
             personnage3.setVivant(false);
             personnage4.setVivant(false);
@@ -631,14 +633,13 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
     @Override
     /**
      * Effectue l'action liée à un appui de touche en fonction de la touche appuyée
-     * @param event
      * @param keycode code de la touche appuyée
      */
-    public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
+    public boolean keyDown( int keycode) {
         Personnage joueur = joueurs[tour%4];
         if(jeu.findActor("explo")==null) {
-            if ((joueur != null) && (!joueur.hasActions())) {
-                boolean b ;
+            if ((joueur != null) && (!joueur.hasActions())) {                                                           //Cette méthode est la même que le mode solo mais
+                boolean b ;                                                                                             //adaptée à plusieurs personnages sans tour ennemis
                 if (keycode == Input.Keys.RIGHT) {
                     if (pm > 0) {
                         b = joueur.deplacerDroite();
@@ -775,7 +776,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         MoveByAction action=new MoveByAction();
                         action.setDuration(16);
                         action.setAmount(0,0);
-                        joueurs[0].addAction(action);
+                        joueurs[0].addAction(action);               //Ajout d'action pour désactiver les touches
                         joueurs[1].addAction(action);
                         joueurs[2].addAction(action);
                         joueurs[3].addAction(action);
@@ -819,7 +820,7 @@ public class Multijoueur extends Etat implements Screen {//etat multijoueur
                         while (!joueurs[tour%4].isVivant()) {
                             tour ++;
                             System.out.println(tour);
-                            if(tour%8==0 && tour>65 && tour<100 ){
+                            if(tour%8==0 && tour>65 && tour<100 ){              //Si un nombre de tour est passé, on réduit la taille de la map
                                 jeu.map.alertecontour(((tour-64)/8));
                             }
                             if(tour%8==4 && tour>65 && tour<103){

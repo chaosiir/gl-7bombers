@@ -15,37 +15,36 @@ import com.bomber.game.Jeu;
 /**
  * Classe ChoixMenuMultijoueur
  * Elle affiche les paramètres que le joueur peut choisir pour lancer une partie multijoueur et le moyen de lancer cette partie
- * @author Paul-Louis Renard
  *
  */
 public class ChoixMenuMultijoueur extends Etat implements Screen {
 
 
-    Bomberball game;
-    private Skin skin;
-    private Image back;
-    private Table table;
-    private Label nbjoueur;
-    private Label nbBonus;
-    private Label nbBlocD;
-    private Label porteeBombe;
-    private Label nbDeplace;
-    private Label nbBombe;
+    Bomberball game;                    //Instance de la classe principale
+    private Skin skin;                  //Caractéristiques des éléments graphiques
+    private Image back;                 //Image de l'arrière-plan
+    private Table table;                //Table pour organiser l'écran
+    private Label nbjoueur;             //Texte demandant un nombre de joueur
+    private Label nbBonus;              //Texte demandant un nombre de bonus
+    private Label nbBlocD;              //Texte demandant un nombre de bloc destructibles
+    private Label porteeBombe;          //Texte demandant la portee d'une bombe
+    private Label nbDeplace;            //Texte demandant un nombre de déplacement
+    private Label nbBombe;              //Texte demandant un nombre de bombe
 
-    private TextButton retour;
-    private TextButton deux;
-    private TextButton trois;
-    private TextButton quatre;
-    private TextButton choixmap;
-    private TextButton lancerP;
+    private TextButton retour;          //Bouton pour retourner au menu principla
+    private TextButton deux;            //Bouton pour jouer à 2
+    private TextButton trois;           //Bouton pour jouer à 3
+    private TextButton quatre;          //Bouton pour jouer à 4
+    private TextButton choixmap;        //Bouton pour amener au choix de la map multijoueur
+    private TextButton lancerP;         //Bouton pour lancer une partie
 
-    private ButtonGroup<TextButton> nbJ;
+    private ButtonGroup<TextButton> nbJ;//Groupe les boutons 2,3,4 pour qu'il y en ait que un de sélectionné
 
-    private TextField nbBonusS;
-    private TextField porteeBombeS;
-    private TextField nbBlocDT;
-    private TextField nbDeplac;
-    private TextField nbBombeT;
+    private TextField nbBonusS;         //Récupère le nombre de bonus
+    private TextField porteeBombeS;     //Récupère la portée de la bombe
+    private TextField nbBlocDT;         //Récupère le nombre de bloc destructible
+    private TextField nbDeplac;         //Récupère le nombre de déplacement
+    private TextField nbBombeT;         //Récupère le nombre de bombe
 
     public ChoixMenuMultijoueur(Bomberball game, Jeu jeu){
         super(jeu);
@@ -101,7 +100,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
                 game.choixMenuMultijoueur.removeActor(table);
 
                 try{
-                    int nbBD=Integer.parseInt(nbBlocDT.getText());
+                    int nbBD=Integer.parseInt(nbBlocDT.getText());      //On récupère les paramètres que le joueur rentre
                     if(nbBD>=0){
                         jeu.nbBlocD=nbBD;
                     }
@@ -210,7 +209,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
         table.setPosition(0, Gdx.graphics.getHeight());
 
         table.add(nbjoueur).padBottom(30);
-        HorizontalGroup h=new HorizontalGroup();
+        HorizontalGroup h=new HorizontalGroup();                                            //Permet de bien aligner les colonnes
         h.space(10);
         h.addActor(quatre);
         h.addActor(trois);

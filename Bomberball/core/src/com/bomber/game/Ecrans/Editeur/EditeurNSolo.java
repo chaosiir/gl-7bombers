@@ -34,43 +34,43 @@ import static com.bomber.game.Bomberball.loadFile;
  */
 public class EditeurNSolo extends Etat implements Screen {
 
-    Bomberball game;
-    Image back;
-    Image floor;
-    Image porte;
-    Image murd;
-    Image muri;
-    Image perso;
-    Image selectionne;
-    Image bonusB;
-    Image bonusM;
-    Image bonusE;
-    Image bonusP;
-    Image ennemisPassif;
-    Image ennemisActif;
-    Image ennemisPassifAgressif;
-    Image ennemisActifAgressif;
+    Bomberball game;                //Instance de la classe principale
+    Image back;                     //Image de l'arrière-plan
+    Image floor;                    //Image du sable du labyrinthe
+    Image porte;                    //Image de la porte
+    Image murd;                     //Image du mur destructible
+    Image muri;                     //Image du mur indestructible
+    Image perso;                    //Image du personnage
+    Image selectionne;              //Image du bloc sélectionné
+    Image bonusB;                   //Image du bonus Bombe
+    Image bonusM;                   //Image du bonus de déplacement
+    Image bonusE;                   //Image du bonus de portée
+    Image bonusP;                   //Image du bonus de poussé
+    Image ennemisPassif;            //Image de l'ennemi passif
+    Image ennemisActif;             //Image de l'ennemi actif
+    Image ennemisPassifAgressif;    //Image de l'ennemi passif aggressif
+    Image ennemisActifAgressif;     //Image de l'ennemi actif aggressig
 
-    Label select;
-    Label instruction1;
-    Label instruction2;
-    Label instruction3;
+    Label select;                   //Texte précédent le bloc sélectionnée
+    Label instruction1;             //Texte indiqué comment poser un bloc
+    Label instruction2;             //Texte indiqué comment enlever un bloc
+    Label instruction3;             //Texte indiqué comment afficher le chemin des ennemis
 
-    TextButton retour;
-    TextButton valider;
-    TextButton charger;
+    TextButton retour;              //Bouton permettant de revenir au menu éditeur
+    TextButton valider;             //Bouton permettant de valider la carte
+    TextButton charger;             //Bouton permettant de charger une map précédemment faite
 
-    Map map;
+    Map map;                        //Mini-map affichée
 
-    Skin skin;
+    Skin skin;                      //Caractéristiques des éléments graphiques
 
-    Boolean cache=true;
+    Boolean cache=true;             //Permet de savoir si le chemin des ennemis est affiché ou pas
 
-    File f;
-    FileWriter fw;
+    File f;                         //Fichier de sauvegarde temporaire de la map
+    FileWriter fw;                  //Permet d'écrire la nouvelle map
 
     Color Couleur[]={Color.BLACK,Color.BLUE,Color.BROWN,Color.CHARTREUSE,Color.CORAL,Color.CYAN,Color.DARK_GRAY,Color.FIREBRICK,Color.FOREST,Color.GOLD,Color.GOLDENROD,Color.GRAY,Color.GREEN,Color.LIGHT_GRAY,Color.LIME,Color.MAGENTA,Color.MAROON
-    ,Color.NAVY,Color.OLIVE,Color.ORANGE,Color.PINK,Color.PURPLE,Color.RED,Color.ROYAL,Color.SALMON,Color.SCARLET,Color.SKY,Color.SLATE,Color.TAN,Color.TEAL,Color.VIOLET,Color.YELLOW};
+    ,Color.NAVY,Color.OLIVE,Color.ORANGE,Color.PINK,Color.PURPLE,Color.RED,Color.ROYAL,Color.SALMON,Color.SCARLET,Color.SKY,Color.SLATE,Color.TAN,Color.TEAL,Color.VIOLET,Color.YELLOW}; //Permet de choisir une couleur aléatoire pour le chemin des ennemis
 
 
 
@@ -99,8 +99,8 @@ public class EditeurNSolo extends Etat implements Screen {
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         Bomberball.input.addProcessor(this);
-        if(f.exists()){
-            map=Map.mapFromStringN(loadFile(f));
+        if(f.exists()){                                     //S'il existe un fichier tmp, on le charge
+            map=Map.mapFromStringN(loadFile(f));            //Sinon on fournit une map de manière aléatoire
         }
         else{
             map=Map.genererMapSolo(20,10,5);
@@ -109,11 +109,9 @@ public class EditeurNSolo extends Etat implements Screen {
         map.setPosition(7*Bomberball.taillecase,0);
 
 
-        for (int i=0;i<15;i++){
+        for (int i=0;i<15;i++){                                             //On affiche les bonus par desssus
             for (int j=0;j<13;j++){
                 if(map.getGrille()[i][j].getBonus()!=null){
-
-
                     Bonus b=map.getGrille()[i][j].getBonus();
                     map.getGrille()[i][j].setBonus(null);
                     map.getGrille()[i][j].setBonus(b);
@@ -140,7 +138,7 @@ public class EditeurNSolo extends Etat implements Screen {
 
 
 
-
+        /**Mise en place des éléments pour l'éditeur solo **/
 
 
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
@@ -238,7 +236,7 @@ public class EditeurNSolo extends Etat implements Screen {
         charger = new TextButton("Charger une carte",skin);
         charger.setBounds(0,ymax-12*Bomberball.taillecase,charger.getWidth(),charger.getHeight());
         charger.setName("Charger");
-
+        /*****************************************************************************************************/
 
         retour.addListener(new ClickListener(){
             @Override
@@ -280,13 +278,13 @@ public class EditeurNSolo extends Etat implements Screen {
                         }
                     }
                 }
-                if (cptPerso!=1 || cptPorte!=1){
+                if (cptPerso!=1 || cptPorte!=1){            //S'il n'y a pas un joueur et une porte, la carte n'est pas valide
                     map.suppActor();
                     game.editeurNSolo.removeActor(map);
                     jeu.setEtat(game.erreurEditeurS);
                     game.setScreen(game.erreurEditeurS);
                 }
-                else{
+                else{                                       //Sinon, on peut l'enregistrer
                     map.suppActor();
                     game.editeurNSolo.removeActor(map);
 
@@ -387,15 +385,11 @@ public class EditeurNSolo extends Etat implements Screen {
 
     @Override
     /**
-     * Indique l'action à effectuer lorsqu'on clique sur une touche du clavier en fonction de la touche appuyée
-     * @param event
-     * @param x abscisse du pointeur sur l'écran
-     * @param y ordonnée du pointeur sur l'écran
-     * @param pointer
-     * @param button bouton de la souris appuyé
+     * Indique l'action à effectuer lorsqu'on appuie sur une touche sur le clavier
+     * @param keycode   Numéro de la touche appuyée
      */
     public boolean keyDown( int keycode) {
-        if(keycode==Input.Keys.SPACE){
+        if(keycode==Input.Keys.SPACE){                                  //Si on appuie sur Espace, on affiche le chemin des ennemis
             LinkedList<Ennemis> liste=new LinkedList<Ennemis>();
             for(int i=0;i<15;i++){
                 for(int j=0;j<13;j++){
@@ -404,11 +398,11 @@ public class EditeurNSolo extends Etat implements Screen {
                     }
                 }
             }
-            if(cache) {
+            if(cache) {                                                                     //Si le chemin est caché, on l'affiche en parcourant l'ensemble des ennemis
                 for (Ennemis en : liste) {
-                    int choix=(int)(Math.random()*32);
+                    int choix=(int)(Math.random()*32);                                      //On choisit la couleur pour chaque ennemis
 
-                    if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
+                    if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){   //On distingue si on affiche le chemin pour les ennemis passifs ou le prochain déplacement pour les ennemis actifs
                         LinkedList<Case> caca = en.getChemin();
                         for (Case cas : caca) {
                             int xc = cas.posX();
@@ -501,7 +495,7 @@ public class EditeurNSolo extends Etat implements Screen {
                 }
                 cache=false;
             }
-            else{
+            else{                                                                                                           //On cache le chemin de tous les ennemis
                 for (Ennemis en : liste) {
                     if(en instanceof EnnemiPassif || en instanceof EnnemiPassifAgressif){
                         LinkedList<Case> caca = en.getChemin();
@@ -612,20 +606,19 @@ public class EditeurNSolo extends Etat implements Screen {
     @Override
     /**
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
-     * @param event
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer
+     * @param pointer pointeur de l'événement (jamais utilisée)
      * @param button bouton de la souris appuyé
      */
     public boolean touchDown(int x, int y, int pointer, int button) {
-        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true); //Retourne référence de l'acteur touché
-        //De base, hit fait un setbounds pour voir si l'acteur est dedans | On peut réécrire le hit (par exemple si on a un cercle)
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);     //Retourne référence de l'acteur touché
+                                                                                                    //De base, hit fait un setbounds pour voir si l'acteur est dedans
         if(Gdx.graphics.getHeight()-y>=Gdx.graphics.getHeight() || Gdx.graphics.getHeight()-y<=0){
             return true;
         }
         else{
-            if (hitActor.getName()!=null) {
+            if (hitActor.getName()!=null) {                         //Même méthode que pour EditeurNMulti
                 if (hitActor.getName().equals("murd")) {
                     selectionne.setDrawable(murd.getDrawable());
                     selectionne.setName("murdes");
@@ -807,7 +800,7 @@ public class EditeurNSolo extends Etat implements Screen {
                     }
 
                 }
-                else if(hitActor.getName().equals("Porte")){
+                else if(hitActor.getName().equals("Porte")){                                            //Différence entre le multi et le solo où l'on peut placer une porte
                     Case c = (Case) hitActor.getParent();
                     if (button == Input.Buttons.RIGHT) {
                         c.setMur(null);
@@ -964,8 +957,8 @@ public class EditeurNSolo extends Etat implements Screen {
                     }
 
                 }
-            }else if(hitActor.getParent() instanceof Case){
-                Case c = (Case) hitActor.getParent();
+            }else if(hitActor.getParent() instanceof Case){                                                                 //Si on clique sur une case, on peut placer
+                Case c = (Case) hitActor.getParent();                                                                       //des ennemis
                 if (button == Input.Buttons.RIGHT) {
                     c.setMur(null);
                     c.setPorte(null);
@@ -1044,7 +1037,13 @@ public class EditeurNSolo extends Etat implements Screen {
             return true;
         }
     }
-    @Override
+
+
+    /**Méthode mouseMoved
+     * @param screenX x de la souris
+     * @param screenY y de la souris
+     * @return true si le mouvement est traitée
+     */
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }

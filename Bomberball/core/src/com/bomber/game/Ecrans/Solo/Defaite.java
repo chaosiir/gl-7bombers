@@ -18,16 +18,16 @@ import java.io.File;
 
 public class Defaite extends Etat implements Screen {
 
-    Bomberball game;
-    Image back;
-    Label explication;
-    Skin skin;
-    TextButton ok;
-    TextButton rejouer;
-    String txt;
-    File frecommencer;
-    File f;
-    Etat precedent;
+    Bomberball game;                //Instance de la classe principale
+    Image back;                     //Image de l'arrière-plan
+    Label explication;              //Affiche "Défaite"
+    Skin skin;                      //Caractéristiques des éléments graphiques
+    TextButton ok;                  //Bouton ok
+    TextButton rejouer;             //Bouton pour rejouer
+    String txt;                     //Paramètrage de la défaite
+    File frecommencer;              //Fichier où se trouve le fichier pour recommencer
+    File f;                         //Fichier de sauvegarde temporaire
+    Etat precedent;                 //Permet d'utiliser Défaite pour différents mode de jeu
 
     /**
      * Générateur de la classe Defaite
@@ -98,7 +98,7 @@ public class Defaite extends Etat implements Screen {
 
 
                 f.delete();
-                frecommencer.renameTo(f);
+                frecommencer.renameTo(f);               //Renomme debut.txt en tmp.txt pour pouvoir charger cette map et recommencer
                 jeu.recommencer=true;
                 jeu.removeActor(jeu.map);
                 game.defaite.removeActor(jeu);

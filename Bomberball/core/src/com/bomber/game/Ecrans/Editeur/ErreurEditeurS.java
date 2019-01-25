@@ -22,11 +22,11 @@ import java.awt.*;
  *
  */
 public class ErreurEditeurS extends Etat implements Screen {
-    Bomberball game;
-    Image back;
-    Label explication;
-    Skin skin;
-    TextButton ok;
+    Bomberball game;    //Instance de la classe principale
+    Image back;         //Image de l'arrière-plan
+    Label explication;  //Explication de l'erreur
+    Skin skin;          //Caractéristiques des éléments graphiques
+    TextButton ok;      //Boutton ok
     /**
      * Constructeur de la classe ErreurEditeurS
      * @param game

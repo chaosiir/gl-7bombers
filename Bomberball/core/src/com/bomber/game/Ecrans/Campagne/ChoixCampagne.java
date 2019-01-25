@@ -19,28 +19,28 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ChoixCampagne extends Etat implements Screen {
-    Bomberball game;
-    Image back;
-    Skin skin;
-    List<String> list;
-    ScrollPane scrollPane;
-    File f;
-    File nivplayer;
-    File nivplayertmp;
-    FileWriter fw;
-    int niveauactuel=1;
-    Scanner scan;
-    Map map;
+    Bomberball game;                            //Instance de la classe principale
+    Image back;                                 //Image de l'arrière-plan
+    Skin skin;                                  //Caractéristiques des éléments graphiques
+    List<String> list;                          //Affichage de la liste des maps
+    ScrollPane scrollPane;                      //Permet de gérer le choix des map s'il y en a plus
+    File f;                                     //Dossier contenant la campagne
+    File nivplayer;                             //Fichier du niveau
+    File nivplayertmp;                          //Fichier de sauvegarde temporaire du niveau
+    FileWriter fw;                              //Changer le niveau du joueur
+    int niveauactuel=1;                         //Stockage du niveau actuel en local
+    Scanner scan;                               //Récupère l'entier
+    Map map;                                    //Mini-map affichée
 
-    TextButton facile;
-    TextButton moyen;
-    TextButton difficile;
-    Label choixdifficulte;
-    ButtonGroup<TextButton> diffic;
-    TextButton valider;
-    TextButton retour;
-    TextButton réinitialiserProg;
-    Table table;
+    TextButton facile;                          //Bouton pour choisir la difficulté Facile
+    TextButton moyen;                           //Bouton pour choisir la difficulté Moyen
+    TextButton difficile;                       //Bouton pour choisir la difficulté Difficile
+    Label choixdifficulte;                      //Texte pour présenter la difficulté
+    ButtonGroup<TextButton> diffic;             //Permet de laisser un bouton appuyé au détriment des autres
+    TextButton valider;                         //Bouton pour accéder au niveau sélectionné
+    TextButton retour;                          //Bouton pour revenir au mode solo
+    TextButton réinitialiserProg;               //Bouton pour remettre à zéro la progression du joueur
+    Table table;                                //Contient les boutons
 
 
 
@@ -54,6 +54,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
 
     }
+
 
     @Override
     public boolean keyDown(int keycode) {
@@ -73,8 +74,8 @@ public class ChoixCampagne extends Etat implements Screen {
     @Override
     public void show() {
         Bomberball.copier(nivplayer,nivplayertmp);
-        Bomberball.stg.addActor(this);
-        Bomberball.stg.setKeyboardFocus(this);
+        Bomberball.stg.addActor(this);                                                  //Affiche l'écran
+        Bomberball.stg.setKeyboardFocus(this);                                          //Récupére le contrôle des touches
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -117,20 +118,20 @@ public class ChoixCampagne extends Etat implements Screen {
 
         int i=0;
         Array<String> tmp=new Array<String>();
-        final File liste[]=f.listFiles();
+        final File liste[]=f.listFiles();                                           //On récupère les fichiers présents dans Campagne
         if(liste!=null && liste.length!=0 ){
             for(File fi: liste){
-                if (!fi.getName().equals("tmp.txt") && !fi.getName().equals("niveau.txt")){
+                if (!fi.getName().equals("niveau.txt")){                            //Le seul fichier que l'on ne récupère pas à pour nom niveau.txt
                     i++;
-                    tmp.add(fi.getName().substring(0,fi.getName().length()-4));
+                    tmp.add(fi.getName().substring(0,fi.getName().length()-4));     //On n'affiche pas le .txt
                 }
                 
             }
         }
 
-        tmp.sort();
+        tmp.sort();                                                                 //Tri nécessaire car on fait la correspondance entre le niveau et l'indice dans la liste
 
-        while(tmp.size!=niveauactuel){
+        while(tmp.size!=niveauactuel){                                              //On réduit la liste au nombre de niveau déploqué
             tmp.removeIndex(tmp.size-1);
         }
 
@@ -142,19 +143,18 @@ public class ChoixCampagne extends Etat implements Screen {
 
 
 
-        table=new Table(); //Tableau
+        table=new Table();
         table.setWidth(Bomberball.stg.getWidth());
-        table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom); //Positionnement à la main
+        table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom);                             //Positionnement à la main
 
         valider.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {                                      //Permet de confirmer la map que le joueur veut jouer en campagne
                 int i=list.getSelectedIndex();
                 if (i!=-1){
                     File f1;
-                    File directory = new File (".");
-
-                        f1=Gdx.files.internal("./Campagne/"+list.getItems().get(i)+".txt").file();
+                    File directory = new File (".");                                            //Il se place dans le dossier principal du jeu Assets
+                        f1=Gdx.files.internal("./Campagne/"+list.getItems().get(i)+".txt").file();  //Permet de récupèrer le fichier
                         jeu.map=Map.mapFromStringN(Bomberball.loadFile(f1));
                         table.removeActor(valider);
                         table.removeActor(retour);
@@ -168,7 +168,7 @@ public class ChoixCampagne extends Etat implements Screen {
                         }
                         map=null;
                         game.choixCampagne.removeActor(jeu);
-                        Bomberball.input.removeProcessor(game.choixCampagne);
+                        Bomberball.input.removeProcessor(game.choixCampagne);                           //On libère les inputs pour le prochain Screen
                         game.campagne.setMapactuel(i+1);
                        jeu.setEtat(game.campagne);
                        game.setScreen(game.campagne);
@@ -179,7 +179,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
         retour.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {                                   //Permet de retourner au niveau précèdent
                 table.removeActor(valider);
                 table.removeActor(retour);
                 game.choixCampagne.removeActor(back);
@@ -187,7 +187,7 @@ public class ChoixCampagne extends Etat implements Screen {
                 game.choixCampagne.removeActor(table);
 
 
-                jeu.difficulte=-1;
+                jeu.difficulte=-1;                                                                  //Permet de réinitialiser la difficulté à défault
                 jeu.removeActor(map);
                 map=null;
                 game.choixCampagne.removeActor(jeu);
@@ -198,7 +198,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
         list.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {                                   //Permet de voir si le joueur a cliqué sur un élément de la liste
                 String s=list.getSelected();
                 File f1;
                 File directory = new File (".");
@@ -216,7 +216,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
         réinitialiserProg.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {                   //Réinitialise le niveau de la campagne à 1
                 try {
                     fw=new FileWriter(nivplayer);
                     fw.write("1");
@@ -256,27 +256,28 @@ public class ChoixCampagne extends Etat implements Screen {
             }
         });
 
-        facile.addListener(new ClickListener(){
+        facile.addListener(new ClickListener(){ //Stocke la difficulté choisie
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.difficulte=1;
             }
         });
 
-        moyen.addListener(new ClickListener(){
+        moyen.addListener(new ClickListener(){ //Stocke la difficulté choisie
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 jeu.difficulte=2;
             }
         });
+             difficile.addListener(new ClickListener(){ //Stocke la difficulté choisie
+                 @Override
+                 public void clicked(InputEvent event, float x, float y) {
+                     jeu.difficulte=3;
+                 }
+             });
 
-        difficile.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                jeu.difficulte=3;
-            }
-        });
-
+/** Ajout des acteurs dans Choixcampagne**/
 
         table.add(valider);
         table.add(retour);

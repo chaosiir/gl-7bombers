@@ -30,25 +30,24 @@ import java.io.IOException;
 /**
  * Classe SelectionCheminEp
  * Elle permet au joueur de placer un ennemi passif sur la carte dans l'éditeur de niveau
- * @author Paul-Louis Renard
  *
  */
 public class SelectionCheminEp extends Etat implements Screen {
-    Bomberball game;
-    int compteur=0;
-    EnnemiPassif ennemi_passif;
-    Map map;
+    Bomberball game;            //Instance de la classe principale
+    int compteur=0;             //Compteur de la taille du chemin de l'ennemi
+    EnnemiPassif ennemi_passif; //Ennemi que l'on place
+    Map map;                    //Map sur laquelle on place l'ennemi
 
-    Image back;
-    Label indication;
-    Label indication1;
-    TextButton valider;
-    TextButton retour;
-    Table table;
-    Skin skin;
+    Image back;                 //Image de l'arrière-plan
+    Label indication;           //Indiquer comment placer un ennemi
+    Label indication1;          //Indiquer comment supprimer un ennemi
+    TextButton valider;         //Permet de valider le chemin effectué
+    TextButton retour;          //Permet de retourner sur l'éditeur
+    Table table;                //Contient les boutons
+    Skin skin;                  //Caractéristiques des éléments graphiques
 
-    File f;
-    FileWriter fw;
+    File f;                     //Sauvegarde temporaire de la map
+    FileWriter fw;              //Ecrire dans la sauvegarde temporaire
 
     public SelectionCheminEp(Bomberball game,Jeu jeu) {
         super(jeu);
@@ -134,18 +133,12 @@ public class SelectionCheminEp extends Etat implements Screen {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                compteur=0;
-
+                compteur=0;                                             //Mettre à 0 le compteur de taille de chemin après validation
                 map.suppActor();
                 jeu.removeActor(map);
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
                 game.selectionCheminEp.removeActor(jeu);
-
-
-
-
-
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
             }
@@ -213,20 +206,20 @@ public class SelectionCheminEp extends Etat implements Screen {
     @Override
     public boolean touchDown( int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);
-        if(hitActor.getParent() instanceof Case && hitActor.getName()==null){
-            Case c=(Case) hitActor.getParent();
+        if(hitActor.getParent() instanceof Case && hitActor.getName()==null){                               //Si on clique sur une case dont le nom n'existe pas,
+            Case c=(Case) hitActor.getParent();                                                             //c'est donc une case sans rien desssus
             int xc=c.posX();
             int yc=c.posY();
             if(button== Input.Buttons.LEFT){
-                if(compteur==0){
-                    compteur++;
+                if(compteur==0){                                                                            //Si la taille du chemin est de 0,
+                    compteur++;                                                                             //on pose un ennemi
                     c.setMarque(new Image(Bomberball.multiTexture[18]));
                     ennemi_passif=new EnnemiPassif(true,c,3);
                     ennemi_passif.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
                     c.setEnnemi(ennemi_passif);
                     ennemi_passif.getChemin().add(c);
                 }
-                else if(compteur==1){
+                else if(compteur==1){                                                                       //Si la taille est de 1, on peut ajouter une case à proximité
                     if(c.getMap().getGrille()[xc+1][yc].getEnnemi()!=null){
                         compteur++;
                         ennemi_passif.getChemin().add(c);
@@ -248,7 +241,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                         c.setMarque(new Image(Bomberball.multiTexture[18]));
                     }
                 }
-                else if(compteur>1){
+                else if(compteur>1){                                                               //si la taille est supérieur à 1, on peut ajouter une case à proximité
                     Case CaseC=ennemi_passif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
@@ -278,8 +271,8 @@ public class SelectionCheminEp extends Etat implements Screen {
             }
 
         }
-        else if(hitActor.getName()!=null){
-            if(hitActor.getName().equals("Ennemis")){
+        else if(hitActor.getName()!=null){                                                          //Si on a cliqué sur un endroit portant un nom
+            if(hitActor.getName().equals("Ennemis")){                                               //Si on a cliqué sur ennemi, on peut le supprimer et supprimer son chemin
                 if(button==Input.Buttons.RIGHT){
                     for(Case c: ennemi_passif.getChemin()){
                         c.setMarque(null);
@@ -297,7 +290,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("red")){
+            else if(hitActor.getName().equals("red")){                                              //Si on clique sur une position marquée, on supprime tous le chemin après ce point
                 Case c=(Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
                     while(ennemi_passif.getChemin().getLast()!=c){
@@ -318,12 +311,12 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("Personnage")){
+            else if(hitActor.getName().equals("Personnage")){                                           //On a la possibilité de faire passer un chemin sur un joueur
                 Case c=(Case) hitActor.getParent();
                 int xc=c.posX();
                 int yc=c.posY();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif.getChemin().getLast()!=c){
+                    while(ennemi_passif.getChemin().getLast()!=c){                                  //On enlève tous le chemin après le joueur s'il y a un click droit
                         ennemi_passif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);
@@ -339,7 +332,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                     c.addActor(background);
                     return true;
                 }
-                else if(button==Input.Buttons.LEFT){
+                else if(button==Input.Buttons.LEFT){                                                //Si on clique gauche, on peut continuer le chemin
                     Case CaseC=ennemi_passif.getChemin().getLast();
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
@@ -375,7 +368,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 Case c=(Case) hitActor.getParent();
                 int xc=c.posX();
                 int yc=c.posY();
-                if(button==Input.Buttons.RIGHT){
+                if(button==Input.Buttons.RIGHT){                                                        //Si on clique droit sur un ennemi, il est entièrement supprimé
                     while(ennemi_passif.getChemin().getLast()!=c){
                         ennemi_passif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
@@ -392,8 +385,8 @@ public class SelectionCheminEp extends Etat implements Screen {
                     c.addActor(background);
                     return true;
                 }
-                else if(button==Input.Buttons.LEFT){
-                    Case CaseC=ennemi_passif.getChemin().getLast();
+                else if(button==Input.Buttons.LEFT){                                                    //Si on clique gauche, on est dans le cas où on peut continuer
+                    Case CaseC=ennemi_passif.getChemin().getLast();                                     //le chemin de l'ennemi
                     int xactuel=CaseC.posX();
                     int yactuel=CaseC.posY();
                     Personnage p=c.getPersonnage();

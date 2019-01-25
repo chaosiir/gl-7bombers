@@ -22,18 +22,18 @@ import java.io.File;
  */
 public class ChoixMapMultiE extends Etat implements Screen {
 
-    Bomberball game;
-    List<String> list;
-    Image back;
-    Skin skin;
-    TextButton valider;
-    TextButton retour;
-    TextButton supprimer;
-    Table table;
-    ScrollPane scrollPane;
-    Map map;
+    Bomberball game;         //Instance de la classe principale
+    List<String> list;      //Affiche le nom des map multi précèdemment créée
+    Image back;             //Image de l'arrière-plan
+    Skin skin;              //Caractéristiques des éléments graphiques
+    TextButton valider;     //Bouton pour valider la map sélectionnée
+    TextButton retour;      //Bouton pour revenir sur l'éditeur multi
+    TextButton supprimer;   //Bouton pour supprimer une map sélectionnée
+    Table table;            //Contient les boutons
+    ScrollPane scrollPane;  //Permet de gérer le choix des map s'il y en a plus
+    Map map;                //Mini-map affichée
 
-    File f;
+    File f;                 //Permet d'accèder au répertoire des maps multijoueurs
     /**
      * Constructeur de la fenêtre
      * @param game  La classe principal du jeu
@@ -43,7 +43,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
         super(jeu);
         this.game=game;
 
-        f =Gdx.files.internal("./SaveMapPerso/MapMulti/").file();
+        f =Gdx.files.internal("./SaveMapPerso/MapMulti/").file();   //Récupère le fichier situé à cette adresse
 
     }
 
@@ -64,6 +64,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
         list.getSelection().setMultiple(false);
         list.setBounds(0,0,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
 
+
+        /** Mise en place du bandeau déroulant µ**/
+
         scrollPane = new ScrollPane(list, skin);
         scrollPane.setBounds(0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()*4/5);
         scrollPane.setSmoothScrolling(false);
@@ -73,20 +76,21 @@ public class ChoixMapMultiE extends Etat implements Screen {
         scrollPane.setForceScroll(false,false);
         scrollPane.layout();
 
+        /************************************************************************/
+
+        /** Affichage de l'ensemble des éléments **/
+
         Array<String> tmp=new Array<String>();
         final File liste[]=f.listFiles();
         if(liste!=null && liste.length!=0){
             for(File fi: liste){
                 if (!fi.getName().equals("tmp.txt")){
-
                     tmp.add(fi.getName().substring(0,fi.getName().length()-4));
                 }
-
-
-
             }
         }
         list.setItems(tmp);
+        /************************************************************************/
 
         valider=new TextButton("Valider",skin);
         retour=new TextButton("retour",skin);
@@ -98,7 +102,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
         table.setWidth(Bomberball.stg.getWidth());
         table.setPosition(Gdx.graphics.getWidth()/2,150, Align.bottom); //Positionnement à la main
 
-        valider.addListener(new ClickListener(){
+        valider.addListener(new ClickListener(){                                                                        //Permet de choisir la map que l'on souhaite modifier
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 int i=list.getSelectedIndex();
@@ -108,8 +112,8 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     f2 = Gdx.files.internal("./SaveMapPerso/MapMulti/tmp.txt").file();
                     f1 = Gdx.files.internal("./SaveMapPerso/MapMulti/" + list.getItems().get(i) + ".txt").file();
                     f2.delete();
-                    Bomberball.copier(f1, f2);
-                    table.removeActor(valider);
+                    Bomberball.copier(f1, f2);                                                                          //Permet de remplacer le fichier tmp par un fichier rechargé
+                    table.removeActor(valider);                                                                         //Cela est ensuite géré dans editeurNMulti
                     table.removeActor(retour);
                     game.choixMapMultiE.removeActor(back);
                     game.choixMapMultiE.removeActor(scrollPane);
@@ -129,7 +133,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
-        retour.addListener(new ClickListener(){
+        retour.addListener(new ClickListener(){                         //Permet de retourner sur l'éditeur multi sans sélectionner de map
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 table.removeActor(valider);
@@ -146,12 +150,11 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
-        list.addListener(new ClickListener(){
+        list.addListener(new ClickListener(){                           //Permet d'agir et afficher une mini-map
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String s = list.getSelected();
                 File f1;
-
                 f1 = Gdx.files.internal("./SaveMapPerso/MapMulti/" + s + ".txt").file();
                 String text = Bomberball.loadFile(f1);
                 map = Map.mapFromStringN(text);
@@ -163,7 +166,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
             }
         });
 
-        supprimer.addListener(new ClickListener(){
+        supprimer.addListener(new ClickListener(){                                                  //Permet de supprimer la liste sélectionnée
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String s=list.getSelected();
@@ -171,15 +174,15 @@ public class ChoixMapMultiE extends Etat implements Screen {
                     File f1;
 
 
-                    f1 = Gdx.files.internal("./SaveMapPerso/MapMulti/" + s + ".txt").file();
-                    f1.delete();
+                    f1 = Gdx.files.internal("./SaveMapPerso/MapMulti/" + s + ".txt").file(); //Accède au fichier ciblé par l'utilisateur
+                    f1.delete();                                                                  //Supprime le fichier
 
 
                     map.suppActor();
                     map = null;
                     jeu.removeActor(map);
                 }
-                Array<String> tmp=new Array<String>();
+                Array<String> tmp=new Array<String>();                                              //Mise à jour de la liste
                 final File liste[]=f.listFiles();
                 if(liste!=null && liste.length!=0){
                     for(File fi: liste){
@@ -200,6 +203,7 @@ public class ChoixMapMultiE extends Etat implements Screen {
         table.add(retour);
         table.add(supprimer);
 
+        /** Ajout des acteurs dans ChoixMapMultiE**/
 
         this.addActor(back);
         this.addActor(scrollPane);
@@ -231,9 +235,9 @@ public class ChoixMapMultiE extends Etat implements Screen {
 
     @Override
     public void hide() {
-    Bomberball.stg.clear();
+    Bomberball.stg.clear();                         //Libère de la mémoire vive
     jeu.removeActor(map);
-    jeu.removeActor(jeu.findActor("Map"));
+    jeu.removeActor(jeu.findActor("Map"));   //Supprime l'acteur Map pour ne pas qu'il s'affiche
 
     }
 

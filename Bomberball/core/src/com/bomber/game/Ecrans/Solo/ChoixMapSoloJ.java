@@ -24,14 +24,14 @@ import java.io.File;
  *
  */
 public class ChoixMapSoloJ extends Etat implements Screen {
-    Bomberball game;
-    List<String> list;
-    Image back;
-    Skin skin;
+    Bomberball game;        //Instance de la classe principale
+    List<String> list;      //Affiche le nom des map solo précèdemment créée
+    Image back;             //Image de l'arrière-plan
+    Skin skin;              //Caractéristiques des éléments graphiques
 
-    TextButton valider;
-    TextButton retour;
-    Table table;
+    TextButton valider;     //Bouton pour valider la map sélectionnée
+    TextButton retour;      //Bouton pour revenir sur l'éditeur multi
+    Table table;            //Contient les boutons
     ScrollPane scrollPane;
 
     Map map;
@@ -145,7 +145,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
         list.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {                               //Affichage de la map dans la mini-map
                 String s=list.getSelected();
                 File f1=Gdx.files.internal("./SaveMapPerso/Mapsolo/"+s+".txt").file();
                     String text=Bomberball.loadFile(f1);

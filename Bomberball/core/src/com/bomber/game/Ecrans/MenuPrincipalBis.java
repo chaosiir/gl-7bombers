@@ -15,21 +15,20 @@ package com.bomber.game.Ecrans;
 /**
  * Classe MenuPrincipalBis
  * Elle affiche le menu principal lorsque le jeu démarre
- * @author Paul-Louis Renard
  *
  */
 public class MenuPrincipalBis extends Etat implements Screen {
-    private Image back;
-    private Skin skin;
-    private Table table;
-    private TextButton soloButton;
-    private  TextButton multiButton;
+    private Image back;                 //Image de l'arrière-plan
+    private Skin skin;                  //Caractéristiques des éléments graphiques
+    private Table table;                //Permet d'organiser l'écran
+    private TextButton soloButton;      //Permet d'aller dans le mode solo
+    private  TextButton multiButton;    //Permet d'aller dans le mode multi
 
 
-    private TextButton editeurButton;
-    private TextButton quitButton;
+    private TextButton editeurButton;   //Permet d'aller dans l'éditeur de map
+    private TextButton quitButton;      //Permet de fermer le jeu
 
-    Bomberball game;
+    Bomberball game;                    //Instance de la classe principale
 
 
 
@@ -100,7 +99,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    jeu.nbJoueur=4;
+                    jeu.nbJoueur=4;                                             //Par default, on propose de faire une partie à 4 joueurs
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);
@@ -123,11 +122,11 @@ public class MenuPrincipalBis extends Etat implements Screen {
                 }
             });
 
-            table.padTop(30); //Espace de 30 entre le premier texte et le haut
+            table.padTop(30);                       //Espace de 30 entre le premier texte et le haut
 
-            table.add(soloButton).padBottom(30); //Espace de 30 entre les 2 boutons
-            //Permet de les mettre sous forme de colonne
-            table.row();
+            table.add(soloButton).padBottom(30);    //Espace de 30 entre les 2 boutons
+
+            table.row();                            //Permet de les mettre sous forme de colonne
 
             table.add(multiButton).padBottom(30);
             table.row();
@@ -135,7 +134,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             table.add(editeurButton).padBottom(30); //Espace de 30 entre les 2 boutons
             table.row();
 
-            table.add(quitButton); //Espace de 30 entre les 2 boutons
+            table.add(quitButton);                  //Espace de 30 entre les 2 boutons
             table.row();
 
             back.setName("Arrière plan: menu principal");

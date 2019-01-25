@@ -23,19 +23,19 @@ import java.io.File;
  *
  */
 public class ChoixMapMultiJ extends Etat implements Screen {
-    Bomberball game;
-    List<String> list;
-    Image back;
-    Skin skin;
+    Bomberball game;        //Instance de la classe principale
+    List<String> list;      //Affiche le nom des map multi précèdemment créée
+    Image back;             //Image de l'arrière-plan
+    Skin skin;              //Caractéristiques des éléments graphiques
 
-    TextButton valider;
-    TextButton retour;
-    Table table;
-    ScrollPane scrollPane;
+    TextButton valider;     //Bouton pour valider la map sélectionnée
+    TextButton retour;      //Bouton pour revenir sur le menu solo
+    Table table;            //Contient les boutons
+    ScrollPane scrollPane;  //Permet de gérer le choix des map s'il y en a plus
 
-    Map map;
+    Map map;                //Mini-map affichée
 
-    File f;
+    File f;                 //Permet d'accèder au répertoire des maps multijoueurs
     /**
      * Constructeur de la fenêtre
      * @param game  La classe principal du jeu
@@ -52,6 +52,8 @@ public class ChoixMapMultiJ extends Etat implements Screen {
      */
     @Override
     public void show() {
+        /** Commentaire identique au ChoixMapMultiE**/
+
         Bomberball.stg.addActor(this);
         Bomberball.stg.setKeyboardFocus(this);
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
