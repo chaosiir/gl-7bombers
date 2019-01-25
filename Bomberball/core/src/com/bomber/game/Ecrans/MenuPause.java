@@ -86,7 +86,7 @@ public class MenuPause extends Etat implements Screen {
     public void resize(int width, int height) {
     }
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {

@@ -17,13 +17,13 @@ import java.util.LinkedList;
  * permet d'acceder à tout les types d'ennemis et de coder les fonctions communes à tous les ennemis
  */
 public abstract class Ennemis extends Image {
-    protected Case c;                               //case sur laquelle se trouve l'ennemis
-    protected boolean vivant;                       //boolean indiquant si l'ennemis est vivant
+    protected Case c;                               //case sur laquelle se trouve l'ennemi
+    protected boolean vivant;                       //boolean indiquant si l'ennemi est vivant
     protected Case prochaine;                       //prochaine case sur laquelle l'ennemi doit aller
     protected int pm;                               //points de mouvement, 3 par defaut
-    public LinkedList<Case> prochain_deplacement;   //contient la liste des cases sur lesquelles l'ennemis doit se deplacer pendant son tour
+    public LinkedList<Case> prochain_deplacement;   //contient la liste des cases sur lesquelles l'ennemi doit se deplacer pendant son tour
     protected Action animation;                     //animation actuelle de l'ennemi
-    boolean teleportation=false;                    //l'ennemis doit se teleporter, uniquement pour les ennemis passifs aggressif
+    boolean teleportation=false;                    //l'ennemi doit se téléporter, uniquement pour les ennemis passifs aggressif
 
     /**
      * Accesseur du chemin de l'ennemi
@@ -35,17 +35,17 @@ public abstract class Ennemis extends Image {
 
 
     /**
-     * change l'annimation de l'ennemis pour qu'il regarde à gauche
+     * change l'animation de l'ennemis pour qu'il regarde à gauche
      */
     public abstract void setAnimationgauche();
 
     /**
-     * change l'annimation de l'ennemis pour qu'il regarde à droite
+     * change l'animation de l'ennemis pour qu'il regarde à droite
      */
     public abstract void setAnimationdroite();
 
     /**
-     * change l'annimation de l'ennemis pour qu'il danse lorsque le joueur meurt
+     * change l'animation de l'ennemis pour qu'il danse lorsque le joueur meurt
      */
     public abstract void setAnimationdefaite();
 
@@ -61,8 +61,8 @@ public abstract class Ennemis extends Image {
      * Constucteur de la classe Ennemis
      * @param t texture de l'ennemi
      * @param vivant état de l'ennemi
-     * @param c case où l'ennemi apparait
-     * @param pm nombre de déplacement de l'ennemi
+     * @param c case où l'ennemi apparaît
+     * @param pm nombre de déplacements de l'ennemi
      */
     public Ennemis(Texture t,boolean vivant, Case c, int pm){
         super(t);
@@ -117,8 +117,8 @@ public abstract class Ennemis extends Image {
 
     /**
      *
-     * Accesseur du nombre de mouvement
-     * @return pm le nombre de point de mouvement
+     * Accesseur du nombre de mouvements
+     * @return pm le nombre de points de mouvement
      */
     public int getPm() {
         return pm;
@@ -126,7 +126,7 @@ public abstract class Ennemis extends Image {
 
     /**
      *
-     * Modificateur du nombre de mouvement
+     * Modificateur du nombre de mouvements
      * @param  pm
      */
     public void setPm(int pm) {
@@ -135,14 +135,14 @@ public abstract class Ennemis extends Image {
 
     /**
      *
-     * Accesseur du chemin de l'ennemis utilisable que pour les ennemis passifs
+     * Accesseur du chemin de l'ennemi utilisable que pour les ennemis passifs
      * @return LinkedList<Case> un chemin
      */
     public abstract LinkedList<Case> getChemin();
 
     /**
      *
-     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     * calcule le prochain déplacement de l'ennemi et le place dans prochain_deplacement
      *
      */
     public abstract void miseAjour();
@@ -167,25 +167,25 @@ public abstract class Ennemis extends Image {
     public void deplacer(){
         int i = pm;                                             //compteur du nombre de points de deplacement
         this.miseAjour();                                       //actualisation du chemin
-        SequenceAction seq=new SequenceAction();                //sequence d'action qui vont etre executée à la suite pour afficher le deplacement
+        SequenceAction seq=new SequenceAction();                //séquence d'actions qui vont être executées à la suite pour afficher le déplacement
         Case actuel=c;
-        if (!prochain_deplacement.isEmpty()){                   //dans le deplacement il ya a la case actuelle qu'on retire
+        if (!prochain_deplacement.isEmpty()){                   //dans le déplacement il y a a la case actuelle qu'on retire
             prochaine=prochain_deplacement.removeFirst();
         }
 
-        if(teleportation){                                      //si on doit se teleporter
+        if(teleportation){                                      //si on doit se téléporter
             prochaine=prochain_deplacement.removeFirst();
             teleportation(prochaine.posX(),prochaine.posY());   //on le fait via une fonction auxiliaire
         }
-        while(!prochain_deplacement.isEmpty() && i>0){          //tant qu'il reste des déplacement ou des mouvement à faire
+        while(!prochain_deplacement.isEmpty() && i>0){          //tant qu'il reste des déplacements ou des mouvement à faire
             prochaine=prochain_deplacement.removeFirst();       //on prend la prochaine case
-            if(prochaine.getEnnemi()!=null && prochaine.getEnnemi()!=this){ //s'il y a un ennemi on arrete le mouvement
+            if(prochaine.getEnnemi()!=null && prochaine.getEnnemi()!=this){ //s'il y a un ennemi on arrête le mouvement
                 break;
             }
             else{
                 if(actuel.posX()!=prochaine.posX()){
                     if(actuel.posX()<prochaine.posX()){         //si la case est à droite
-                        seq.addAction(deplacementdroite());     //on ajoute un deplacement à gauche et de meme pour les autres directions
+                        seq.addAction(deplacementdroite());     //on ajoute un deplacement à gauche et de même pour les autres directions
                     }
                     else {
                         seq.addAction(deplacementgauche());
@@ -207,7 +207,7 @@ public abstract class Ennemis extends Image {
 
 
         }
-        this.addAction(seq);                                    //un fois l'action prete on la donne à l'ennemis
+        this.addAction(seq);                                    //une fois l'action prête on la donne à l'ennemi
     }
 
 
@@ -226,18 +226,18 @@ public abstract class Ennemis extends Image {
     }
 
     /**
-     * renvois une action affichant un deplacement vers la droite de l'ennemis
+     * renvoie une action affichant un déplacement vers la droite de l'ennemi
      * @return Action
      */
     public Action deplacementdroite(){
-        final Case proch=prochaine;                         //recuperation de la destination
-        SequenceAction seq=new SequenceAction();            //on creer une sequence d'action
+        final Case proch=prochaine;                         //récupération de la destination
+        SequenceAction seq=new SequenceAction();            //on créer une séquence d'action
         seq.addAction(new Action() {
             @Override
-            public boolean act(float delta) {                           //la premiere action
+            public boolean act(float delta) {                           //la première action
 
                 ((Ennemis) target).setAnimationdroite();    //consiste à changer l'animation
-                c.setEnnemi(null);                          //de retirer l'ennemis de la case actuelle
+                c.setEnnemi(null);                          //de retirer l'ennemi de la case actuelle
                 c= proch;
                 c.setEnnemi((Ennemis) target);
                 target.setX(-Bomberball.taillecase);        //de le changer de case et de continuer à l'afficher à la position actuelle
@@ -247,7 +247,7 @@ public abstract class Ennemis extends Image {
         });
         MoveToAction mv= new MoveToAction();                //puis on revient au centre de la case
         mv.setPosition(0,0);
-        mv.setDuration(0.2f);                               //en 0.2seconde
+        mv.setDuration(0.2f);                               //en 0.2 seconde
         seq.addAction(mv);
         seq.addAction(new Action() {
             @Override
@@ -278,7 +278,7 @@ public abstract class Ennemis extends Image {
         });
         MoveByAction action=new MoveByAction();
         action.setAmount(-Bomberball.taillecase,0);         //mais on inverse le deplacement et le changement de case car comme on affiche la map case par case de gauche à droite
-        action.setDuration(0.2f);                               //et de bas en haut on doit toujours sur la case qui se dessine en derniere parmis les case sur lesquelles on se deplace sinon l'ennemis est
+        action.setDuration(0.2f);                               //et de bas en haut on doit toujours sur la case qui se dessine en derniere parmis les case sur lesquelles on se deplace sinon l'ennemi est
         seq.addAction(action);                                  //recouvert
         seq.addAction(new Action() {
             @Override
@@ -297,7 +297,7 @@ public abstract class Ennemis extends Image {
     }
 
     /**
-     * renvois une action affichant un deplacement vers le haut de l'ennemi
+     * renvoie une action affichant un déplacement vers le haut de l'ennemi
      * @return Action
      */
     public Action deplacementhaut(){
@@ -332,7 +332,7 @@ public abstract class Ennemis extends Image {
     }
 
     /**
-     * renvois une action affichant un deplacement vers le bas de l'ennemis
+     * renvoie une action affichant un déplacement vers le bas de l'ennemi
      * @return Action
      */
     public Action deplacementbas(){
@@ -367,7 +367,7 @@ public abstract class Ennemis extends Image {
     }
 
     /**
-     * fait une animation de teleportation de l'ennemis vers la case de coordonné données
+     * fait une animation de téléportation de l'ennemis vers la case de coordonnées données
      * @param x
      * @param y
      */
@@ -377,24 +377,24 @@ public abstract class Ennemis extends Image {
         final int a=x;
         final int b=y;
         MoveByAction mv=new MoveByAction();
-        mv.setAmount(0,Bomberball.taillecase);      //on monte sans changer de case pour passer sous la case superieur et disparaitre
+        mv.setAmount(0,Bomberball.taillecase);      //on monte sans changer de case pour passer sous la case supérieure et disparaitre
         mv.setDuration(0.3f);
         seq.addAction(mv);
         seq.addAction(new Action() {
             @Override
-            public boolean act(float delta) {           //puis on change de case
+            public boolean act(float delta) {                       //puis on change de case
                 c.setEnnemi(null);
                 c=c.map.getGrille()[a][b];
                 c.setEnnemi((Ennemis) target);
                 return true;
             }
         });
-        MoveByAction action=new MoveByAction();         //puis on redescent de la case superieur pour apparaitre
+        MoveByAction action=new MoveByAction();         //puis on redescend de la case supérieure pour apparaître
         action.setAmount(0,-Bomberball.taillecase);
         action.setDuration(0.3f);
         seq.addAction(action);
-        this.addAction(seq);                            //on l'ajoute directement car on ne fait que se teleporter et pas d'autre teleporation
-        teleportation=false;                            //puis on reinitialise la teleportation
+        this.addAction(seq);                            //on l'ajoute directement car on ne fait que se téléporter et pas d'autre téléporation
+        teleportation=false;                            //puis on réinitialise la téléportation
 
     }
 }

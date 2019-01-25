@@ -4,7 +4,7 @@ import com.bomber.game.Bomberball;
 
 /**
  * Classe MurD
- * mur destructible peut etre detruit et etre dans une case avec un bonus
+ * mur destructible peut être detruit et être dans une case avec un bonus
  */
 public class MurD extends Mur {
     /**

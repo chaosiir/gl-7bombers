@@ -8,7 +8,7 @@ import com.bomber.game.Bomberball;
 
 /**
  * Classe Porte
- * c'est la case sur laquelle le joueur doit arrivé pour gagner
+ * c'est la case sur laquelle le joueur doit arriver pour gagner
  */
 public class Porte extends Image {
 

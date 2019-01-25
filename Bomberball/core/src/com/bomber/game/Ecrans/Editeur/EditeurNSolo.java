@@ -29,7 +29,6 @@ import static com.bomber.game.Bomberball.loadFile;
 /**
  * Classe EditeurNSolo
  * Elle affiche l'éditeur de niveau pour des maps solo
- * @author Paul-Louis Renard
  *
  */
 public class EditeurNSolo extends Etat implements Screen {
@@ -49,7 +48,7 @@ public class EditeurNSolo extends Etat implements Screen {
     Image ennemisPassif;            //Image de l'ennemi passif
     Image ennemisActif;             //Image de l'ennemi actif
     Image ennemisPassifAgressif;    //Image de l'ennemi passif aggressif
-    Image ennemisActifAgressif;     //Image de l'ennemi actif aggressig
+    Image ennemisActifAgressif;     //Image de l'ennemi actif aggressif
 
     Label select;                   //Texte précédent le bloc sélectionnée
     Label instruction1;             //Texte indiqué comment poser un bloc
@@ -353,11 +352,11 @@ public class EditeurNSolo extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
 
     }
 
@@ -373,7 +372,7 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -381,7 +380,7 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -389,7 +388,7 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -398,7 +397,7 @@ public class EditeurNSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -630,11 +629,11 @@ public class EditeurNSolo extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     public boolean touchDown(int x, int y, int pointer, int button) {
-        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);     //Retourne référence de l'acteur touché
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);     //Retourne la référence de l'acteur touché
                                                                                                     //De base, hit fait un setbounds pour voir si l'acteur est dedans
         if(Gdx.graphics.getHeight()-y>=Gdx.graphics.getHeight() || Gdx.graphics.getHeight()-y<=0){
             return true;
@@ -1064,7 +1063,7 @@ public class EditeurNSolo extends Etat implements Screen {
     /**Méthode mouseMoved
      * @param screenX x de la souris
      * @param screenY y de la souris
-     * @return true si le mouvement est traitée
+     * @return true si le mouvement est traité
      */
     public boolean mouseMoved(int screenX, int screenY) {
         return false;

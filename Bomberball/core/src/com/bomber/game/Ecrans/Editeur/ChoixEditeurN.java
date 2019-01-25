@@ -33,7 +33,7 @@ public class ChoixEditeurN extends Etat implements Screen {
 
     /**
      * Constructeur de la fenêtre
-     * @param game  La classe principal du jeu
+     * @param game  La classe principale du jeu
      * @param jeu   Un jeu contenant les acteurs
      */
     public ChoixEditeurN(Bomberball game,Jeu jeu){
@@ -74,7 +74,7 @@ public class ChoixEditeurN extends Etat implements Screen {
 
                 jeu.removeActor(jeu.map);
                 jeu.map=null;
-                game.choixEditeurN.removeActor(jeu);                                //Permet de supprimer les map qui pourraient existé en arrière-plan
+                game.choixEditeurN.removeActor(jeu);                                //Permet de supprimer les map qui pourraient exister en arrière-plan
                 Bomberball.input.removeProcessor(game.choixEditeurN);
                 jeu.setEtat(game.editeurNSolo);
                 game.setScreen(game.editeurNSolo);
@@ -136,7 +136,7 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -144,7 +144,7 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -152,7 +152,7 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -161,7 +161,7 @@ public class ChoixEditeurN extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -170,11 +170,11 @@ public class ChoixEditeurN extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);           //nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);           //nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
     }
 
     /**

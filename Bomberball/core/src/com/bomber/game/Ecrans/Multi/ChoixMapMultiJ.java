@@ -18,19 +18,19 @@ import com.bomber.game.MapetObjet.Map;
 import java.io.File;
 /**
  * Classe ChoixMapMultiJ
- * Elle affiche des maps multijoueurs que le joueur a déjà créé et sur lesquelles il veut jouer
+ * Elle affiche des maps multijoueurs que le joueur a déjà créées et sur lesquelles il veut jouer
  *
  */
 public class ChoixMapMultiJ extends Etat implements Screen {
     Bomberball game;        //Instance de la classe principale
-    List<String> list;      //Affiche le nom des map multi précèdemment créée
+    List<String> list;      //Affiche le nom des maps multi précèdemment créées
     Image back;             //Image de l'arrière-plan
     Skin skin;              //Caractéristiques des éléments graphiques
 
     TextButton valider;     //Bouton pour valider la map sélectionnée
     TextButton retour;      //Bouton pour revenir sur le menu solo
     Table table;            //Contient les boutons
-    ScrollPane scrollPane;  //Permet de gérer le choix des map s'il y en a plus
+    ScrollPane scrollPane;  //Permet de gérer le choix des maps s'il y en a plus
 
     Map map;                //Mini-map affichée
 
@@ -185,7 +185,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
     }
 
     /**
@@ -200,7 +200,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas dans le code par la suite.
      */
     @Override
     public void pause() {
@@ -208,7 +208,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas dans le code par la suite.
      */
     @Override
     public void resume() {
@@ -216,7 +216,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellée lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -226,7 +226,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas dans le code par la suite.
      */
     @Override
     public void dispose() {
@@ -246,7 +246,7 @@ public class ChoixMapMultiJ extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

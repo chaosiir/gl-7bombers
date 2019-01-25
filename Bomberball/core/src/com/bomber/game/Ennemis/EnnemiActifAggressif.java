@@ -11,7 +11,7 @@ import com.bomber.game.MapetObjet.Personnage;
 import java.util.LinkedList;
 /**
  * Classe EnnemiActifAggressif
- * ennemis qui suit le chemin le plus long  possible sauf quand il est pres du joueur dans se cas il se rapproche de lui
+ * ennemi qui suit le chemin le plus long  possible sauf quand il est près du joueur, dans ce cas il se rapproche de lui
  */
 public class EnnemiActifAggressif extends Ennemis {
     private int portee;
@@ -62,7 +62,7 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     /**
-     * renvoit un ennemis actif agressif sur la case c avec pm mouvement une detection à portee case
+     * renvoie un ennemi actif agressif sur la case c avec pm mouvement une detection à portee case
      * @param vivant
      * @param c
      * @param pm
@@ -108,7 +108,7 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     /**
-     * renvois une action affichant un déplacement vers la droite de l'ennemis
+     * renvoie une action affichant un déplacement vers la droite de l'ennemi
      *
      */
     @Override
@@ -130,7 +130,7 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     /**
-     * change l'annimation de l'ennemis pour qu'il danse lorsque le joueur meurt
+     * change l'animation de l'ennemi pour qu'il danse lorsque le joueur meurt
      */
     @Override
     public void setAnimationdefaite() {
@@ -139,7 +139,7 @@ public class EnnemiActifAggressif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {   //change rapidement de coté
+            public boolean act(float delta) {   //change rapidement de côté
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int) (time * 5) % 2) == 0) ? "" : "inv")))));
@@ -152,7 +152,7 @@ public class EnnemiActifAggressif extends Ennemis {
 
     /**
      *
-     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     * calcule le prochain déplacement de l'ennemi et le place dans prochain_deplacement
      *
      */
     public void miseAjour() {
@@ -166,7 +166,7 @@ public class EnnemiActifAggressif extends Ennemis {
     }
 
     /**
-     * place le chemin le plus long accessible pour l'ennemis et le place dans prochain chemin
+     * place le plus long chemin accessible pour l'ennemi dans prochain déplacement
      *
      */
     public void recherchecheminmaxPL() {
@@ -177,7 +177,7 @@ public class EnnemiActifAggressif extends Ennemis {
         int yc = this.getC().posY();
         int h = 0;                      //Si on ne trouve pas un personnage a une portée maximum, on diminue
         Boolean personnage = false;
-        int xp = 0, yp = 0;             //On stocke les coordonnées du personnages s'il est détecté
+        int xp = 0, yp = 0;             //On stocke les coordonnées du personnage s'il est détecté
 
         int i, j;
         int[][] trad = new int[15][13];
@@ -196,7 +196,7 @@ public class EnnemiActifAggressif extends Ennemis {
         }
 
         int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
-        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numérotée dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
         for (i = 0; i < lignes; i++) {
             for (j = 0; j < colonnes; j++) {
                 if (j > 0 && j < colonnes - 1) {
@@ -240,7 +240,7 @@ public class EnnemiActifAggressif extends Ennemis {
             }
         }
 
-        while (!personnage && h < portee) {                     //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+        while (!personnage && h < portee) {                     //Tant que l'on n'a pas trouvé ou que l'ennemi ne peut se déplacer
             int var = -(portee - h);
             while (var <= (portee - h) && !personnage) {        //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
 
@@ -416,7 +416,7 @@ public class EnnemiActifAggressif extends Ennemis {
                 Graphe graphe = new Graphe(existdij);
                 Dijkstra dijkstra = new Dijkstra(yc + colonnes * xc, graphe);
                 LinkedList<Integer> disol = dijkstra.afficheChemin(ya + colonnes * xa);
-                prochain_deplacement.addFirst(c);               //on recupère le chemin donnée par dijkstra et on inverse son sens et on la met dans prochain_deplacement
+                prochain_deplacement.addFirst(c);               //on récupère le chemin donné par dijkstra et on inverse son sens et on la met dans prochain_deplacement
                 for (int f : disol) {
                     prochain_deplacement.addFirst(map.getGrille()[f / colonnes][f % colonnes]);
                 }

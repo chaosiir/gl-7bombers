@@ -11,14 +11,14 @@ import java.util.LinkedList;
 
 /**
  * Classe EnnemiPassif
- * ennemis qui suit un chemin predefini
+ * ennemi qui suit un chemin prédéfini
  */
 public class EnnemiPassif extends Ennemis {
     public int pos;
     public Boolean retour=false;
 
     /**
-     * renvoi un ennemis sur la case c qui peut se deplacer de pm mouvement
+     * renvoie un ennemi sur la case c qui peut se déplacer de pm mouvements
      * @param vivant
      * @param c
      * @param pm
@@ -53,16 +53,16 @@ public class EnnemiPassif extends Ennemis {
 
     /**
      *
-     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     * calcule le prochain deplacement de l'ennemi et le place dans prochain_deplacement
      *
      */
     public void miseAjour() {
         prochain_deplacement.clear();
         prochain_deplacement.add(c);
-        Map map=this.getC().getMap();   //recuperation de la map
+        Map map=this.getC().getMap();   //récupération de la map
         int pmrestant=pm;
         Boolean ok=false;
-        if(chemin.size()!=1){           //si le chemin n'est pas vide ,test si on peut aller sur la prochaine case
+        if(chemin.size()!=1){           //si le chemin n'est pas vide ,teste si on peut aller sur la prochaine case
             if(pos==0){
                 Case casap=chemin.get(1);
                 if(map.getGrille()[casap.posX()][casap.posY()].getMur()==null && map.getGrille()[casap.posX()][casap.posY()].getEnnemi()==null){
@@ -150,7 +150,7 @@ public class EnnemiPassif extends Ennemis {
     }
 
     /**
-     * change l'annimation de l'ennemis pourqu'il regarde à droite
+     * change l'animation de l'ennemi pour qu'il regarde à droite
      */
     @Override
     public void setAnimationdroite() {
@@ -169,7 +169,7 @@ public class EnnemiPassif extends Ennemis {
     }
 
     /**
-     * change l'annimation de l'ennemis pourqu'il dance lorsque le joueur meurt
+     * change l'animation de l'ennemi pour qu'il danse lorsque le joueur meurt
      */
     public void setAnimationdefaite() {
         this.removeAction(animation);
@@ -177,7 +177,7 @@ public class EnnemiPassif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {   //change rapidement de coté
+            public boolean act(float delta) {   //change rapidement de côté
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("ghost" + 0 + "" + 0 + ((((int)(time * 5) % 2) == 0) ? "" : "inv")))));
@@ -200,7 +200,7 @@ public class EnnemiPassif extends Ennemis {
     @Override
 
     /**
-     * change l'annimation de l'ennemis pour qu'il regarde à gauche
+     * change l'animation de l'ennemi pour qu'il regarde à gauche
      */
     public void setAnimationgauche() {
         this.removeAction(animation);

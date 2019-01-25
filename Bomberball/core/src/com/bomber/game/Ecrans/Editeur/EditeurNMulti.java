@@ -29,7 +29,6 @@ import java.io.IOException;
 /**
  * Classe EditeurNMulti
  * Elle affiche l'éditeur de niveau pour des maps multijoueurs
- * @author Paul-Louis Renard
  *
  */
 public class EditeurNMulti extends Etat implements Screen {
@@ -51,12 +50,12 @@ public class EditeurNMulti extends Etat implements Screen {
     Image perso2;           //Image du personnage2
     Image perso3;           //Image du personnage3
     Image perso4;           //Image du personnage4
-    Image bonusP;           //Image du bonus de poussé
+    Image bonusP;           //Image du bonus de poussée
 
 
     Label select;           //Texte précédent le bloc sélectionnée
-    Label instruction1;     //Texte indiqué comment poser un bloc
-    Label instruction2;     //Texte indique comment enlever un bloc
+    Label instruction1;     //Texte indiquant comment poser un bloc
+    Label instruction2;     //Texte indiquant comment enlever un bloc
 
     TextButton retour;      //Bouton permettant de revenir au menu éditeur
     TextButton valider;     //Bouton permettant de valider la carte
@@ -67,7 +66,6 @@ public class EditeurNMulti extends Etat implements Screen {
     /**
      * Classe EditeurNMulti
      * Elle affiche l'éditeur de niveau pour des maps multijoueurs
-     * @author Paul-Louis Renard
      *
      */
     public EditeurNMulti(Bomberball game,Jeu jeu) {
@@ -230,7 +228,7 @@ public class EditeurNMulti extends Etat implements Screen {
                 }
                 /************************************************/
 
-                if (cptPerso!=4 || !different){             //Si le nombre de joueur n'est pas 4 et qu'ils ne sont pas tous différent
+                if (cptPerso!=4 || !different){             //Si le nombre de joueur n'est pas 4 et qu'ils ne sont pas tous différents
                     jeu.removeActor(jeu.map);               //la map n'est pas valide et on va l'indiquer au joueur
                     jeu.map=null;
                     game.editeurNMulti.removeActor(jeu);
@@ -293,11 +291,11 @@ public class EditeurNMulti extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
 
     }
 
@@ -313,7 +311,7 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -321,7 +319,7 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -329,7 +327,7 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -338,7 +336,7 @@ public class EditeurNMulti extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -365,7 +363,7 @@ public class EditeurNMulti extends Etat implements Screen {
      * @param button bouton de la souris appuyé
      */
     public boolean touchDown(int x, int y, int pointer, int button) {
-        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);     //Retourne référence de l'acteur touché
+        Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);     //Retourne la référence de l'acteur touché
                                                                                                     // hit fait un setbounds pour voir si l'acteur est dedans
         if (hitActor.getName()!=null) {                         //On vérifie quelle case le joueur a sélectionné
             if (hitActor.getName().equals("murd")) {

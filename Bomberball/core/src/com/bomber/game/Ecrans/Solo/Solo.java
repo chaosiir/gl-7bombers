@@ -28,7 +28,6 @@ import java.util.ArrayList;
 /**
  * Classe Solo
  * Elle affiche l'écran du jeu lors d'un jeu solo
- * @author Pascal Ferrari
  *
  */
 
@@ -39,15 +38,15 @@ public class Solo extends Etat implements Screen  {
 
     ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();
     Image joueur;                                       //Panneau du joueur
-    Image bombe;                                        //Affiche le nombre de bombe
+    Image bombe;                                        //Affiche le nombre de bombes
     Image mouvement;                                    //Affiche le nombre des mouvements
     Image pousse;                                       //Affiche si le joueur a la poussée
     Image explosion;                                    //Affiche la portée de l'explosion
 
     Label nbmvt;                                        //Contient le nombre de points de mouvement actuel
-    Label nbBombe;                                      //Contient le nombre de bombe actuel
+    Label nbBombe;                                      //Contient le nombre de bombes actuel
     Label porteExplo;                                   //Contient la valeur de la portée
-    Label poussee;                                      //Contient un X si le joueur peut poussé sinon rien
+    Label poussee;                                      //Contient un X si le joueur peut pousser sinon rien
 
     TextButton retour;                                  //Bouton retour
 
@@ -343,7 +342,7 @@ public class Solo extends Etat implements Screen  {
      * @param keycode code de la touche appuyée
      * @return boolean
      */
-    public boolean keyDown( int keycode) {//delpacement = fleche pas encore implementer
+    public boolean keyDown( int keycode) {//déplacement = flèche pas encore implementée
         Personnage joueur = personnage;
         if(jeu.findActor("explo")==null) {
 
@@ -458,7 +457,7 @@ public class Solo extends Etat implements Screen  {
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextNP());
                 if(joueur.getC().getBombe()!=null){
-                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique qu'une bombe est sur la position du joueur
                 }
                 else{
                     fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
@@ -497,7 +496,7 @@ public class Solo extends Etat implements Screen  {
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if ((time>1.5 ||jeu.findActor("explo")==null)&&en.getActions().size==1) {   //on attend la fin des explosion et ou que l'ennemis en cours
+                if ((time>1.5 ||jeu.findActor("explo")==null)&&en.getActions().size==1) {   //on attend la fin des explosions et/ou que l'ennemis en cours
                     i++;                                                                            //ait fini son action
                     if (i == ennemis.size()) {                                                      //si on a terminé
                         Bomberball.input.addProcessor((Solo) target);                               //on remet les inputs
@@ -505,7 +504,7 @@ public class Solo extends Etat implements Screen  {
 
                             for (Ennemis en : ennemis) {
                                 if (en.isVivant()) {
-                                    en.setAnimationdefaite();                                       //on gagne si le joueur est mort
+                                    en.setAnimationdefaite();                                       //les ennemis gagnent si le joueur est mort
                                 }
                             }
                             jeu.addAction(new Action() {
@@ -543,7 +542,7 @@ public class Solo extends Etat implements Screen  {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -562,7 +561,7 @@ public class Solo extends Etat implements Screen  {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -570,7 +569,7 @@ public class Solo extends Etat implements Screen  {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -578,7 +577,7 @@ public class Solo extends Etat implements Screen  {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -589,7 +588,7 @@ public class Solo extends Etat implements Screen  {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -611,7 +610,7 @@ public class Solo extends Etat implements Screen  {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param screenX abscisse du pointeur sur l'écran
      * @param screenY ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

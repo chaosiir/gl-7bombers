@@ -17,12 +17,12 @@ import com.bomber.game.MapetObjet.Map;
 import java.io.File;
 /**
  * Classe ChoixMapSoloE
- * Elle affiche des maps solo que le joueur a déjà créé et qu'il veut remodifié
+ * Elle affiche des maps solo que le joueur a déjà créées et qu'il veut remodifier
  *
  */
 public class ChoixMapSoloE extends Etat implements Screen {
     Bomberball game;        //Instance de la classe principale
-    List<String> list;       //Affiche le nom des map solo précèdemment créée
+    List<String> list;       //Affiche le nom des maps solo précèdemment créées
     Image back;             //Image de l'arrière-plan
     Skin skin;              //Caractéristiques des éléments graphiques
     Map map;                //Mini-map affichée
@@ -32,13 +32,13 @@ public class ChoixMapSoloE extends Etat implements Screen {
     TextButton retour;      //Bouton pour revenir sur l'éditeur multi
     TextButton supprimer;   //Bouton pour supprimer une map sélectionnée
     Table table;            //Contient les boutons
-    ScrollPane scrollPane;  //Permet de gérer le choix des map s'il y en a plus
+    ScrollPane scrollPane;  //Permet de gérer le choix des maps s'il y en a plus
 
 
 
     /**
      * Constructeur de la fenêtre
-     * @param game  La classe principal du jeu
+     * @param game  La classe principale du jeu
      * @param jeu   Un jeu contenant les acteurs
      */
     public ChoixMapSoloE(Bomberball game,Jeu jeu){
@@ -214,7 +214,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -233,7 +233,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -249,7 +249,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -260,7 +260,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -282,7 +282,7 @@ public class ChoixMapSoloE extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

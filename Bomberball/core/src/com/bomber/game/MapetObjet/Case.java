@@ -10,11 +10,11 @@ import com.bomber.game.Ennemis.Ennemis;
 
 /**
  * Classe Case
- * sert de contenueur pour les différents objets (bombe/personnage/mur/ennemis/porte/bonus)
+ * sert de conteneur pour les différents objets (bombe/personnage/mur/ennemis/porte/bonus)
  */
 public class Case extends Group  {
     public Map map;                 //map
-    private int x;                  //coordonnée de la case
+    private int x;                  //coordonnées de la case
     private int y;
     private Bombe bombe;
     private Bonus bonus;
@@ -197,7 +197,7 @@ public class Case extends Group  {
         this.mur = mur;
         if (mur != null) {
             mur.setBounds(0, 0, Bomberball.taillecase, Bomberball.taillecase);
-            this.addActor(mur);                                         // rajout d'un mur à la bonne taille est possition
+            this.addActor(mur);                                         // ajout d'un mur à la bonne taille et position
         }
     }
     /**
@@ -213,7 +213,7 @@ public class Case extends Group  {
      * @param personnage
      */
 
-    public void setPersonnage(Personnage personnage) {                  // meme chose que pour mur
+    public void setPersonnage(Personnage personnage) {                  // même chose que pour mur
         this.removeActor(this.personnage);
         this.personnage = personnage;
         if (personnage != null) {
@@ -234,7 +234,7 @@ public class Case extends Group  {
      * @param y
      */
     public void setposY(int y) { this.y = y;
-        this.setY(y*Bomberball.taillecase);}                                //convertion du y de position dans la grille à la coordonnee de l'ecran
+        this.setY(y*Bomberball.taillecase);}
 
     /**
      * Accesseur de l'abscisse
@@ -260,7 +260,7 @@ public class Case extends Group  {
      */
     public void explosionHaute(int longueur){
         if(this.personnage!=null){
-            this.personnage.setVivant(false);               //on tue les ennemis et personnageq si ils sont dans l'explosion
+            this.personnage.setVivant(false);               //on tue les ennemis et personnages si ils sont dans l'explosion
             this.removeActor(personnage);
         } if (this.ennemi!=null){
             this.ennemi.setVivant(false);
@@ -281,7 +281,7 @@ public class Case extends Group  {
                 }
             });
 
-        } else if (this.mur instanceof MurI){               //l'explosion ne fait rien au mur indestructible
+        } else if (this.mur instanceof MurI){               //l'explosion ne fait rien aux murs indestructibles
             //rien
         }else {
             Image explo=new Image(Bomberball.multiTexture[(longueur>0)?11:12]);
@@ -310,7 +310,7 @@ public class Case extends Group  {
      * Declenche une explosion sur la case et la propage vers la case du bas si l'entier en paramètre n'est pas nul
      * @param longueur
      */
-    public void explosionBasse(int longueur){               //on fait la meme chose dans les autres directions
+    public void explosionBasse(int longueur){               //on fait la même chose dans les autres directions
         if(this.personnage!=null){
             this.personnage.setVivant(false);
             this.removeActor(personnage);
@@ -358,7 +358,7 @@ public class Case extends Group  {
 
     }
     /**
-     * Declenche une explosion sur la case et la propage vers la case de droite si l'entier en paramètre n'est pas nul
+     * Déclenche une explosion sur la case et la propage vers la case de droite si l'entier en paramètre n'est pas nul
      * @param longueur
      */
     public void explosionDroite(int longueur){
@@ -409,7 +409,7 @@ public class Case extends Group  {
 
     }
     /**
-     * Declenche une explosion sur la case et la propage vers la case de gauche si l'entier en paramètre n'est pas nul
+     * Déclenche une explosion sur la case et la propage vers la case de gauche si l'entier en paramètre n'est pas nul
      * @param longueur
      */
     public void explosionGauche(int longueur){
@@ -478,7 +478,7 @@ public class Case extends Group  {
     }
 
     /**
-     * Renvois si la case est libre donc si il n'y a rien dessus
+     * Renvoie si la case est libre donc si il n'y a rien dessus
      * @return boolean
      */
     public boolean estVide(){

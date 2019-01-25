@@ -58,7 +58,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
         public void render(float delta) {
@@ -115,7 +115,7 @@ public class MenuPrincipalBis extends Etat implements Screen {
             multiButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    jeu.nbJoueur=4;                                             //Par default, on propose de faire une partie à 4 joueurs
+                    jeu.nbJoueur=4;                                             //Par defaut, on propose de faire une partie à 4 joueurs
                     game.menuPrincipalBis.removeActor(back);
                     game.menuPrincipalBis.removeActor(table);
                     jeu.setEtat(game.choixMenuMultijoueur);
@@ -164,11 +164,10 @@ public class MenuPrincipalBis extends Etat implements Screen {
         }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
         @Override
         public void hide() {
-            // called when current screen changes from this to a different screen
             Bomberball.stg.clear();
         }
 

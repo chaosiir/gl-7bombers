@@ -6,7 +6,7 @@ import com.bomber.game.Bomberball;
 import com.bomber.game.MapetObjet.Case;
 
 /**
- * Classe bonus général
+ * Classe bonus générale
  */
 public abstract class Bonus extends Image  {
     Case c;

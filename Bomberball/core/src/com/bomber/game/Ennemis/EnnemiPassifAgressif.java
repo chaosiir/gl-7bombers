@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 /**
  * Classe EnnemiPassifAgressif
- * suit un chemin predefini sauf si il repère le personnage dans ce cas se raproche de lui
+ * suit un chemin predefini sauf s'il repère le personnage dans ce cas se rapproche de lui
  */
 public class EnnemiPassifAgressif extends Ennemis {
 
@@ -31,7 +31,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         this.chemin = chemin;
     }
 
-    private LinkedList<Case> chemin;        //chemin que l'ennemis doit suivre
+    private LinkedList<Case> chemin;        //chemin que l'ennemi doit suivre
 
 
     private int i = 0;                      //indice de la case en cours sur le chemin défini
@@ -77,7 +77,7 @@ public class EnnemiPassifAgressif extends Ennemis {
     }
 
     /**
-     * renvoi un ennemis passif agressif sur la case c avec pm deplacements une detection de portee et si il est aggressif
+     * renvoie un ennemi passif agressif sur la case c avec pm deplacements une detection de portee et s'il est aggressif
      * @param vivant
      * @param c
      * @param pm
@@ -96,7 +96,7 @@ public class EnnemiPassifAgressif extends Ennemis {
 
 
     /**
-     * change l'annimation de l'ennemis pour qu'il regarde à gauche
+     * change l'animation de l'ennemi pour qu'il regarde à gauche
      */
     @Override
     public void setAnimationgauche() {
@@ -117,7 +117,7 @@ public class EnnemiPassifAgressif extends Ennemis {
     }
 
     /**
-     * change l'animation de l'ennemi pourqu'il danse lorsque le joueur meurt
+     * change l'animation de l'ennemi pour qu'il danse lorsque le joueur meurt
      */
     public void setAnimationdefaite() {
         this.removeAction(animation);
@@ -137,7 +137,7 @@ public class EnnemiPassifAgressif extends Ennemis {
     }
 
     /**
-     * change l'animation de l'ennemis pour qu'il regarde à droite
+     * change l'animation de l'ennemi pour qu'il regarde à droite
      */
     @Override
     public void setAnimationdroite() {
@@ -159,7 +159,7 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     /**
      *
-     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     * calcule le prochain déplacement de l'ennemi et le place dans prochain_deplacement
      *
      */
     public void miseAjour() {
@@ -172,21 +172,21 @@ public class EnnemiPassifAgressif extends Ennemis {
 
     /**
      *
-     * calcule le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     * calcule le prochain deplacement de l'ennemi et le place dans prochain_deplacement
      *
      */
     public void cheminJoueur(){
-        Map map = this.getC().getMap();             //recuperation de la map
+        Map map = this.getC().getMap();             //récupération de la map
         int lignes = 15;
         int colonnes = 13;
-        int xc = this.getC().posX();                //recuperation des coordonnée de l'ennemis
+        int xc = this.getC().posX();                //récupération des coordonnées de l'ennemi
         int yc = this.getC().posY();
         int h=0;                                    //Si on ne trouve pas un personnage a une portée maximum, on diminue
         Boolean personnage=false;
         int xp=0,yp=0;                              //On stocke les coordonnées du personnages s'il est détecté
 
         int i, j;
-        int[][] trad = new int[15][13];             //creation de la matrice des case libres ou occupés
+        int[][] trad = new int[15][13];             //creation de la matrice des cases libres ou occupées
         for (i = 0; i < 15; i++) {
             for (j = 0; j < 13; j++) {
                 if (map.getGrille()[i][j].getMur() != null) { //On ne peut pas passer s'il y a un mur
@@ -202,7 +202,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         }
 
         int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
-        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numérotée dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
         for (i = 0; i < lignes; i++) {
             for (j = 0; j < colonnes; j++) {
                 if (j > 0 && j < colonnes - 1) {
@@ -245,7 +245,7 @@ public class EnnemiPassifAgressif extends Ennemis {
             }
         }
 
-        while (!personnage && h < portee) {             //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+        while (!personnage && h < portee) {             //Tant que l'on n'a pas trouvé ou que l'ennemi ne peut se déplacer
             int var = -(portee - h);
             while (var <= (portee - h) && !personnage) { //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
 
@@ -298,7 +298,7 @@ public class EnnemiPassifAgressif extends Ennemis {
         }
 
         /** Si le personnage est repéré **/
-        if (personnage) {                   //on devient aggressif
+        if (personnage) {                   //l'ennemi devient aggressif
             this.setAgro(true);
 
             if(tmp[yc+colonnes*xc][yp+colonnes*xp]==1 || tmp[yp+colonnes*xp][yc+colonnes*xc]==1){
@@ -324,7 +324,7 @@ public class EnnemiPassifAgressif extends Ennemis {
 
                 while (!disol.isEmpty()) {
                     pmrestant--;
-                    int casis = disol.removeFirst();                                                        //ajout des case du chemin donné par dijkstra dans prochain_deplacement en inversant le sens
+                    int casis = disol.removeFirst();                                                        //ajout des cases du chemin donné par dijkstra dans prochain_deplacement en inversant le sens
                     prochain_deplacement.addFirst(map.getGrille()[casis / colonnes][casis % colonnes]);
                 }
 

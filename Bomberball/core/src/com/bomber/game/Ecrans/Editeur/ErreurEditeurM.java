@@ -17,7 +17,6 @@ import java.awt.*;
 /**
  * Classe ErreurEditeurM
  * Elle affiche un message d'erreur si le joueur a réalisé une map multijoueur invalide
- * @author Paul-Louis Renard
  *
  */
 public class ErreurEditeurM extends Etat implements Screen {
@@ -78,7 +77,7 @@ public class ErreurEditeurM extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -97,7 +96,7 @@ public class ErreurEditeurM extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -105,7 +104,7 @@ public class ErreurEditeurM extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -113,7 +112,7 @@ public class ErreurEditeurM extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -122,7 +121,7 @@ public class ErreurEditeurM extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -144,7 +143,7 @@ public class ErreurEditeurM extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

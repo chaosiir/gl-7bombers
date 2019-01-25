@@ -161,11 +161,11 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
 
     }
 
@@ -181,7 +181,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -189,7 +189,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -197,7 +197,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -208,7 +208,7 @@ public class SelectionCheminEp extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -241,14 +241,14 @@ public class SelectionCheminEp extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override
     public boolean touchDown( int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);
         if(hitActor.getParent() instanceof Case && hitActor.getName()==null){                               //Si on clique sur une case dont le nom n'existe pas,
-            Case c=(Case) hitActor.getParent();                                                             //c'est donc une case sans rien desssus
+            Case c=(Case) hitActor.getParent();                                                             //c'est une case sans rien dessus
             int xc=c.posX();
             int yc=c.posY();
             if(button== Input.Buttons.LEFT){
@@ -331,7 +331,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 }
 
             }
-            else if(hitActor.getName().equals("red")){                                              //Si on clique sur une position marquée, on supprime tous le chemin après ce point
+            else if(hitActor.getName().equals("red")){                                              //Si on clique sur une position marquée, on supprime tout le chemin après ce point
                 Case c=(Case) hitActor.getParent();
                 if(button==Input.Buttons.RIGHT){
                     while(ennemi_passif.getChemin().getLast()!=c){
@@ -357,7 +357,7 @@ public class SelectionCheminEp extends Etat implements Screen {
                 int xc=c.posX();
                 int yc=c.posY();
                 if(button==Input.Buttons.RIGHT){
-                    while(ennemi_passif.getChemin().getLast()!=c){                                  //On enlève tous le chemin après le joueur s'il y a un click droit
+                    while(ennemi_passif.getChemin().getLast()!=c){                                      //On enlève tout le chemin après le joueur s'il y a un clic droit
                         ennemi_passif.getChemin().getLast().setMarque(null);
                         Image background=new Image(Bomberball.multiTexture[0]);
                         background.setBounds(0,0,Bomberball.taillecase,Bomberball.taillecase);

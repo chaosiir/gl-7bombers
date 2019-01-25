@@ -4,7 +4,7 @@ import com.bomber.game.Bomberball;
 
 /**
  * Class MurI
- * mur indestructible ne peuvent pas etre detruit par des explosions
+ * les murs indestructibles ne peuvent pas être detruits par des explosions
  */
 public class MurI extends Mur {
 

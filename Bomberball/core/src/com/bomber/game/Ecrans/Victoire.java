@@ -85,7 +85,7 @@ public class Victoire extends Etat implements Screen {
     }
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -116,7 +116,7 @@ public class Victoire extends Etat implements Screen {
 
     }
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {

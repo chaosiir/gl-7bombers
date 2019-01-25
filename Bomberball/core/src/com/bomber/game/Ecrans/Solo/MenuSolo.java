@@ -25,7 +25,7 @@ public class MenuSolo extends Etat implements Screen {
     private Skin skin;                          //Caractéristiques des éléments graphiques
     private Image back;                         //Image de l'arrière-plan
     private Table table;                        //Permet d'organiser l'écran
-    private TextButton demarrerpartie;          //Bouton pour démarrer une partie solo aléatoire ou personnalisé
+    private TextButton demarrerpartie;          //Bouton pour démarrer une partie solo aléatoire ou personnalisée
     private TextButton campagne;                //Bouton pour accèder au mode campagne
     private  TextButton choixmap;               //Bouton pour choisir la map
     private  TextButton parametre;              //Bouton pour arriver dans les paramètres
@@ -138,11 +138,11 @@ public class MenuSolo extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
     }
 
     /**
@@ -157,7 +157,7 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -165,7 +165,7 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -173,7 +173,7 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -184,7 +184,7 @@ public class MenuSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -195,7 +195,7 @@ public class MenuSolo extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param screenX abscisse du pointeur sur l'écran
      * @param screenY ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

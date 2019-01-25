@@ -50,13 +50,13 @@ public class Campagne extends Etat implements Screen {
 
     ArrayList<Ennemis> ennemis=new ArrayList<Ennemis>();      //Permet de récupérer tous les ennemis de la map
     Image joueur;                                       //Panneau du joueur
-    Image bombe;                                        //Affiche le nombre de bombe
+    Image bombe;                                        //Affiche le nombre de bombes
     Image mouvement;                                    //Affiche le nombre des mouvements
     Image pousse;                                       //Affiche si le joueur a la poussée
     Image explosion;                                    //Affiche la portée de l'explosion
 
     Label nbmvt;                                        //Contient le nombre de points de mouvement actuel
-    Label nbBombe;                                      //Contient le nombre de bombe actuel
+    Label nbBombe;                                      //Contient le nombre de bombes actuel
     Label porteExplo;                                   //Contient la valeur de la portée
     Label poussee;                                      //Contient un X si le joueur peut poussé sinon rien
 
@@ -85,7 +85,7 @@ public class Campagne extends Etat implements Screen {
     @Override
     public void show() {
         Bomberball.stg.addActor(this);                                              //Affiche l'écran
-        Bomberball.stg.setKeyboardFocus(this);                                      //Récupére le contrôle des touches
+        Bomberball.stg.setKeyboardFocus(this);                                      //Récupère le contrôle des touches
         Bomberball.input.addProcessor(this);
         jeu.removeActor(jeu.map);
         skin=new Skin(Gdx.files.internal("uiskin.json"));
@@ -101,8 +101,8 @@ public class Campagne extends Etat implements Screen {
                 u=0;
                 jeu.map=Map.mapFromStringN(Bomberball.loadFile(f));
                 jeu.recommencer=false;
-                for (int i=0;i<15;i++){                                             //On réinitialise les valeurs temporaires par le nombre de mouvement
-                    for(int j=0;j<13;j++){                                          //et le nombre de bombe du joueur
+                for (int i=0;i<15;i++){                                             //On réinitialise les valeurs temporaires par le nombre de mouvements
+                    for(int j=0;j<13;j++){                                          //et le nombre de bombes du joueur
                         if(jeu.map.getGrille()[i][j].getPersonnage()!=null){
                             pm=jeu.map.getGrille()[i][j].getPersonnage().getPm();
                             nb=jeu.map.getGrille()[i][j].getPersonnage().getNbBombe();
@@ -211,7 +211,7 @@ public class Campagne extends Etat implements Screen {
                     System.out.println("result "+obj);
                 }
             };
-            dialog.text("Sur la gauche de la Map vous pouvez voir vos caracteristique. \nDe haut en bas vous pouvez voir indique votre nombre de depacements,\n  votre nombre de bombes" +
+            dialog.text("Sur la gauche de la Map vous pouvez voir vos caracteristiques. \nDe haut en bas vous pouvez voir indique votre nombre de depacements,\n  votre nombre de bombes" +
                     ", la portee de vos bombes,\n  ainsi que si vous pouvez pousser les bombes. \nPour commencer a vous deplacer, appuyez sur les fleches directionnelles. ");
             dialog.setBounds(Gdx.graphics.getWidth()-(jeu.map.getGrille().length-1)*Bomberball.taillecase,Bomberball.taillecase,Bomberball.taillecase*15,Bomberball.taillecase*6);
             dialog.button("OK");
@@ -359,7 +359,7 @@ public class Campagne extends Etat implements Screen {
     }
 
     /**Méthode Keydown
-     * Gére l'appui sur une touche du clavier
+     * Gère l'appui sur une touche du clavier
      * @param keycode   Code de la touche appuyée
      * @return          un booléen qui indique la fin du traitement
      */
@@ -608,7 +608,7 @@ public class Campagne extends Etat implements Screen {
                         System.out.println("result " + obj);
                     }
                 };
-                dialog.text("Le nombre de bombe utilisable par tour a augmente de 1");
+                dialog.text("Le nombre de bombes utilisables par tour a augmente de 1");
                 dialog.setBounds(Gdx.graphics.getWidth() - (jeu.map.getGrille().length - 1) * Bomberball.taillecase, Bomberball.taillecase, Bomberball.taillecase * 13, Bomberball.taillecase * 2);
                 dialog.button("OK");
                 dialog.show(jeu.getStage());
@@ -712,7 +712,7 @@ public class Campagne extends Etat implements Screen {
             @Override
             public boolean act(float delta) {
                 time+=delta;
-                if (time>1.01 && en.getActions().size==1) {                 //on attend la fin des explosion et ou que l'ennemis en cours
+                if (time>1.01 && en.getActions().size==1) {                 //on attend la fin des explosions et/ou que l'ennemi en cours ai encore une action
                     i++;
                     if (i == ennemis.size()) {                              //si on a terminé
                         Bomberball.input.addProcessor((Campagne) target);   //on remet les inputs
@@ -732,7 +732,7 @@ public class Campagne extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -751,7 +751,7 @@ public class Campagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -759,7 +759,7 @@ public class Campagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -767,7 +767,7 @@ public class Campagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -778,7 +778,7 @@ public class Campagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -800,7 +800,7 @@ public class Campagne extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param screenX abscisse du pointeur sur l'écran
      * @param screenY ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

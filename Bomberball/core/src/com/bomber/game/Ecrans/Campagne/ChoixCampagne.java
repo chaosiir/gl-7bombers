@@ -72,7 +72,7 @@ public class ChoixCampagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * Fonction détectant un appui d'une des touches de la souris. On n'utilise pas cette fonctionnalité par la suite.
      * @param screenX : récupère la position x du pointeur.
      * @param screenY : récupère la position y du pointeur.
      * @param pointer : récupère le pointeur sur événement.
@@ -102,7 +102,7 @@ public class ChoixCampagne extends Etat implements Screen {
     public void show() {
         Bomberball.copier(nivplayer,nivplayertmp);
         Bomberball.stg.addActor(this);                                                  //Affiche l'écran
-        Bomberball.stg.setKeyboardFocus(this);                                          //Récupére le contrôle des touches
+        Bomberball.stg.setKeyboardFocus(this);                                          //Récupère le contrôle des touches
         back= new Image(new Texture(Gdx.files.internal("backmain.png")) );
         back.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         back.setName("Je suis ton arrière plan");
@@ -158,7 +158,7 @@ public class ChoixCampagne extends Etat implements Screen {
 
         tmp.sort();                                                                 //Tri nécessaire car on fait la correspondance entre le niveau et l'indice dans la liste
 
-        while(tmp.size!=niveauactuel){                                              //On réduit la liste au nombre de niveau déploqué
+        while(tmp.size!=niveauactuel){                                              //On réduit la liste au nombre de niveaux débloqués
             tmp.removeIndex(tmp.size-1);
         }
 

@@ -19,12 +19,12 @@ import com.bomber.game.MapetObjet.Personnage;
 import java.io.File;
 /**
  * Classe ChoixMapSoloJ
- * Elle affiche des maps solo que le joueur a déjà créé et sur lesquelles il veut jouer
+ * Elle affiche des maps solo que le joueur a déjà créées et sur lesquelles il veut jouer
  *
  */
 public class ChoixMapSoloJ extends Etat implements Screen {
     Bomberball game;        //Instance de la classe principale
-    List<String> list;      //Affiche le nom des map solo précèdemment créée
+    List<String> list;      //Affiche le nom des map solo précédemment créées
     Image back;             //Image de l'arrière-plan
     Skin skin;              //Caractéristiques des éléments graphiques
 
@@ -187,7 +187,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                   //nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                   //nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
 
     }
 
@@ -203,7 +203,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -211,7 +211,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -219,7 +219,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -229,7 +229,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -249,7 +249,7 @@ public class ChoixMapSoloJ extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param screenX abscisse du pointeur sur l'écran
      * @param screenY ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

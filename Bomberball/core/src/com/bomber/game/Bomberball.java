@@ -31,8 +31,7 @@ public class Bomberball extends Game {
 	Jeu jeu;																			//creation de notre classe jeu
 
 	public static int taillecase=Toolkit.getDefaultToolkit().getScreenSize().width/24;	//definition de la taille d'une case en fonction
-	//de la taille de l'ecran (getScreenSize) . !!! A terme surement definir des coordonées propres au stage => ex le stage fait 100*75 et se trouve en
-	//plein ecran donc s'ajuste automatiquement (dans ce cas acces via vecteurs => voir camera,viewport);
+	//de la taille de l'ecran (getScreenSize)
 
 	public static InputMultiplexer input=new InputMultiplexer();
 	public String addresse=new File(".").getPath();
@@ -64,7 +63,7 @@ public class Bomberball extends Game {
 
     public static TextureAtlas perso ;
 	public static TextureAtlas ennemis ;
-	public static Texture[] multiTexture = new Texture[25];			//tableau comprenant tout les sprites pour pouvoir y acceder rapidement
+	public static Texture[] multiTexture = new Texture[25];			//tableau comprenant tous les sprites pour pouvoir y acceder rapidement
 	@Override
 	/**
 	 * Initialise les textures et les états du jeu à son lancement
@@ -99,8 +98,8 @@ public class Bomberball extends Game {
 		multiTexture[22]= new Texture("player4.png");
 		multiTexture[23]= new Texture("ghost2.png");
 		multiTexture[24]= new Texture("bat2.png");
-		stg = new Stage(new ScreenViewport());							//definition du stage qui prend un point de vu
-		Gdx.input.setInputProcessor(input);								//on defini comme gestionnaire d'input le stage => le stage recupere les inputs
+		stg = new Stage(new ScreenViewport());							//definition du stage qui prend un point de vue
+		Gdx.input.setInputProcessor(input);								//on definit comme gestionnaire d'input le stage => le stage récupère les inputs
 		jeu = new Jeu();
 		jeu.setName("jeu");
 
@@ -134,8 +133,8 @@ public class Bomberball extends Game {
 
 		jeu.setEtat(menuPrincipalBis);
 		setScreen(menuPrincipalBis);
-		stg.addActor(menuPrincipalBis);						// jeu est un group (d'acteur ) donc on l'ajoute à la scene en lui donnant un nom => voir tuto Actor
-		stg.setKeyboardFocus(stg.getActors().first());		//le stage defini que le premier acteur (le jeu) recupere les inputs
+		stg.addActor(menuPrincipalBis);						// jeu est un group (d'acteur ) donc on l'ajoute à la scène en lui donnant un nom
+		stg.setKeyboardFocus(stg.getActors().first());
 		input.addProcessor(stg);
 
 	}
@@ -148,10 +147,10 @@ public class Bomberball extends Game {
 	 * Assure l'affichage en continu du jeu
 	 */
 	public void render() {												//une fois l'application lancée la fonction render tourne en boucle et va afficher une image sur l'écran à
-																		// chaque fin d'appel (appellé autant de fois qu'il ya d'image par seconde )
+																		// chaque fin d'appel (appelée autant de fois qu'il ya d'image par seconde )
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);			//creation de la couleur noir pour le netoyage(pas de RGB)
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);						//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);						//nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
 		stg.act(Gdx.graphics.getDeltaTime());							//tout les acteurs continuent leur actions
 		stg.draw();														// on dessine le stage, donc chaque acteur, sur l'écran ce qui revient à dessiner le groupe jeu
 	}
@@ -160,10 +159,10 @@ public class Bomberball extends Game {
 /**
  * Supprime les données du jeu lorsque celui-ci est fermé
  */
-	public void dispose() {												//quand la fenetre est fermé on lance cette fonction
+	public void dispose() {												//quand la fenêtre est fermée on lance cette fonction
 		int i;
 		for (i = 0; i < multiTexture.length; i++) {
-			multiTexture[i].dispose();									//pour chaque texture on la detruit pour eviter les fuites memoire =>voir tuto Texture
+			multiTexture[i].dispose();									//pour chaque texture on la detruit pour éviter les fuites memoire
 		}
 	}
 
@@ -172,7 +171,7 @@ public class Bomberball extends Game {
 	 * Gère le changement de taille de la fenêtre d'affichage
 	 */
 	public void resize(int width, int height) {							//se lance quand la fenetre change de taille donc jamais car le jeu est bloqué en plein ecran
-		stg.getViewport().update(width,height);							//on change le point de vu (surtout la taille de ce qu'on voit ) !! ne marche pas
+		stg.getViewport().update(width,height);
 	}
 
 /*Permet de charger le contenu d'un fichier*/

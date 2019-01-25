@@ -156,7 +156,7 @@ public class VictoireCampagne extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {       //Permet de passer au niveau suivant de la campagne
                 if(niv==niveaugag && niv<5){                                //Si le joueur a effectué le dernier niveau de sa campagne, on peut augmenter
-                    try{                                                    //le nombre de niveau effectué s'il n'a pas déjà atteint le dernier niveau
+                    try{                                                    //le nombre de niveaux effectués s'il n'a pas déjà atteint le dernier niveau
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
                         fw.close();
@@ -224,7 +224,7 @@ public class VictoireCampagne extends Etat implements Screen {
         quitter.addListener(new ClickListener(){                                        //Permet de quitter et revenir au menu Solo
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(niv==niveaugag && niv<5){                                        //A modifier si le nombre de niveau augmente
+                if(niv==niveaugag && niv<5){                                        //A modifier si le nombre de niveaux augmente
                     try{
                         fw=new FileWriter(niveau);
                         fw.write(""+(niv+1));
@@ -289,7 +289,7 @@ public class VictoireCampagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -297,7 +297,7 @@ public class VictoireCampagne extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {

@@ -59,7 +59,7 @@ public class Bombe extends Image {
 
 
     public void explosion(){
-        this.c.explosionHaute(taille);                                          //on fait une explosion de chaque coté
+        this.c.explosionHaute(taille);                                          //on fait une explosion de chaque côté
         this.c.explosionBasse(taille);
         this.c.explosionDroite(taille);
         this.c.explosionGauche(taille);
@@ -70,7 +70,7 @@ public class Bombe extends Image {
         c.addAction(new Action() {
             float time=0;
             @Override
-            public boolean act(float delta) {                                   //au bout d'une seconde on enleve l'affichage de l'explosion
+            public boolean act(float delta) {                                   //au bout d'une seconde on enlève l'affichage de l'explosion
                 time+=delta;
                 if(time>1){
                     c.removeActor(c.findActor("explo"));

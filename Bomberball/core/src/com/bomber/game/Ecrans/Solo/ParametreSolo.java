@@ -26,10 +26,10 @@ public class ParametreSolo extends Etat implements Screen {
     private Table table;                        //Permet d'organiser l'écran
     private Label difficulte;                   //Texte indiquant que l'on peut modifier la difficulté
     private Label nbBonus;                      //Texte indiquant que l'on peut modifier le nombre de bonus
-    private Label nbBombe;                      //Texte indiquant que l'on peut modifier le nombre de bombe
+    private Label nbBombe;                      //Texte indiquant que l'on peut modifier le nombre de bombes
     private Label nbEnnemis;                    //Texte indiquant que l'on peut modifier le nombre d'ennemis
     private Label porteeBombe;                  //Texte indiquant que l'on peut modifier la portée d'une bombe
-    private Label nbDeplaJ;                     //Texte indiquant que l'on peut modifier le nombre de déplacement du joueur
+    private Label nbDeplaJ;                     //Texte indiquant que l'on peut modifier le nombre de déplacements du joueur
     private Label nbBlocD;                      //Texte indiquant que l'on peut modifier la difficulté
 
     private TextButton retour;                  //Bouton retour
@@ -43,7 +43,7 @@ public class ParametreSolo extends Etat implements Screen {
     private TextField nbEnnemisT;               //Permet de rentrer le nombre d'ennemis
     private TextField porteeBombeT;             //Permet de rentrer la portée des bombes
     private TextField nbBombeT;                 //Permet de rentrer le nombre de bombes
-    private TextField nbDeplaJT;                //Permet de rentrer le nombre de déplacement du joueur
+    private TextField nbDeplaJT;                //Permet de rentrer le nombre de déplacements du joueur
     private TextField nbBlocDT;                 //Permet de rentrer le nombre de blocs destructibles
 
 
@@ -249,7 +249,7 @@ public class ParametreSolo extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -268,7 +268,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -276,7 +276,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -284,7 +284,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -293,7 +293,7 @@ public class ParametreSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -309,7 +309,7 @@ public class ParametreSolo extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

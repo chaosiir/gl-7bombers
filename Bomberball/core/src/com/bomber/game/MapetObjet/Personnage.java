@@ -29,7 +29,7 @@ public class Personnage extends Image {
      * @param c case où le personnage apparait
      * @param taille portée des bombes du personnage
      * @param nbBombe nombre de bombes que le personnage peut poser à chaque tour
-     * @param pm nombre de déplacement que le personnage peut faire à chaque tour
+     * @param pm nombre de déplacements que le personnage peut faire à chaque tour
      * @param id identifiant du personnage
      */
     public Personnage(boolean vivant, Case c, int taille, int nbBombe, int pm,int id) {
@@ -71,7 +71,7 @@ public class Personnage extends Image {
     } //Taille d'une explosion
 
     /**
-     * Modificateur de la paortée des bombes du joueur
+     * Modificateur de la portée des bombes du joueur
      * @param taille
      */
     public void setTaille(int taille) {
@@ -87,7 +87,7 @@ public class Personnage extends Image {
     }
 
     /**
-     * Modificateur du nombre de bombe du joueur
+     * Modificateur du nombre de bombes du joueur
      * @param nbBombe
      */
     public void setNbBombe(int nbBombe) {

@@ -19,7 +19,6 @@ import java.io.File;
 /**
  * Classe ValiderEditeurSolo
  * Elle permet de sauvegarder sa carte solo qu'il a créé
- * @author Paul-Louis Renard
  *
  */
 public class ValiderEditeurSolo extends Etat implements Screen {
@@ -88,7 +87,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String nom=inputui.getText();
-                if (!nom.equals("") && !nom.equals("tmp")){ //rien, tu as pas le droit à un nom pareil
+                if (!nom.equals("") && !nom.equals("tmp")){ //rien, tu n'as pas le droit à un nom pareil
                     File fi= Gdx.files.internal( "./SaveMapPerso/Mapsolo/"+nom+".txt").file();
 
                     jeu.removeActor(jeu.map);
@@ -139,7 +138,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
@@ -158,7 +157,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -166,7 +165,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -174,7 +173,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -183,7 +182,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -205,7 +204,7 @@ public class ValiderEditeurSolo extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

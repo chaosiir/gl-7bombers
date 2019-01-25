@@ -26,12 +26,12 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     private Table table;                //Table pour organiser l'écran
     private Label nbjoueur;             //Texte demandant un nombre de joueur
     private Label nbBonus;              //Texte demandant un nombre de bonus
-    private Label nbBlocD;              //Texte demandant un nombre de bloc destructibles
+    private Label nbBlocD;              //Texte demandant un nombre de blocs destructibles
     private Label porteeBombe;          //Texte demandant la portee d'une bombe
-    private Label nbDeplace;            //Texte demandant un nombre de déplacement
-    private Label nbBombe;              //Texte demandant un nombre de bombe
+    private Label nbDeplace;            //Texte demandant un nombre de déplacements
+    private Label nbBombe;              //Texte demandant un nombre de bombes
 
-    private TextButton retour;          //Bouton pour retourner au menu principla
+    private TextButton retour;          //Bouton pour retourner au menu principal
     private TextButton deux;            //Bouton pour jouer à 2
     private TextButton trois;           //Bouton pour jouer à 3
     private TextButton quatre;          //Bouton pour jouer à 4
@@ -42,9 +42,9 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
     private TextField nbBonusS;         //Récupère le nombre de bonus
     private TextField porteeBombeS;     //Récupère la portée de la bombe
-    private TextField nbBlocDT;         //Récupère le nombre de bloc destructible
-    private TextField nbDeplac;         //Récupère le nombre de déplacement
-    private TextField nbBombeT;         //Récupère le nombre de bombe
+    private TextField nbBlocDT;         //Récupère le nombre de blocs destructibles
+    private TextField nbDeplac;         //Récupère le nombre de déplacements
+    private TextField nbBombeT;         //Récupère le nombre de bombes
 
     public ChoixMenuMultijoueur(Bomberball game, Jeu jeu){
         super(jeu);
@@ -248,11 +248,11 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);               //nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);               //nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
     }
 
     /**
@@ -267,7 +267,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -275,7 +275,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -283,7 +283,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -292,7 +292,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {
@@ -308,7 +308,7 @@ public class ChoixMenuMultijoueur extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override

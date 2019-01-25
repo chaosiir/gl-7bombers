@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class EnnemiActif extends Ennemis {
 
     /**
-     * renvoit un ennemis actif sur la case c et avec pm mouvement
+     * renvoie un ennemi actif sur la case c et avec pm mouvement
      * @param vivant
      * @param c
      * @param pm
@@ -29,7 +29,7 @@ public class EnnemiActif extends Ennemis {
 
 
     /**
-     * change l'animation de l'ennemis pour qu'il regarde à gauche
+     * change l'animation de l'ennemi pour qu'il regarde à gauche
      */
     @Override
     public void setAnimationgauche() {
@@ -50,7 +50,7 @@ public class EnnemiActif extends Ennemis {
     }
 
     /**
-     * change l'animation de l'ennemis pourqu'il dance lorsque le joueur meurt
+     * change l'animation de l'ennemi pour qu'il danse lorsque le joueur meurt
      */
     public void setAnimationdefaite() {
         this.removeAction(animation);
@@ -58,7 +58,7 @@ public class EnnemiActif extends Ennemis {
             float time = 0;
 
             @Override
-            public boolean act(float delta) {   //change rapidement de coté
+            public boolean act(float delta) {   //change rapidement de côté
                 time += delta;
 
                 setDrawable(new TextureRegionDrawable(new TextureRegion(Bomberball.ennemis.findRegion("bat" + 0 + "" + 0 + ((((int) (time * 5) % 2) == 0) ? "" : "inv")))));
@@ -88,7 +88,7 @@ public class EnnemiActif extends Ennemis {
     }
 
     /**
-     * change l'animation de l'ennemis pourqu'il regarde à droite
+     * change l'animation de l'ennemi pour qu'il regarde à droite
      */
     @Override
     public void setAnimationdroite() {
@@ -111,7 +111,7 @@ public class EnnemiActif extends Ennemis {
 
     /**
      *
-     * calcul le prochain deplacement de l'ennemis et le place dans prochain_deplacement
+     * calcule le prochain déplacement de l'ennemi et le place dans prochain_deplacement
      *
      */
     public void miseAjour() {
@@ -142,7 +142,7 @@ public class EnnemiActif extends Ennemis {
 
 
     /**
-     * place le chemin le plus long accessible pour l'ennemis et le place dans prochain chemin
+     * place le chemin le plus long accessible pour l'ennemi et le place dans prochain déplacement
      *
      */
     public void recherchecheminmaxPL() {
@@ -168,7 +168,7 @@ public class EnnemiActif extends Ennemis {
         }
 
         int tmp[][] = new int[lignes * colonnes][lignes * colonnes];
-        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes]; //On prépare la matrice d'existence de lien (numérotée dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
         for (i = 0; i < lignes; i++) {
             for (j = 0; j < colonnes; j++) {
                 if (j > 0 && j < colonnes - 1) {
@@ -220,7 +220,7 @@ public class EnnemiActif extends Ennemis {
         /** On teste s'il existe un chemin avant de le chercher**/
         int l = 0;                                                  //Si on ne trouve pas de chemin pm, on se rabat sur un chemin de taille pm-l;
         Boolean trouve = false;
-        while (!trouve && l < pm) {                                 //Tant que l'on n'a pas trouvé où que l'ennemi ne peut se déplacer
+        while (!trouve && l < pm) {                                 //Tant que l'on n'a pas trouvé ou que l'ennemi ne peut se déplacer
             k = 0;
             while (k <= (pm - l) && !trouve) {                      //Tant que l'on n'a pas testé toutes les possibilités ou que l'on n'a pas trouvé
                 int x1=xc+k;

@@ -18,7 +18,7 @@ import java.util.Scanner;
  * Classe Map
  * Groupe de case contenu dans une matrice pour pouvoir voir les voisins
  */
-public class Map extends Group {//meme chose map est un group d'acteur (les cases)
+public class Map extends Group {//meme chose map est un group d'acteurs (les cases)
     private Case[][] grille;    //grille de case
     private int x;              //dimensions de la map, typiquement 15x13
     private int y;
@@ -45,7 +45,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * Constructeur de la classe Map
      *
      * @param g un tableau de case
-     * @return une map dont la grille est intialisée
+     * @return une map dont la grille est initialisée
      */
     public Map(Case g[][]) {
         super();
@@ -228,7 +228,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * @param t
      * @return true si la map a un chemin entre l'entrée et la sortie, false sinon
      */
-    public boolean verifSolo(int t[][]) { //Vérifie qu'une map solo est valide (convention 1=mur indestructible 2=départ/arrivée 0=libre);
+    public boolean verifSolo(int t[][]) {
         int lignes = t.length;
         int colonnes = t[0].length;
         int xd = -1, yd = -1, xa = -1, ya = -1;
@@ -254,7 +254,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         }
 
         int tmp[][] = new int[lignes * colonnes][lignes * colonnes];                //tmp indique s'il existe un chemin entre deux sommets
-        int exist[][] = new int[lignes * colonnes][lignes * colonnes];              //On prépare la matrice d'existence de lien (numéroté dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
+        int exist[][] = new int[lignes * colonnes][lignes * colonnes];              //On prépare la matrice d'existence de lien (numérotée dans le sens de la gauche vers la droite et on retourne à chaque ligne) Ainsi t[i,j]=j+11*i
         for (i = 0; i < lignes; i++) {
             for (j = 0; j < colonnes; j++) {
                 if (j > 0 && j < colonnes - 1) {
@@ -314,7 +314,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 
     /**
-     * Génére une map aléatoire sans s'occuper de sa validité
+     * Génère une map aléatoire sans s'occuper de sa validité
      *
      * @param nbDestru   nombre de blocs destructibles
      * @param nbInDestru nombre de blocs indestructibles
@@ -433,7 +433,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
     /**
      * Méthode ajouterEnnemis
-     * Pour ajouter des ennemis à une map déjà crée
+     * Pour ajouter des ennemis à une map déjà créée
      * @param nombre        nombre d'ennemis
      * @param difficulte    niveau de difficulté
      */
@@ -463,7 +463,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
             boolean ajoute = false;
             ArrayList<Case> tabtemp = new ArrayList<Case>();
             tabtemp.addAll(tab);
-            if (Math.random() < 0.3) {                                                      //ajout fantome
+            if (Math.random() < 0.3) {                                                      //ajout fantôme
                 while (!tabtemp.isEmpty() && !ajoute) {
                     Case potentiel = tabtemp.remove((int) (Math.random() * tabtemp.size()));
                     if (grille[potentiel.posX()][potentiel.posY()].estVide() && (getGrille()[potentiel.posX() - 1][potentiel.posY()].estVide() || getGrille()[potentiel.posX()][potentiel.posY() - 1].estVide() ||
@@ -594,7 +594,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * @param bonus      nombre de bonus
      * @return une map
      */
-    public static Map genererMapSolo(int nbDestru, int nbInDestru, int bonus) { //C'est la fonction à appeller pour avoir une map
+    public static Map genererMapSolo(int nbDestru, int nbInDestru, int bonus) { //C'est la fonction à appeler pour avoir une map
         Map m = new Map();
 
         m = m.generatePve(nbDestru, nbInDestru, bonus);
@@ -641,7 +641,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
 
     /**
-     * colorie le contour de coordonée l'indice en rouge pour annoncer la reduction
+     * colorie le contour en rouge pour annoncer la reduction
      * @param indiceContour
      */
     public void alertecontour(int indiceContour) {
@@ -658,7 +658,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
     }
 
     /**
-     * remplace les case du contour d'indice indiceContour par des mur indestructible  et renvoi la  liste des joueurs tués
+     * remplace les case du contour d'indice indiceContour par des mur indestructible  et renvoie la  liste des joueurs tués
      * @param indiceContour
      * @return  ArrayList<Personnage>
      */
@@ -727,9 +727,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * 6	MurD + BonusPousser
      * 7	Porte
      * A la toute fin, on initialise les ennemis et personnages
-     * 1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id (case est formé des coordonnées x et y)
-     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
-     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+     * 1 pour personnage suivi de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id (case est formée des coordonnées x et y)
+     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnées de case (x,y) fin par 1010
+     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnées de case (x,y) fin par 1010
      * 4 pour ennemiActif suivi de vivant, c,pm
      * 5 pour ennemiActifAgressif suivi vivant, c, pm, portee, agro
      * 9999 Fin du fichier texte
@@ -807,8 +807,8 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * 7	Porte
      * A la toute fin, on initialise les ennemis et personnages
      * 1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
-     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
-     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnées de case (x,y) fin par 1010
+     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnées de case (x,y) fin par 1010
      * 4 pour ennemiActif suivi de vivant, c,pm
      * 5 pour ennemiActifAgressif suivi vivant, c, pm, portee, agro
      */
@@ -856,7 +856,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         choix = scan.nextInt();
         while (choix != 9999) {
             switch (choix) {
-                case 1:                                                                                     // personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
+                case 1:                                                                                     // personnage suivi de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
                     Boolean vivant = scan.nextBoolean();
                     int xc = scan.nextInt();
                     int yc = scan.nextInt();
@@ -867,7 +867,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     Personnage personnage = new Personnage(vivant, g[xc][yc], taille, nbBombe, pm, id);
                     g[xc][yc].setPersonnage(personnage);
                     break;
-                case 2:                                                                                     //ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
+                case 2:                                                                                     //ennemis passif suivi de vivant, case, pm et une suite de coordonnées de case (x,y) fin par 1010
                     Boolean vivant1 = scan.nextBoolean();
                     int xc1 = scan.nextInt();
                     int yc1 = scan.nextInt();
@@ -881,7 +881,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 3:                                                                                     //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+                case 3:                                                                                     //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnées de case (x,y) fin par 1010
                     Boolean vivant2 = scan.nextBoolean();
                     int xc2 = scan.nextInt();
                     int yc2 = scan.nextInt();
@@ -935,7 +935,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
     /**
      * Transformation d'une map vers un texte avec les conventions suivantes:
-     * 0	Case libre (Qu'il y ait un personnage ou un ennemis)
+     * 0	Case libre (Qu'il y ait un personnage ou un ennemi)
      * 1	MurI
      * 2	MurD
      * 3	MurD + BonusBombe
@@ -949,9 +949,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * 11   BonusPousser
      * 12   Bombe qui n'est pas sur un joueur
      * A la toute fin, on initialise les ennemis et personnages
-     * 1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm, id, poussee (case est formé des coordonnées x et y)
-     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnée de case (x,y) fin par 1010
-     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnée de case (x,y) fin par 1010
+     * 1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm, id, poussee (case est formée des coordonnées x et y)
+     * 2 pour ennemis passif suivi de vivant, case, pm et une suite de coordonnées de case (x,y) fin par 1010
+     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro et une suite de coordonnées de case (x,y) fin par 1010
      * 4 pour ennemiActif suivi de vivant, c,pm
      * 5 pour ennemiActifAgressif suivi vivant, c, pm, portee, agro
      * 6 pour Bombe
@@ -1037,7 +1037,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
 
     /**
      * Transformation d'un texte vers une map avec les conventions suivantes:
-     * 0	Case libre (Qu'il y ait un personnage ou un ennemis)
+     * 0	Case libre (Qu'il y ait un personnage ou un ennemi)
      * 1	MurI
      * 2	MurD
      * 3	MurD + BonusBombe
@@ -1051,9 +1051,9 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
      * 11   BonusPousser
      * 12   Bombe qui n'est pas sur un joueur
      * A la toute fin, on initialise les ennemis et personnages
-     *  1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm, id, poussee (case est formé des coordonnées x et y)
-     * 2 pour ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
-     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
+     *  1 pour personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm, id, poussee (case est formée des coordonnées x et y)
+     * 2 pour ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnées de case (x,y) fin par 1010
+     * 3 pour ennemiPassifAgressif suivi de vivant,c,pm,portee,agro, pos, retour et une suite de coordonnées de case (x,y) fin par 1010
      * 4 pour ennemiActif suivi de vivant, c,pm
      * 5 pour ennemiActifAgressif suivi vivant, c, pm, portee, agro
      */
@@ -1120,7 +1120,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
         choix = scan.nextInt();
         while (choix != 9999) {
             switch (choix) {
-                case 1:                                                                                                 // personnage suivit de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
+                case 1:                                                                                                 // personnage suivi de ses paramètres dans l'ordre : vivant, case, taille, nbBombe, pm et id
                     Boolean vivant = scan.nextBoolean();
                     int xc = scan.nextInt();
                     int yc = scan.nextInt();
@@ -1134,7 +1134,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                     personnages.add(personnage);
                     g[xc][yc].setPersonnage(personnage);
                     break;
-                case 2:                                                                                                 //ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnée de case (x,y) fin par 1010
+                case 2:                                                                                                 //ennemis passif suivi de vivant, case, pm, pos, retour et une suite de coordonnées de case (x,y) fin par 1010
                     Boolean vivant1 = scan.nextBoolean();
                     int xc1 = scan.nextInt();
                     int yc1 = scan.nextInt();
@@ -1152,7 +1152,7 @@ public class Map extends Group {//meme chose map est un group d'acteur (les case
                         a = scan.nextInt();
                     }
                     break;
-                case 3:                                                                                                 //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retour et une suite de coordonnée de case (x,y) fin par 1010
+                case 3:                                                                                                 //ennemiPassifAgressif suivi de vivant,c,pm,portee,agro,pos,retour et une suite de coordonnées de case (x,y) fin par 1010
                     Boolean vivant2 = scan.nextBoolean();
                     int xc2 = scan.nextInt();
                     int yc2 = scan.nextInt();

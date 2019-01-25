@@ -3,6 +3,9 @@ package com.bomber.game.Ennemis;
 import java.util.LinkedList;
 
 
+/**
+ *  Disponible via ce lien https://codes-sources.commentcamarche.net/source/54685-algorithme-de-dijkstra
+ */
 public class Dijkstra {
 	
 	 

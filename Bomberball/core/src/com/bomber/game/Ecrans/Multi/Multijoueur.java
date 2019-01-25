@@ -43,7 +43,7 @@ public class Multijoueur extends Etat implements Screen {
     Image player1;                                      //Affichage de l'image du joueur 1
 
     Label nbmvt1;                                       //Contient le nombre de points de mouvement actuel du joueur 1
-    Label nbBombe1;                                     //Contient le nombre de bombe actuel du joueur 1
+    Label nbBombe1;                                     //Contient le nombre de bombes actuel du joueur 1
     Label  porteExplo1;                                 //Contient la valeur de la portée du joueur 1
 
     Personnage personnage1;                             //Stockage du personnage 1
@@ -52,40 +52,40 @@ public class Multijoueur extends Etat implements Screen {
     Personnage personnage4;                             //Stockage du personnage 3
 
     Label nbmvt2;                                       //Contient le nombre de points de mouvement actuel du joueur 2
-    Label nbBombe2;                                     //Contient le nombre de bombe actuel du joueur 2
+    Label nbBombe2;                                     //Contient le nombre de bombes actuel du joueur 2
     Label porteExplo2;                                  //Contient la valeur de la portée du joueur 2
 
     Label nbmvt3;                                       //Contient le nombre de points de mouvement actuel du joueur 3
-    Label nbBombe3;                                     //Contient le nombre de bombe actuel du joueur 3
+    Label nbBombe3;                                     //Contient le nombre de bombes actuel du joueur 3
     Label porteExplo3;                                  //Contient la valeur de la portée du joueur 3
 
     Label nbmvt4;                                       //Contient le nombre de points de mouvement actuel du joueur 4
-    Label nbBombe4;                                     //Contient le nombre de bombe actuel du joueur 4
+    Label nbBombe4;                                     //Contient le nombre de bombes actuel du joueur 4
     Label porteExplo4;                                  //Contient la valeur de la portée du joueur 4
 
-    Label poussee1;                                     //Contient un X si le joueur 1 peut poussé sinon rien
-    Label poussee2;                                     //Contient un X si le joueur 2 peut poussé sinon rien
-    Label poussee3;                                     //Contient un X si le joueur 3 peut poussé sinon rien
-    Label poussee4;                                     //Contient un X si le joueur 4 peut poussé sinon rien
+    Label poussee1;                                     //Contient un X si le joueur 1 peut pousser sinon rien
+    Label poussee2;                                     //Contient un X si le joueur 2 peut pousser sinon rien
+    Label poussee3;                                     //Contient un X si le joueur 3 peut pousser sinon rien
+    Label poussee4;                                     //Contient un X si le joueur 4 peut pousser sinon rien
 
 
 
     Image joueur2;                                          //Panneau du joueur 2
-    Image bombe2;                                           //Affiche le nombre de bombe du joueur 2
+    Image bombe2;                                           //Affiche le nombre de bombes du joueur 2
     Image mouvement2;                                       //Affiche le nombre des mouvements du joueur 2
     Image pousse2;                                          //Affiche si le joueur 2 a la poussée
     Image explosion2;                                       //Affiche la portée de l'explosion du joueur 2
     Image player2;                                          //Affichage de l'image du joueur 2
 
     Image joueur3;                                          //Panneau du joueur 3
-    Image bombe3;                                           //Affiche le nombre de bombe du joueur 3
+    Image bombe3;                                           //Affiche le nombre de bombes du joueur 3
     Image mouvement3;                                       //Affiche le nombre des mouvements du joueur 3
     Image pousse3;                                          //Affiche si le joueur 3 a la poussée
     Image explosion3;                                       //Affiche la portée de l'explosion du joueur 3
     Image player3;                                          //Affichage de l'image du joueur 3
 
     Image joueur4;                                          //Panneau du joueur 4
-    Image bombe4;                                           //Affiche le nombre de bombe du joueur 4
+    Image bombe4;                                           //Affiche le nombre de bombes du joueur 4
     Image mouvement4;                                       //Affiche le nombre des mouvements du joueur 4
     Image pousse4;                                          //Affiche si le joueur 4 a la poussée
     Image explosion4;                                       //Affiche la portée de l'explosion du joueur 4
@@ -154,7 +154,7 @@ public class Multijoueur extends Etat implements Screen {
                 jeu.map=Map.mapFromStringNP(Bomberball.loadFile(f),this.jeu);
                 f.delete();
                 switch (tour%4){                                                //En fonction du tour, on peut déterminer le joueur qui doit reprendre des valeurs de pm et nb
-                    case 0:                                                     //particulière en revenant d'une pause afin qu'il ne retrouve pas ses pm et nb après une pause
+                    case 0:                                                     //particulières en revenant d'une pause afin qu'il ne retrouve pas ses pm et nb après une pause
                         if(jeu.pmtmp1!=-1){
                         pm=jeu.pmtmp1;
                         nbmvt1.setText(""+pm);
@@ -222,7 +222,7 @@ public class Multijoueur extends Etat implements Screen {
             }
 
         }
-       else if(jeu.map==null){                                                      //En fonction des paramètres que le joueur a rentré, on peut générer une map personnalisé
+       else if(jeu.map==null){                                                      //En fonction des paramètres que le joueur a rentrés, on peut générer une map personnalisée
             tour=0;
             if(jeu.nbBonus!=-1 && jeu.nbBlocD!=-1){
                 jeu.map=Map.generatePvp(jeu.nbBlocD, jeu.nbBonus);
@@ -642,7 +642,7 @@ public class Multijoueur extends Etat implements Screen {
         Personnage joueur = joueurs[tour%4];
         if(jeu.findActor("explo")==null) {
             if ((joueur != null) && (!joueur.hasActions())) {                                                           //Cette méthode est la même que le mode solo mais
-                boolean b ;                                                                                             //adaptée à plusieurs personnages sans tour ennemis
+                boolean b ;                                                                                             //adaptée à plusieurs personnages sans la méthode tour ennemis
                 if (keycode == Input.Keys.RIGHT) {
                     if (pm > 0) {
                         b = joueur.deplacerDroite();
@@ -779,7 +779,7 @@ public class Multijoueur extends Etat implements Screen {
                         MoveByAction action=new MoveByAction();
                         action.setDuration(16);
                         action.setAmount(0,0);
-                        joueurs[0].addAction(action);               //on met une action qui ne fait rien à tout les joueur pour qu'il ne puissent pas bouger
+                        joueurs[0].addAction(action);               //on met une action qui ne fait rien à tous les joueurs pour qu'ils ne puissent pas bouger
                         joueurs[1].addAction(action);               //et on attend 16/4 =>4s
                         joueurs[2].addAction(action);
                         joueurs[3].addAction(action);
@@ -892,7 +892,7 @@ public class Multijoueur extends Etat implements Screen {
      * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
      * @param x abscisse du pointeur sur l'écran
      * @param y ordonnée du pointeur sur l'écran
-     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param pointer pointeur de l'événement (jamais utilisé)
      * @param button bouton de la souris appuyé
      */
     @Override
@@ -916,11 +916,11 @@ public class Multijoueur extends Etat implements Screen {
 
     /**
      * Met à jour l'affichage
-     * @param delta: Interval de temps entre deux affichages
+     * @param delta: Intervalle de temps entre deux affichages
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                           //nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                           //nettoyage de l'ecran => tout l'ecran prend la couleur donnée (ici noir)
     }
 
     /**
@@ -935,7 +935,7 @@ public class Multijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void pause() {
@@ -943,7 +943,7 @@ public class Multijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void resume() {
@@ -951,7 +951,7 @@ public class Multijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction appellé lors d'un changement d'écran.
+     * Fonction appelée lors d'un changement d'écran.
      */
     @Override
     public void hide() {
@@ -962,7 +962,7 @@ public class Multijoueur extends Etat implements Screen {
     }
 
     /**
-     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     * Fonction nécessaire à l'implémentation de l'écran. On n'utilise pas cette fonctionnalité par la suite.
      */
     @Override
     public void dispose() {

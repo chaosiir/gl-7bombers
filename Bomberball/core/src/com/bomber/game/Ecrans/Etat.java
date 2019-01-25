@@ -5,10 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.bomber.game.Jeu;
 
 /**
- * Sert de classe mere pour les différents écrans et permet de recevoir les différents imputs.
+ * Sert de classe mère pour les différents écrans et permet de recevoir les différents inputs.
+ *
  */
 public abstract class Etat extends Group implements InputProcessor{
     protected Jeu jeu;
+
+    /**Constructeur de la classe Etat
+     * @param jeu
+     */
     public Etat(Jeu jeu){
         this.jeu=jeu;
     }

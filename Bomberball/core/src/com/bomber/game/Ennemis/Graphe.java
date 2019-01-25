@@ -1,5 +1,8 @@
 package com.bomber.game.Ennemis;
 
+/**
+ *  Disponible via ce lien https://codes-sources.commentcamarche.net/source/54685-algorithme-de-dijkstra
+ */
 public class Graphe {
 
 	// Declaration de variable
