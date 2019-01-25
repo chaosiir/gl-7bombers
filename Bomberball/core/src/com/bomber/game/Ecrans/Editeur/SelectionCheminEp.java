@@ -159,27 +159,46 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     }
 
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
     }
 
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
     Bomberball.stg.clear();
@@ -188,21 +207,43 @@ public class SelectionCheminEp extends Etat implements Screen {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**
+     * Permet de détecter un appui sur une touche
+     *
+     * @param keycode : vaut le numéro de la touche enfoncée
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown(int keycode) {
         return false;
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX: récupère la position x du pointeur.
+     * @param screenY : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param button bouton de la souris appuyé
+     */
     @Override
     public boolean touchDown( int x, int y, int pointer, int button) {
         Actor hitActor= this.getStage().hit(x,Gdx.graphics.getHeight()-y,true);

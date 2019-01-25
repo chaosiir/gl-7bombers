@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ *  Ecran de victoire s'affichant dans le mode campagne.
+ */
 public class VictoireCampagne extends Etat implements Screen {
     Bomberball game;            //Instance de la classe principale
     int niveaugag;              //Niveau que le joueur a gagné
@@ -42,6 +45,11 @@ public class VictoireCampagne extends Etat implements Screen {
     FileWriter fw;              //Changer le niveau du joueur
     Scanner scanner;
 
+    /**
+     * Affiche un écran de victoire lorsqu'il a fini un niveau intermédaire de la campagne (tous sauf le dernier).
+     * @param game
+     * @param jeu
+     */
     public VictoireCampagne(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -54,24 +62,51 @@ public class VictoireCampagne extends Etat implements Screen {
 
     }
 
+    /**
+     * Fixe niveaugag à la valeur x. Sera utile pour mettre à jour la progression du joueur.
+     * @param x
+     */
     public void setNiveaugag(int x){
         this.niveaugag=x;
     }
+
+    /**
+     * Permet de détecter un appui sur une touche
+     * @param keycode : vaut le numéro de la touche enfoncée
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown(int keycode) {
         return false;
     }
 
+    /**
+     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position y du pointeur.
+     * @param pointer : récupère le pointeur sur événement.
+     * @param button : donne le bouton appuyé.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         table=new Table();
@@ -218,31 +253,52 @@ public class VictoireCampagne extends Etat implements Screen {
         this.addActor(explication);
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void dispose() {
 

@@ -453,7 +453,7 @@ public class Campagne extends Etat implements Screen {
                         }
 
                     }
-                    if (!joueur.isVivant()) {           //Si le joueur est mort
+                    if (!joueur.isVivant()) {                                               //Si le joueur est mort
 
                         for (Ennemis en : ennemis) {
                             if (en.isVivant()) {
@@ -469,7 +469,7 @@ public class Campagne extends Etat implements Screen {
                                 if (time > 3) {
                                     jeu.removeActor(jeu.map);
                                     jeu.map = null;
-                                    game.defaite = new Defaite(game, jeu, "gdjdj");
+                                    game.defaite = new Defaite(game, jeu);
                                     game.defaite.setEtat(game.campagne);
                                     game.campagne.removeActor(jeu);
                                     jeu.setEtat(game.defaite);
@@ -484,17 +484,17 @@ public class Campagne extends Etat implements Screen {
                 }
             }
         }
-        if (keycode == Input.Keys.ESCAPE) {                             //Si le joueur appuie sur ECHAP, on passe dans le menu Pause
+        if (keycode == Input.Keys.ESCAPE) {                                             //Si le joueur appuie sur ECHAP, on passe dans le menu Pause
             try {
                 fw = new FileWriter(f);
                 fw.write(jeu.map.mapToTextNP());
                 if(joueur.getC().getBombe()!=null){
-                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n"); //Le 1 indique d'une bombe est sur la position du joueur
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 1\n");                  //Le 1 indique d'une bombe est sur la position du joueur
                 }
                 else{
-                    fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n"); //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
+                    fw.write(joueur.getId()+" "+pm+" "+nb+" 0\n");                  //Le 0 indique qu'il n'y a pas de bombe sur la position du joueur
                 }
-                fw.write("111 ");                                  //Symbole de fin pour la fin de la mise à jour des personnages
+                fw.write("111 ");                                                   //Symbole de fin pour la fin de la mise à jour des personnages
                 fw.write(""+joueur.getId());
                 fw.close();
             } catch (IOException e) {
@@ -508,7 +508,7 @@ public class Campagne extends Etat implements Screen {
             jeu.setEtat(game.menuPause);
             game.setScreen(game.menuPause);
         }
-        if(personnage.isVivant()) {                                 //Affichage des autres pop-up
+        if(personnage.isVivant()) {                                                     //Affichage des autres pop-up
             if (u == 0 && mapactuel == 1 && pm == 2) {
                 u++;
                 dialog = new Dialog("Tutoriel", skin, "dialog") {
@@ -729,26 +729,46 @@ public class Campagne extends Etat implements Screen {
         });
     }
 
+
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
     public void render(float delta) {
 
     }
 
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
         Bomberball.stg.clear();
@@ -757,16 +777,32 @@ public class Campagne extends Etat implements Screen {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX: récupère la position x du pointeur.
+     * @param screenY : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param screenX abscisse du pointeur sur l'écran
+     * @param screenY ordonnée du pointeur sur l'écran
+     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param button bouton de la souris appuyé
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;

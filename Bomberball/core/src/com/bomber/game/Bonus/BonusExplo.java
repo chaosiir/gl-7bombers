@@ -3,6 +3,9 @@ package com.bomber.game.Bonus;
 import com.bomber.game.Bomberball;
 import com.bomber.game.MapetObjet.Case;
 
+/**
+ *  Classe du bonus pour augmenter la portée de l'explosion
+ */
 public class BonusExplo extends Bonus {
     /**
      * Constructeur de la classe BonusExplo

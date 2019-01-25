@@ -351,33 +351,55 @@ public class EditeurNSolo extends Etat implements Screen {
 
     }
 
+    /**
+     * Met à jour l'affichage
+     * @param delta: Interval de temps entre deux affichages
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//nettoyage de l'ecran => tout l'ecran prend la couleur donné (ici noir)
 
     }
 
+    /**
+     * Gère le changement de taille de la fenêtre d'affichage
+     *
+     * @param width : largeur nouvelle fenêtre
+     * @param height : hauteur nouvelle fenêtre
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
     Bomberball.stg.clear();
     Bomberball.input.removeProcessor(this);
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void dispose() {
 

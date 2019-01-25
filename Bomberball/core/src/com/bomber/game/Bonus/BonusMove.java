@@ -4,6 +4,9 @@ package com.bomber.game.Bonus;
 import com.bomber.game.Bomberball;
 import com.bomber.game.MapetObjet.Case;
 
+/**
+ *  Classe du bonus pour augmenter le nombre de déplacement
+ */
 public class BonusMove extends Bonus {
     /**
      * Constructeur de la classe BonusMove

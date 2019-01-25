@@ -18,6 +18,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Ecran pour choisir le niveau de la campagne
+ */
 public class ChoixCampagne extends Etat implements Screen {
     Bomberball game;                            //Instance de la classe principale
     Image back;                                 //Image de l'arrière-plan
@@ -43,8 +46,11 @@ public class ChoixCampagne extends Etat implements Screen {
     Table table;                                //Contient les boutons
 
 
-
-
+    /**
+     * Choisir le niveau du mode campagne.
+     * @param game
+     * @param jeu
+     */
     public ChoixCampagne(Bomberball game,Jeu jeu){
         super(jeu);
         this.game=game;
@@ -55,22 +61,43 @@ public class ChoixCampagne extends Etat implements Screen {
 
     }
 
-
+    /**
+     * Permet de détecter un appui sur une touche
+     * @param keycode : vaut le numéro de la touche enfoncée
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean keyDown(int keycode) {
         return false;
     }
 
+    /**
+     * Fonction détectant un appui d'un des touche de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position y du pointeur.
+     * @param pointer : récupère le pointeur sur événement.
+     * @param button : donne le bouton appuyé.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * Fonction détectant un mouvement de la souris. On n'utilise pas cette fonctionnalité par la suite.
+     * @param screenX : récupère la position x du pointeur.
+     * @param screenY : récupère la position x du pointeur.
+     * @return false: on ne traite pas cet appui
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * Méthode appelée pour afficher la fenêtre
+     */
     @Override
     public void show() {
         Bomberball.copier(nivplayer,nivplayertmp);
@@ -296,31 +323,52 @@ public class ChoixCampagne extends Etat implements Screen {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas dans le code par la suite.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Fonction appellé lors d'un changement d'écran.
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Fonction nécessaire à l'implémentation de l'écran. On ne l'utilise pas cette fonctionnalité par la suite.
+     */
     @Override
     public void dispose() {
 

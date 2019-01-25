@@ -242,6 +242,13 @@ public class ChoixMapMultiJ extends Etat implements Screen {
         return false;
     }
 
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param button bouton de la souris appuyé
+     */
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         return false;

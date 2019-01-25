@@ -27,7 +27,6 @@ public class Defaite extends Etat implements Screen {
     Skin skin;                      //Caractéristiques des éléments graphiques
     TextButton ok;                  //Bouton ok
     TextButton rejouer;             //Bouton pour rejouer
-    String txt;                     //Paramètrage de la défaite
     File frecommencer;              //Fichier où se trouve le fichier pour recommencer
     File f;                         //Fichier de sauvegarde temporaire
     Etat precedent;                 //Permet d'utiliser Défaite pour différents mode de jeu
@@ -36,12 +35,10 @@ public class Defaite extends Etat implements Screen {
      * Générateur de la classe Defaite
      * @param game
      * @param jeu
-     * @param st
      */
-    public Defaite(Bomberball game, Jeu jeu, String st) {
+    public Defaite(Bomberball game, Jeu jeu) {
         super(jeu);
         this.game = game;
-        txt = st;
         f = Gdx.files.internal("./SaveTempo/tmp.txt").file();
         frecommencer = Gdx.files.internal("./SaveTempo/debut.txt").file();
 
@@ -173,6 +170,13 @@ public class Defaite extends Etat implements Screen {
         return false;
     }
 
+    /**
+     * Indique l'action à effectuer lorsqu'on clique avec la souris en fonction de l'élément sur lequel on a cliqué
+     * @param x abscisse du pointeur sur l'écran
+     * @param y ordonnée du pointeur sur l'écran
+     * @param pointer pointeur de l'événement (jamais utilisée)
+     * @param button bouton de la souris appuyé
+     */
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
